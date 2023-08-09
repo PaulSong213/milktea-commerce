@@ -10,7 +10,8 @@
 </head>
 
 <body>
-    <div class="table px-4 w-100">
+    <div class="table w-100">
+        <h2 class="mt-4 mb-5">INVENTORY</h2>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>

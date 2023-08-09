@@ -21,7 +21,6 @@
             <?php include('../sidebar.php') ?>
         </div>
         <div class="d-block w-100">
-            <h2 class="my-3 mx-1">Inventory</h2>
             <?php include('./productTable.php') ?>
         </div>
     </div>

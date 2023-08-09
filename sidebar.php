@@ -36,6 +36,7 @@
     }
 
     #sidebar {
+        margin-right: 20px;
         height: 100vh;
         z-index: 11;
         width: 260px;
