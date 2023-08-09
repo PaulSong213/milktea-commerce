@@ -26,10 +26,10 @@
 			text-align: center;
 		}
 		.logo {
-			margin-top: -50px;
+			margin-top: -100px;
 			margin-bottom: 20px;
-			width: 100px;
-			height: 100px;
+			width: 140px;
+			height: 140px;
 			background-image: url(img/logo.png); /* Replace with your logo URL */
 			background-size: cover;
 			border-radius: 50%;
