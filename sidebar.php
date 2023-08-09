@@ -190,7 +190,7 @@
     <!-- Sidebar  -->
     <nav id="sidebar">
         <div class="sidebar-header">
-            <h3><img src="/zarate/img/logo.png" class="img-fluid" /><span class="fw-bold">Zarate System</span></h3>
+            <h3><img src="/zarate/img/logo.png" class="img-fluid" /><span class="fw-bold">E.Zarate Hospital</span></h3>
         </div>
         <ul class="list-unstyled components">
             <li class="active">
