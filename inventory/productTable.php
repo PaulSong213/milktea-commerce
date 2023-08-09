@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <div class="table py-3 px-4">
+    <div class="table px-4 w-100">
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
