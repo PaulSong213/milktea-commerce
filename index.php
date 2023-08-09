@@ -157,6 +157,20 @@
 						    <span class="material-icons text-white">signal_cellular_alt</span>
 						</div>
 					 </div>
+					 
+					 <div class="col-md-5 col-lg-3 order-3 order-md-2">
+					     <div class="xp-searchbar">
+						     <form>
+							    <div class="input-group">
+								  <div class="input-group-append">
+								     
+								  </div>
+								</div>
+							 </form>
+						 </div>
+					 </div>
+					 
+					 
 					 <div class="col-10 col-md-6 col-lg-8 order-1 order-md-3">
 					     <div class="xp-profilebar text-right">
 						    <nav class="navbar p-0">
