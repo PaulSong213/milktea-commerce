@@ -34,7 +34,7 @@
 	 
 	 <div id="sidebar">
 	    <div class="sidebar-header">
-		   <h3><img src="img/logo.png" class="img-fluid"/><span>vishweb design</span></h3>
+		   <h3><img src="img/logo.png" class="img-fluid"/><span>E.ZARATE HOSPITAl</span></h3>
 		</div>
 		<ul class="list-unstyled component m-0">
 		  <li class="active">
@@ -157,23 +157,6 @@
 						    <span class="material-icons text-white">signal_cellular_alt</span>
 						</div>
 					 </div>
-					 
-					 <div class="col-md-5 col-lg-3 order-3 order-md-2">
-					     <div class="xp-searchbar">
-						     <form>
-							    <div class="input-group">
-								  <input type="search" class="form-control"
-								  placeholder="Search">
-								  <div class="input-group-append">
-								     <button class="btn" type="submit" id="button-addon2">Go
-									 </button>
-								  </div>
-								</div>
-							 </form>
-						 </div>
-					 </div>
-					 
-					 
 					 <div class="col-10 col-md-6 col-lg-8 order-1 order-md-3">
 					     <div class="xp-profilebar text-right">
 						    <nav class="navbar p-0">
@@ -523,7 +506,7 @@
 		 <footer class="footer">
 		    <div class="container-fluid">
 			   <div class="footer-in">
-			      <p class="mb-0">&copy 2021 Vishweb Design . All Rights Reserved.</p>
+			      <p class="mb-0">E.Zarate Hospital. All Rights Reserved.</p>
 			   </div>
 			</div>
 		 </footer>
