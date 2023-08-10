@@ -25,8 +25,8 @@ $ipdPrice = $_POST['IPDprice'];
 $ppriceUse = $_POST['Ppriceuse'];
 
 // Prepare and execute SQL query
-$sql = "INSERT INTO inventory_tb (itemCode, Type, Unit, Description, Generic, SugPrice, MWprice, IPDprice, pprice_use)
-        VALUES ('$itemCode', '$type', '$unit', '$description', '$generic', '$sugPrice', '$mwPrice', '$ipdPercent', '$ppriceUse')";
+$sql = "INSERT INTO inventory_tb (itemCode, Type, Unit, Description, Generic, SugPrice, MWprice, IPDprice, Ppriceuse)
+        VALUES ('$itemCode', '$type', '$unit', '$description', '$generic', '$sugPrice', '$mwPrice', '$ipdPrice', '$ppriceUse')";
 
 if ($conn->query($sql) === TRUE) {
     echo "Item added successfully";
