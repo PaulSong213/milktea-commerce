@@ -25,7 +25,7 @@
                     <th>MW Price</th>
                     <th>IPD Price</th>
                     <th>Ppricause</th>
-                    <th>Action</th>
+                    <th>Status</th>
 
                 </tr>
             </thead>
