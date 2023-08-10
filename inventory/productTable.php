@@ -67,19 +67,20 @@
 
                 while ($row = $result->fetch_assoc()) {
                     echo "
-                    <tr>
-                        <td>" . $row["itemCode"] . "</td>
-                        <td>" . $row["Unit"] . "</td>
-                        <td>" . $row["Type"] . "</td>
-                        <td>" . $row["Generic"] . "</td>
-                        <td>" . $row["SugPrice"] . "</td>
-                        <td>" . $row["MWprice"] . "</td>
-                        <td>" . $row["IPDprice"] . "</td>
-                        <td>" . $row["Ppriceuse"] . "</td>
-                        <td>" . $row["Status"] . "</td>
-                        <td>" . $row["InventoryID"] . "</td>
-                    </tr>
-                ";
+                                <tr>
+                                   
+                                    <td>" . $row["itemCode"] . "</td>
+                                    <td>" . $row["Unit"] . "</td>
+                                    <td>" . $row["Type"] . "</td>
+                                    <td>" . $row["Generic"] . "</td>
+                                    <td>" . $row["SugPrice"] . "</td>
+                                    <td>" . $row["MWprice"] . "</td>
+                                    <td>" . $row["IPDprice"] . "</td>
+                                    <td>" . $row["Ppriceuse"] . "</td>
+                                    <td>" . $row["Status"] . "</td>
+                                    <td>" . $row["InventoryID"] . "</td>
+                                </tr>
+                             ";
                 }
                 ?>
             </tbody>
@@ -100,7 +101,8 @@
         import {
             searchColumn,
             handleArchive
-        } from "../costum-js/datatables.js"
+
+        } from "../costum-js/datatables.js";
         $(document).ready(function() {
 
             // clone header to add search by columns
@@ -150,7 +152,55 @@
                 }],
                 initComplete: function() {
                     var api = this.api();
-                    searchColumn(api);
+
+                    // For each column
+                    api
+                        .columns()
+                        .eq(0)
+                        .each(function(colIdx) {
+                            // Set the header cell to contain the input element
+                            var cell = $('.filters th').eq(
+                                $(api.column(colIdx).header()).index()
+                            );
+                            var title = $(cell).text();
+                            $(cell).html('<input type="text" class="form-control" placeholder="' +
+                                title + '" />');
+
+                            // On every keypress in this input
+                            $(
+                                    'input',
+                                    $('.filters th').eq($(api.column(colIdx).header()).index())
+                                )
+                                .off('keyup change')
+                                .on('change', function(e) {
+                                    // Get the search value
+                                    $(this).attr('title', $(this).val());
+                                    var regexr =
+                                        '({search})'; //$(this).parents('th').find('select').val();
+
+                                    var cursorPosition = this.selectionStart;
+                                    // Search the column for that value
+                                    api
+                                        .column(colIdx)
+                                        .search(
+                                            this.value != '' ?
+                                            regexr.replace('{search}', '(((' + this.value +
+                                                ')))') :
+                                            '',
+                                            this.value != '',
+                                            this.value == ''
+                                        )
+                                        .draw();
+                                })
+                                .on('keyup', function(e) {
+                                    e.stopPropagation();
+
+                                    $(this).trigger('change');
+                                    $(this)
+                                        .focus()[0]
+                                        .setSelectionRange(cursorPosition, cursorPosition);
+                                });
+                        });
                 },
                 columnDefs: [{
                     targets: -1,
@@ -161,7 +211,7 @@
                 }]
             });
 
-            handleArchive(table, 1, "/zarate/inventory/archive.php");
+            handleArchive(table, 0, "/zarate/inventory/archive.php");
         });
     </script>
 
@@ -189,6 +239,31 @@
                 $('#sidebar,.body-overlay').toggleClass('show-nav');
             });
 
+        });
+    </script>
+    <script>
+        var value = false;
+        $(document).ready(function() {
+            $('#saveItemButton').click(function() {
+                var itemCode = $('#item_code').val();
+                var unit = $('#Unit').val();
+                var description = $('#description').val();
+
+                if (itemCode.trim() === "" || unit.trim() === "" || description.trim() === "") {
+                    swal.fire("Please fill in all required fields.");
+                    return false; // Prevent closing modal and form submission
+                } else {
+                    $('#addItemModal').modal('hide'); // Close the modal after saving
+                }
+
+
+
+
+            });
+        });
+
+        $('#Closemodal1, #Closemodal2').click(function() {
+            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
         });
     </script>
 </body>
