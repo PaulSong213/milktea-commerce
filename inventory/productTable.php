@@ -189,7 +189,7 @@
                 }]
             });
 
-            handleArchive(table, 1, "/zarate/inventory/archive.php");
+            handleArchive(table, 0, "/zarate/inventory/archive.php");
         });
     </script>
 
@@ -220,6 +220,7 @@
         });
     </script>
     <script>
+       var value = false;
         $(document).ready(function () {
             $('#saveItemButton').click(function () {
                 var itemCode = $('#item_code').val();
@@ -247,3 +248,4 @@
 </body>
 
 </html>
+
