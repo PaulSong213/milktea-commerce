@@ -30,9 +30,9 @@ if (isset($_POST['SaveItem'])) {
     $result = mysqli_query($conn, $sql);
 
     if ($result) {
-        Swal.fire('Any fool can use a computer');
+        echo '<script>alert("Data inserted successfully!");</script>';
     } else {
-        echo "ERROR: Unable to insert record " . mysqli_error($conn);
+        echo '<script>alert("Error: Data insertion failed.");</script>';
     }
 }
 
