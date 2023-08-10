@@ -7,6 +7,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <style>
+        .dt-button-collection,
+        .dt-button-background {
+            position: absolute;
+            z-index: 999;
+        }
+
+        .button-page-length {
+            border-radius: 5px;
+        }
+
+        .button-page-length.dt-button-active {
+            background-color: #4285f4;
+        }
+
+        .buttons-columnVisibility {
+            border-radius: 5px;
+            opacity: 0.3;
+        }
+
+        .dt-button-active {
+            opacity: 1;
+        }
+    </style>
 </head>
 
 <body>
@@ -493,6 +517,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables-buttons/2.2.0/js/buttons.colVis.js"></script>
     <script>
         $(document).ready(function() {
 
@@ -519,6 +544,14 @@
                         extend: 'print',
                         className: 'btn border border-info'
                     },
+                    {
+                        extend: 'colvis',
+                        className: 'btn border border-info'
+                    },
+                    {
+                        extend: 'pageLength',
+                        className: 'btn btn-primary'
+                    }
                 ],
                 initComplete: function() {
                     var api = this.api();
