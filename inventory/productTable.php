@@ -49,13 +49,13 @@
                                     <td>".$row["itemCode"]."</td>
                                     <td>".$row["Unit"]."</td>
                                     <td>".$row["Type"]."</td>
-                                    
                                     <td>".$row["Generic"]."</td>
                                     <td>".$row["SugPrice"]."</td>
                                     <td>".$row["MWprice"]."</td>
                                     <td>".$row["IPDprice"]."</td>
                                     <td>".$row["Ppriceuse"]."</td>
                                     <td>".$row["Status"]."</td>
+                                    <td>".$row["InventoryID"]."</td>
                                 </tr>
                              ";
                             }
