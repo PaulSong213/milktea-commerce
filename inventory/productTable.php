@@ -13,6 +13,7 @@
 <body>
     <div class="table w-100">
         <h2 class="mt-4 mb-5">INVENTORY SYSTEM</h2>
+        <?php include 'add.php';?>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
@@ -71,7 +72,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
-    <script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables-buttons/2.2.0/js/buttons.colVis.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module">
+        import {
+            searchColumn,
+            handleArchive
+
+        } from "../costum-js/datatables.js";
         $(document).ready(function() {
 
             $('#example thead tr')
@@ -97,7 +105,28 @@
                         extend: 'print',
                         className: 'btn border border-info'
                     },
+                    {
+                        extend: 'colvis',
+                        className: 'btn border border-info'
+                    },
+                    {
+                        extend: 'pageLength',
+                        className: 'btn btn-primary'
+                    },
+                    {
+                        text: 'Add Item',
+                        className: 'btn btn-primary bg-primary text-white',
+                        action: function(e, dt, node, config) {
+                            $('#addItemModal').modal('show');
+                        }
+                    }
+                
                 ],
+                columnDefs: [{
+                    data: null,
+                    defaultContent: '<button class="btn btn-secondary archive-btn">Archive</button>',
+                    targets: -1
+                }],
                 initComplete: function() {
                     var api = this.api();
 
@@ -151,7 +180,38 @@
                         });
                 },
             });
+
+            handleArchive(table, 1, 0, "/api/inventory/archive?id=1");
         });
+    </script>
+
+    <script>
+        $('#saveItemButton').click(function () {
+            $('#addItemModal').modal('hide'); // Close the modal after saving
+        });
+
+        $('#Closemodal2').click(function () {
+            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
+        });
+        $('#Closemodal1').click(function () {
+            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
+        });
+    </script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $(".xp-menubar").on('click', function () {
+                $('#sidebar').toggleClass('active');
+                $('#content').toggleClass('active');
+            });
+
+            $(".xp-menubar,.body-overlay").on('click', function () {
+                $('#sidebar,.body-overlay').toggleClass('show-nav');
+            });
+
+        });
+
     </script>
 </body>
 

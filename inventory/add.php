@@ -1,3 +1,5 @@
+
+
 <!-- modal_content.php -->
 <div class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel"
     aria-hidden="true">
@@ -12,7 +14,7 @@
             <div class="modal-body">
                 <!-- Your modal content goes here -->
                 <label for="item_code">Item Code:</label>
-                <input type="text" id="item_code" class="form-control" placeholder="Enter item code">
+                <input type="text" id="item_code" name="item_code" class="form-control" placeholder="Enter item code">
 
                 <label for="type">Type</label>
                 <select class="form-control" id="type" name="type">
@@ -22,26 +24,26 @@
                 </select>
 
                 <label for="Unit">Unit:</label>
-                <input type="number" id="Unit" class="form-control" placeholder="Enter Unit">
+                <input type="number" id="Unit" class="form-control"  name="Unit" placeholder="Enter Unit">
 
                 <label for="description">Description</label>
                 <textarea class="form-control" id="description" name="description"
                     placeholder="Enter description"></textarea>
 
                 <label for="Generic">Generic:</label>
-                <input type="text" id="Generic" class="form-control" placeholder="Enter Generic">
+                <input type="text" id="Generic" class="form-control"  name="Generic" placeholder="Enter Generic">
 
                 <label for="Sugprice">Sug Price:</label>
-                <input type="number" id="Sugprice" class="form-control" placeholder="0.0000">
+                <input type="number" id="Sugprice" class="form-control" name="Sugprice" placeholder="0.0000">
 
                 <label for="MWprice">MW Price:</label>
-                <input type="number" id="MWprice" class="form-control" placeholder="0.00">
+                <input type="number" id="MWprice" class="form-control"  name="MWprice" placeholder="0.00">
 
-                <label for="IPDpercent">IPD Percent:</label>
-                <input type="number" id="IPDpercent" class="form-control" placeholder="0.00 %">
+                <label for="IPDprice">IPD Percent:</label>
+                <input type="number" id="IPDprice" class="form-control"  name="IPDprice" placeholder="0.00 %">
 
                 <label for="Ppriceuse">Ppriceuse:</label>
-                <input type="number" id="Ppriceuse" class="form-control" placeholder="0.0000">
+                <input type="number" id="Ppriceuse" class="form-control" name="Ppriceuse" placeholder="0.0000">
 
 
 
@@ -54,3 +56,4 @@
         </div>
     </div>
 </div>
+
