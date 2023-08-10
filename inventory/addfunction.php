@@ -33,8 +33,8 @@ if (isset($_POST['SaveItem'])) {
         header("Location: ./index.php");
         die();
     } else {
-        echo '<script>alert("Data inserted Failed");';
-        echo 'window.location.replace("Zarate/inventory/");</script>';
+        header("Location: ./index.php");
+        die();
     }
 }
 
