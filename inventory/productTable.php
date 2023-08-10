@@ -12,23 +12,14 @@
 
 <body>
     <div class="table w-100">
-<<<<<<< HEAD
         <h2 class="mt-4 mb-5">INVENTORY SYSTEM</h2>
-=======
-        <h2 class="mt-4 mb-5">PHARMACY INVENTORY</h2>
-
-        <?php include 'add.php'; // Include the modal content 
-        ?>
-
->>>>>>> 8d00c1842c6a42c1225034fb25dc999a3cf7e623
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>Inventory ID</th>
-                    <th>Type ID</th>
+                    
                     <th>Item Code</th>
                     <th>Unit</th>
-                    <th>Description</th>
+                    <th>Unit Type</th>
                     <th>Generic</th>
                     <th>Sug Price</th>
                     <th>MW Price</th>
@@ -53,17 +44,17 @@
                             while ($row = $result -> fetch_assoc()) {
                                echo "
                                 <tr>
-                                    <td>".$row["InventoryID"]."</td>
-                                    <td>".$row["itemTypeID"]."</td>
+                                   
                                     <td>".$row["itemCode"]."</td>
                                     <td>".$row["Unit"]."</td>
-                                    <td>".$row["Description"]."</td>
+                                    <td>".$row["Type"]."</td>
+                                    
                                     <td>".$row["Generic"]."</td>
                                     <td>".$row["SugPrice"]."</td>
                                     <td>".$row["MWprice"]."</td>
                                     <td>".$row["IPDprice"]."</td>
-                                    <td>".$row[""]."</td>
-                                    <td>".$row["Generic"]."</td>
+                                    <td>".$row["Ppriceuse"]."</td>
+                                    <td>".$row["Status"]."</td>
                                 </tr>
                              ";
                             }
