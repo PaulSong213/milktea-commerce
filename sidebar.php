@@ -184,7 +184,10 @@
 
 <body>
 
-
+<div class="xp-menubar w-max btn-primary rounded-circle position-absolute p-3 btn bottom-0 m-4 "  >
+            <span class="material-icons text-whte"  alt="Circle image">table_rows
+            </span>
+        </div>
     <!-- Sidebar  -->
     <nav id="sidebar">
         <div class="sidebar-header">

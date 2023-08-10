@@ -12,7 +12,15 @@
 
 <body>
     <div class="table w-100">
+<<<<<<< HEAD
         <h2 class="mt-4 mb-5">INVENTORY SYSTEM</h2>
+=======
+        <h2 class="mt-4 mb-5">PHARMACY INVENTORY</h2>
+
+        <?php include 'add.php'; // Include the modal content 
+        ?>
+
+>>>>>>> 8d00c1842c6a42c1225034fb25dc999a3cf7e623
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
@@ -50,11 +58,11 @@
                                     <td>".$row["itemCode"]."</td>
                                     <td>".$row["Unit"]."</td>
                                     <td>".$row["Description"]."</td>
+                                    <td>".$row["Generic"]."</td>
+                                    <td>".$row["SugPrice"]."</td>
+                                    <td>".$row["MWprice"]."</td>
+                                    <td>".$row["IPDprice"]."</td>
                                     <td>".$row[""]."</td>
-                                    <td>".$row["Generic"]."</td>
-                                    <td>".$row["Generic"]."</td>
-                                    <td>".$row["Generic"]."</td>
-                                    <td>".$row["Generic"]."</td>
                                     <td>".$row["Generic"]."</td>
                                 </tr>
                              ";
