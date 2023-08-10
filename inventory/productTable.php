@@ -35,10 +35,6 @@
 
 <body>
     <div class="table w-100">
-        <div class="xp-menubar bg-danger" >
-            <span class="material-icons text-white">signal_cellular_alt
-            </span>
-        </div>
         <h2 class="mt-4 mb-5">PHARMACY INVENTORY</h2>
 
         <?php include 'add.php'; // Include the modal content 
