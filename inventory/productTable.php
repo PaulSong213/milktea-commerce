@@ -519,7 +519,13 @@
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables-buttons/2.2.0/js/buttons.colVis.js"></script>
-    <script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module">
+        import {
+            searchColumn,
+            handleArchive
+
+        } from "../costum-js/datatables.js";
         $(document).ready(function() {
 
             $('#example thead tr')
@@ -527,7 +533,7 @@
                 .addClass('filters')
                 .appendTo('#example thead');
 
-            $('#example').DataTable({
+            const table = $('#example').DataTable({
                 orderCellsTop: true,
                 fixedHeader: true,
                 responsive: true,
@@ -561,59 +567,18 @@
                         }
                     }
                 ],
+                columnDefs: [{
+                    data: null,
+                    defaultContent: '<button class="btn btn-secondary archive-btn">Archive</button>',
+                    targets: -1
+                }],
                 initComplete: function() {
                     var api = this.api();
-
-                    // For each column
-                    api
-                        .columns()
-                        .eq(0)
-                        .each(function(colIdx) {
-                            // Set the header cell to contain the input element
-                            var cell = $('.filters th').eq(
-                                $(api.column(colIdx).header()).index()
-                            );
-                            var title = $(cell).text();
-                            $(cell).html('<input type="text" class="form-control" placeholder="' +
-                                title + '" />');
-
-                            // On every keypress in this input
-                            $(
-                                    'input',
-                                    $('.filters th').eq($(api.column(colIdx).header()).index())
-                                )
-                                .off('keyup change')
-                                .on('change', function(e) {
-                                    // Get the search value
-                                    $(this).attr('title', $(this).val());
-                                    var regexr =
-                                        '({search})'; //$(this).parents('th').find('select').val();
-
-                                    var cursorPosition = this.selectionStart;
-                                    // Search the column for that value
-                                    api
-                                        .column(colIdx)
-                                        .search(
-                                            this.value != '' ?
-                                            regexr.replace('{search}', '(((' + this.value +
-                                                ')))') :
-                                            '',
-                                            this.value != '',
-                                            this.value == ''
-                                        )
-                                        .draw();
-                                })
-                                .on('keyup', function(e) {
-                                    e.stopPropagation();
-
-                                    $(this).trigger('change');
-                                    $(this)
-                                        .focus()[0]
-                                        .setSelectionRange(cursorPosition, cursorPosition);
-                                });
-                        });
+                    searchColumn(api);
                 },
             });
+
+            handleArchive(table, 0, "/api/inventory/archive?id=1");
         });
     </script>
 </body>
