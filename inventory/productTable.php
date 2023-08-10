@@ -12,11 +12,8 @@
 
 <body>
     <div class="table w-100">
-        <h2 class="mt-4 mb-5">PHARMACY INVENTORY</h2>
-
-        <?php include 'add.php'; // Include the modal content 
-        ?>
-
+        <h2 class="mt-4 mb-5">INVENTORY SYSTEM</h2>
+        <?php include 'add.php'; ?>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
@@ -29,7 +26,7 @@
                     <th>MW Price</th>
                     <th>IPD Price</th>
                     <th>Ppricause</th>
-                    <th>Action</th>
+                    <th>Status</th>
                     <th>Archive</th>
                 </tr>
             </thead>
@@ -107,7 +104,28 @@
                         extend: 'print',
                         className: 'btn border border-info'
                     },
+                    {
+                        extend: 'colvis',
+                        className: 'btn border border-info'
+                    },
+                    {
+                        extend: 'pageLength',
+                        className: 'btn btn-primary'
+                    },
+                    {
+                        text: 'Add Item',
+                        className: 'btn btn-primary bg-primary text-white',
+                        action: function(e, dt, node, config) {
+                            $('#addItemModal').modal('show');
+                        }
+                    }
+
                 ],
+                columnDefs: [{
+                    data: null,
+                    defaultContent: '<button class="btn btn-secondary archive-btn">Archive</button>',
+                    targets: -1
+                }],
                 initComplete: function() {
                     var api = this.api();
                     searchColumn(api);
@@ -122,6 +140,33 @@
             });
 
             handleArchive(table, 1, "/zarate/inventory/archive.php");
+        });
+    </script>
+
+    <script>
+        $('#saveItemButton').click(function() {
+            $('#addItemModal').modal('hide'); // Close the modal after saving
+        });
+
+        $('#Closemodal2').click(function() {
+            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
+        });
+        $('#Closemodal1').click(function() {
+            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".xp-menubar").on('click', function() {
+                $('#sidebar').toggleClass('active');
+                $('#content').toggleClass('active');
+            });
+
+            $(".xp-menubar,.body-overlay").on('click', function() {
+                $('#sidebar,.body-overlay').toggleClass('show-nav');
+            });
+
         });
     </script>
 </body>
