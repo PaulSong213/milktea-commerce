@@ -8,6 +8,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <style>
+        .dt-button-collection,
+        .dt-button-background {
+            position: absolute;
+        }
+
+        .button-page-length.dt-button-active {
+            background-color: #b6e8f3;
+        }
+
+        .dt-button {
+            border-radius: 5px;
+            border: 1px solid #d1d1d1;
+        }
+
+        .buttons-columnVisibility {
+            opacity: 0.5;
+        }
+
+        .dt-button-active {
+            opacity: 1;
+        }
+    </style>
 </head>
 
 <body>
@@ -104,13 +127,13 @@
                         extend: 'print',
                         className: 'btn border border-info'
                     },
-                    // {
-                    //     extend: 'colvis',
-                    //     className: 'btn border border-info'
-                    // },
+                    {
+                        extend: 'colvis',
+                        className: 'btn border border-info'
+                    },
                     {
                         extend: 'pageLength',
-                        className: 'btn btn-primary'
+                        className: 'btn border border-info'
                     },
                     {
                         text: 'Add Item',
@@ -119,7 +142,6 @@
                             $('#addItemModal').modal('show');
                         }
                     }
-
                 ],
                 columnDefs: [{
                     data: null,
