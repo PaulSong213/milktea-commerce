@@ -13,11 +13,10 @@
 <body>
     <div class="table w-100">
         <h2 class="mt-4 mb-5">INVENTORY SYSTEM</h2>
-        <?php include 'add.php';?>
+        <?php include 'add.php'; ?>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    
                     <th>Item Code</th>
                     <th>Unit</th>
                     <th>Unit Type</th>
@@ -31,36 +30,35 @@
                 </tr>
             </thead>
             <tbody>
-                    <?php 
-                        $servername = "localhost";
-                        $username = "root";
-                        $Password = "";
-                        $database = "zaratehospital";
+                <?php
+                $servername = "localhost";
+                $username = "root";
+                $Password = "";
+                $database = "zaratehospital";
 
-                            $connection = new mysqli($servername, $username, $Password, $database);
+                $connection = new mysqli($servername, $username, $Password, $database);
 
-                            $sql = "select * from inventory_tb ";
-                            $result = $connection->query($sql);
+                $sql = "select * from inventory_tb ";
+                $result = $connection->query($sql);
 
-                            while ($row = $result -> fetch_assoc()) {
-                               echo "
+                while ($row = $result->fetch_assoc()) {
+                    echo "
                                 <tr>
                                    
-                                    <td>".$row["itemCode"]."</td>
-                                    <td>".$row["Unit"]."</td>
-                                    <td>".$row["Type"]."</td>
-                                    
-                                    <td>".$row["Generic"]."</td>
-                                    <td>".$row["SugPrice"]."</td>
-                                    <td>".$row["MWprice"]."</td>
-                                    <td>".$row["IPDprice"]."</td>
-                                    <td>".$row["Ppriceuse"]."</td>
-                                    <td>".$row["Status"]."</td>
+                                    <td>" . $row["itemCode"] . "</td>
+                                    <td>" . $row["Unit"] . "</td>
+                                    <td>" . $row["Type"] . "</td>
+                                    <td>" . $row["Generic"] . "</td>
+                                    <td>" . $row["SugPrice"] . "</td>
+                                    <td>" . $row["MWprice"] . "</td>
+                                    <td>" . $row["IPDprice"] . "</td>
+                                    <td>" . $row["Ppriceuse"] . "</td>
+                                    <td>" . $row["Status"] . "</td>
                                 </tr>
                              ";
-                            }
-                         ?>
-                  </tbody>
+                }
+                ?>
+            </tbody>
         </table>
     </div>
 
@@ -81,7 +79,7 @@
             handleArchive
 
         } from "../costum-js/datatables.js";
-        $(document).ready(function() {
+        $(document).ready(function () {
 
             $('#example thead tr')
                 .clone(true)
@@ -95,47 +93,47 @@
                 autoFill: true,
                 dom: 'Bfrtip',
                 buttons: [{
-                        extend: 'excelHtml5',
-                        className: 'btn btn-success'
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        className: 'btn btn-primary'
-                    },
-                    {
-                        extend: 'print',
-                        className: 'btn border border-info'
-                    },
-                    {
-                        extend: 'colvis',
-                        className: 'btn border border-info'
-                    },
-                    {
-                        extend: 'pageLength',
-                        className: 'btn btn-primary'
-                    },
-                    {
-                        text: 'Add Item',
-                        className: 'btn btn-primary bg-primary text-white',
-                        action: function(e, dt, node, config) {
-                            $('#addItemModal').modal('show');
-                        }
+                    extend: 'excelHtml5',
+                    className: 'btn btn-success'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    className: 'btn btn-primary'
+                },
+                {
+                    extend: 'print',
+                    className: 'btn border border-info'
+                },
+                {
+                    extend: 'colvis',
+                    className: 'btn border border-info'
+                },
+                {
+                    extend: 'pageLength',
+                    className: 'btn btn-primary'
+                },
+                {
+                    text: 'Add Item',
+                    className: 'btn btn-primary bg-primary text-white',
+                    action: function (e, dt, node, config) {
+                        $('#addItemModal').modal('show');
                     }
-                
+                }
+
                 ],
                 columnDefs: [{
                     data: null,
                     defaultContent: '<button class="btn btn-secondary archive-btn">Archive</button>',
                     targets: -1
                 }],
-                initComplete: function() {
+                initComplete: function () {
                     var api = this.api();
 
                     // For each column
                     api
                         .columns()
                         .eq(0)
-                        .each(function(colIdx) {
+                        .each(function (colIdx) {
                             // Set the header cell to contain the input element
                             var cell = $('.filters th').eq(
                                 $(api.column(colIdx).header()).index()
@@ -146,11 +144,11 @@
 
                             // On every keypress in this input
                             $(
-                                    'input',
-                                    $('.filters th').eq($(api.column(colIdx).header()).index())
-                                )
+                                'input',
+                                $('.filters th').eq($(api.column(colIdx).header()).index())
+                            )
                                 .off('keyup change')
-                                .on('change', function(e) {
+                                .on('change', function (e) {
                                     // Get the search value
                                     $(this).attr('title', $(this).val());
                                     var regexr =
@@ -162,15 +160,15 @@
                                         .column(colIdx)
                                         .search(
                                             this.value != '' ?
-                                            regexr.replace('{search}', '(((' + this.value +
-                                                ')))') :
-                                            '',
+                                                regexr.replace('{search}', '(((' + this.value +
+                                                    ')))') :
+                                                '',
                                             this.value != '',
                                             this.value == ''
                                         )
                                         .draw();
                                 })
-                                .on('keyup', function(e) {
+                                .on('keyup', function (e) {
                                     e.stopPropagation();
 
                                     $(this).trigger('change');
@@ -186,18 +184,6 @@
         });
     </script>
 
-    <script>
-        $('#saveItemButton').click(function () {
-            $('#addItemModal').modal('hide'); // Close the modal after saving
-        });
-
-        $('#Closemodal2').click(function () {
-            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
-        });
-        $('#Closemodal1').click(function () {
-            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
-        });
-    </script>
 
     <script type="text/javascript">
 
@@ -213,6 +199,17 @@
 
         });
 
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#saveItemButton').click(function () {         
+                $('#addItemModal').modal('hide'); // Close the modal after saving
+                });
+            });
+
+            $('#Closemodal1, #Closemodal2').click(function () {
+                $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
+            });
     </script>
 </body>
 
