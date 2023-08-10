@@ -7,168 +7,166 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
     <title>crud dashboard</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
     <!----css3---->
     <style>
-    body,
-    html {
-        line-height: 1.8;
-        font-family: 'Poppins', sans-serif;
-        color: #555e58;
-        text-transform: capitalize;
-        font-weight: 400;
-        margin: 0px;
-        padding: 0px;
-    }
-
-    @font-face {
-        font-family: 'Material Icons';
-        font-style: normal;
-        font-weight: 400;
-        src: url(https://example.com/MaterialIcons-Regular.eot);
-        /* For IE6-8 */
-        src: local('Material Icons'),
-            local('MaterialIcons-Regular'),
-            url(https://example.com/MaterialIcons-Regular.woff2) format('woff2'),
-            url(https://example.com/MaterialIcons-Regular.woff) format('woff'),
-            url(https://example.com/MaterialIcons-Regular.ttf) format('truetype');
-    }
-
-    #sidebar {
-        margin-right: 20px;
-        height: 100vh;
-        z-index: 11;
-        width: 260px;
-        overflow: auto;
-        transition: all 0.3s;
-        background-color: #fff;
-        box-shadow: 0 0 30px 0 rgba(200 200 200 / 20%);
-    }
-
-
-    @media only screen and (min-width:992px) {
-        #sidebar.active {
-            left: -260px;
-            height: 100% !important;
-            position: absolute !important;
-            overflow: visible !important;
-            top: 0;
-            z-index: 666;
-            float: left !important;
-            bottom: 0 !important;
+        body,
+        html {
+            line-height: 1.8;
+            font-family: 'Poppins', sans-serif;
+            color: #555e58;
+            text-transform: capitalize;
+            font-weight: 400;
+            margin: 0px;
+            padding: 0px;
         }
 
-        #content {
-            width: calc(100% - 260px);
-            position: relative;
-            float: right;
+        @font-face {
+            font-family: 'Material Icons';
+            font-style: normal;
+            font-weight: 400;
+            src: url(https://example.com/MaterialIcons-Regular.eot);
+            /* For IE6-8 */
+            src: local('Material Icons'),
+                local('MaterialIcons-Regular'),
+                url(https://example.com/MaterialIcons-Regular.woff2) format('woff2'),
+                url(https://example.com/MaterialIcons-Regular.woff) format('woff'),
+                url(https://example.com/MaterialIcons-Regular.ttf) format('truetype');
+        }
+
+        #sidebar {
+            margin-right: 20px;
+            height: 100vh;
+            z-index: 11;
+            width: 260px;
+            overflow: auto;
             transition: all 0.3s;
+            background-color: #fff;
+            box-shadow: 0 0 30px 0 rgba(200 200 200 / 20%);
         }
 
-        #content.active {
-            width: 100%;
+
+        @media only screen and (min-width:992px) {
+            #sidebar.active {
+                left: -260px;
+                height: 100% !important;
+                position: absolute !important;
+                overflow: visible !important;
+                top: 0;
+                z-index: 666;
+                float: left !important;
+                bottom: 0 !important;
+            }
+
+            #content {
+                width: calc(100% - 260px);
+                position: relative;
+                float: right;
+                transition: all 0.3s;
+            }
+
+            #content.active {
+                width: 100%;
+            }
+
         }
 
-    }
+
+        #sidebar::-webkit-scrollbar {
+            width: 5px;
+            border-radius: 10px;
+            background-color: #eee;
+            display: none;
+        }
+
+        #sidebar::-webkit-scrollbar-thumbs {
+            width: 5px;
+            border-radius: 10px;
+            background-color: #333;
+            display: none;
+        }
+
+        #sidebar:hover::-webkit-scrollbar-thumbs {
+            display: block;
+        }
+
+        #sidebar:hover::-webkit-scrollbar {
+            display: block;
+        }
+
+        #sidebar .sidebar-header {
+            padding: 20px;
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+        }
+
+        .sidebar-header h3 {
+            color: #333;
+            font-size: 17px;
+            margin: 0px;
+            text-transform: uppercase;
+            transition: all 0.5s ease;
+            font-weight: 600;
+        }
+
+        .sidebar-header h3 img {
+            width: 45px;
+            margin-right: 10px;
+        }
+
+        #sidebar ul li {
+            padding: 2px 0px;
+        }
+
+        #sidebar ul li.active>a {
+            color: #4c7cf3;
+            background-color: #DBE5FD;
+        }
 
 
-    #sidebar::-webkit-scrollbar {
-        width: 5px;
-        border-radius: 10px;
-        background-color: #eee;
-        display: none;
-    }
-
-    #sidebar::-webkit-scrollbar-thumbs {
-        width: 5px;
-        border-radius: 10px;
-        background-color: #333;
-        display: none;
-    }
-
-    #sidebar:hover::-webkit-scrollbar-thumbs {
-        display: block;
-    }
-
-    #sidebar:hover::-webkit-scrollbar {
-        display: block;
-    }
-
-    #sidebar .sidebar-header {
-        padding: 20px;
-        background-color: #fff;
-        border-bottom: 1px solid #eee;
-    }
-
-    .sidebar-header h3 {
-        color: #333;
-        font-size: 17px;
-        margin: 0px;
-        text-transform: uppercase;
-        transition: all 0.5s ease;
-        font-weight: 600;
-    }
-
-    .sidebar-header h3 img {
-        width: 45px;
-        margin-right: 10px;
-    }
-
-    #sidebar ul li {
-        padding: 2px 0px;
-    }
-
-    #sidebar ul li.active>a {
-        color: #4c7cf3;
-        background-color: #DBE5FD;
-    }
-
-
-    #sidebar ul li.active>a i {
-        color: #4c7cf3;
-    }
+        #sidebar ul li.active>a i {
+            color: #4c7cf3;
+        }
 
 
 
-    #sidebar ul li a:hover {
-        color: #4c7cf3;
-        background-color: #DBE5FD;
-    }
+        #sidebar ul li a:hover {
+            color: #4c7cf3;
+            background-color: #DBE5FD;
+        }
 
 
-    .dropdown-toggle::after {
-        position: absolute;
-        right: 22px;
-        top: 18px;
-        color: #777777;
-    }
+        .dropdown-toggle::after {
+            position: absolute;
+            right: 22px;
+            top: 18px;
+            color: #777777;
+        }
 
-    #sidebar ul li.dropdown {
-        position: sticky;
-    }
+        #sidebar ul li.dropdown {
+            position: sticky;
+        }
 
 
-    #sidebar ul.component {
-        padding: 20px 0px;
-    }
+        #sidebar ul.component {
+            padding: 20px 0px;
+        }
 
-    #sidebar ul li a {
-        padding: 5px 10px 5px 20px;
-        line-height: 30px;
-        font-size: 15px;
-        position: relative;
-        font-weight: 400;
-        display: block;
-        color: #777777;
-        text-transform: capitalize;
-    }
+        #sidebar ul li a {
+            padding: 5px 10px 5px 20px;
+            line-height: 30px;
+            font-size: 15px;
+            position: relative;
+            font-weight: 400;
+            display: block;
+            color: #777777;
+            text-transform: capitalize;
+        }
 
-    #sidebar ul li a i {
-        position: relative;
-        margin-right: 10px;
-        top: 6px;
-    }
+        #sidebar ul li a i {
+            position: relative;
+            margin-right: 10px;
+            top: 6px;
+        }
     </style>
 
 
