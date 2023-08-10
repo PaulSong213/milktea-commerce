@@ -12,63 +12,57 @@
 
 <body>
     <div class="table w-100">
-<<<<<<< HEAD
-        <h2 class="mt-4 mb-5">INVENTORY SYSTEM</h2>
-=======
         <h2 class="mt-4 mb-5">PHARMACY INVENTORY</h2>
 
         <?php include 'add.php'; // Include the modal content 
         ?>
 
->>>>>>> 8d00c1842c6a42c1225034fb25dc999a3cf7e623
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>Inventory ID</th>
-                    <th>Type ID</th>
+
                     <th>Item Code</th>
                     <th>Unit</th>
-                    <th>Description</th>
+                    <th>Unit Type</th>
                     <th>Generic</th>
                     <th>Sug Price</th>
                     <th>MW Price</th>
                     <th>IPD Price</th>
                     <th>Ppricause</th>
                     <th>Action</th>
-
+                    <th>Archive</th>
                 </tr>
             </thead>
             <tbody>
-                    <?php 
-                        $servername = "localhost";
-                        $username = "root";
-                        $Password = "";
-                        $database = "zaratehospital";
+                <?php
+                $servername = "localhost";
+                $username = "root";
+                $Password = "";
+                $database = "zaratehospital";
 
-                            $connection = new mysqli($servername, $username, $Password, $database);
+                $connection = new mysqli($servername, $username, $Password, $database);
 
-                            $sql = "select * from inventory_tb ";
-                            $result = $connection->query($sql);
+                $sql = "select * from inventory_tb ";
+                $result = $connection->query($sql);
 
-                            while ($row = $result -> fetch_assoc()) {
-                               echo "
-                                <tr>
-                                    <td>".$row["InventoryID"]."</td>
-                                    <td>".$row["itemTypeID"]."</td>
-                                    <td>".$row["itemCode"]."</td>
-                                    <td>".$row["Unit"]."</td>
-                                    <td>".$row["Description"]."</td>
-                                    <td>".$row["Generic"]."</td>
-                                    <td>".$row["SugPrice"]."</td>
-                                    <td>".$row["MWprice"]."</td>
-                                    <td>".$row["IPDprice"]."</td>
-                                    <td>".$row[""]."</td>
-                                    <td>".$row["Generic"]."</td>
-                                </tr>
-                             ";
-                            }
-                         ?>
-                  </tbody>
+                while ($row = $result->fetch_assoc()) {
+                    echo "
+                    <tr>
+                        <td>" . $row["itemCode"] . "</td>
+                        <td>" . $row["Unit"] . "</td>
+                        <td>" . $row["Type"] . "</td>
+                        <td>" . $row["Generic"] . "</td>
+                        <td>" . $row["SugPrice"] . "</td>
+                        <td>" . $row["MWprice"] . "</td>
+                        <td>" . $row["IPDprice"] . "</td>
+                        <td>" . $row["Ppriceuse"] . "</td>
+                        <td>" . $row["Status"] . "</td>
+                        <td>" . $row["InventoryID"] . "</td>
+                    </tr>
+                ";
+                }
+                ?>
+            </tbody>
         </table>
     </div>
 
@@ -81,15 +75,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
-    <script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module">
+        import {
+            searchColumn,
+            handleArchive
+        } from "../costum-js/datatables.js"
         $(document).ready(function() {
 
+            // clone header to add search by columns
             $('#example thead tr')
                 .clone(true)
                 .addClass('filters')
                 .appendTo('#example thead');
 
-            $('#example').DataTable({
+            const table = $('#example').DataTable({
                 orderCellsTop: true,
                 fixedHeader: true,
                 responsive: true,
@@ -110,57 +110,18 @@
                 ],
                 initComplete: function() {
                     var api = this.api();
-
-                    // For each column
-                    api
-                        .columns()
-                        .eq(0)
-                        .each(function(colIdx) {
-                            // Set the header cell to contain the input element
-                            var cell = $('.filters th').eq(
-                                $(api.column(colIdx).header()).index()
-                            );
-                            var title = $(cell).text();
-                            $(cell).html('<input type="text" class="form-control" placeholder="' +
-                                title + '" />');
-
-                            // On every keypress in this input
-                            $(
-                                    'input',
-                                    $('.filters th').eq($(api.column(colIdx).header()).index())
-                                )
-                                .off('keyup change')
-                                .on('change', function(e) {
-                                    // Get the search value
-                                    $(this).attr('title', $(this).val());
-                                    var regexr =
-                                        '({search})'; //$(this).parents('th').find('select').val();
-
-                                    var cursorPosition = this.selectionStart;
-                                    // Search the column for that value
-                                    api
-                                        .column(colIdx)
-                                        .search(
-                                            this.value != '' ?
-                                            regexr.replace('{search}', '(((' + this.value +
-                                                ')))') :
-                                            '',
-                                            this.value != '',
-                                            this.value == ''
-                                        )
-                                        .draw();
-                                })
-                                .on('keyup', function(e) {
-                                    e.stopPropagation();
-
-                                    $(this).trigger('change');
-                                    $(this)
-                                        .focus()[0]
-                                        .setSelectionRange(cursorPosition, cursorPosition);
-                                });
-                        });
+                    searchColumn(api);
                 },
+                columnDefs: [{
+                    targets: -1,
+                    render: (id) => {
+                        return `<button class="btn btn-secondary archive-btn" id="${id}">Archive</button>`
+                    },
+                    "searchable": false
+                }]
             });
+
+            handleArchive(table, 1, "/zarate/inventory/archive.php");
         });
     </script>
 </body>

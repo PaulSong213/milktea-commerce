@@ -61,10 +61,13 @@ export function searchColumn(api) {
 * @param  {Number} [tableIndex = "Data"] table index to show as title in the alert
 * @param  {String} apiEndpoint api endpoint to send the archive request to
 */
-export function handleArchive(table, titleIndex, idIndex, apiEndpoint) {
+export function handleArchive(table, titleIndex, apiEndpoint) {
     // When the archive button is clicked, open a sweet alert
     // to ask the user to confirm the action.
     table.on('click', '.archive-btn', function (e) {
+
+        const id = e.target.id;
+
         // Get the data for the row that was clicked on
         let data = table.row(e.target.closest('tr')).data();
         // Get the title for the row that was clicked on
@@ -79,38 +82,14 @@ export function handleArchive(table, titleIndex, idIndex, apiEndpoint) {
                 confirmButton: 'btn btn-danger mx-2',
                 cancelButton: 'btn btn-secondary mx-2'
             },
+            html: `
+            <form id="archiveForm" action="/zarate/inventory/archive.php" method="post">
+                <input type="hidden" name="InventoryID" value="${id}">
+            </form>
+            `
         }).then((result) => {
-            // If the user clicks the archive button, send a delete request to the api
-            if (!result.isConfirmed) return;
-            // Get the id for the row that was clicked on
-            // Send a delete request to the api
-            fetch(`${apiEndpoint}/${id}`, {
-                method: 'DELETE'
-            })
-                .then(response => response.json())
-                .then(data => {
-                    // If the row was deleted successfully, show a success message
-                    if (data.success) {
-                        Swal.fire({
-                            title: 'Success!',
-                            text: `${title} has been archived.`,
-                            icon: 'success',
-                            buttonsStyling: false,
-                            confirmButtonText: 'Ok',
-                            customClass: {
-                                confirmButton: 'btn btn-primary',
-                            },
-                        }).then(() => {
-                            // Reload the page
-                            location.reload();
-                        })
-                    } else {
-                        // If the row was not deleted successfully, show an error message
-                        Swal.fire({
-                            title: 'Error!',
-                        })
-                    }
-                })
+            if (!result.isConfirmed) return; // If the user cancels, do nothing
+            $("#archiveForm").submit();
         })
     })
 }
