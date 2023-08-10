@@ -61,10 +61,13 @@ export function searchColumn(api) {
 * @param  {Number} [tableIndex = "Data"] table index to show as title in the alert
 * @param  {String} apiEndpoint api endpoint to send the archive request to
 */
-export function handleArchive(table, titleIndex, apiEndpoint) {
+export function handleArchive(table, titleIndex, apiEndpoint, statusIndex = 1) {
+
+    handleArchiveUI(table, statusIndex);
+
     // When the archive button is clicked, open a sweet alert
     // to ask the user to confirm the action.
-    table.on('click', '.archive-btn', function (e) {
+    table.on('click', '', function (e) {
 
         const id = e.target.id;
 
@@ -92,4 +95,12 @@ export function handleArchive(table, titleIndex, apiEndpoint) {
             $("#archiveForm").submit();
         })
     })
+}
+
+function handleArchiveUI(table, statusIndex) {
+    table.on('draw', function () {
+        $('.archive-btn').each(function (i, obj) {
+            console.log(obj);
+        });
+    });
 }

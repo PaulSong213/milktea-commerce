@@ -8,6 +8,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <style>
+        .dt-button-collection,
+        .dt-button-background {
+            position: absolute;
+        }
+
+        .button-page-length.dt-button-active {
+            background-color: #b6e8f3;
+        }
+
+        .dt-button {
+            border-radius: 5px;
+            border: 1px solid #d1d1d1;
+        }
+
+        .buttons-columnVisibility {
+            opacity: 0.5;
+        }
+
+        .dt-button-active {
+            opacity: 1;
+        }
+    </style>
 </head>
 
 <body>
@@ -80,7 +103,7 @@
             handleArchive
 
         } from "../costum-js/datatables.js";
-        $(document).ready(function () {
+        $(document).ready(function() {
 
             // clone header to add search by columns
             $('#example thead tr')
@@ -95,47 +118,46 @@
                 autoFill: true,
                 dom: 'Bfrtip',
                 buttons: [{
-                    extend: 'excelHtml5',
-                    className: 'btn btn-success'
-                },
-                {
-                    extend: 'pdfHtml5',
-                    className: 'btn btn-primary'
-                },
-                {
-                    extend: 'print',
-                    className: 'btn border border-info'
-                },
-                // {
-                //     extend: 'colvis',
-                //     className: 'btn border border-info'
-                // },
-                {
-                    extend: 'pageLength',
-                    className: 'btn btn-primary'
-                },
-                {
-                    text: 'Add Item',
-                    className: 'btn btn-primary bg-primary text-white',
-                    action: function (e, dt, node, config) {
-                        $('#addItemModal').modal('show');
+                        extend: 'excelHtml5',
+                        className: 'btn btn-success'
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        className: 'btn btn-primary'
+                    },
+                    {
+                        extend: 'print',
+                        className: 'btn border border-info'
+                    },
+                    {
+                        extend: 'colvis',
+                        className: 'btn border border-info'
+                    },
+                    {
+                        extend: 'pageLength',
+                        className: 'btn border border-info'
+                    },
+                    {
+                        text: 'Add Item',
+                        className: 'btn btn-primary bg-primary text-white',
+                        action: function(e, dt, node, config) {
+                            $('#addItemModal').modal('show');
+                        }
                     }
-                }
-
                 ],
                 columnDefs: [{
                     data: null,
                     defaultContent: '<button class="btn btn-secondary archive-btn">Archive</button>',
                     targets: -1
                 }],
-                initComplete: function () {
+                initComplete: function() {
                     var api = this.api();
 
                     // For each column
                     api
                         .columns()
                         .eq(0)
-                        .each(function (colIdx) {
+                        .each(function(colIdx) {
                             // Set the header cell to contain the input element
                             var cell = $('.filters th').eq(
                                 $(api.column(colIdx).header()).index()
@@ -146,11 +168,11 @@
 
                             // On every keypress in this input
                             $(
-                                'input',
-                                $('.filters th').eq($(api.column(colIdx).header()).index())
-                            )
+                                    'input',
+                                    $('.filters th').eq($(api.column(colIdx).header()).index())
+                                )
                                 .off('keyup change')
-                                .on('change', function (e) {
+                                .on('change', function(e) {
                                     // Get the search value
                                     $(this).attr('title', $(this).val());
                                     var regexr =
@@ -162,15 +184,15 @@
                                         .column(colIdx)
                                         .search(
                                             this.value != '' ?
-                                                regexr.replace('{search}', '(((' + this.value +
-                                                    ')))') :
-                                                '',
+                                            regexr.replace('{search}', '(((' + this.value +
+                                                ')))') :
+                                            '',
                                             this.value != '',
                                             this.value == ''
                                         )
                                         .draw();
                                 })
-                                .on('keyup', function (e) {
+                                .on('keyup', function(e) {
                                     e.stopPropagation();
 
                                     $(this).trigger('change');
@@ -194,35 +216,35 @@
     </script>
 
     <script>
-        $('#saveItemButton').click(function () {
+        $('#saveItemButton').click(function() {
             $('#addItemModal').modal('hide'); // Close the modal after saving
         });
 
-        $('#Closemodal2').click(function () {
+        $('#Closemodal2').click(function() {
             $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
         });
-        $('#Closemodal1').click(function () {
+        $('#Closemodal1').click(function() {
             $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
         });
     </script>
 
     <script type="text/javascript">
-        $(document).ready(function () {
-            $(".xp-menubar").on('click', function () {
+        $(document).ready(function() {
+            $(".xp-menubar").on('click', function() {
                 $('#sidebar').toggleClass('active');
                 $('#content').toggleClass('active');
             });
 
-            $(".xp-menubar,.body-overlay").on('click', function () {
+            $(".xp-menubar,.body-overlay").on('click', function() {
                 $('#sidebar,.body-overlay').toggleClass('show-nav');
             });
 
         });
     </script>
     <script>
-       var value = false;
-        $(document).ready(function () {
-            $('#saveItemButton').click(function () {
+        var value = false;
+        $(document).ready(function() {
+            $('#saveItemButton').click(function() {
                 var itemCode = $('#item_code').val();
                 var unit = $('#Unit').val();
                 var description = $('#description').val();
@@ -230,22 +252,20 @@
                 if (itemCode.trim() === "" || unit.trim() === "" || description.trim() === "") {
                     swal.fire("Please fill in all required fields.");
                     return false; // Prevent closing modal and form submission
-                }
-                else{
+                } else {
                     $('#addItemModal').modal('hide'); // Close the modal after saving
                 }
-                
+
 
 
 
             });
         });
 
-        $('#Closemodal1, #Closemodal2').click(function () {
+        $('#Closemodal1, #Closemodal2').click(function() {
             $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
         });
     </script>
 </body>
 
 </html>
-
