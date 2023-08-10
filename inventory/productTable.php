@@ -155,19 +155,50 @@
         });
     </script>
 
-    <script type="text/javascript">
+<script>
+    $(document).ready(function() {
+        // ... (your other JavaScript code)
 
-        $(document).ready(function () {
-            $(".xp-menubar").on('click', function () {
-                $('#sidebar').toggleClass('active');
-                $('#content').toggleClass('active');
+        $('#saveItemButton').click(function() {
+            // Get values from modal inputs
+            var itemCode = $('#item_code').val();
+            var type = $('#type').val();
+            var unit = $('#Unit').val();
+            var description = $('#description').val();
+            var generic = $('#Generic').val();
+            var sugPrice = $('#Sugprice').val();
+            var mwPrice = $('#MWprice').val();
+            var ipdPercent = $('#IPDpercent').val();
+            var ppriceUse = $('#Ppriceuse').val();
+
+            // Send data to the PHP script using AJAX
+            $.ajax({
+                type: 'POST',
+                url: 'add_item.php', // Replace with the actual path to your PHP script
+                data: {
+                    item_code: itemCode,
+                    type: type,
+                    Unit: unit,
+                    description: description,
+                    Generic: generic,
+                    Sugprice: sugPrice,
+                    MWprice: mwPrice,
+                    IPDpercent: ipdPercent,
+                    Ppriceuse: ppriceUse
+                },
+                success: function(response) {
+                    alert(response); // Display the response message from the PHP script
+                    $('#addItemModal').modal('hide'); // Close the modal after saving
+                }
             });
-
-            $(".xp-menubar,.body-overlay").on('click', function () {
-                $('#sidebar,.body-overlay').toggleClass('show-nav');
-            });
-
         });
+
+        $('#Closemodal1, #Closemodal2').click(function() {
+            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
+        });
+    });
+</script>
+
 
     </script>
 </body>

@@ -1,3 +1,44 @@
+<?php
+// Database configuration
+$host = 'localhost';
+$dbName = 'zaratehospital';
+$username = 'your_username';
+$password = 'your_password';
+
+// Establish a database connection
+$conn = new mysqli($host, $username, $password, $dbName);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Retrieve data from POST request
+$itemCode = $_POST['item_code'];
+$type = $_POST['type'];
+$unit = $_POST['Unit'];
+$description = $_POST['description'];
+$generic = $_POST['Generic'];
+$sugPrice = $_POST['Sugprice'];
+$mwPrice = $_POST['MWprice'];
+$ipdPrice = $_POST['IPDprice'];
+$ppriceUse = $_POST['Ppriceuse'];
+
+// Prepare and execute SQL query
+$sql = "INSERT INTO inventory_tb (itemCode, Type, Unit, Description, Generic, SugPrice, MWprice, IPDprice, pprice_use)
+        VALUES ('$itemCode', '$type', '$unit', '$description', '$generic', '$sugPrice', '$mwPrice', '$ipdPercent', '$ppriceUse')";
+
+if ($conn->query($sql) === TRUE) {
+    echo "Item added successfully";
+} else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+}
+
+// Close the database connection
+$conn->close();
+?>
+
+
 <!-- modal_content.php -->
 <div class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel"
     aria-hidden="true">
@@ -37,8 +78,8 @@
                 <label for="MWprice">MW Price:</label>
                 <input type="number" id="MWprice" class="form-control" placeholder="0.00">
 
-                <label for="IPDpercent">IPD Percent:</label>
-                <input type="number" id="IPDpercent" class="form-control" placeholder="0.00 %">
+                <label for="IPDprice">IPD Percent:</label>
+                <input type="number" id="IPDprice" class="form-control" placeholder="0.00 %">
 
                 <label for="Ppriceuse">Ppriceuse:</label>
                 <input type="number" id="Ppriceuse" class="form-control" placeholder="0.0000">
@@ -54,3 +95,5 @@
         </div>
     </div>
 </div>
+
+
