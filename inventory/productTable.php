@@ -11,7 +11,7 @@
 
 <body>
     <div class="table w-100">
-        <h2 class="mt-4 mb-5">INVENTORY SYSTEM</h2>
+        <h2 class="mt-4 mb-5">PHARMACY INVENTORY</h2>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
@@ -21,6 +21,7 @@
                     <th>Age</th>
                     <th>Start date</th>
                     <th>Salary</th>
+
                 </tr>
             </thead>
             <tbody>
