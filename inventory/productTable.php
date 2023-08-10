@@ -85,7 +85,7 @@
             handleArchive
 
         } from "../costum-js/datatables.js";
-        $(document).ready(function() {
+        $(document).ready(function () {
 
             $('#example thead tr')
                 .clone(true)
@@ -99,40 +99,40 @@
                 autoFill: true,
                 dom: 'Bfrtip',
                 buttons: [{
-                        extend: 'excelHtml5',
-                        className: 'btn btn-success'
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        className: 'btn btn-primary'
-                    },
-                    {
-                        extend: 'print',
-                        className: 'btn border border-info'
-                    },
-                    {
-                        extend: 'colvis',
-                        className: 'btn border border-info'
-                    },
-                    {
-                        extend: 'pageLength',
-                        className: 'btn btn-primary'
-                    },
-                    {
-                        text: 'Add Item',
-                        className: 'btn btn-primary bg-primary text-white',
-                        action: function(e, dt, node, config) {
-                            $('#addItemModal').modal('show');
-                        }
+                    extend: 'excelHtml5',
+                    className: 'btn btn-success'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    className: 'btn btn-primary'
+                },
+                {
+                    extend: 'print',
+                    className: 'btn border border-info'
+                },
+                {
+                    extend: 'colvis',
+                    className: 'btn border border-info'
+                },
+                {
+                    extend: 'pageLength',
+                    className: 'btn btn-primary'
+                },
+                {
+                    text: 'Add Item',
+                    className: 'btn btn-primary bg-primary text-white',
+                    action: function (e, dt, node, config) {
+                        $('#addItemModal').modal('show');
                     }
-                
+                }
+
                 ],
                 columnDefs: [{
                     data: null,
                     defaultContent: '<button class="btn btn-secondary archive-btn">Archive</button>',
                     targets: -1
                 }],
-                initComplete: function() {
+                initComplete: function () {
                     var api = this.api();
                     searchColumn(api);
                 },
@@ -143,62 +143,16 @@
     </script>
 
     <script>
-        $('#saveItemButton').click(function () {
-            $('#addItemModal').modal('hide'); // Close the modal after saving
-        });
-
-        $('#Closemodal2').click(function () {
-            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
-        });
-        $('#Closemodal1').click(function () {
-            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
-        });
-    </script>
-
-<script>
-    $(document).ready(function() {
-        // ... (your other JavaScript code)
-
-        $('#saveItemButton').click(function() {
-            // Get values from modal inputs
-            var itemCode = $('#item_code').val();
-            var type = $('#type').val();
-            var unit = $('#Unit').val();
-            var description = $('#description').val();
-            var generic = $('#Generic').val();
-            var sugPrice = $('#Sugprice').val();
-            var mwPrice = $('#MWprice').val();
-            var ipdPercent = $('#IPDpercent').val();
-            var ppriceUse = $('#Ppriceuse').val();
-
-            // Send data to the PHP script using AJAX
-            $.ajax({
-                type: 'POST',
-                url: 'add_item.php', // Replace with the actual path to your PHP script
-                data: {
-                    item_code: itemCode,
-                    type: type,
-                    Unit: unit,
-                    description: description,
-                    Generic: generic,
-                    Sugprice: sugPrice,
-                    MWprice: mwPrice,
-                    IPDpercent: ipdPercent,
-                    Ppriceuse: ppriceUse
-                },
-                success: function(response) {
-                    alert(response); // Display the response message from the PHP script
-                    $('#addItemModal').modal('hide'); // Close the modal after saving
-                }
+        $(document).ready(function () {
+            $('#saveItemButton').click(function () {
+                        $('#addItemModal').modal('hide'); // Close the modal after saving
+                    
+                });
             });
-        });
 
-        $('#Closemodal1, #Closemodal2').click(function() {
-            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
-        });
-    });
-</script>
-
+            $('#Closemodal1, #Closemodal2').click(function () {
+                $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
+            });
 
     </script>
 </body>
