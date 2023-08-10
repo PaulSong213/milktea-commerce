@@ -1,4 +1,5 @@
 <form method="POST" action="addfunction.php">
+
     <div class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -13,7 +14,7 @@
                     <!-- Your modal content goes here -->
                     <label for="item_code">Item Code:</label>
                     <input type="text" id="item_code" name="item_code" class="form-control"
-                        placeholder="Enter item code">
+                        placeholder="Enter item code" required>
 
                     <label for="type">Type</label>
                     <select class="form-control" id="type" name="type">
@@ -23,11 +24,11 @@
                     </select>
 
                     <label for="Unit">Unit:</label>
-                    <input type="number" id="Unit" class="form-control" name="Unit" placeholder="Enter Unit">
+                    <input type="number" id="Unit" class="form-control" name="Unit" placeholder="Enter Unit" required>
 
                     <label for="description">Description</label>
                     <textarea class="form-control" id="description" name="description"
-                        placeholder="Enter description"></textarea>
+                        placeholder="Enter description" required></textarea>
 
                     <label for="Generic">Generic:</label>
                     <input type="text" id="Generic" class="form-control" name="Generic" placeholder="Enter Generic">
@@ -53,3 +54,7 @@
         </div>
     </div>
 </form>
+
+
+
+

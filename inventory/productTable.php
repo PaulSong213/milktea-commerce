@@ -17,7 +17,7 @@
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    
+
                     <th>Item Code</th>
                     <th>Unit</th>
                     <th>Unit Type</th>
@@ -42,25 +42,25 @@
                 $sql = "select * from inventory_tb ";
                 $result = $connection->query($sql);
 
-                            while ($row = $result -> fetch_assoc()) {
-                               echo "
+                while ($row = $result->fetch_assoc()) {
+                    echo "
                                 <tr>
                                    
-                                    <td>".$row["itemCode"]."</td>
-                                    <td>".$row["Unit"]."</td>
-                                    <td>".$row["Type"]."</td>
-                                    <td>".$row["Generic"]."</td>
-                                    <td>".$row["SugPrice"]."</td>
-                                    <td>".$row["MWprice"]."</td>
-                                    <td>".$row["IPDprice"]."</td>
-                                    <td>".$row["Ppriceuse"]."</td>
-                                    <td>".$row["Status"]."</td>
-                                    <td>".$row["InventoryID"]."</td>
+                                    <td>" . $row["itemCode"] . "</td>
+                                    <td>" . $row["Unit"] . "</td>
+                                    <td>" . $row["Type"] . "</td>
+                                    <td>" . $row["Generic"] . "</td>
+                                    <td>" . $row["SugPrice"] . "</td>
+                                    <td>" . $row["MWprice"] . "</td>
+                                    <td>" . $row["IPDprice"] . "</td>
+                                    <td>" . $row["Ppriceuse"] . "</td>
+                                    <td>" . $row["Status"] . "</td>
+                                    <td>" . $row["InventoryID"] . "</td>
                                 </tr>
                              ";
-                            }
-                         ?>
-                  </tbody>
+                }
+                ?>
+            </tbody>
         </table>
     </div>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
@@ -80,7 +80,7 @@
             handleArchive
 
         } from "../costum-js/datatables.js";
-        $(document).ready(function() {
+        $(document).ready(function () {
 
             // clone header to add search by columns
             $('#example thead tr')
@@ -95,33 +95,33 @@
                 autoFill: true,
                 dom: 'Bfrtip',
                 buttons: [{
-                        extend: 'excelHtml5',
-                        className: 'btn btn-success'
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        className: 'btn btn-primary'
-                    },
-                    {
-                        extend: 'print',
-                        className: 'btn border border-info'
-                    },
-                    // {
-                    //     extend: 'colvis',
-                    //     className: 'btn border border-info'
-                    // },
-                    {
-                        extend: 'pageLength',
-                        className: 'btn btn-primary'
-                    },
-                    {
-                        text: 'Add Item',
-                        className: 'btn btn-primary bg-primary text-white',
-                        action: function(e, dt, node, config) {
-                            $('#addItemModal').modal('show');
-                        }
+                    extend: 'excelHtml5',
+                    className: 'btn btn-success'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    className: 'btn btn-primary'
+                },
+                {
+                    extend: 'print',
+                    className: 'btn border border-info'
+                },
+                // {
+                //     extend: 'colvis',
+                //     className: 'btn border border-info'
+                // },
+                {
+                    extend: 'pageLength',
+                    className: 'btn btn-primary'
+                },
+                {
+                    text: 'Add Item',
+                    className: 'btn btn-primary bg-primary text-white',
+                    action: function (e, dt, node, config) {
+                        $('#addItemModal').modal('show');
                     }
-                
+                }
+
                 ],
                 columnDefs: [{
                     data: null,
@@ -135,7 +135,7 @@
                     api
                         .columns()
                         .eq(0)
-                        .each(function(colIdx) {
+                        .each(function (colIdx) {
                             // Set the header cell to contain the input element
                             var cell = $('.filters th').eq(
                                 $(api.column(colIdx).header()).index()
@@ -146,11 +146,11 @@
 
                             // On every keypress in this input
                             $(
-                                    'input',
-                                    $('.filters th').eq($(api.column(colIdx).header()).index())
-                                )
+                                'input',
+                                $('.filters th').eq($(api.column(colIdx).header()).index())
+                            )
                                 .off('keyup change')
-                                .on('change', function(e) {
+                                .on('change', function (e) {
                                     // Get the search value
                                     $(this).attr('title', $(this).val());
                                     var regexr =
@@ -162,15 +162,15 @@
                                         .column(colIdx)
                                         .search(
                                             this.value != '' ?
-                                            regexr.replace('{search}', '(((' + this.value +
-                                                ')))') :
-                                            '',
+                                                regexr.replace('{search}', '(((' + this.value +
+                                                    ')))') :
+                                                '',
                                             this.value != '',
                                             this.value == ''
                                         )
                                         .draw();
                                 })
-                                .on('keyup', function(e) {
+                                .on('keyup', function (e) {
                                     e.stopPropagation();
 
                                     $(this).trigger('change');
@@ -207,13 +207,13 @@
     </script>
 
     <script type="text/javascript">
-        $(document).ready(function() {
-            $(".xp-menubar").on('click', function() {
+        $(document).ready(function () {
+            $(".xp-menubar").on('click', function () {
                 $('#sidebar').toggleClass('active');
                 $('#content').toggleClass('active');
             });
 
-            $(".xp-menubar,.body-overlay").on('click', function() {
+            $(".xp-menubar,.body-overlay").on('click', function () {
                 $('#sidebar,.body-overlay').toggleClass('show-nav');
             });
 
@@ -221,14 +221,28 @@
     </script>
     <script>
         $(document).ready(function () {
-            $('#saveItemButton').click(function () {         
-                $('#addItemModal').modal('hide'); // Close the modal after saving
-                });
-            });
+            $('#saveItemButton').click(function () {
+                var itemCode = $('#item_code').val();
+                var unit = $('#Unit').val();
+                var description = $('#description').val();
 
-            $('#Closemodal1, #Closemodal2').click(function () {
-                $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
+                if (itemCode.trim() === "" || unit.trim() === "" || description.trim() === "") {
+                    swal.fire("Please fill in all required fields.");
+                    return false; // Prevent closing modal and form submission
+                }
+                else{
+                    $('#addItemModal').modal('hide'); // Close the modal after saving
+                }
+                
+
+
+
             });
+        });
+
+        $('#Closemodal1, #Closemodal2').click(function () {
+            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
+        });
     </script>
 </body>
 
