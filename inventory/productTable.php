@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -7,68 +8,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-    <style>
-        .dt-button-collection,
-        .dt-button-background {
-            position: absolute;
-            z-index: 999;
-        }
-
-        .button-page-length {
-            border-radius: 5px;
-        }
-
-        .button-page-length.dt-button-active {
-            background-color: #4285f4;
-        }
-
-        .buttons-columnVisibility {
-            border-radius: 5px;
-            opacity: 0.3;
-        }
-
-        .dt-button-active {
-            opacity: 1;
-        }
-    </style>
 </head>
 
 <body>
     <div class="table w-100">
-        <div class="xp-menubar bg-danger" >
-            <span class="material-icons text-white">signal_cellular_alt
-            </span>
-        </div>
-        <h2 class="mt-4 mb-5">PHARMACY INVENTORY</h2>
-
-        <?php include 'add.php'; // Include the modal content 
-        ?>
-
+        <h2 class="mt-4 mb-5">INVENTORY SYSTEM</h2>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Office</th>
-                    <th>Age</th>
-                    <th>Start date</th>
-                    <th>Salary</th>
+                    <th>Inventory ID</th>
+                    <th>Type ID</th>
+                    <th>Item Code</th>
+                    <th>Unit</th>
+                    <th>Description</th>
+                    <th>Generic</th>
+                    <th>Sug Price</th>
+                    <th>MW Price</th>
+                    <th>IPD Price</th>
+                    <th>Ppricause</th>
                     <th>Action</th>
 
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Tiger Nixon</td>
-                    <td>System Architect</td>
-                    <td>Edinburgh</td>
-                    <td>61</td>
-                    <td>2011-04-25</td>
-                    <td>$320,800</td>
-                    <td>NO</td>
-                </tr>
+                    <?php 
+                        $servername = "localhost";
+                        $username = "root";
+                        $Password = "";
+                        $database = "zaratehospital";
 
-            </tbody>
+                            $connection = new mysqli($servername, $username, $Password, $database);
+
+                            $sql = "select * from inventory_tb ";
+                            $result = $connection->query($sql);
+
+                            while ($row = $result -> fetch_assoc()) {
+                               echo "
+                                <tr>
+                                    <td>".$row["InventoryID"]."</td>
+                                    <td>".$row["itemTypeID"]."</td>
+                                    <td>".$row["itemCode"]."</td>
+                                    <td>".$row["Unit"]."</td>
+                                    <td>".$row["Description"]."</td>
+                                    <td>".$row[""]."</td>
+                                    <td>".$row["Generic"]."</td>
+                                    <td>".$row["Generic"]."</td>
+                                    <td>".$row["Generic"]."</td>
+                                    <td>".$row["Generic"]."</td>
+                                    <td>".$row["Generic"]."</td>
+                                </tr>
+                             ";
+                            }
+                         ?>
+                  </tbody>
         </table>
     </div>
 
@@ -81,14 +73,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables-buttons/2.2.0/js/buttons.colVis.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script type="module">
-        import {
-            searchColumn,
-            handleArchive
-
-        } from "../costum-js/datatables.js";
+    <script>
         $(document).ready(function() {
 
             $('#example thead tr')
@@ -96,7 +81,7 @@
                 .addClass('filters')
                 .appendTo('#example thead');
 
-            const table = $('#example').DataTable({
+            $('#example').DataTable({
                 orderCellsTop: true,
                 fixedHeader: true,
                 responsive: true,
@@ -114,65 +99,61 @@
                         extend: 'print',
                         className: 'btn border border-info'
                     },
-                    {
-                        extend: 'colvis',
-                        className: 'btn border border-info'
-                    },
-                    {
-                        extend: 'pageLength',
-                        className: 'btn btn-primary'
-                    },
-                    {
-                        text: 'Add Item',
-                        className: 'btn btn-primary bg-primary text-white',
-                        action: function(e, dt, node, config) {
-                            $('#addItemModal').modal('show');
-                        }
-                    }
-                
                 ],
-                columnDefs: [{
-                    data: null,
-                    defaultContent: '<button class="btn btn-secondary archive-btn">Archive</button>',
-                    targets: -1
-                }],
                 initComplete: function() {
                     var api = this.api();
-                    searchColumn(api);
+
+                    // For each column
+                    api
+                        .columns()
+                        .eq(0)
+                        .each(function(colIdx) {
+                            // Set the header cell to contain the input element
+                            var cell = $('.filters th').eq(
+                                $(api.column(colIdx).header()).index()
+                            );
+                            var title = $(cell).text();
+                            $(cell).html('<input type="text" class="form-control" placeholder="' +
+                                title + '" />');
+
+                            // On every keypress in this input
+                            $(
+                                    'input',
+                                    $('.filters th').eq($(api.column(colIdx).header()).index())
+                                )
+                                .off('keyup change')
+                                .on('change', function(e) {
+                                    // Get the search value
+                                    $(this).attr('title', $(this).val());
+                                    var regexr =
+                                        '({search})'; //$(this).parents('th').find('select').val();
+
+                                    var cursorPosition = this.selectionStart;
+                                    // Search the column for that value
+                                    api
+                                        .column(colIdx)
+                                        .search(
+                                            this.value != '' ?
+                                            regexr.replace('{search}', '(((' + this.value +
+                                                ')))') :
+                                            '',
+                                            this.value != '',
+                                            this.value == ''
+                                        )
+                                        .draw();
+                                })
+                                .on('keyup', function(e) {
+                                    e.stopPropagation();
+
+                                    $(this).trigger('change');
+                                    $(this)
+                                        .focus()[0]
+                                        .setSelectionRange(cursorPosition, cursorPosition);
+                                });
+                        });
                 },
             });
-
-            handleArchive(table, 1, 0, "/api/inventory/archive?id=1");
         });
-    </script>
-
-    <script>
-        $('#saveItemButton').click(function () {
-            $('#addItemModal').modal('hide'); // Close the modal after saving
-        });
-
-        $('#Closemodal2').click(function () {
-            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
-        });
-        $('#Closemodal1').click(function () {
-            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
-        });
-    </script>
-
-    <script type="text/javascript">
-
-        $(document).ready(function () {
-            $(".xp-menubar").on('click', function () {
-                $('#sidebar').toggleClass('active');
-                $('#content').toggleClass('active');
-            });
-
-            $(".xp-menubar,.body-overlay").on('click', function () {
-                $('#sidebar,.body-overlay').toggleClass('show-nav');
-            });
-
-        });
-
     </script>
 </body>
 
