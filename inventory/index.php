@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!doctype html>
 <html lang="en">
 
@@ -21,6 +22,7 @@
             <?php include('../sidebar.php') ?>
         </div>
         <div class="d-block w-100">
+            <?php include('../php/session-dialog.php') ?>
             <?php include('./productTable.php') ?>
         </div>
     </div>
