@@ -30,9 +30,11 @@ if (isset($_POST['SaveItem'])) {
     $result = mysqli_query($conn, $sql);
 
     if ($result) {
-        echo '<script>alert("Data inserted successfully!");</script>';
+        header("Location: ./index.php");
+        die();
     } else {
-        echo '<script>alert("Error: Data insertion failed.");</script>';
+        echo '<script>alert("Data inserted Failed");';
+        echo 'window.location.replace("Zarate/inventory/");</script>';
     }
 }
 
