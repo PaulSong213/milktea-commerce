@@ -41,7 +41,8 @@
         </div>
         <h2 class="mt-4 mb-5">PHARMACY INVENTORY</h2>
 
-        <?php include 'add.php'; // Include the modal content ?>
+        <?php include 'add.php'; // Include the modal content 
+        ?>
 
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
@@ -81,105 +82,67 @@
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables-buttons/2.2.0/js/buttons.colVis.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module">
+        import {
+            searchColumn,
+            handleArchive
 
-
-    <script>
-        $(document).ready(function () {
+        } from "../costum-js/datatables.js";
+        $(document).ready(function() {
 
             $('#example thead tr')
                 .clone(true)
                 .addClass('filters')
                 .appendTo('#example thead');
 
-            $('#example').DataTable({
+            const table = $('#example').DataTable({
                 orderCellsTop: true,
                 fixedHeader: true,
                 responsive: true,
                 autoFill: true,
                 dom: 'Bfrtip',
                 buttons: [{
-                    extend: 'excelHtml5',
-                    className: 'btn btn-success'
-                },
-                {
-                    extend: 'pdfHtml5',
-                    className: 'btn btn-primary'
-                },
-                {
-                    extend: 'print',
-                    className: 'btn border border-info'
-                },
-                {
-                    extend: 'colvis',
-                    className: 'btn border border-info'
-                },
-                {
-                    extend: 'pageLength',
-                    className: 'btn btn-primary'
-                },
-                {
-                    text: 'Add Item',
-                    className: 'btn btn-primary bg-primary text-white',
-                    action: function (e, dt, node, config) {
-                        $('#addItemModal').modal('show');
+                        extend: 'excelHtml5',
+                        className: 'btn btn-success'
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        className: 'btn btn-primary'
+                    },
+                    {
+                        extend: 'print',
+                        className: 'btn border border-info'
+                    },
+                    {
+                        extend: 'colvis',
+                        className: 'btn border border-info'
+                    },
+                    {
+                        extend: 'pageLength',
+                        className: 'btn btn-primary'
+                    },
+                    {
+                        text: 'Add Item',
+                        className: 'btn btn-primary bg-primary text-white',
+                        action: function(e, dt, node, config) {
+                            $('#addItemModal').modal('show');
+                        }
                     }
-                }
+                
                 ],
-
-
-                initComplete: function () {
+                columnDefs: [{
+                    data: null,
+                    defaultContent: '<button class="btn btn-secondary archive-btn">Archive</button>',
+                    targets: -1
+                }],
+                initComplete: function() {
                     var api = this.api();
-
-                    // For each column
-                    api
-                        .columns()
-                        .eq(0)
-                        .each(function (colIdx) {
-                            // Set the header cell to contain the input element
-                            var cell = $('.filters th').eq(
-                                $(api.column(colIdx).header()).index()
-                            );
-                            var title = $(cell).text();
-                            $(cell).html('<input type="text" class="form-control" placeholder="' +
-                                title + '" />');
-
-                            // On every keypress in this input
-                            $(
-                                'input',
-                                $('.filters th').eq($(api.column(colIdx).header()).index())
-                            )
-                                .off('keyup change')
-                                .on('change', function (e) {
-                                    // Get the search value
-                                    $(this).attr('title', $(this).val());
-                                    var regexr =
-                                        '({search})'; //$(this).parents('th').find('select').val();
-
-                                    var cursorPosition = this.selectionStart;
-                                    // Search the column for that value
-                                    api
-                                        .column(colIdx)
-                                        .search(
-                                            this.value != '' ?
-                                                regexr.replace('{search}', '(((' + this.value +
-                                                    ')))') :
-                                                '',
-                                            this.value != '',
-                                            this.value == ''
-                                        )
-                                        .draw();
-                                })
-                                .on('keyup', function (e) {
-                                    e.stopPropagation();
-
-                                    $(this).trigger('change');
-                                    $(this)
-                                        .focus()[0]
-                                        .setSelectionRange(cursorPosition, cursorPosition);
-                                });
-                        });
+                    searchColumn(api);
                 },
             });
+
+            handleArchive(table, 1, 0, "/api/inventory/archive?id=1");
         });
     </script>
 
