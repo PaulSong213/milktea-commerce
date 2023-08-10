@@ -551,6 +551,13 @@
                     {
                         extend: 'pageLength',
                         className: 'btn btn-primary'
+                    },
+                    {
+                        text: 'Add Item',
+                        className: 'btn btn-primary bg-primary text-white',
+                        action: function(e, dt, node, config) {
+                            alert('Button activated');
+                        }
                     }
                 ],
                 initComplete: function() {
