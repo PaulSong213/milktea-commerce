@@ -1,4 +1,4 @@
-<?php
+<?php 
 // Database configuration
 $host = 'localhost';
 $dbName = 'zaratehospital';
@@ -43,3 +43,4 @@ if (isset($_POST['SaveItem'])) {
 
 // Close the database connection
 $conn->close();
+?>
