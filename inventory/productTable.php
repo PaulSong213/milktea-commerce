@@ -45,19 +45,9 @@
                     <th>Unit</th>
                     <th>Generic</th>
                     <th>Sug Price</th>
-<<<<<<< HEAD
                     <th>Added Date-Time</th>
                     <th>Status</th>
                     <th>Archive</th>
-=======
-                    <<<<<<< HEAD=======<th>MW Price</th>
-                        <th>IPD Price</th>
-                        <th>Ppricause</th>
-                        <th>Added Date-Time</th>
-                        >>>>>>> db884ddbc8af80f99db4c2111c2811aaf5f3cc42
-                        <th>Status</th>
-                        <th>Archive</th>
->>>>>>> d92a06adf5a08096bd41e5757eaa1216944218de
                 </tr>
             </thead>
             <tbody>
@@ -77,10 +67,6 @@
                     $statusColor = ($row["Status"]  == "1") ? "bg-success"  : "bg-danger"; //condition for color bg.
                     echo "
                                 <tr>
-<<<<<<< HEAD
-                                  
-=======
->>>>>>> d92a06adf5a08096bd41e5757eaa1216944218de
                                     <td>" . $row["itemCode"] . "</td>
                                     <td>" . $row["Unit"] . " " . $row["Type"] . "</td>
                                     <td>" . $row["Generic"] . "</td>
