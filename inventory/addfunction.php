@@ -25,9 +25,10 @@ if (isset($_POST['SaveItem'])) {
     $ipdPrice = $_POST['IPDprice'];
     $ppriceUse = $_POST['Ppriceuse'];
     $currentDateTime = date('Y-m-d H:i:s');
+    $statusData = 1;
 
-    $sql = "INSERT INTO inventory_tb (itemCode, Type, Unit, Description, Generic, SugPrice, MWprice, IPDprice, Ppriceuse,createDate)
-    VALUES ('$itemCode', '$type', '$unit', '$description', '$generic', '$sugPrice', '$mwPrice', '$ipdPrice', '$ppriceUse',' $currentDateTime')";
+    $sql = "INSERT INTO inventory_tb (itemCode, Type, Unit, Description, Generic, SugPrice, MWprice, IPDprice, Ppriceuse,createDate, Status)
+    VALUES ('$itemCode', '$type', '$unit', '$description', '$generic', '$sugPrice', '$mwPrice', '$ipdPrice', '$ppriceUse',' $currentDateTime',' $statusData')";
 
     $result = mysqli_query($conn, $sql);
 
