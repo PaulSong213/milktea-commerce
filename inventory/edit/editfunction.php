@@ -1,5 +1,5 @@
 <?php
-require_once '../php/connect.php';
+require_once '../../php/connect.php';
 $conn = connect();
 
 if (isset($_POST['SaveItem'])) {
@@ -35,10 +35,10 @@ if (isset($_POST['SaveItem'])) {
     $result = mysqli_query($conn, $sql);
 
     if ($result) {
-        header("Location: ./index.php");
+        header("Location: ../index.php");
         die();
     } else {
-        header("Location: ./index.php");
+        header("Location: ../index.php");
         die();
     }
 }

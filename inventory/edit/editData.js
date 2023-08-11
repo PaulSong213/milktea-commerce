@@ -42,7 +42,7 @@ export function handleEditClick(addModalLocator) {
                 dataKey: "Ppriceuse",
                 inputName: "Ppriceuse"
             }
-        ]
+        ];
 
         // fill up the fields
         for (let i = 0; i < toFillUpDatas.length; i++) {
@@ -59,7 +59,7 @@ export function handleEditClick(addModalLocator) {
         headerTitle.text("Edit Item");
 
         const addItemForm = $("#addItemForm");
-        addItemForm.attr("action", "editfunction.php");
+        addItemForm.attr("action", "./edit/editfunction.php");
         addItemForm.append(`<input type="hidden" name="item_id" value="${data['InventoryID']}">`);
 
         // watch modal close then reset data
