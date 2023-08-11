@@ -35,16 +35,17 @@
 
 <body>
     <div class="table w-100 p-4">
-        <h2 class="mt-4 mb-5">Employee SYSTEM</h2>
-     
+        <h2 class="mt-4 mb-5">EMPLOYEE LIST</h2>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
+
                     <th>Employee Code</th>
-                    <th>Name</th>
-                    <th>Department</th>
+                    <th>Employee Name</th>
+                    <th>Title</th>
                     <th>Position</th>
-                    <th>Date Added </th>
+                    <th>Department</th>
+                    <th>Added Date</th>
                     <th>Modified Date</th>
                     <th>Status</th>
                     <th>Archive</th>
@@ -69,9 +70,14 @@
                                 <tr>
 
                                     <td>" . $row["EmployeeCode"] . "</td>
-                                    <td>" . $row["fname"] . " " . $row["mname"] ." " . $row["lname"] ."</td>
-                                    <td>" . $row["department"] . "</td>
+                                    <td> 
+                                        " . $row["fname"] . " 
+                                        " . $row["mname"] . "
+                                        " . $row["lname"] . "
+                                    </td>
+                                    <td>" . $row["title"] . "</td>
                                     <td>" . $row["position"] . "</td>
+                                    <td>" . $row["department"] . "</td>
                                     <td>" . $row["createDate"] . "</td>
                                     <td>" . $row["modifiedDate"] . "</td>
                                     <td class='" . $statusColor . "'>" . $activeStatus . "</td>
@@ -189,4 +195,76 @@
                                         )
                                         .draw();
                                 })
-       
+                                .on('keyup', function(e) {
+                                    e.stopPropagation();
+
+                                    $(this).trigger('change');
+                                    $(this)
+                                        .focus()[0]
+                                        .setSelectionRange(cursorPosition, cursorPosition);
+                                });
+                        });
+                },
+                columnDefs: [{
+                    targets: -1,
+                    render: (id) => {
+                        return `<button class="btn btn-secondary archive-btn" id="${id}">Archive</button>`
+                    },
+                    "searchable": false
+                }]
+            });
+
+            handleArchive(table, 0, "/zarate/inventory/archive.php");
+        });
+    </script>
+
+    <script>
+        $('#saveItemButton').click(function() {
+            $('#addItemModal').modal('hide'); // Close the modal after saving
+        });
+
+        $('#Closemodal2').click(function() {
+            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
+        });
+        $('#Closemodal1').click(function() {
+            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".xp-menubar").on('click', function() {
+                $('#sidebar').toggleClass('active');
+                $('#content').toggleClass('active');
+            });
+
+            $(".xp-menubar,.body-overlay").on('click', function() {
+                $('#sidebar,.body-overlay').toggleClass('show-nav');
+            });
+
+        });
+    </script>
+    <script>
+        var value = false;
+        $(document).ready(function() {
+            $('#saveItemButton').click(function() {
+                var itemCode = $('#item_code').val();
+                var unit = $('#Unit').val();
+                var description = $('#description').val();
+
+                if (itemCode.trim() === "" || unit.trim() === "" || description.trim() === "") {
+                    swal.fire("Please fill in all required fields.");
+                    return false; // Prevent closing modal and form submission
+                } else {
+                    $('#addItemModal').modal('hide'); // Close the modal after saving
+                }
+            });
+        });
+
+        $('#Closemodal1, #Closemodal2').click(function() {
+            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
+        });
+    </script>
+</body>
+
+</html>
