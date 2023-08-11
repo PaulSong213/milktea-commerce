@@ -40,7 +40,7 @@
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>Added Date-Time</th>
+                   
                     <th>Item Code</th>
                     <th>Unit</th>
                     <th>Unit Type</th>
@@ -49,8 +49,10 @@
                     <th>MW Price</th>
                     <th>IPD Price</th>
                     <th>Ppricause</th>
+                    <th>Added Date-Time</th>
                     <th>Status</th>
                     <th>Archive</th>
+                   
                 </tr>
             </thead>
             <tbody>
@@ -70,7 +72,7 @@
                     $statusColor = ($row["Status"]  == "1") ? "bg-success"  : "bg-danger"; //condition for color bg.
                     echo "
                                 <tr>
-                                    <td>" . $row["createDate"] . "</td>
+                                  
                                     <td>" . $row["itemCode"] . "</td>
                                     <td>" . $row["Unit"] . "</td>
                                     <td>" . $row["Type"] . "</td>
@@ -79,8 +81,10 @@
                                     <td>" . $row["MWprice"] . "</td>
                                     <td>" . $row["IPDprice"] . "</td>
                                     <td>" . $row["Ppriceuse"] . "</td>
+                                    <td>" . $row["createDate"] . "</td>
                                     <td class='".$statusColor."'>". $activeStatus . "</td>
                                     <td>" . $row["InventoryID"] . "</td>
+                                     
                                 </tr>
                              ";
                 }
