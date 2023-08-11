@@ -79,7 +79,7 @@
                             <td>" . date("M d, Y h:i", strtotime($row["createDate"])) . "</td>
                             <td>" . date("M d, Y h:i", strtotime($row["modifiedDate"])) . "</td>
                             <td>
-                                <div class='d-flex w-100 h-100'>
+                                <div class='d-flex w-100 h-100 d-flex '>
                                     <h6 style='font-size: 13px' class='p-1 alert m-auto " . $statusColor . "'>" . $activeStatus . "</h6>
                                 </div>
                             </td>
