@@ -45,9 +45,6 @@
                     <th>Unit</th>
                     <th>Generic</th>
                     <th>Sug Price</th>
-                    <th>MW Price</th>
-                    <th>IPD Price</th>
-                    <th>Ppricause</th>
                     <th>Added Date-Time</th>
                     <th>Status</th>
                     <th>Archive</th>
@@ -75,9 +72,6 @@
                                     <td>" . $row["Unit"] . " " . $row["Type"] . "</td>
                                     <td>" . $row["Generic"] . "</td>
                                     <td>" . $row["SugPrice"] . "</td>
-                                    <td>" . $row["MWprice"] . "</td>
-                                    <td>" . $row["IPDprice"] . "</td>
-                                    <td>" . $row["Ppriceuse"] . "</td>
                                     <td>" . $row["createDate"] . "</td>
                                     <td class='".$statusColor."'>". $activeStatus . "</td>
                                     <td>" . $row["InventoryID"] . "</td>
