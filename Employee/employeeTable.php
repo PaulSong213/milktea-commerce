@@ -59,7 +59,7 @@
 
                 $connection = new mysqli($servername, $username, $Password, $database);
 
-                $sql = "select * from inventory_tb ";
+                $sql = "select * from employee_tb ";
                 $result = $connection->query($sql);
 
                 while ($row = $result->fetch_assoc()) {
@@ -68,14 +68,14 @@
                     echo "
                                 <tr>
 
-                                    <td>" . $row["itemCode"] . "</td>
-                                    <td>" . $row["Unit"] . " " . $row["Type"] . "</td>
-                                    <td>" . $row["Generic"] . "</td>
-                                    <td>" . $row["SugPrice"] . "</td>
+                                    <td>" . $row["EmployeeCode"] . "</td>
+                                    <td>" . $row["fname"] . " " . $row["mname"] ." " . $row["lname"] ."</td>
+                                    <td>" . $row["department"] . "</td>
+                                    <td>" . $row["position"] . "</td>
                                     <td>" . $row["createDate"] . "</td>
                                     <td>" . $row["modifiedDate"] . "</td>
                                     <td class='" . $statusColor . "'>" . $activeStatus . "</td>
-                                    <td>" . $row["InventoryID"] . "</td>
+                                    <td>" . $row["DatabaseID"] . "</td>
                                 </tr>
                              ";
                 }
