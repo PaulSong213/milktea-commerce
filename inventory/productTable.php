@@ -17,7 +17,7 @@
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    
+                    <th>Date</th>
                     <th>Item Code</th>
                     <th>Unit</th>
                     <th>Unit Type</th>
@@ -45,7 +45,7 @@
                             while ($row = $result -> fetch_assoc()) {
                                echo "
                                 <tr>
-                                   
+                                   <td>".$row["createDate"]."</td>
                                     <td>".$row["itemCode"]."</td>
                                     <td>".$row["Unit"]."</td>
                                     <td>".$row["Type"]."</td>

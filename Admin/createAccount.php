@@ -78,6 +78,11 @@
 			<h2>LOGIN FORM</h2>
 			<label for="exampleInputEmail1">Email address</label>
 			<input type="text" class="form-control" id="exampleInputEmail1" name="mailuid" placeholder="Username/Email...">
+
+            <label for="exampleInputEmail1">Email address</label>
+			<input type="text" class="form-control" id="exampleInputEmail1" name="mailuid" placeholder="Username/Email...">
+
+
 			<label for="exampleInputPassword1">Password</label>
 			<input type="password" class="form-control" id="exampleInputPassword1" name="pwd" placeholder="Password...">
 			<button type="submit" class="btn btn-primary" name="login-submit">Login</button>
