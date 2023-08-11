@@ -50,9 +50,12 @@
                     <th>Generic</th>
                     <th>Sug Price</th>
                     <th>Date Added</th>
-                    <th>Date Modified</th>
-                    <th>Status</th>
-                    <th>Actions</th>
+                    <<<<<<< HEAD <th>Date Modified</th>
+                        =======
+                        <th>Modified Date</th>
+                        >>>>>>> 67dbf2939a67fb659dee663e3201f3cb5426d22b
+                        <th>Status</th>
+                        <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
