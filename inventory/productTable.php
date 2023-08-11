@@ -43,12 +43,8 @@
                     <th>Date</th>
                     <th>Item Code</th>
                     <th>Unit</th>
-                    <th>Unit Type</th>
                     <th>Generic</th>
                     <th>Sug Price</th>
-                    <th>MW Price</th>
-                    <th>IPD Price</th>
-                    <th>Ppricause</th>
                     <th>Status</th>
                     <th>Archive</th>
                 </tr>
@@ -72,13 +68,9 @@
                                 <tr>
                                     <td>" . $row["createDate"] . "</td>
                                     <td>" . $row["itemCode"] . "</td>
-                                    <td>" . $row["Unit"] . "</td>
-                                    <td>" . $row["Type"] . "</td>
+                                    <td>" . $row["Unit"] . " " . $row["Type"] . "</td>
                                     <td>" . $row["Generic"] . "</td>
                                     <td>" . $row["SugPrice"] . "</td>
-                                    <td>" . $row["MWprice"] . "</td>
-                                    <td>" . $row["IPDprice"] . "</td>
-                                    <td>" . $row["Ppriceuse"] . "</td>
                                     <td class='".$statusColor."'>". $activeStatus . "</td>
                                     <td>" . $row["InventoryID"] . "</td>
                                 </tr>
