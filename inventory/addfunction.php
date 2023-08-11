@@ -27,8 +27,8 @@ if (isset($_POST['SaveItem'])) {
     $currentDateTime = date('Y-m-d H:i:s');
     $statusData = 1;
 
-    $sql = "INSERT INTO inventory_tb (itemCode, Type, Unit, Description, Generic, SugPrice, MWprice, IPDprice, Ppriceuse,createDate, Status)
-    VALUES ('$itemCode', '$type', '$unit', '$description', '$generic', '$sugPrice', '$mwPrice', '$ipdPrice', '$ppriceUse',' $currentDateTime',' $statusData')";
+    $sql = "INSERT INTO inventory_tb (itemCode, Type, Unit, Description, Generic, SugPrice, MWprice, IPDprice, Ppriceuse,createDate, Status, modifiedDate)
+    VALUES ('$itemCode', '$type', '$unit', '$description', '$generic', '$sugPrice', '$mwPrice', '$ipdPrice', '$ppriceUse','$currentDateTime',' $statusData', '$currentDateTime')";
 
     $result = mysqli_query($conn, $sql);
 
