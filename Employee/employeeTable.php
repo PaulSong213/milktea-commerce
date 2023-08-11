@@ -59,28 +59,25 @@
 
                 $connection = new mysqli($servername, $username, $Password, $database);
 
-                $sql = "select * from employee_tb ";
+                $sql = "select * from inventory_tb ";
                 $result = $connection->query($sql);
 
                 while ($row = $result->fetch_assoc()) {
                     $activeStatus = ($row["Status"]  == "1") ? "Active"  : "Inactive"; //condition for status
-                    $statusColor = ($row["Status"]  == "1") ? "alert-success"  : "alert-danger"; //condition for color bg.
+                    $statusColor = ($row["Status"]  == "1") ? "bg-success"  : "bg-danger"; //condition for color bg.
                     echo "
-                        <tr>
-                            <td>" . $row["EmployeeCode"] . "</td>
-                            <td>" . $row["lname"]."  ". $row["fname"]." ". $row["mname"]." </td>
-                            <td>" . $row["department"] . "</td>
-                            <td>" . $row["position"] . "</td>
-                            <td>" . $row["createDate"] . "</td>
-                            <td>" . $row["modifiedDate"] . "</td>
-                            <td>
-                                <div class='d-flex w-100 h-100'>
-                                    <h6 style='font-size: 13px' class='p-1 alert m-auto " . $statusColor . "'>" . $activeStatus . "</h6>
-                                </div>
-                            </td>
-                            <td class='invisible'>" . $row["DatabaseID"] . "</td>
-                        </tr>
-                        ";
+                                <tr>
+
+                                    <td>" . $row["itemCode"] . "</td>
+                                    <td>" . $row["Unit"] . " " . $row["Type"] . "</td>
+                                    <td>" . $row["Generic"] . "</td>
+                                    <td>" . $row["SugPrice"] . "</td>
+                                    <td>" . $row["createDate"] . "</td>
+                                    <td>" . $row["modifiedDate"] . "</td>
+                                    <td class='" . $statusColor . "'>" . $activeStatus . "</td>
+                                    <td>" . $row["InventoryID"] . "</td>
+                                </tr>
+                             ";
                 }
                 ?>
             </tbody>
@@ -100,7 +97,8 @@
     <script type="module">
         import {
             searchColumn,
-            handleArchiveClick,
+            handleArchive
+
         } from "../costum-js/datatables.js";
         $(document).ready(function() {
 
@@ -144,50 +142,51 @@
                         }
                     }
                 ],
-                initComplete: function() {
-                    searchColumn(this.api());
-                },
                 columnDefs: [{
-                    targets: -1,
-                    render: (id) => {
-                        return `<button class="btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>`
-                    },
-                    "searchable": false
-                }]
-            });
+                    data: null,
+                    defaultContent: '<button class="btn btn-secondary archive-btn">Archive</button>',
+                    targets: -1
+                }],
+                initComplete: function() {
+                    var api = this.api();
 
-            handleArchiveClick(table, 0, "/zarate/inventory/archive.php", 5);
-        });
-    </script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $(".xp-menubar").on('click', function() {
-                $('#sidebar').toggleClass('active');
-                $('#content').toggleClass('active');
-            });
+                    // For each column
+                    api
+                        .columns()
+                        .eq(0)
+                        .each(function(colIdx) {
+                            // Set the header cell to contain the input element
+                            var cell = $('.filters th').eq(
+                                $(api.column(colIdx).header()).index()
+                            );
+                            var title = $(cell).text();
+                            $(cell).html('<input type="text" class="form-control" placeholder="' +
+                                title + '" />');
 
-            $(".xp-menubar,.body-overlay").on('click', function() {
-                $('#sidebar,.body-overlay').toggleClass('show-nav');
-            });
+                            // On every keypress in this input
+                            $(
+                                    'input',
+                                    $('.filters th').eq($(api.column(colIdx).header()).index())
+                                )
+                                .off('keyup change')
+                                .on('change', function(e) {
+                                    // Get the search value
+                                    $(this).attr('title', $(this).val());
+                                    var regexr =
+                                        '({search})'; //$(this).parents('th').find('select').val();
 
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('#saveItemButton').click(function() {
-                var itemCode = $('#item_code').val();
-                var unit = $('#Unit').val();
-                var description = $('#description').val();
-                if (itemCode.trim() === "" || unit.trim() === "" || description.trim() === "") {
-                    return false; // Prevent closing modal and form submission
-                }else{
-                    $('#addItemModal').modal('hide'); // Close the modal after saving
-                }
-            });
-        });
-        $('#Closemodal1, #Closemodal2').click(function() {
-            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
-        });
-    </script>
-</body>
-</html>
+                                    var cursorPosition = this.selectionStart;
+                                    // Search the column for that value
+                                    api
+                                        .column(colIdx)
+                                        .search(
+                                            this.value != '' ?
+                                            regexr.replace('{search}', '(((' + this.value +
+                                                ')))') :
+                                            '',
+                                            this.value != '',
+                                            this.value == ''
+                                        )
+                                        .draw();
+                                })
+       
