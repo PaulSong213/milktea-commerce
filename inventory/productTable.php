@@ -45,10 +45,9 @@
                     <th>Unit</th>
                     <th>Generic</th>
                     <th>Sug Price</th>
-                    <th>Added Date-Time</th>
+                    <th>Date Added</th>
                     <th>Status</th>
                     <th>Archive</th>
-                   
                 </tr>
             </thead>
             <tbody>
@@ -65,19 +64,22 @@
 
                 while ($row = $result->fetch_assoc()) {
                     $activeStatus = ($row["Status"]  == "1") ? "Active"  : "Inactive"; //condition for status
-                    $statusColor = ($row["Status"]  == "1") ? "bg-success"  : "bg-danger"; //condition for color bg.
+                    $statusColor = ($row["Status"]  == "1") ? "alert-success"  : "alert-danger"; //condition for color bg.
                     echo "
-                                <tr>
-                                    <td>" . $row["itemCode"] . "</td>
-                                    <td>" . $row["Unit"] . " " . $row["Type"] . "</td>
-                                    <td>" . $row["Generic"] . "</td>
-                                    <td>" . $row["SugPrice"] . "</td>
-                                    <td>" . $row["createDate"] . "</td>
-                                    <td class='" . $statusColor . "'>" . $activeStatus . "</td>
-                                    <td>" . $row["InventoryID"] . "</td>
-                                     
-                                </tr>
-                             ";
+                        <tr>
+                            <td>" . $row["itemCode"] . "</td>
+                            <td>" . $row["Unit"] . " " . $row["Type"] . "</td>
+                            <td>" . $row["Generic"] . "</td>
+                            <td>" . $row["SugPrice"] . "</td>
+                            <td>" . $row["createDate"] . "</td>
+                            <td>
+                                <div class='d-flex w-100 h-100'>
+                                    <h6 style='font-size: 13px' class='p-1 alert m-auto " . $statusColor . "'>" . $activeStatus . "</h6>
+                                </div>
+                            </td>
+                            <td class='invisible'>" . $row["InventoryID"] . "</td>
+                        </tr>
+                        ";
                 }
                 ?>
             </tbody>
@@ -97,8 +99,7 @@
     <script type="module">
         import {
             searchColumn,
-            handleArchive
-
+            handleArchiveClick,
         } from "../costum-js/datatables.js";
         $(document).ready(function() {
 
@@ -142,73 +143,19 @@
                         }
                     }
                 ],
-                columnDefs: [{
-                    data: null,
-                    defaultContent: '<button class="btn btn-secondary archive-btn">Archive</button>',
-                    targets: -1
-                }],
                 initComplete: function() {
-                    var api = this.api();
-
-                    // For each column
-                    api
-                        .columns()
-                        .eq(0)
-                        .each(function(colIdx) {
-                            // Set the header cell to contain the input element
-                            var cell = $('.filters th').eq(
-                                $(api.column(colIdx).header()).index()
-                            );
-                            var title = $(cell).text();
-                            $(cell).html('<input type="text" class="form-control" placeholder="' +
-                                title + '" />');
-
-                            // On every keypress in this input
-                            $(
-                                    'input',
-                                    $('.filters th').eq($(api.column(colIdx).header()).index())
-                                )
-                                .off('keyup change')
-                                .on('change', function(e) {
-                                    // Get the search value
-                                    $(this).attr('title', $(this).val());
-                                    var regexr =
-                                        '({search})'; //$(this).parents('th').find('select').val();
-
-                                    var cursorPosition = this.selectionStart;
-                                    // Search the column for that value
-                                    api
-                                        .column(colIdx)
-                                        .search(
-                                            this.value != '' ?
-                                            regexr.replace('{search}', '(((' + this.value +
-                                                ')))') :
-                                            '',
-                                            this.value != '',
-                                            this.value == ''
-                                        )
-                                        .draw();
-                                })
-                                .on('keyup', function(e) {
-                                    e.stopPropagation();
-
-                                    $(this).trigger('change');
-                                    $(this)
-                                        .focus()[0]
-                                        .setSelectionRange(cursorPosition, cursorPosition);
-                                });
-                        });
+                    searchColumn(this.api());
                 },
                 columnDefs: [{
                     targets: -1,
                     render: (id) => {
-                        return `<button class="btn btn-secondary archive-btn" id="${id}">Archive</button>`
+                        return `<button class="btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>`
                     },
                     "searchable": false
                 }]
             });
 
-            handleArchive(table, 0, "/zarate/inventory/archive.php");
+            handleArchiveClick(table, 0, "/zarate/inventory/archive.php", 5);
         });
     </script>
 
