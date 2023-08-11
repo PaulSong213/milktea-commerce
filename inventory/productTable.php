@@ -64,7 +64,7 @@
 
                 while ($row = $result->fetch_assoc()) {
                     $activeStatus = ($row["Status"]  == "1") ? "Active"  : "Inactive"; //condition for status
-                    $statusColor = ($row["Status"]  == "1") ? "bg-success"  : "bg-danger"; //condition for color bg.
+                    $statusColor = ($row["Status"]  == "1") ? "alert-success"  : "alert-danger"; //condition for color bg.
                     echo "
                         <tr>
                             <td>" . $row["itemCode"] . "</td>
@@ -73,11 +73,11 @@
                             <td>" . $row["SugPrice"] . "</td>
                             <td>" . $row["createDate"] . "</td>
                             <td>
-                                <div class='d-flex w-100 h-100 pt-2'>
-                                    <div class='badge text-white m-auto " . $statusColor . "'>" . $activeStatus . "</div>
+                                <div class='d-flex w-100 h-100'>
+                                    <h6 style='font-size: 13px' class='p-1 alert m-auto " . $statusColor . "'>" . $activeStatus . "</h6>
                                 </div>
                             </td>
-                            <td>" . $row["InventoryID"] . "</td>
+                            <td class='invisible'>" . $row["InventoryID"] . "</td>
                         </tr>
                         ";
                 }
@@ -143,18 +143,13 @@
                         }
                     }
                 ],
-                columnDefs: [{
-                    data: null,
-                    defaultContent: '<button class="btn btn-secondary archive-btn">Archive</button>',
-                    targets: -1
-                }],
                 initComplete: function() {
-                    searchColumn(this.apit());
+                    searchColumn(this.api());
                 },
                 columnDefs: [{
                     targets: -1,
                     render: (id) => {
-                        return `<button class="btn btn-secondary archive-btn" id="${id}">Archive</button>`
+                        return `<button class="btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>`
                     },
                     "searchable": false
                 }]
@@ -201,12 +196,9 @@
                 if (itemCode.trim() === "" || unit.trim() === "" || description.trim() === "") {
                     swal.fire("Please fill in all required fields.");
                     return false; // Prevent closing modal and form submission
-                } else {
-                    $('#addItemModal').modal('hide'); // Close the modal after saving
                 }
             });
         });
-
         $('#Closemodal1, #Closemodal2').click(function() {
             $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
         });

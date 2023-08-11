@@ -68,19 +68,22 @@ export function handleArchiveClick(table, titleIndex, apiEndpoint, statusIndex) 
     table.on('click', '.archive-btn', function (e) {
 
         const id = e.target.id;
-
         // Get the data for the row that was clicked on
         let data = table.row(e.target.closest('tr')).data();
+        const status = data[statusIndex];
+        console.log(status);
+        const action = status.includes("Active") ? "Archive" : "Unarchive";
+        const actionColor = status.includes("Active") ? "btn-danger" : "btn-success";
         // Get the title for the row that was clicked on
         let title = data[titleIndex] || "Data";
         // Open a sweet alert to confirm the action
         Swal.fire({
-            title: `Do you want to archive ${title}?`,
+            title: `Do you want to ${action} ${title}?`,
             showCancelButton: true,
-            confirmButtonText: 'Archive',
+            confirmButtonText: action,
             buttonsStyling: false,
             customClass: {
-                confirmButton: 'btn btn-danger mx-2',
+                confirmButton: `btn ${actionColor} mx-2`,
                 cancelButton: 'btn btn-secondary mx-2'
             },
             html: `
@@ -108,6 +111,7 @@ function renderArchiveButton(table, statusIndex) {
         let isActive = statusElement.includes("Active");
         $(this).text(isActive ? 'Archive' : 'Unarchive');
         $(this).addClass(isActive ? 'bg-secondary' : 'btn-success');
+        $(this).parent().removeClass('invisible');
     });
     handleArchiveUIonRedraw(table, statusIndex);
 }
