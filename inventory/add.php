@@ -1,3 +1,7 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
 <form method="POST" action="addfunction.php">
 
     <div class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel"
@@ -31,19 +35,19 @@
                         placeholder="Enter description" required></textarea>
 
                     <label for="Generic">Generic:</label>
-                    <input type="text" id="Generic" class="form-control" name="Generic" placeholder="Enter Generic">
+                    <input type="text" id="Generic" class="form-control" name="Generic" placeholder="Enter Generic" required>
 
                     <label for="Sugprice">Sug Price:</label>
-                    <input type="number" id="Sugprice" class="form-control" name="Sugprice" placeholder="0.0000">
+                    <input type="number" id="Sugprice" class="form-control" name="Sugprice" placeholder="0.0000" required>
 
                     <label for="MWprice">MW Price:</label>
-                    <input type="number" id="MWprice" class="form-control" name="MWprice" placeholder="0.00">
+                    <input type="number" id="MWprice" class="form-control" name="MWprice" placeholder="0.00" required>
 
                     <label for="IPDprice">IPD Percent:</label>
-                    <input type="number" id="IPDprice" class="form-control" name="IPDprice" placeholder="0.00 %">
+                    <input type="number" id="IPDprice" class="form-control" name="IPDprice" placeholder="0.00 %" required>
 
                     <label for="Ppriceuse">Ppriceuse:</label>
-                    <input type="number" id="Ppriceuse" class="form-control" name="Ppriceuse" placeholder="0.0000">
+                    <input type="number" id="Ppriceuse" class="form-control" name="Ppriceuse" placeholder="0.0000" required>
                     <!-- Add more fields as needed -->
                 </div>
                 <div class="modal-footer">
@@ -54,7 +58,4 @@
         </div>
     </div>
 </form>
-
-
-
-
+</html>
