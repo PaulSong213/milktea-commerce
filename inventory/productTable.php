@@ -211,7 +211,7 @@
                 }]
             });
 
-            handleArchive(table, 0, "/zarate/inventory/archive.php");
+            handleArchive(table, 0, "/zarate/inventory/archive.php", 8);
         });
     </script>
 
