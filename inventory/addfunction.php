@@ -5,6 +5,7 @@ $dbName = 'zaratehospital';
 $username = 'root';
 $password = '';
 
+
 // Establish a database connection
 $conn = new mysqli($host, $username, $password, $dbName);
 
@@ -23,9 +24,10 @@ if (isset($_POST['SaveItem'])) {
     $mwPrice = $_POST['MWprice'];
     $ipdPrice = $_POST['IPDprice'];
     $ppriceUse = $_POST['Ppriceuse'];
+    $currentDateTime = date('Y-m-d H:i:s');
 
-    $sql = "INSERT INTO inventory_tb (itemCode, Type, Unit, Description, Generic, SugPrice, MWprice, IPDprice, Ppriceuse)
-    VALUES ('$itemCode', '$type', '$unit', '$description', '$generic', '$sugPrice', '$mwPrice', '$ipdPrice', '$ppriceUse')";
+    $sql = "INSERT INTO inventory_tb (itemCode, Type, Unit, Description, Generic, SugPrice, MWprice, IPDprice, Ppriceuse,createDate)
+    VALUES ('$itemCode', '$type', '$unit', '$description', '$generic', '$sugPrice', '$mwPrice', '$ipdPrice', '$ppriceUse',' $currentDateTime')";
 
     $result = mysqli_query($conn, $sql);
 

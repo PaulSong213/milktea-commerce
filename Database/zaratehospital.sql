@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 10, 2023 at 05:11 AM
+-- Generation Time: Aug 11, 2023 at 04:08 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -39,15 +39,18 @@ CREATE TABLE `inventory_tb` (
   `IPDprice` double NOT NULL,
   `Ppriceuse` double NOT NULL,
   `Status` tinyint(1) NOT NULL,
-  `Type` varchar(300) NOT NULL DEFAULT 'pcs'
+  `Type` varchar(300) NOT NULL DEFAULT 'pcs',
+  `createDate` date DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `inventory_tb`
 --
 
-INSERT INTO `inventory_tb` (`InventoryID`, `itemTypeID`, `itemCode`, `Unit`, `Description`, `Generic`, `SugPrice`, `MWprice`, `IPDprice`, `Ppriceuse`, `Status`, `Type`) VALUES
-(2, 1, 'item code', 1, 'description', 'generic', 0, 0, 0, 0, 0, 'pcs');
+INSERT INTO `inventory_tb` (`InventoryID`, `itemTypeID`, `itemCode`, `Unit`, `Description`, `Generic`, `SugPrice`, `MWprice`, `IPDprice`, `Ppriceuse`, `Status`, `Type`, `createDate`) VALUES
+(2, 1, 'Neozep', 100, 'This medicine is used for the relief of clogged nose, postnasal drip, headache, body aches, and fever associated with the common cold, sinusitis, flu, and other minor respiratory tract infections. ', 'Chlorphenamine Maleate', 50, 50, 10, 20, 1, 'pcs', '2023-03-02'),
+(4, 3, 'Biogesic', 100, 'is a medication that is typically used to relieve mild to moderate pain such as headache, backache, menstrual cramps, muscular strain, minor arthritis pain, toothache, and reduce fevers caused by illnesses such as the common cold and flu.', 'Paracetamol', 40, 10, 10, 10, 1, 'pcs', '2023-08-07'),
+(5, 5, 'Zyrtec', 100, 'Cetirizine is an antihistamine medicine that helps the symptoms of allergies. It\'s used to treat: hay fever. conjunctivitis (red, itchy eye)', 'Cetirizine', 40, 10, 10, 10, 1, 'pcs', '2023-12-17');
 
 --
 -- Indexes for dumped tables
@@ -67,7 +70,7 @@ ALTER TABLE `inventory_tb`
 -- AUTO_INCREMENT for table `inventory_tb`
 --
 ALTER TABLE `inventory_tb`
-  MODIFY `InventoryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `InventoryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
