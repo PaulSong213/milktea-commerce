@@ -12,7 +12,7 @@ if (!isset($_POST["InventoryID"])) {
     die();
 };
 
-require_once '../php/connect.php';
+require_once '../../php/connect.php';
 $connection = connect();
 
 // get current status
@@ -37,4 +37,4 @@ if (mysqli_affected_rows($connection) > 0) {
     $_SESSION["alert_message_error"] = false;
 }
 
-header("Location: ./index.php");
+header("Location: ../index.php");

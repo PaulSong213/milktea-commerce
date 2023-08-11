@@ -42,6 +42,7 @@
     <div class="table w-100 p-4">
         <h2 class="mt-4 mb-5">INVENTORY SYSTEM</h2>
         <?php include 'add.php'; ?>
+        <?php include './view/view.php'; ?>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
@@ -110,7 +111,11 @@
 
         import {
             handleEditClick
-        } from "./editData.js";
+        } from "./edit/editData.js";
+        import {
+            handleViewClick
+        } from './view/viewData.js'
+
         $(document).ready(function() {
 
             // clone header to add search by columns
@@ -163,7 +168,7 @@
                         const id = data.InventoryID;
                         return `
                         <div class="d-flex flex-column">
-                            <button class="btn action-btn btn-primary w-100 mx-auto view-btn" data-item='${JSON.stringify(data)}' id="view_${id}">View</button>
+                            <button class="btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
                             <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
                             <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>
                         </div>
@@ -175,8 +180,9 @@
                     [5, 'asc']
                 ]
             });
-            handleArchiveClick(table, 0, "/zarate/inventory/archive.php", 6);
+            handleArchiveClick(table, 0, "./edit/archive.php", 6);
             handleEditClick("#addItemModal");
+            handleViewClick();
         });
     </script>
     <script type="text/javascript">

@@ -94,7 +94,7 @@ export function handleArchiveClick(table, titleIndex, apiEndpoint, statusIndex) 
                 cancelButton: 'btn btn-secondary mx-2'
             },
             html: `
-            <form id="archiveForm" action="/zarate/inventory/archive.php" method="post">
+            <form id="archiveForm" action="${apiEndpoint}" method="post">
                 <input type="hidden" name="InventoryID" value="${id}">
             </form>
             `
