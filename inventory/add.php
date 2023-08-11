@@ -36,7 +36,7 @@
 </head>
 
 <body>
-    <form method="POST" action="addfunction.php">
+    <form method="POST" action="addfunction.php" autocomplete="on">
 
         <div class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel"
             aria-hidden="true">
@@ -56,39 +56,8 @@
 
                         <div id="container">
                             <label for="type">Type</label>
-                            <input type="text" class="form-control" id="type" name="type" placeholder="Input Type">
-                            <div id="suggestions"></div>
+                            <input type="text" class="form-control" id="type" name="type" placeholder="Input Type" autocomplete="on">
                         </div>
-
-                        <script>
-                            const inputElement = document.getElementById("type");
-                            const suggestionsElement = document.getElementById("suggestions");
-
-                            const suggestions = ["Pcs", "Boxes", "MiliLiters", "Liters", "Unit"];
-
-                            inputElement.addEventListener("input", function () {
-                                const inputValue = inputElement.value.toLowerCase();
-                                const filteredSuggestions = suggestions.filter(suggestion => suggestion.toLowerCase().includes(inputValue));
-
-                                if (filteredSuggestions.length > 0) {
-                                    suggestionsElement.classList.add("active");
-                                } else {
-                                    suggestionsElement.classList.remove("active");
-                                }
-
-                                suggestionsElement.innerHTML = "";
-                                filteredSuggestions.forEach(suggestion => {
-                                    const suggestionItem = document.createElement("div");
-                                    suggestionItem.textContent = suggestion;
-                                    suggestionItem.addEventListener("click", function () {
-                                        inputElement.value = suggestion;
-                                        suggestionsElement.classList.remove("active");
-                                    });
-                                    suggestionsElement.appendChild(suggestionItem);
-                                });
-                            });
-                        </script>
-
                         <label for="Unit">Unit:</label>
                         <input type="number" id="Unit" class="form-control" name="Unit" placeholder="0"
                             required>
