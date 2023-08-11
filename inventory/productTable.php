@@ -79,7 +79,7 @@
                                     <td>" . $row["MWprice"] . "</td>
                                     <td>" . $row["IPDprice"] . "</td>
                                     <td>" . $row["Ppriceuse"] . "</td>
-                                    <td class='".$statusColor."'>". $activeStatus . "</td>
+                                    <td class='" . $statusColor . "'>" . $activeStatus . "</td>
                                     <td>" . $row["InventoryID"] . "</td>
                                 </tr>
                              ";
@@ -102,8 +102,7 @@
     <script type="module">
         import {
             searchColumn,
-            handleArchive
-
+            handleArchiveClick,
         } from "../costum-js/datatables.js";
         $(document).ready(function() {
 
@@ -203,6 +202,7 @@
                                         .setSelectionRange(cursorPosition, cursorPosition);
                                 });
                         });
+
                 },
                 columnDefs: [{
                     targets: -1,
@@ -213,7 +213,7 @@
                 }]
             });
 
-            handleArchive(table, 0, "/zarate/inventory/archive.php", 8);
+            handleArchiveClick(table, 0, "/zarate/inventory/archive.php", 9);
         });
     </script>
 
@@ -257,10 +257,6 @@
                 } else {
                     $('#addItemModal').modal('hide'); // Close the modal after saving
                 }
-
-
-
-
             });
         });
 

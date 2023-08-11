@@ -61,10 +61,8 @@ export function searchColumn(api) {
 * @param  {Number} [tableIndex = "Data"] table index to show as title in the alert
 * @param  {String} apiEndpoint api endpoint to send the archive request to
 */
-export function handleArchive(table, titleIndex, apiEndpoint, statusIndex) {
-
-    handleArchiveUI(table, statusIndex); //archive button ui
-
+export function handleArchiveClick(table, titleIndex, apiEndpoint, statusIndex) {
+    renderArchiveButton(table, statusIndex);
     // When the archive button is clicked, open a sweet alert
     // to ask the user to confirm the action.
     table.on('click', '.archive-btn', function (e) {
@@ -97,14 +95,21 @@ export function handleArchive(table, titleIndex, apiEndpoint, statusIndex) {
     })
 }
 
-function handleArchiveUI(table, statusIndex) {
-    console.log('test');
+function handleArchiveUIonRedraw(table, statusIndex) {
+    console.log('statusIndex', statusIndex);
     table.on('draw', function () {
-        $('.archive-btn').each(function (i, obj) {
-            let data = table.row(e.target.closest('tr')).data();
-            let status = data[statusIndex];
-            console.log(obj);
-            $(this).text(status === 1 ? 'Archive' : 'Unarchive');
-        });
+        renderArchiveButton(table, statusIndex);
     });
+}
+
+function renderArchiveButton(table, statusIndex) {
+    $('.archive-btn').each(function (i, e) {
+        let data = table.row(e.closest('tr')).data();
+        let status = data[statusIndex];
+        console.log(status);
+        $(this).text(status === "Active" ? 'Archive' : 'Unarchive');
+        $(this).addClass(status === "Active" ? 'bg-secondary' : 'btn-success');
+        // $(this).removeClass("invisible");
+    });
+    handleArchiveUIonRedraw(table, statusIndex);
 }
