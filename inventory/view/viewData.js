@@ -39,6 +39,7 @@ export function handleViewClick() {
     ];
     $(".view-btn").on('click', function (event) {
         let data = JSON.parse($(this).attr("data-item"));
+        $("#viewModalBody").html("");
         for (let i = 0; i < viewDatas.length; i++) {
             const viewData = viewDatas[i];
             $("#viewModalBody").append(`
