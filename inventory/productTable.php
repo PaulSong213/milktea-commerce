@@ -55,10 +55,10 @@
             </thead>
             <tbody>
                 <?php
-                $servername = "localhost";
-                $username = "root";
-                $Password = "";
-                $database = "zaratehospital";
+                $servername = "localhost"; //localhost
+                $username = "root"; //username
+                $Password = ""; //password
+                $database = "zaratehospital"; //database
 
                 $connection = new mysqli($servername, $username, $Password, $database);
 
@@ -66,6 +66,8 @@
                 $result = $connection->query($sql);
 
                 while ($row = $result->fetch_assoc()) {
+                    $activeStatus = ($row["Status"]  == "1") ? "Active"  : "Inactive"; //condition for status
+                    $statusColor = ($row["Status"]  == "1") ? "bg-success"  : "bg-danger"; //condition for color bg.
                     echo "
                                 <tr>
                                    
@@ -77,7 +79,7 @@
                                     <td>" . $row["MWprice"] . "</td>
                                     <td>" . $row["IPDprice"] . "</td>
                                     <td>" . $row["Ppriceuse"] . "</td>
-                                    <td>" . $row["Status"] . "</td>
+                                    <td class='".$statusColor."'>". $activeStatus . "</td>
                                     <td>" . $row["InventoryID"] . "</td>
                                 </tr>
                              ";
