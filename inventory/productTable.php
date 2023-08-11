@@ -45,6 +45,7 @@
                     <th>Generic</th>
                     <th>Sug Price</th>
                     <th>Date Added</th>
+                    <th>Modified Date</th>
                     <th>Status</th>
                     <th>Archive</th>
                 </tr>
@@ -71,6 +72,7 @@
                             <td>" . $row["Generic"] . "</td>
                             <td>" . $row["SugPrice"] . "</td>
                             <td>" . $row["createDate"] . "</td>
+                            <td>" . $row["modifiedDate"] . "</td>
                             <td>
                                 <div class='d-flex w-100 h-100'>
                                     <h6 style='font-size: 13px' class='p-1 alert m-auto " . $statusColor . "'>" . $activeStatus . "</h6>
