@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -15,7 +14,8 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="addItemModalLabel">Add Item</h5>
-                        <button type="button" class="close" id="Closemodal1" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" id="Closemodal1" data-dismiss="modal"
+                            aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -23,7 +23,7 @@
                         <!-- Your modal content goes here -->
                         <label for="item_code">Item Code:</label>
                         <input type="text" id="item_code" name="item_code" class="form-control"
-                            placeholder="Enter item code" required autocomplete="on">
+                            placeholder="Enter item code"  autocomplete="on" required>
                         <label for="type">Type</label>
                         <input type="text" class="form-control" id="type" name="type" placeholder="Input Type"
                             autocomplete="on">
@@ -35,8 +35,8 @@
                             placeholder="Enter description" required autocomplete="on"></textarea>
 
                         <label for="Generic">Generic:</label>
-                        <input type="text" id="Generic" class="form-control" name="Generic" placeholder="Enter Generic"
-                            required autocomplete="on">
+                        <input type="text" id="Generic" class="form-control" name="Generic"
+                            placeholder="Enter Generic" required autocomplete="on">
 
                         <label for="Sugprice">Sug Price:</label>
                         <input type="number" id="Sugprice" class="form-control" name="Sugprice" placeholder="0.0000"
@@ -47,8 +47,8 @@
                             required autocomplete="on">
 
                         <label for="IPDprice">IPD Percent:</label>
-                        <input type="number" id="IPDprice" class="form-control" name="IPDprice" placeholder="0.00 %"
-                            required autocomplete="on">
+                        <input type="number" id="IPDprice" class="form-control" name="IPDprice"
+                            placeholder="0.00 %" required autocomplete="on">
 
                         <label for="Ppriceuse">Ppriceuse:</label>
                         <input type="number" id="Ppriceuse" class="form-control" name="Ppriceuse" placeholder="0.0000"
@@ -65,5 +65,5 @@
             </div>
         </div>
     </form>
-
+</body>
 </html>
