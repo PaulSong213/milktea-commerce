@@ -40,7 +40,6 @@
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-
                     <th>Item Code</th>
                     <th>Unit</th>
                     <th>Generic</th>
@@ -158,20 +157,6 @@
             handleArchiveClick(table, 0, "/zarate/inventory/archive.php", 5);
         });
     </script>
-
-    <script>
-        $('#saveItemButton').click(function() {
-            $('#addItemModal').modal('hide'); // Close the modal after saving
-        });
-
-        $('#Closemodal2').click(function() {
-            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
-        });
-        $('#Closemodal1').click(function() {
-            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
-        });
-    </script>
-
     <script type="text/javascript">
         $(document).ready(function() {
             $(".xp-menubar").on('click', function() {
@@ -186,16 +171,15 @@
         });
     </script>
     <script>
-        var value = false;
         $(document).ready(function() {
             $('#saveItemButton').click(function() {
                 var itemCode = $('#item_code').val();
                 var unit = $('#Unit').val();
                 var description = $('#description').val();
-
                 if (itemCode.trim() === "" || unit.trim() === "" || description.trim() === "") {
-                    swal.fire("Please fill in all required fields.");
                     return false; // Prevent closing modal and form submission
+                }else{
+                    $('#addItemModal').modal('hide'); // Close the modal after saving
                 }
             });
         });
@@ -204,5 +188,4 @@
         });
     </script>
 </body>
-
 </html>
