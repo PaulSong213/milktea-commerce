@@ -50,12 +50,9 @@
                     <th>Generic</th>
                     <th>Sug Price</th>
                     <th>Date Added</th>
-                    <<<<<<< HEAD <th>Date Modified</th>
-                        =======
-                        <th>Modified Date</th>
-                        >>>>>>> 67dbf2939a67fb659dee663e3201f3cb5426d22b
-                        <th>Status</th>
-                        <th>Actions</th>
+                    <th>Modified Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -175,7 +172,7 @@
                     "searchable": false
                 }],
                 order: [
-                    [5, 'desc']
+                    [5, 'asc']
                 ]
             });
             handleArchiveClick(table, 0, "/zarate/inventory/archive.php", 6);
