@@ -96,7 +96,6 @@ export function handleArchiveClick(table, titleIndex, apiEndpoint, statusIndex) 
 }
 
 function handleArchiveUIonRedraw(table, statusIndex) {
-    console.log('statusIndex', statusIndex);
     table.on('draw', function () {
         renderArchiveButton(table, statusIndex);
     });
@@ -105,11 +104,10 @@ function handleArchiveUIonRedraw(table, statusIndex) {
 function renderArchiveButton(table, statusIndex) {
     $('.archive-btn').each(function (i, e) {
         let data = table.row(e.closest('tr')).data();
-        let status = data[statusIndex];
-        console.log(status);
-        $(this).text(status === "Active" ? 'Archive' : 'Unarchive');
-        $(this).addClass(status === "Active" ? 'bg-secondary' : 'btn-success');
-        // $(this).removeClass("invisible");
+        let statusElement = data[statusIndex];
+        let isActive = statusElement.includes("Active");
+        $(this).text(isActive ? 'Archive' : 'Unarchive');
+        $(this).addClass(isActive ? 'bg-secondary' : 'btn-success');
     });
     handleArchiveUIonRedraw(table, statusIndex);
 }
