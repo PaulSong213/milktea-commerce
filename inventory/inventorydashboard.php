@@ -244,28 +244,28 @@
                                 data: dailyData.map(item => item.total_quantity),
                                 borderColor: '#007bff',
                                 backgroundColor: '#007bff',
-                                fill: true
+                                fill: false
                             },
                             {
                                 label: 'Weekly Summary',
                                 data: weeklyData.map(item => item.total_quantity),
                                 borderColor: '#17a2b8',
                                 backgroundColor: '#17a2b8',
-                                fill: true
+                                fill: false
                             },
                             {
                                 label: 'Monthly Summary',
                                 data: monthlyData.map(item => item.total_quantity),
                                 borderColor: '#28a745',
                                 backgroundColor: '#28a745',
-                                fill: true
+                                fill: false
                             },
                             {
                                 label: 'Yearly Summary',
                                 data: yearlyData.map(item => item.total_quantity),
                                 borderColor: '#ffc107',
                                 backgroundColor: '#ffc107',
-                                fill: true 
+                                fill: false 
                             }
                         ]
                     }
