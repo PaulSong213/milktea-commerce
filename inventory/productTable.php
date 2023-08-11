@@ -34,19 +34,24 @@
 </head>
 
 <body>
-    <div class="table w-100">
+    <div class="table w-100 p-4">
         <h2 class="mt-4 mb-5">INVENTORY SYSTEM</h2>
         <?php include 'add.php'; ?>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>Date</th>
+
                     <th>Item Code</th>
                     <th>Unit</th>
                     <th>Generic</th>
                     <th>Sug Price</th>
-                    <th>Status</th>
-                    <th>Archive</th>
+                    <<<<<<< HEAD=======<th>MW Price</th>
+                        <th>IPD Price</th>
+                        <th>Ppricause</th>
+                        <th>Added Date-Time</th>
+                        >>>>>>> db884ddbc8af80f99db4c2111c2811aaf5f3cc42
+                        <th>Status</th>
+                        <th>Archive</th>
                 </tr>
             </thead>
             <tbody>
@@ -71,7 +76,7 @@
                                     <td>" . $row["Generic"] . "</td>
                                     <td>" . $row["SugPrice"] . "</td>
                                     <td>" . $row["createDate"] . "</td>
-                                    <td class='".$statusColor."'>". $activeStatus . "</td>
+                                    <td class='" . $statusColor . "'>" . $activeStatus . "</td>
                                     <td>" . $row["InventoryID"] . "</td>
                                 </tr>
                              ";
@@ -249,10 +254,6 @@
                 } else {
                     $('#addItemModal').modal('hide'); // Close the modal after saving
                 }
-
-
-
-
             });
         });
 
