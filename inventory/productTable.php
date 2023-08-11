@@ -46,9 +46,6 @@
                     <th>Unit Type</th>
                     <th>Generic</th>
                     <th>Sug Price</th>
-                    <th>MW Price</th>
-                    <th>IPD Price</th>
-                    <th>Ppricause</th>
                     <th>Added Date-Time</th>
                     <th>Status</th>
                     <th>Archive</th>
@@ -78,9 +75,6 @@
                                     <td>" . $row["Type"] . "</td>
                                     <td>" . $row["Generic"] . "</td>
                                     <td>" . $row["SugPrice"] . "</td>
-                                    <td>" . $row["MWprice"] . "</td>
-                                    <td>" . $row["IPDprice"] . "</td>
-                                    <td>" . $row["Ppriceuse"] . "</td>
                                     <td>" . $row["createDate"] . "</td>
                                     <td class='".$statusColor."'>". $activeStatus . "</td>
                                     <td>" . $row["InventoryID"] . "</td>
@@ -258,12 +252,9 @@
                 if (itemCode.trim() === "" || unit.trim() === "" || description.trim() === "") {
                     swal.fire("Please fill in all required fields.");
                     return false; // Prevent closing modal and form submission
-                } else {
-                    $('#addItemModal').modal('hide'); // Close the modal after saving
                 }
             });
         });
-
         $('#Closemodal1, #Closemodal2').click(function() {
             $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
         });
