@@ -27,17 +27,14 @@
 
 <body>
     <div class="d-flex flex-direction-row">
-        <div class="d-block">
-            <?php include('../sidebar.php') ?>
-        </div>
         <div class="container mt-5">
-            <h1 class="text-center mb-4">Inventory Dashboard</h1>
+            <h1 class="text-center mb-4 ">Inventory Summary Dashboard</h1>
 
             <div class="row">
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Daily Stock Summary
+                            Daily Product Stock Summary
                         </div>
                         <div class="card-body">
                             <h2 class="text-center">
@@ -76,8 +73,44 @@
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="card">
+                        <div class="card-header bg-info text-white">
+                            Weekly Product Stock Summary
+                        </div>
+                        <div class="card-body">
+                            <h2 class="text-center">
+                                <?php
+                                // Database configuration
+                                $host = 'localhost';
+                                $dbName = 'zaratehospital';
+                                $username = 'root';
+                                $password = '';
+                                // Establish a database connection
+                                $db = new mysqli($host, $username, $password, $dbName);
+                                // Check connection
+                                if ($db->connect_error) {
+                                    die("Connection failed: " . $db->connect_error);
+                                }
+
+                                // Get weekly stock summary
+                                $currentWeek = date('W');
+                                $weeklySummaryQuery = "SELECT SUM(Unit) as total_unit FROM inventory_tb WHERE WEEK(createDate) = '$currentWeek'";
+                                $weeklySummaryResult = $db->query($weeklySummaryQuery);
+                                $weeklySummary = $weeklySummaryResult->fetch_assoc();
+
+                                echo $weeklySummary['total_unit'];
+
+                                // Close the database connection
+                                $db->close();
+                                ?>
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card">
                         <div class="card-header bg-success text-white">
-                            Monthly Stock Summary
+                            Monthly Product Stock Summary
                         </div>
                         <div class="card-body">
                             <h2 class="text-center">
@@ -117,7 +150,7 @@
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-header bg-warning text-white">
-                            Yearly Stock Summary
+                            Yearly Product Stock Summary
                         </div>
                         <div class="card-body">
                             <h2 class="text-center">
@@ -155,42 +188,42 @@
             </div>
 
             <div class="chart-container">
+
+                <?php
+                // Database configuration
+                $host = 'localhost';
+                $dbName = 'zaratehospital';
+                $username = 'root';
+                $password = '';
+                // Establish a database connection
                 
-            <?php
-            // Database configuration
-            $host = 'localhost';
-            $dbName = 'zaratehospital';
-            $username = 'root';
-            $password = '';
-            // Establish a database connection
-            
-            $db = new mysqli($host, $username, $password, $dbName);
-            // Connect
-            // Check connection
-            if ($db->connect_error) {
-                die("Connection failed: " . $db->connect_error);
-            }
+                $db = new mysqli($host, $username, $password, $dbName);
+                // Connect
+                // Check connection
+                if ($db->connect_error) {
+                    die("Connection failed: " . $db->connect_error);
+                }
 
-            // Get daily summary
-            $dailySummaryQuery = "SELECT DATE(createDate) as date, SUM(Unit) as total_quantity FROM inventory_tb GROUP BY DATE(createDate)";
-            $dailySummaryResult = $db->query($dailySummaryQuery);
+                // Get daily summary
+                $dailySummaryQuery = "SELECT DATE(createDate) as date, SUM(Unit) as total_quantity FROM inventory_tb GROUP BY DATE(createDate)";
+                $dailySummaryResult = $db->query($dailySummaryQuery);
 
-            // Get weekly summary
-            $weeklySummaryQuery = "SELECT YEARWEEK(createDate) as week, SUM(Unit) as total_quantity FROM inventory_tb GROUP BY YEARWEEK(createDate)";
-            $weeklySummaryResult = $db->query($weeklySummaryQuery);
+                // Get weekly summary
+                $weeklySummaryQuery = "SELECT YEARWEEK(createDate) as week, SUM(Unit) as total_quantity FROM inventory_tb GROUP BY YEARWEEK(createDate)";
+                $weeklySummaryResult = $db->query($weeklySummaryQuery);
 
-            // Get monthly summary
-            $monthlySummaryQuery = "SELECT YEAR(createDate) as year, MONTH(createDate) as month, SUM(Unit) as total_quantity FROM inventory_tb GROUP BY YEAR(createDate), MONTH(createDate)";
-            $monthlySummaryResult = $db->query($monthlySummaryQuery);
+                // Get monthly summary
+                $monthlySummaryQuery = "SELECT YEAR(createDate) as year, MONTH(createDate) as month, SUM(Unit) as total_quantity FROM inventory_tb GROUP BY YEAR(createDate), MONTH(createDate)";
+                $monthlySummaryResult = $db->query($monthlySummaryQuery);
 
-            // Get yearly summary
-            $yearlySummaryQuery = "SELECT YEAR(createDate) as year, SUM(Unit) as total_quantity FROM inventory_tb GROUP BY YEAR(createDate)";
-            $yearlySummaryResult = $db->query($yearlySummaryQuery);
+                // Get yearly summary
+                $yearlySummaryQuery = "SELECT YEAR(createDate) as year, SUM(Unit) as total_quantity FROM inventory_tb GROUP BY YEAR(createDate)";
+                $yearlySummaryResult = $db->query($yearlySummaryQuery);
 
 
-            // Close the database connection
-            $db->close();
-            ?>
+                // Close the database connection
+                $db->close();
+                ?>
                 <canvas id="combinedChart"></canvas>
             </div>
 
@@ -209,26 +242,30 @@
                             {
                                 label: 'Daily Summary',
                                 data: dailyData.map(item => item.total_quantity),
-                                borderColor: 'blue',
+                                borderColor: '#007bff',
+                                backgroundColor: '#007bff',
                                 fill: false
                             },
                             {
                                 label: 'Weekly Summary',
                                 data: weeklyData.map(item => item.total_quantity),
-                                borderColor: 'green',
+                                borderColor: '#17a2b8',
+                                backgroundColor: '#17a2b8',
                                 fill: false
                             },
                             {
                                 label: 'Monthly Summary',
                                 data: monthlyData.map(item => item.total_quantity),
-                                borderColor: 'orange',
+                                borderColor: '#28a745',
+                                backgroundColor: '#28a745',
                                 fill: false
                             },
                             {
                                 label: 'Yearly Summary',
                                 data: yearlyData.map(item => item.total_quantity),
-                                borderColor: 'purple',
-                                fill: false
+                                borderColor: '#ffc107',
+                                backgroundColor: '#ffc107',
+                                fill: false 
                             }
                         ]
                     }
