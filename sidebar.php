@@ -242,9 +242,11 @@
     </nav>
 
     <div class="container-fluid" id="content">
-        <button class="btn btn-primary rounded-circle position-fixed p-3 bottom-0 end-0 m-4" id="toggleSidebar">
-            <span class="material-icons">table_rows</span>
-        </button>
+
+        <!-- <button class="btn btn-primary rounded-circle position-fixed p-3 bottom-0 end-0 m-4" id="toggleSidebar">
+            <span class="material-icons">tablerows</span>
+        </button> -->
+
         <!-- Your content here -->
     </div>
 
