@@ -90,7 +90,7 @@
                         </script>
 
                         <label for="Unit">Unit:</label>
-                        <input type="number" id="Unit" class="form-control" name="Unit" placeholder="Enter Unit"
+                        <input type="number" id="Unit" class="form-control" name="Unit" placeholder="0"
                             required>
 
                         <label for="description">Description</label>
