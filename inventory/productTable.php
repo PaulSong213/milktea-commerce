@@ -40,7 +40,7 @@
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>Date</th>
+                    <th>Added Date-Time</th>
                     <th>Item Code</th>
                     <th>Unit</th>
                     <th>Unit Type</th>
