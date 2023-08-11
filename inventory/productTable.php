@@ -30,6 +30,11 @@
         .dt-button-active {
             opacity: 1;
         }
+
+        .action-btn {
+            font-size: 10px;
+            margin-bottom: 5px;
+        }
     </style>
 </head>
 
@@ -47,7 +52,7 @@
                     <th>Date Added</th>
                     <th>Modified Date</th>
                     <th>Status</th>
-                    <th>Archive</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -71,14 +76,14 @@
                             <td>" . $row["Unit"] . " " . $row["Type"] . "</td>
                             <td>" . $row["Generic"] . "</td>
                             <td>" . $row["SugPrice"] . "</td>
-                            <td>" . $row["createDate"] . "</td>
-                            <td>" . $row["modifiedDate"] . "</td>
+                            <td>" . date("M d, Y h:i", strtotime($row["createDate"])) . "</td>
+                            <td>" . date("M d, Y h:i", strtotime($row["modifiedDate"])) . "</td>
                             <td>
                                 <div class='d-flex w-100 h-100'>
                                     <h6 style='font-size: 13px' class='p-1 alert m-auto " . $statusColor . "'>" . $activeStatus . "</h6>
                                 </div>
                             </td>
-                            <td class='invisible'>" . $row["InventoryID"] . "</td>
+                            <td class='invisible'>" . json_encode($row) . "</td>
                         </tr>
                         ";
                 }
@@ -102,6 +107,10 @@
             searchColumn,
             handleArchiveClick,
         } from "../costum-js/datatables.js";
+
+        import {
+            handleEditClick
+        } from "./editData.js";
         $(document).ready(function() {
 
             // clone header to add search by columns
@@ -149,14 +158,25 @@
                 },
                 columnDefs: [{
                     targets: -1,
-                    render: (id) => {
-                        return `<button class="btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>`
+                    render: (d) => {
+                        const data = JSON.parse(d);
+                        const id = data.InventoryID;
+                        return `
+                        <div class="d-flex flex-column">
+                            <button class="btn action-btn btn-primary w-100 mx-auto view-btn" data-item='${JSON.stringify(data)}' id="view_${id}">View</button>
+                            <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
+                            <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>
+                        </div>
+                        `
                     },
                     "searchable": false
-                }]
+                }],
+                order: [
+                    [5, 'asc']
+                ]
             });
-
-            handleArchiveClick(table, 0, "/zarate/inventory/archive.php", 5);
+            handleArchiveClick(table, 0, "/zarate/inventory/archive.php", 6);
+            handleEditClick("#addItemModal");
         });
     </script>
     <script type="text/javascript">
@@ -169,18 +189,17 @@
             $(".xp-menubar,.body-overlay").on('click', function() {
                 $('#sidebar,.body-overlay').toggleClass('show-nav');
             });
-
         });
     </script>
     <script>
         $(document).ready(function() {
             $('#saveItemButton').click(function() {
-                var itemCode = $('#item_code').val();
+                var itemCode = $('#itemCode').val();
                 var unit = $('#Unit').val();
                 var description = $('#description').val();
                 if (itemCode.trim() === "" || unit.trim() === "" || description.trim() === "") {
                     return false; // Prevent closing modal and form submission
-                }else{
+                } else {
                     $('#addItemModal').modal('hide'); // Close the modal after saving
                 }
             });
@@ -190,4 +209,5 @@
         });
     </script>
 </body>
+
 </html>

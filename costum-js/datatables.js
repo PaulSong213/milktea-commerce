@@ -15,6 +15,12 @@ export function searchColumn(api) {
                 $(api.column(colIdx).header()).index()
             );
             var title = $(cell).text();
+
+            // Skip the actions column
+            if (title == "Actions") {
+                $(cell).html('<div></div>');
+                return;
+            }
             $(cell).html('<input type="text" class="form-control" placeholder="' +
                 title + '" />');
 
@@ -63,6 +69,7 @@ export function searchColumn(api) {
 */
 export function handleArchiveClick(table, titleIndex, apiEndpoint, statusIndex) {
     renderArchiveButton(table, statusIndex);
+
     // When the archive button is clicked, open a sweet alert
     // to ask the user to confirm the action.
     table.on('click', '.archive-btn', function (e) {
@@ -111,7 +118,7 @@ function renderArchiveButton(table, statusIndex) {
         let isActive = statusElement.includes("Active");
         $(this).text(isActive ? 'Archive' : 'Unarchive');
         $(this).addClass(isActive ? 'bg-secondary' : 'btn-success');
-        $(this).parent().removeClass('invisible');
+        $(this).closest('td').removeClass('invisible');
     });
     handleArchiveUIonRedraw(table, statusIndex);
 }
