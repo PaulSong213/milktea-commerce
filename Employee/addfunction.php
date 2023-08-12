@@ -15,19 +15,25 @@ if ($conn->connect_error) {
 }
 
 if (isset($_POST['SaveItem'])) {
-    $itemCode = $_POST['item_code'];
-    $type = $_POST['type'];
-    $unit = $_POST['Unit'];
-    $description = $_POST['description'];
-    $generic = $_POST['Generic'];
-    $sugPrice = $_POST['Sugprice'];
-    $mwPrice = $_POST['MWprice'];
-    $ipdPrice = $_POST['IPDprice'];
-    $ppriceUse = $_POST['Ppriceuse'];
-    $currentDateTime = date('Y-m-d H:i:s');
+    $employeeCode = $_POST['employee_code'];
+    $lname = $_POST['employee_lname'];
+    $fname = $_POST['employee_fname'];
+    $mname = $_POST['employee_mname'];
+    $nickname = $_POST['employee_nickname'];
+    $bdate = $_POST['employee_bdate'];
+    $marital = $_POST['marital'];
+    $sex = $_POST['sex'];
+    $dept = $_POST['dept'];
+    $title = $_POST['title'];
+    $position = $_POST['position'];
+    $startDate = $_POST['employee_sdate'];
+    $username = $_POST['email'];
+    $password = $_POST['Password'];
+    $currentAddedDateTime = date('Y-m-d H:i:s');
+    $currentModifiedDateTime = date('Y-m-d H:i:s');
 
-    $sql = "INSERT INTO inventory_tb (itemCode, Type, Unit, Description, Generic, SugPrice, MWprice, IPDprice, Ppriceuse,createDate)
-    VALUES ('$itemCode', '$type', '$unit', '$description', '$generic', '$sugPrice', '$mwPrice', '$ipdPrice', '$ppriceUse',' $currentDateTime')";
+   $sql = "INSERT INTO employee_tb (EmployeeCode, lname, fname, mname, nickName, bDate, maritalStatus, sex, department, title, position, dateStart, userName, password, createDate, modifiedDate)
+        VALUES ('$employeeCode', '$lname', '$fname', '$mname', '$nickname', '$bdate', '$marital', '$sex', '$dept', '$title', '$position', '$startDate', '$username', '$password', '$currentAddedDateTime', '$currentModifiedDateTime')";
 
     $result = mysqli_query($conn, $sql);
 

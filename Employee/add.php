@@ -16,38 +16,75 @@
                 </div>
                 <div class="modal-body">
                     <!-- Your modal content goes here -->
-                    <label for="item_code">Item Code:</label>
-                    <input type="text" id="item_code" name="item_code" class="form-control"
-                        placeholder="Enter item code" required>
+                    <label for="item_code">Employee Code:</label>  <!--Employee Code -->
+                    <input type="number" id="item_code" name="employee_code" class="form-control" 
+                        placeholder="Enter employee code" required>
+                    
+                    <label for="item_code">Last Name:</label> <!--First Name -->
+                    <input type="text" id="item_code" name="employee_lname" class="form-control"
+                        placeholder="Enter employee last name" required>
+                    
+                     <label for="item_code">First Name:</label>
+                    <input type="text" id="item_code" name="employee_fname" class="form-control"
+                        placeholder="Enter employee first name" required>
 
-                    <label for="type">Type</label>
-                    <select class="form-control" id="type" name="type">
-                        <option value="type1">Type 1</option>
-                        <option value="type2">Type 2</option>
-                        <option value="type3">Type 3</option>
+                    <label for="item_code">Middle Name:</label>
+                    <input type="text" id="item_code" name="employee_mname" class="form-control"
+                        placeholder="Enter employee middle name" >
+
+                    <label for="item_code">Nickname:</label>
+                    <input type="text" id="item_code" name="employee_nickname" class="form-control"
+                        placeholder="Enter employee nickname" >
+
+                    <label for="item_code">Date of Birth:</label>
+                        <input type="date" id="item_code" name="employee_bdate" class="form-control"
+                        placeholder="Enter employee middle name" >
+
+                      <label for="type">Marital Status</label>
+                    <select class="form-control" id="type" name="marital">
+                        <option value="Single">Single</option>
+                        <option value="Married">Married</option>
                     </select>
 
-                    <label for="Unit">Unit:</label>
-                    <input type="number" id="Unit" class="form-control" name="Unit" placeholder="Enter Unit" required>
+                     <label for="type">Sex</label>
+                    <select class="form-control" id="type" name="sex">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                      <label for="type">Department</label>
+                    <select class="form-control" id="type" name="dept">
+                        <option value="IT Department">IT Department</option>
+                        <option value="Admin Department">Admin Department</option>
+                        <option value="Information Department">Information Department</option>
+                        <option value="HMO Department">HMO Department</option>
+                        <option value="OR Department">OR Department</option>
+                        <option value="IP Department">IP Department</option>
+                        <option value="Accounting Department">Accounting Department</option>
+                    </select>
 
-                    <label for="description">Description</label>
-                    <textarea class="form-control" id="description" name="description"
-                        placeholder="Enter description" required></textarea>
+                    <label for="type">Title</label>
+                    <select class="form-control" id="type" name="title">
+                        <option value="Doctor">Doctor</option>
+                        <option value="Nurse">Nurse</option>
+                        <option value="Intern">Intern</option>
+                    </select>
 
-                    <label for="Generic">Generic:</label>
-                    <input type="text" id="Generic" class="form-control" name="Generic" placeholder="Enter Generic" required>
+                     <label for="type">Position</label>
+                    <select class="form-control" id="type" name="position">
+                        <option value="">Administrator</option>
+                        <option value="type2">Owner</option>
+                        <option value="type3">Nurse</option>
+                    </select>
+                   
+                     <label for="item_code">Date Start:</label>
+                        <input type="date" id="item_code" name="employee_sdate" class="form-control"
+                        placeholder="Enter employee middle name" >
 
-                    <label for="Sugprice">Sug Price:</label>
-                    <input type="number" id="Sugprice" class="form-control" name="Sugprice" placeholder="0.0000" required>
+                    <label for="email">User Name:</label>
+                    <input type="email" id="email" class="form-control" name="email" placeholder="Enter employee email" required>
 
-                    <label for="MWprice">MW Price:</label>
-                    <input type="number" id="MWprice" class="form-control" name="MWprice" placeholder="0.00" required>
-
-                    <label for="IPDprice">IPD Percent:</label>
-                    <input type="number" id="IPDprice" class="form-control" name="IPDprice" placeholder="0.00 %" required>
-
-                    <label for="Ppriceuse">Ppriceuse:</label>
-                    <input type="number" id="Ppriceuse" class="form-control" name="Ppriceuse" placeholder="0.0000" required>
+                    <label for="Password">Password:</label>
+                    <input type="password" id="Password" class="form-control" name="Password" placeholder="Enter employee password" required>
                     <!-- Add more fields as needed -->
                 </div>
                 <div class="modal-footer">
