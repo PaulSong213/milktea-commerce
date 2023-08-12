@@ -36,10 +36,11 @@
 <body>
     <div class="table w-100 p-4">
         <h2 class="mt-4 mb-5">EMPLOYEE LIST</h2>
+        <?php include 'add.php'; ?>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-
+                    <th>Database ID</th>
                     <th>Employee Code</th>
                     <th>Employee Name</th>
                     <th>Title</th>
@@ -68,7 +69,7 @@
                     $statusColor = ($row["Status"]  == "1") ? "bg-success"  : "bg-danger"; //condition for color bg.
                     echo "
                                 <tr>
-
+                                    <td>" . $row["DatabaseID"] . "</td>
                                     <td>" . $row["EmployeeCode"] . "</td>
                                     <td> 
                                         " . $row["fname"] . " 
