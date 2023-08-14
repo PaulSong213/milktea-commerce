@@ -7,24 +7,24 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
 };
 
 // Data Validation
-if (!isset($_POST["InventoryID"])) {
+if (!isset($_POST["DatabaseID"])) {
     echo "InventoryID is required";
     die();
 };
 
-require_once '../../php/connect.php';
+require_once '../php/connect.php';
 $connection = connect();
 
 // get current status
-$sql = "SELECT status FROM inventory_tb WHERE InventoryID=" . $_POST["InventoryID"] . ";";
+$sql = "SELECT status FROM employee_tb WHERE DatabaseID=" . $_POST["DatabaseID"] . ";";
 $result = $connection->query($sql);
 $row = $result->fetch_assoc();
-$previousStatus = $row["status"];
+$previousStatus = $row["Status"];
 $newStatus = $previousStatus == 0 ? 1 : 0; // swap 1 and 0
 
 
 // Update new status
-$sql = "UPDATE inventory_tb SET status=" . $newStatus . " WHERE InventoryID=" . $_POST["InventoryID"] . ";";
+$sql = "UPDATE employee_tb SET Status=" . $newStatus . " WHERE DatabaseID=" . $_POST["DatabaseID"] . ";";
 $result = $connection->query($sql);
 
 if (mysqli_affected_rows($connection) > 0) {
@@ -37,4 +37,4 @@ if (mysqli_affected_rows($connection) > 0) {
     $_SESSION["alert_message_error"] = false;
 }
 
-header("Location: ../index.php");
+header("Location: ./index.php");

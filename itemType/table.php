@@ -35,32 +35,29 @@
             font-size: 10px;
             margin-bottom: 5px;
         }
+
+        td:nth-child(2) {
+            max-width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     </style>
 </head>
 
 <body>
     <div class="table w-100 p-4">
-        <h2 class="mt-4 mb-5">INVENTORY SYSTEM</h2>
+        <h2 class="mt-4 mb-5">ITEM TYPE</h2>
         <?php include './add/add.php'; ?>
         <?php include './view/view.php'; ?>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>Item Code</th>
-                    <th>Unit</th>
-                    <th>Generic</th>
-                    <th>Sug Price</th>
-<<<<<<< HEAD
-                    <th>Added Date-Time</th>
-                    <th>Modified Date</th>
-                    <th>Status</th>
-                    <th>Archive</th>
-=======
+                    <th>Item Type Code</th>
+                    <th>Description</th>
                     <th>Date Added</th>
                     <th>Modified Date</th>
-                    <th>Status</th>
                     <th>Actions</th>
->>>>>>> b0d8474f21b887c27e70f3dac986a9d338f734ce
                 </tr>
             </thead>
             <tbody>
@@ -72,43 +69,18 @@
 
                 $connection = new mysqli($servername, $username, $Password, $database);
 
-                $sql = "select * from inventory_tb ";
+                $sql = "select * from itemtype_tb ";
                 $result = $connection->query($sql);
-
                 while ($row = $result->fetch_assoc()) {
-                    $activeStatus = ($row["Status"]  == "1") ? "Active"  : "Inactive"; //condition for status
-                    $statusColor = ($row["Status"]  == "1") ? "alert-success"  : "alert-danger"; //condition for color bg.
                     echo "
-<<<<<<< HEAD
-                                <tr>
-
-                                    <td>" . $row["itemCode"] . "</td>
-                                    <td>" . $row["Unit"] . " " . $row["Type"] . "</td>
-                                    <td>" . $row["Generic"] . "</td>
-                                    <td>" . $row["SugPrice"] . "</td>
-                                    <td>" . $row["createDate"] . "</td>
-                                    <td>" . $row["modifiedDate"] . "</td>
-                                    <td class='" . $statusColor . "'>" . $activeStatus . "</td>
-                                    <td>" . $row["InventoryID"] . "</td>
-                                </tr>
-                             ";
-=======
                         <tr>
-                            <td>" . $row["itemCode"] . "</td>
-                            <td>" . $row["Unit"] . " " . $row["Type"] . "</td>
-                            <td>" . $row["Generic"] . "</td>
-                            <td>" . $row["SugPrice"] . "</td>
+                            <td>" . $row["itemTypeCode"] . "</td>
+                            <td>" . $row["description"] . "</td>
                             <td>" . date("M d, Y h:i", strtotime($row["createDate"])) . "</td>
                             <td>" . date("M d, Y h:i", strtotime($row["modifiedDate"])) . "</td>
-                            <td>
-                                <div class='d-flex w-100 h-100 d-flex '>
-                                    <h6 style='font-size: 13px' class='p-1 alert m-auto " . $statusColor . "'>" . $activeStatus . "</h6>
-                                </div>
-                            </td>
-                            <td class='invisible'>" . json_encode($row) . "</td>
+                            <td class='invisible action-wrapper'>" . json_encode($row) . "</td>
                         </tr>
                         ";
->>>>>>> b0d8474f21b887c27e70f3dac986a9d338f734ce
                 }
                 ?>
             </tbody>
@@ -173,7 +145,7 @@
                         className: 'btn border border-info'
                     },
                     {
-                        text: 'Add Item',
+                        text: 'Add Item Type',
                         className: 'btn btn-primary bg-primary text-white',
                         action: function(e, dt, node, config) {
                             $('#addItemModal').modal('show');
@@ -192,30 +164,19 @@
                         <div class="d-flex flex-column">
                             <button class="btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
                             <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
-                            <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>
                         </div>
                         `
                     },
                     "searchable": false
                 }],
                 order: [
-                    [5, 'asc']
+                    [4, 'asc']
                 ]
             });
-            handleArchiveClick(table, 0, "./edit/archive.php", 6);
-            handleEditClick("#addItemModal");
+            handleEditClick();
             handleViewClick();
-        });
-    </script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $(".xp-menubar").on('click', function() {
-                $('#sidebar').toggleClass('active');
-                $('#content').toggleClass('active');
-            });
-
-            $(".xp-menubar,.body-overlay").on('click', function() {
-                $('#sidebar,.body-overlay').toggleClass('show-nav');
+            $('.action-wrapper').each(function(i, e) {
+                $(this).removeClass('invisible');
             });
         });
     </script>
