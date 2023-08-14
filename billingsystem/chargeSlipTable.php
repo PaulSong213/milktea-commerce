@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title></title>
+    <title>charge Slip</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
@@ -40,20 +40,20 @@
 
 <body>
     <div class="table w-100 p-4">
-        <h2 class="mt-4 mb-5">INVENTORY SYSTEM</h2>
-        <?php include './add/add.php'; ?>
+        <h2 class="mt-4 mb-5">BILLING SYSTEM</h2>
+        <?php include 'add.php'; ?>
         <?php include './view/view.php'; ?>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>Item Code</th>
+                    <th>Product ID</th>
+                    <th>Inv</th>
+                    <th>Qty</th>
                     <th>Unit</th>
-                    <th>Generic</th>
-                    <th>Sug Price</th>
-                    <th>Date Added</th>
-                    <th>Modified Date</th>
-                    <th>Status</th>
-                    <th>Actions</th>
+                    <th>Price</th>
+                    <th>Disc%</th>
+                    <th>Disc Amt</th>
+                    <th>SubTotal</th>
                 </tr>
             </thead>
             <tbody>
@@ -69,40 +69,39 @@
                 $result = $connection->query($sql);
 
                 while ($row = $result->fetch_assoc()) {
-                    $activeStatus = ($row["Status"]  == "1") ? "Active"  : "Inactive"; //condition for status
-                    $statusColor = ($row["Status"]  == "1") ? "alert-success"  : "alert-danger"; //condition for color bg.
+                    $rowData = json_encode($row); // Convert row data to JSON format
+
                     echo "
-                        <tr>
-                            <td>" . $row["itemCode"] . "</td>
-                            <td>" . $row["Unit"] . " " . $row["Type"] . "</td>
-                            <td>" . $row["Generic"] . "</td>
-                            <td>" . $row["SugPrice"] . "</td>
-                            <td>" . date("M d, Y h:i", strtotime($row["createDate"])) . "</td>
-                            <td>" . date("M d, Y h:i", strtotime($row["modifiedDate"])) . "</td>
-                            <td>
-                                <div class='d-flex w-100 h-100 d-flex '>
-                                    <h6 style='font-size: 13px' class='p-1 alert m-auto " . $statusColor . "'>" . $activeStatus . "</h6>
-                                </div>
-                            </td>
-                            <td class='invisible'>" . json_encode($row) . "</td>
-                        </tr>
-                        ";
+        <tr>
+            <td><input type='text' name='itemCode[]' value='" . $row["itemCode"] . "' class='form-control'></td>
+            <td><input type='text' name='Inv' value='" . $row["Unit"] . "' class='form-control'></td>
+            <td><input type='text' name='Qty' value='" . $row["Unit"] . "' class='form-control'></td>
+            <td><input type='text' name='Unit' value='" . $row["Unit"] . "' class='form-control'></td>
+            <td><input type='text' name='Price' value='" . $row["Unit"] . "' class='form-control'></td>
+            <td><input type='text' name='Disc%' value='" . $row["Unit"] . "' class='form-control'></td>
+            <td><input type='text' name='DiscAmt' value='" . $row["Unit"] . "' class='form-control'></td>
+            <td><input type='text' name='SubTotal' value='" . $row["Unit"] . "' class='form-control'></td>
+        </tr>";
                 }
                 ?>
             </tbody>
         </table>
     </div>
-    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables-buttons/2.2.0/js/buttons.colVis.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables-buttons/2.2.0/js/buttons.colVis.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
     <script type="module">
         import {
             searchColumn,
@@ -167,11 +166,7 @@
                         const data = JSON.parse(d);
                         const id = data.InventoryID;
                         return `
-                        <div class="d-flex flex-column">
-                            <button class="btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
-                            <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
-                            <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>
-                        </div>
+                       
                         `
                     },
                     "searchable": false
