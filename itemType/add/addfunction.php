@@ -1,13 +1,6 @@
 <?php
-// Database configuration
-$host = 'localhost';
-$dbName = 'zaratehospital';
-$username = 'root';
-$password = '';
-
-
-// Establish a database connection
-$conn = new mysqli($host, $username, $password, $dbName);
+require_once '../../php/connect.php';
+$conn = connect();
 
 // Check connection
 if ($conn->connect_error) {

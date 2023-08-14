@@ -50,17 +50,10 @@
                     <th>Unit</th>
                     <th>Generic</th>
                     <th>Sug Price</th>
-<<<<<<< HEAD
-                    <th>Added Date-Time</th>
-                    <th>Modified Date</th>
-                    <th>Status</th>
-                    <th>Archive</th>
-=======
                     <th>Date Added</th>
                     <th>Modified Date</th>
                     <th>Status</th>
                     <th>Actions</th>
->>>>>>> b0d8474f21b887c27e70f3dac986a9d338f734ce
                 </tr>
             </thead>
             <tbody>
