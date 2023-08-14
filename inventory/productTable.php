@@ -79,20 +79,6 @@
                     $activeStatus = ($row["Status"]  == "1") ? "Active"  : "Inactive"; //condition for status
                     $statusColor = ($row["Status"]  == "1") ? "alert-success"  : "alert-danger"; //condition for color bg.
                     echo "
-<<<<<<< HEAD
-                                <tr>
-
-                                    <td>" . $row["itemCode"] . "</td>
-                                    <td>" . $row["Unit"] . " " . $row["Type"] . "</td>
-                                    <td>" . $row["Generic"] . "</td>
-                                    <td>" . $row["SugPrice"] . "</td>
-                                    <td>" . $row["createDate"] . "</td>
-                                    <td>" . $row["modifiedDate"] . "</td>
-                                    <td class='" . $statusColor . "'>" . $activeStatus . "</td>
-                                    <td>" . $row["InventoryID"] . "</td>
-                                </tr>
-                             ";
-=======
                         <tr>
                             <td>" . $row["itemCode"] . "</td>
                             <td>" . $row["Unit"] . " " . $row["Type"] . "</td>
@@ -108,7 +94,6 @@
                             <td class='invisible'>" . json_encode($row) . "</td>
                         </tr>
                         ";
->>>>>>> b0d8474f21b887c27e70f3dac986a9d338f734ce
                 }
                 ?>
             </tbody>
