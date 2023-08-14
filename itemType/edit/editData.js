@@ -1,4 +1,4 @@
-export function handleEditClick(addModalLocator) {
+export function handleEditClick() {
     $(".edit-btn").on('click', function (e) {
         const addModal = $("#addItemModal");
         addModal.modal('show');
@@ -7,40 +7,12 @@ export function handleEditClick(addModalLocator) {
 
         const toFillUpDatas = [
             {
-                dataKey: "itemCode",
-                inputName: "item_code"
+                dataKey: "itemTypeCode",
+                inputName: "itemTypeCode"
             },
             {
-                dataKey: "Type",
-                inputName: "type"
-            },
-            {
-                dataKey: "Unit",
-                inputName: "Unit"
-            },
-            {
-                dataKey: "Description",
+                dataKey: "description",
                 inputName: "description"
-            },
-            {
-                dataKey: "Generic",
-                inputName: "Generic"
-            },
-            {
-                dataKey: "SugPrice",
-                inputName: "Sugprice"
-            },
-            {
-                dataKey: "MWprice",
-                inputName: "MWprice"
-            },
-            {
-                dataKey: "IPDprice",
-                inputName: "IPDprice"
-            },
-            {
-                dataKey: "Ppriceuse",
-                inputName: "Ppriceuse"
             }
         ];
 
