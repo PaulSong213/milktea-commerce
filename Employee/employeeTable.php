@@ -30,26 +30,31 @@
         .dt-button-active {
             opacity: 1;
         }
+
+        .action-btn {
+            font-size: 10px;
+            margin-bottom: 5px;
+        }
     </style>
 </head>
 
 <body>
     <div class="table w-100 p-4">
-        <h2 class="mt-4 mb-5">EMPLOYEE LIST</h2>
+        <h2 class="mt-4 mb-5">INVENTORY SYSTEM</h2>
         <?php include 'add.php'; ?>
+        <?php include './view/view.php'; ?>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    
                     <th>Employee Code</th>
                     <th>Employee Name</th>
-                    <th>Title</th>
-                    <th>Position</th>
                     <th>Department</th>
-                    <th>Added Date</th>
+                    <th>Position</th>
+                    <th>Title</th>
+                    <th>Created Date</th>
                     <th>Modified Date</th>
                     <th>Status</th>
-                    <th>Archive</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -66,24 +71,24 @@
 
                 while ($row = $result->fetch_assoc()) {
                     $activeStatus = ($row["Status"]  == "1") ? "Active"  : "Inactive"; //condition for status
-                    $statusColor = ($row["Status"]  == "1") ? "bg-success"  : "bg-danger"; //condition for color bg.
+                    $statusColor = ($row["Status"]  == "1") ? "alert-success"  : "alert-danger"; //condition for color bg.
                     echo "
-                                <tr>
-                                    <td>" . $row["EmployeeCode"] . "</td>
-                                    <td> 
-                                        " . $row["fname"] . " 
-                                        " . $row["mname"] . "
-                                        " . $row["lname"] . "
-                                    </td>
-                                    <td>" . $row["title"] . "</td>
-                                    <td>" . $row["position"] . "</td>
-                                    <td>" . $row["department"] . "</td>
-                                    <td>" . $row["createDate"] . "</td>
-                                    <td>" . $row["modifiedDate"] . "</td>
-                                    <td class='" . $statusColor . "'>" . $activeStatus . "</td>
-                                    <td>" . $row["DatabaseID"] . "</td>
-                                </tr>
-                             ";
+                        <tr>
+                            <td>" . $row["EmployeeCode"] . "</td>
+                            <td>" . $row["lname"] . ", " . $row["fname"] . ", " . $row["mname"] . "</td>
+                            <td>" . $row["department"] . "</td>
+                            <td>" . $row["position"] . "</td>
+                            <td>" . $row["title"] . "</td>
+                            <td>" . date("M d, Y h:i", strtotime($row["createDate"])) . "</td>
+                            <td>" . date("M d, Y h:i", strtotime($row["modifiedDate"])) . "</td>
+                            <td>
+                                <div class='d-flex w-100 h-100 d-flex '>
+                                    <h6 style='font-size: 13px' class='p-1 alert m-auto " . $statusColor . "'>" . $activeStatus . "</h6>
+                                </div>
+                            </td>
+                            <td class='invisible'>" . json_encode($row) . "</td>
+                        </tr>
+                        ";
                 }
                 ?>
             </tbody>
@@ -103,9 +108,16 @@
     <script type="module">
         import {
             searchColumn,
-            handleArchive
-
+            handleArchiveClick,
         } from "../costum-js/datatables.js";
+
+        import {
+            handleEditClick
+        } from "./edit/editData.js";
+        import {
+            handleViewClick
+        } from './view/viewData.js'
+
         $(document).ready(function() {
 
             // clone header to add search by columns
@@ -148,89 +160,33 @@
                         }
                     }
                 ],
-                columnDefs: [{
-                    data: null,
-                    defaultContent: '<button class="btn btn-secondary archive-btn">Archive</button>',
-                    targets: -1
-                }],
                 initComplete: function() {
-                    var api = this.api();
-
-                    // For each column
-                    api
-                        .columns()
-                        .eq(0)
-                        .each(function(colIdx) {
-                            // Set the header cell to contain the input element
-                            var cell = $('.filters th').eq(
-                                $(api.column(colIdx).header()).index()
-                            );
-                            var title = $(cell).text();
-                            $(cell).html('<input type="text" class="form-control" placeholder="' +
-                                title + '" />');
-
-                            // On every keypress in this input
-                            $(
-                                    'input',
-                                    $('.filters th').eq($(api.column(colIdx).header()).index())
-                                )
-                                .off('keyup change')
-                                .on('change', function(e) {
-                                    // Get the search value
-                                    $(this).attr('title', $(this).val());
-                                    var regexr =
-                                        '({search})'; //$(this).parents('th').find('select').val();
-
-                                    var cursorPosition = this.selectionStart;
-                                    // Search the column for that value
-                                    api
-                                        .column(colIdx)
-                                        .search(
-                                            this.value != '' ?
-                                            regexr.replace('{search}', '(((' + this.value +
-                                                ')))') :
-                                            '',
-                                            this.value != '',
-                                            this.value == ''
-                                        )
-                                        .draw();
-                                })
-                                .on('keyup', function(e) {
-                                    e.stopPropagation();
-
-                                    $(this).trigger('change');
-                                    $(this)
-                                        .focus()[0]
-                                        .setSelectionRange(cursorPosition, cursorPosition);
-                                });
-                        });
+                    searchColumn(this.api());
                 },
                 columnDefs: [{
                     targets: -1,
-                    render: (id) => {
-                        return `<button class="btn btn-secondary archive-btn" id="${id}">Archive</button>`
+                    render: (d) => {
+                        const data = JSON.parse(d);
+                        const id = data.DatabaseID;
+                        return `
+                        <div class="d-flex flex-column">
+                            <button class="btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
+                            <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
+                            <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>
+                        </div>
+                        `
                     },
                     "searchable": false
-                }]
+                }],
+                order: [
+                    [5, 'asc']
+                ]
             });
-
-            handleArchive(table, 0, "/zarate/inventory/archive.php");
+            handleArchiveClick(table, 1, "./edit/archive.php", 7);
+            handleEditClick("#addItemModal");
+            handleViewClick();
         });
     </script>
-
-    <script>
-        $('#saveItemButton').click(function() {
-            $('#addItemModal').modal('hide'); // Close the modal after saving
-        });
-
-        $('#Closemodal2').click(function() {
-            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
-        });
-        $('#Closemodal1').click(function() {
-            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
-        });
-    </script>
-
     <script type="text/javascript">
         $(document).ready(function() {
             $(".xp-menubar").on('click', function() {
@@ -241,26 +197,21 @@
             $(".xp-menubar,.body-overlay").on('click', function() {
                 $('#sidebar,.body-overlay').toggleClass('show-nav');
             });
-
         });
     </script>
     <script>
-        var value = false;
         $(document).ready(function() {
             $('#saveItemButton').click(function() {
-                var itemCode = $('#item_code').val();
+                var itemCode = $('#itemCode').val();
                 var unit = $('#Unit').val();
                 var description = $('#description').val();
-
                 if (itemCode.trim() === "" || unit.trim() === "" || description.trim() === "") {
-                    swal.fire("Please fill in all required fields.");
                     return false; // Prevent closing modal and form submission
                 } else {
                     $('#addItemModal').modal('hide'); // Close the modal after saving
                 }
             });
         });
-
         $('#Closemodal1, #Closemodal2').click(function() {
             $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
         });

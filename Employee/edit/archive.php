@@ -16,15 +16,15 @@ require_once '../../php/connect.php';
 $connection = connect();
 
 // get current status
-$sql = "SELECT status FROM inventory_tb WHERE InventoryID=" . $_POST["rowID"] . ";";
+$sql = "SELECT Status FROM employee_tb WHERE DatabaseID=" . $_POST["rowID"] . ";";
 $result = $connection->query($sql);
 $row = $result->fetch_assoc();
-$previousStatus = $row["status"];
+$previousStatus = $row["Status"];
 $newStatus = $previousStatus == 0 ? 1 : 0; // swap 1 and 0
 
 
 // Update new status
-$sql = "UPDATE inventory_tb SET status=" . $newStatus . " WHERE InventoryID=" . $_POST["rowID"] . ";";
+$sql = "UPDATE employee_tb SET Status=" . $newStatus . " WHERE DatabaseID=" . $_POST["rowID"] . ";";
 $result = $connection->query($sql);
 
 if (mysqli_affected_rows($connection) > 0) {

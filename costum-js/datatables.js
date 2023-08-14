@@ -75,6 +75,7 @@ export function handleArchiveClick(table, titleIndex, apiEndpoint, statusIndex) 
     table.on('click', '.archive-btn', function (e) {
 
         const id = e.target.id;
+        console.log(id)
         // Get the data for the row that was clicked on
         let data = table.row(e.target.closest('tr')).data();
         const status = data[statusIndex];
@@ -95,7 +96,7 @@ export function handleArchiveClick(table, titleIndex, apiEndpoint, statusIndex) 
             },
             html: `
             <form id="archiveForm" action="${apiEndpoint}" method="post">
-                <input type="hidden" name="InventoryID" value="${id}">
+                <input type="hidden" name="rowID" value="${id}">
             </form>
             `
         }).then((result) => {
