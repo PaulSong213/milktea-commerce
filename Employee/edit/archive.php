@@ -12,19 +12,19 @@ if (!isset($_POST["rowID"])) {
     die();
 };
 
-require_once '../Employee/index.php';
+require_once '../../php/connect.php';
 $connection = connect();
 
 // get current status
-$sql = "SELECT status FROM employee_tb WHERE DatabaseID=" . $_POST["rowID"] . ";";
+$sql = "SELECT Status FROM employee_tb WHERE DatabaseID=" . $_POST["rowID"] . ";";
 $result = $connection->query($sql);
 $row = $result->fetch_assoc();
-$previousStatuE = $row["Status"];
+$previousStatus = $row["Status"];
 $newStatus = $previousStatus == 0 ? 1 : 0; // swap 1 and 0
 
 
 // Update new status
-$sql = "UPDATE employee_tb SET status=" . $newStatus . " WHERE DatabaseID=" . $_POST["rowID"] . ";";
+$sql = "UPDATE employee_tb SET Status=" . $newStatus . " WHERE DatabaseID=" . $_POST["rowID"] . ";";
 $result = $connection->query($sql);
 
 if (mysqli_affected_rows($connection) > 0) {
@@ -37,4 +37,4 @@ if (mysqli_affected_rows($connection) > 0) {
     $_SESSION["alert_message_error"] = false;
 }
 
-header("Location: ../Employee/view/index.php");
+header("Location: ../index.php");
