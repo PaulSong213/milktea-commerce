@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <form method="POST" action="addfunction.php" autocomplete="on" id="addItemForm">
+    <form method="POST" action="./add/addfunction.php" autocomplete="on" id="addItemForm">
         <div class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

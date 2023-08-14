@@ -59,6 +59,7 @@ export function handleEditClick(addModalLocator) {
         headerTitle.text("Edit Item");
 
         const addItemForm = $("#addItemForm");
+        const addItemFormAction = addItemForm.attr("action");
         addItemForm.attr("action", "./edit/editfunction.php");
         addItemForm.append(`<input type="hidden" name="item_id" value="${data['InventoryID']}">`);
 
@@ -66,7 +67,7 @@ export function handleEditClick(addModalLocator) {
         addModal.on("hidden.bs.modal", function () {
             headerTitle.text("Add Item");
             saveButton.text("Add Item");
-            addItemForm.attr("action", "addfunction.php");
+            addItemForm.attr("action", addItemFormAction);
             for (let i = 0; i < toFillUpDatas.length; i++) {
                 const toFillUpData = toFillUpDatas[i];
                 $(`[name="${toFillUpData.inputName}"]`).val("");

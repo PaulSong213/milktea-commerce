@@ -33,14 +33,13 @@ if (isset($_POST['SaveItem'])) {
     $result = mysqli_query($conn, $sql);
 
     if ($result) {
-        header("Location: ./index.php");
+        header("Location: ../index.php");
         die();
     } else {
-        header("Location: ./index.php");
+        header("Location: ../index.php");
         die();
     }
 }
 
 // Close the database connection
 $conn->close();
-?>
