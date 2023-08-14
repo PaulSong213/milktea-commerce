@@ -23,7 +23,7 @@
         </div>
         <div class="d-block w-100">
             <?php include('../php/session-dialog.php') ?>
-            <?php include('./chargeSlipTable.php') ?>
+            <?php include('./ordering.php') ?>
         </div>
     </div>
     <!-- end of main -->
