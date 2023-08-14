@@ -224,7 +224,7 @@
                 // Close the database connection
                 $db->close();
                 ?>
-                <canvas id="combinedChart"></canvas>
+                <canvas id="combinedChart" style="max-height: 800px;"></canvas>
             </div>
 
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -265,9 +265,13 @@
                                 data: yearlyData.map(item => item.total_quantity),
                                 borderColor: '#ffc107',
                                 backgroundColor: '#ffc107',
-                                fill: false 
+                                fill: false
                             }
                         ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
                     }
                 });
             </script>
