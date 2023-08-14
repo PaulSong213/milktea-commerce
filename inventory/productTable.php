@@ -1,3 +1,4 @@
+<?php require_once '../php/connect.php'; ?>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -41,7 +42,7 @@
 <body>
     <div class="table w-100 p-4">
         <h2 class="mt-4 mb-5">INVENTORY SYSTEM</h2>
-        <?php include 'add.php'; ?>
+        <?php include './add/add.php'; ?>
         <?php include './view/view.php'; ?>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
@@ -50,27 +51,15 @@
                     <th>Unit</th>
                     <th>Generic</th>
                     <th>Sug Price</th>
-<<<<<<< HEAD
-                    <th>Added Date-Time</th>
-                    <th>Modified Date</th>
-                    <th>Status</th>
-                    <th>Archive</th>
-=======
                     <th>Date Added</th>
                     <th>Modified Date</th>
                     <th>Status</th>
                     <th>Actions</th>
->>>>>>> b0d8474f21b887c27e70f3dac986a9d338f734ce
                 </tr>
             </thead>
             <tbody>
                 <?php
-                $servername = "localhost"; //localhost
-                $username = "root"; //username
-                $Password = ""; //password
-                $database = "zaratehospital"; //database
-
-                $connection = new mysqli($servername, $username, $Password, $database);
+                $connection = connect();
 
                 $sql = "select * from inventory_tb ";
                 $result = $connection->query($sql);
@@ -79,23 +68,9 @@
                     $activeStatus = ($row["Status"]  == "1") ? "Active"  : "Inactive"; //condition for status
                     $statusColor = ($row["Status"]  == "1") ? "alert-success"  : "alert-danger"; //condition for color bg.
                     echo "
-<<<<<<< HEAD
-                                <tr>
-
-                                    <td>" . $row["itemCode"] . "</td>
-                                    <td>" . $row["Unit"] . " " . $row["Type"] . "</td>
-                                    <td>" . $row["Generic"] . "</td>
-                                    <td>" . $row["SugPrice"] . "</td>
-                                    <td>" . $row["createDate"] . "</td>
-                                    <td>" . $row["modifiedDate"] . "</td>
-                                    <td class='" . $statusColor . "'>" . $activeStatus . "</td>
-                                    <td>" . $row["InventoryID"] . "</td>
-                                </tr>
-                             ";
-=======
                         <tr>
                             <td>" . $row["itemCode"] . "</td>
-                            <td>" . $row["Unit"] . " " . $row["Type"] . "</td>
+                            <td>" . $row["Unit"] . " " . $row["UnitType"] . "</td>
                             <td>" . $row["Generic"] . "</td>
                             <td>" . $row["SugPrice"] . "</td>
                             <td>" . date("M d, Y h:i", strtotime($row["createDate"])) . "</td>
@@ -108,7 +83,6 @@
                             <td class='invisible'>" . json_encode($row) . "</td>
                         </tr>
                         ";
->>>>>>> b0d8474f21b887c27e70f3dac986a9d338f734ce
                 }
                 ?>
             </tbody>

@@ -1,12 +1,10 @@
 <?php
 require_once '../../php/connect.php';
-session_start();
 $conn = connect();
 
 if (isset($_POST['SaveItem'])) {
     $itemCode = $_POST['item_code'];
-    $UnitType = $_POST['UnitType'];
-    $itemTypeID = $_POST['itemTypeID'];
+    $type = $_POST['type'];
     $unit = $_POST['Unit'];
     $description = $_POST['description'];
     $generic = $_POST['Generic'];
@@ -15,18 +13,19 @@ if (isset($_POST['SaveItem'])) {
     $ipdPrice = $_POST['IPDprice'];
     $ppriceUse = $_POST['Ppriceuse'];
     $item_id = $_POST['item_id'];
+    $statusData = 1;
 
     $sql = "UPDATE inventory_tb
     SET
+        Type = '$type',
         Unit = '$unit',
-        UnitType = '$UnitType',
-        itemTypeID = '$itemTypeID',
         Description = '$description',
         Generic = '$generic',
         SugPrice = '$sugPrice',
         MWprice = '$mwPrice',
         IPDprice = '$ipdPrice',
         Ppriceuse = '$ppriceUse',
+        Status = '$statusData',
         itemCode = '$itemCode',
         modifiedDate = now()
     WHERE
@@ -34,17 +33,14 @@ if (isset($_POST['SaveItem'])) {
     ";
 
     $result = mysqli_query($conn, $sql);
-    if ($result) {
-        // success
-        $_SESSION["alert_message"] = "Successfully Edited an Item";
-        $_SESSION["alert_message_success"] = true;
-    } else {
-        $_SESSION["alert_message"] = "Failed to Edit an Item. Error Details: " . mysqli_error($conn);
-        $_SESSION["alert_message_error"] = true;
-    }
 
-    header("Location: ../index.php");
-    die();
+    if ($result) {
+        header("Location: ../index.php");
+        die();
+    } else {
+        header("Location: ../index.php");
+        die();
+    }
 }
 
 // Close the database connection

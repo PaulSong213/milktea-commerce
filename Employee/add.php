@@ -52,8 +52,8 @@
                         <option value="Female">Female</option>
                     </select>
                       <label for="type">Department</label>
-                    <select class="form-control" id="type" name="dept">
-                        <option value="IT Department">IT Department</option>
+                      <option value="IT Department">IT Department</option>
+                      <select class="form-control" id="type" name="dept">
                         <option value="Admin Department">Admin Department</option>
                         <option value="Information Department">Information Department</option>
                         <option value="HMO Department">HMO Department</option>

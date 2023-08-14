@@ -2,11 +2,11 @@
 <html lang="en">
 
 <head>
-    <title>Suggested Input Text</title>
+    <title>Redirecting</title>
 </head>
 
 <body>
-    <form method="POST" action="addfunction.php" autocomplete="on" id="addItemForm">
+    <form method="POST" action="databasefunctions.php" autocomplete="on" id="addItemForm">
         <div class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -69,3 +69,4 @@
 </body>
 
 </html>
+
