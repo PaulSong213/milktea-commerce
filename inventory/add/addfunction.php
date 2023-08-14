@@ -15,11 +15,20 @@ if ($conn->connect_error) {
 }
 
 if (isset($_POST['SaveItem'])) {
-    $itemTypeCode = $_POST['itemTypeCode'];
+    $itemCode = $_POST['item_code'];
+    $type = $_POST['type'];
+    $unit = $_POST['Unit'];
     $description = $_POST['description'];
+    $generic = $_POST['Generic'];
+    $sugPrice = $_POST['Sugprice'];
+    $mwPrice = $_POST['MWprice'];
+    $ipdPrice = $_POST['IPDprice'];
+    $ppriceUse = $_POST['Ppriceuse'];
+    $currentDateTime = date('Y-m-d H:i:s');
+    $statusData = 1;
 
-    $sql = "INSERT INTO itemtype_tb (itemTypeCode, description)
-    VALUES ('$itemTypeCode', '$description')";
+    $sql = "INSERT INTO inventory_tb (itemCode, Type, Unit, Description, Generic, SugPrice, MWprice, IPDprice, Ppriceuse,createDate, Status, modifiedDate)
+    VALUES ('$itemCode', '$type', '$unit', '$description', '$generic', '$sugPrice', '$mwPrice', '$ipdPrice', '$ppriceUse','$currentDateTime',' $statusData', '$currentDateTime')";
 
     $result = mysqli_query($conn, $sql);
 
