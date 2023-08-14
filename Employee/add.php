@@ -30,11 +30,11 @@
 
                     <label for="item_code">Middle Name:</label>
                     <input type="text" id="item_code" name="employee_mname" class="form-control"
-                        placeholder="Enter employee middle name" >
+                        placeholder="Enter employee middle name" required>
 
                     <label for="item_code">Nickname:</label>
                     <input type="text" id="item_code" name="employee_nickname" class="form-control"
-                        placeholder="Enter employee nickname" >
+                        placeholder="Enter employee nickname" required>
 
                     <label for="item_code">Date of Birth:</label>
                         <input type="date" id="item_code" name="employee_bdate" class="form-control"
@@ -71,9 +71,10 @@
 
                      <label for="type">Position</label>
                     <select class="form-control" id="type" name="position">
-                        <option value="">Administrator</option>
-                        <option value="type2">Owner</option>
-                        <option value="type3">Nurse</option>
+                        <option value="Administrator">Administrator</option>
+                        <option value="Owner">Owner</option>
+                        <option value="Nurse">Nurse</option>
+                        <option value="Director in Charge">Director in Charge</option>
                     </select>
                    
                      <label for="item_code">Date Start:</label>

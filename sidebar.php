@@ -1,99 +1,45 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <title>crud dashboard</title>
-    <!----css3---->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crud Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        body,
-        html {
-            line-height: 1.8;
+        body {
             font-family: 'Poppins', sans-serif;
-            color: #555e58;
-            text-transform: capitalize;
-            font-weight: 400;
-            margin: 0px;
-            padding: 0px;
-        }
-
-        @font-face {
-            font-family: 'Material Icons';
-            font-style: normal;
-            font-weight: 400;
-            src: url(https://example.com/MaterialIcons-Regular.eot);
-            /* For IE6-8 */
-            src: local('Material Icons'),
-                local('MaterialIcons-Regular'),
-                url(https://example.com/MaterialIcons-Regular.woff2) format('woff2'),
-                url(https://example.com/MaterialIcons-Regular.woff) format('woff'),
-                url(https://example.com/MaterialIcons-Regular.ttf) format('truetype');
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
         }
 
         #sidebar {
-            margin-right: 20px;
-            height: 100vh;
-            z-index: 11;
+            position: fixed;
             width: 260px;
-            overflow: auto;
+            height: 100vh;
             transition: all 0.3s;
             background-color: #fff;
-            box-shadow: 0 0 30px 0 rgba(200 200 200 / 20%);
+            box-shadow: 0 0 30px rgba(200, 200, 200, 0.2);
         }
 
-
-        @media only screen and (min-width:992px) {
-            #sidebar.active {
-                left: -260px;
-                height: 100% !important;
-                position: absolute !important;
-                overflow: visible !important;
-                top: 0;
-                z-index: 666;
-                float: left !important;
-                bottom: 0 !important;
-            }
-
-            #content {
-                width: calc(100% - 260px);
-                position: relative;
-                float: right;
-                transition: all 0.3s;
-            }
-
-            #content.active {
-                width: 100%;
-            }
-
+        #sidebar.active {
+            width: 0;
         }
 
-
-        #sidebar::-webkit-scrollbar {
-            width: 5px;
-            border-radius: 10px;
-            background-color: #eee;
-            display: none;
+        #content {
+            width: calc(100% - 260px);
+            margin-left: 260px;
+            transition: all 0.3s;
         }
 
-        #sidebar::-webkit-scrollbar-thumbs {
-            width: 5px;
-            border-radius: 10px;
-            background-color: #333;
-            display: none;
+        #content.active {
+            margin-left: 0;
+            width: 100%;
         }
 
-        #sidebar:hover::-webkit-scrollbar-thumbs {
-            display: block;
-        }
-
-        #sidebar:hover::-webkit-scrollbar {
-            display: block;
-        }
-
-        #sidebar .sidebar-header {
+        .sidebar-header {
             padding: 20px;
             background-color: #fff;
             border-bottom: 1px solid #eee;
@@ -102,96 +48,61 @@
         .sidebar-header h3 {
             color: #333;
             font-size: 17px;
-            margin: 0px;
+            margin: 0;
             text-transform: uppercase;
-            transition: all 0.5s ease;
             font-weight: 600;
+            display: flex;
+            align-items: center;
         }
 
-        .sidebar-header h3 img {
+        .sidebar-header img {
             width: 45px;
             margin-right: 10px;
         }
 
-        #sidebar ul li {
-            padding: 2px 0px;
+        .list-unstyled.components {
+            padding: 20px 0;
         }
 
-        #sidebar ul li.active>a {
+        .list-unstyled.components li a {
+            padding: 10px 20px;
+            color: #777;
+            display: block;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .list-unstyled.components li.active a {
+            background-color: #dbe5fd;
             color: #4c7cf3;
-            background-color: #DBE5FD;
         }
 
-
-        #sidebar ul li.active>a i {
+        .list-unstyled.components li a:hover {
+            background-color: #dbe5fd;
             color: #4c7cf3;
         }
-
-
-
-        #sidebar ul li a:hover {
-            color: #4c7cf3;
-            background-color: #DBE5FD;
-        }
-
 
         .dropdown-toggle::after {
+            content: "\f105";
+            font-family: "Material Icons";
             position: absolute;
-            right: 22px;
-            top: 18px;
-            color: #777777;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+            transition: transform 0.3s;
         }
 
-        #sidebar ul li.dropdown {
-            position: sticky;
-        }
-
-
-        #sidebar ul.component {
-            padding: 20px 0px;
-        }
-
-        #sidebar ul li a {
-            padding: 5px 10px 5px 20px;
-            line-height: 30px;
-            font-size: 15px;
-            position: relative;
-            font-weight: 400;
-            display: block;
-            color: #777777;
-            text-transform: capitalize;
-        }
-
-        #sidebar ul li a i {
-            position: relative;
-            margin-right: 10px;
-            top: 6px;
+        .dropdown.show .dropdown-toggle::after {
+            transform: translateY(-50%) rotate(180deg);
         }
     </style>
-
-
-    <!--google fonts -->
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-
-    <!--google material icon-->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
-
 </head>
 
 <body>
-
-<div class="xp-menubar w-max btn-primary rounded-circle position-absolute p-3 btn bottom-0 m-4 "  >
-            <span class="material-icons text-white">table_rows
-            </span>
-        </div>
-    <!-- Sidebar  -->
     <nav id="sidebar">
         <div class="sidebar-header">
-            <h3><img src="/zarate/img/logo.png" class="img-fluid" /><span class="fw-bold">E.Zarate Hospital</span></h3>
+            <h3><img src="/zarate/img/logo.png" class="img-fluid" alt="Logo" /><span class="fw-bold">E.Zarate
+                    Hospital</span></h3>
         </div>
         <ul class="list-unstyled components">
             <li class="active">
@@ -328,11 +239,28 @@
 
 
         </ul>
-
-
     </nav>
 
+    <div class="container-fluid" id="content">
 
+        <!-- <button class="btn btn-primary rounded-circle position-fixed p-3 bottom-0 end-0 m-4" id="toggleSidebar">
+            <span class="material-icons">tablerows</span>
+        </button> -->
+
+        <!-- Your content here -->
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#toggleSidebar").on("click", function () {
+                $("#sidebar").toggleClass("active");
+                $("#content").toggleClass("active");
+            });
+        });
+    </script>
 </body>
 
 </html>
