@@ -21,15 +21,29 @@
                             <input type="text" id="item_code" name="item_code" class="form-control" placeholder="Enter item code" autocomplete="on" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="type">Type<span class="text-danger mx-1">*</span></label>
-                            <input type="text" class="form-control" id="type" name="type" placeholder="Input Type" autocomplete="on">
+                            <label class="form-label" for="type">Item Type<span class="text-danger mx-1">*</span></label>
+                            <select class="form-select" id="type" name="itemTypeID">
+                                <?php
+                                $connectionType = connect();
+                                $sqlType = "select * from itemType_tb ";
+                                $resultType = $connectionType->query($sqlType);
+                                while ($row = $resultType->fetch_assoc()) {
+                                    echo '<option value="' . $row["itemTypeID"] . '">' . $row["itemTypeCode"] . '</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col">
+                                <label class="form-label" for="Unit">Unit<span class="text-danger mx-1">*</span></label>
+                                <input type="number" id="Unit" class="form-control" name="Unit" placeholder="0" required>
+                            </div>
+                            <div class="col">
+                                <label class="form-label" for="UnitType">Unit Type<span class="text-danger mx-1">*</span></label>
+                                <input type="text" id="UnitType" class="form-control" name="UnitType" placeholder="pcs" required autocomplete>
+                            </div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="Unit">Unit<span class="text-danger mx-1">*</span></label>
-                            <input type="number" id="Unit" class="form-control" name="Unit" placeholder="0" required>
-                        </div>
-                        <div class="mb-3">
-
                             <label for="description">Description<span class="text-danger mx-1">*</span></label>
                             <textarea class="form-control" id="description" name="description" placeholder="Enter description" required autocomplete="on"></textarea>
                         </div>

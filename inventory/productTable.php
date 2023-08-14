@@ -1,3 +1,4 @@
+<?php require_once '../php/connect.php'; ?>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -58,12 +59,7 @@
             </thead>
             <tbody>
                 <?php
-                $servername = "localhost"; //localhost
-                $username = "root"; //username
-                $Password = ""; //password
-                $database = "zaratehospital"; //database
-
-                $connection = new mysqli($servername, $username, $Password, $database);
+                $connection = connect();
 
                 $sql = "select * from inventory_tb ";
                 $result = $connection->query($sql);
@@ -74,7 +70,7 @@
                     echo "
                         <tr>
                             <td>" . $row["itemCode"] . "</td>
-                            <td>" . $row["Unit"] . " " . $row["Type"] . "</td>
+                            <td>" . $row["Unit"] . " " . $row["UnitType"] . "</td>
                             <td>" . $row["Generic"] . "</td>
                             <td>" . $row["SugPrice"] . "</td>
                             <td>" . date("M d, Y h:i", strtotime($row["createDate"])) . "</td>

@@ -11,8 +11,12 @@ export function handleEditClick(addModalLocator) {
                 inputName: "item_code"
             },
             {
-                dataKey: "Type",
-                inputName: "type"
+                dataKey: "UnitType",
+                inputName: "UnitType"
+            },
+            {
+                dataKey: "itemTypeID",
+                inputName: "itemTypeID"
             },
             {
                 dataKey: "Unit",
@@ -66,7 +70,7 @@ export function handleEditClick(addModalLocator) {
         addModal.on("hidden.bs.modal", function () {
             headerTitle.text("Add Item");
             saveButton.text("Add Item");
-            addItemForm.attr("action", "addfunction.php");
+            addItemForm.attr("action", "./add/addfunction.php");
             for (let i = 0; i < toFillUpDatas.length; i++) {
                 const toFillUpData = toFillUpDatas[i];
                 $(`[name="${toFillUpData.inputName}"]`).val("");
