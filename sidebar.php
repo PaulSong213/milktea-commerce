@@ -1,3 +1,43 @@
+<?php
+// get icons here -> https://mui.com/material-ui/material-icons/
+$sidebarContent = [
+    [
+        "name" => "Dashboard", //name of the link
+        "icon" => "dashboard", //material icon name
+        "link" => "/inventory/inventorydashboard.php", //link of the page
+        "navigations" => [] //list of links on dropdown
+    ],
+    [
+        "name" => "Billing", //name of the link
+        "icon" => "point_of_sale", //material icon name
+        "link" => "/billing/index.php", //link of the page
+        "navigations" => [] //list of links on dropdown
+    ],
+    [
+        "name" => "Employee", //name of the link
+        "icon" => "badge", //material icon name
+        "link" => "/Employee/index.php", //link of the page
+        "navigations" => [] //list of links on dropdown
+    ],
+    [
+        "name" => "Inventory System", //name of the link
+        "icon" => "vaccines", //material icon name
+        "link" => "inventory", //link of the page
+        "navigations" => [
+            [
+                "name" => "Inventory Items", //name of the link
+                "link" => "/inventory/index.php", //link of the page
+            ],
+            [
+                "name" => "Item Types", //name of the link
+                "link" => "/itemType/index.php", //link of the page
+            ],
+        ] //list of links on dropdown
+    ],
+]
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,25 +47,20 @@
     <title>Crud Dashboard</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-        }
-
         #sidebar {
             position: fixed;
             width: 260px;
             height: 100vh;
-            transition: all 0.3s;
+            transition: ease-in 0.1s;
             background-color: #fff;
             box-shadow: 0 0 30px rgba(200, 200, 200, 0.2);
+            z-index: 1000;
         }
 
         #sidebar.active {
-            width: 0;
+            width: 70px;
         }
 
         #content {
@@ -35,8 +70,7 @@
         }
 
         #content.active {
-            margin-left: 0;
-            width: 100%;
+            margin-left: 40px;
         }
 
         .sidebar-header {
@@ -84,16 +118,20 @@
         .dropdown-toggle::after {
             content: "\f105";
             font-family: "Material Icons";
-            position: absolute;
-            right: 20px;
-            top: 50%;
             transform: translateY(-50%);
             color: #777;
-            transition: transform 0.3s;
+            transition: all 0.3s;
+            margin-left: 10px;
+            margin-top: 5px;
         }
 
-        .dropdown.show .dropdown-toggle::after {
+        .dropdown:has(ul.show) .dropdown-toggle::after {
             transform: translateY(-50%) rotate(180deg);
+        }
+
+        #toggleSidebar {
+            width: 3rem;
+            height: 3rem;
         }
     </style>
 </head>
@@ -101,151 +139,56 @@
 <body>
     <nav id="sidebar">
         <div class="sidebar-header">
-            <h3><img src="/zarate/img/logo.png" class="img-fluid" alt="Logo" /><span class="fw-bold">E.Zarate
-                    Hospital</span></h3>
+            <h3><img src="/zarate/img/logo.png" class="img-fluid" alt="Logo" /><span class="fw-bold company-title">E.Zarate Hospital</span></h3>
+
         </div>
         <ul class="list-unstyled components">
-            <li class="active">
-                <a href="#" class="dashboard"><i class="material-icons">dashboard</i>
-                    <span>Dashboard</span></a>
-            </li>
 
+            <?php
+            $root = "/zarate";
+            for ($i = 0; $i < sizeof($sidebarContent); $i++) {
+                $content = $sidebarContent[$i];
+                $isDropdown = sizeof($content["navigations"]) > 0;
+                $link = $isDropdown ? "#" . $content["link"] : $root . $content["link"]; //if link starts with #, it is a dropdowns
+                $navClass = $link == $_SERVER['REQUEST_URI'] ? "active " : "";
+                if (sizeof($content["navigations"]) > 0) $navClass = $navClass . "dropdown";
 
-            <li class="dropdown">
-                <a href="#homeSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <i class="material-icons">aspect_ratio</i>Layouts</a>
-                <ul class="collapse list-unstyled menu" id="homeSubmenu1">
-                    <li>
-                        <a href="#">Home 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Home 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Home 3</a>
-                    </li>
-                </ul>
-            </li>
+                $dropdownClass = $isDropdown ? "dropdown-toggle" : "";
 
-            <li class="dropdown">
-                <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <i class="material-icons">apps</i><span>widgets</span></a>
-                <ul class="collapse list-unstyled menu" id="pageSubmenu2">
-                    <li>
-                        <a href="#">Page 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 3</a>
-                    </li>
-                </ul>
-            </li>
+                $hasActiveSublink = false;
+                $navigationList = '<ul class="collapse list-unstyled menu" id="' .  $content["link"] . '">';
+                for ($j = 0; $j < sizeof($content['navigations']); $j++) {
+                    $navigation = $content['navigations'][$j];
+                    $subNavLink = $root . $navigation['link'];
+                    $isActive = $subNavLink == $_SERVER['REQUEST_URI'];
+                    if ($isActive) $hasActiveSublink = true;
+                    $activeClass = $isActive ? "active" : "";
+                    $navigationList = $navigationList . '<li class="' . $activeClass . '"><a class="nav-link sub-nav-link mx-2" href="' . $subNavLink . '">' . $navigation['name'] . '</a></li>';
+                }
+                $navigationList = $navigationList . '</ul>';
+                $dropdownProperties = $isDropdown ? 'data-toggle="collapse" aria-expanded="false"' : "";
+                if ($hasActiveSublink) $navigationList = str_replace("collapse", "collapse show", $navigationList);
 
-            <li class="dropdown">
-                <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <i class="material-icons">equalizer</i>
-
-
-                    <span>chart</span></a>
-                <ul class="collapse list-unstyled menu" id="pageSubmenu3">
-                    <li>
-                        <a href="#">Page 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 3</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="dropdown">
-                <a href="#pageSubmenu4" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <i class="material-icons">extension</i><span>ui element</span></a>
-                <ul class="collapse list-unstyled menu" id="pageSubmenu4">
-                    <li>
-                        <a href="#">Page 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 3</a>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="dropdown">
-                <a href="#pageSubmenu5" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <i class="material-icons">border_color</i><span>forms</span></a>
-                <ul class="collapse list-unstyled menu" id="pageSubmenu5">
-                    <li>
-                        <a href="#">Page 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 3</a>
-                    </li>
-                </ul>
-            </li>
-
-
-
-            <li class="dropdown">
-                <a href="#pageSubmenu6" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <i class="material-icons">grid_on</i><span>tables</span></a>
-                <ul class="collapse list-unstyled menu" id="pageSubmenu6">
-                    <li>
-                        <a href="#">Page 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 3</a>
-                    </li>
-                </ul>
-            </li>
-
-
-            <li class="dropdown">
-                <a href="#pageSubmenu7" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <i class="material-icons">content_copy</i><span>Pages</span></a>
-                <ul class="collapse list-unstyled menu" id="pageSubmenu7">
-                    <li>
-                        <a href="#">Page 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 3</a>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="">
-                <a href="#"><i class="material-icons">date_range</i><span>copy</span></a>
-            </li>
-
-            <li class="">
-                <a href="#"><i class="material-icons">library_books</i><span>Calender
-                    </span></a>
-            </li>
-
-
+                echo '
+                <li class="' . $navClass . '">
+                    <a id="' . $link . '" href="' . $link . '" class="dashboard d-flex align-items-center nav-link ' . $dropdownClass . '" ' . $dropdownProperties . '>
+                        <i class="material-icons">' . $content["icon"] . '</i>
+                        <span class="mx-1 link-name">' . $content["name"] . '</span>
+                    </a>
+                    ' . $navigationList . '
+                </li>
+                ';
+            }
+            ?>
         </ul>
+        <div>
+            <button class="btn btn-primary rounded-circle position-fixed p-3 bottom-0 start-0 m-4 d-flex justify-content-center align-items-center" id="toggleSidebar">
+                <span class="material-icons" id="sidebar-icon">table_rows</span>
+            </button>
+        </div>
     </nav>
 
     <div class="container-fluid" id="content">
-
-        <!-- <button class="btn btn-primary rounded-circle position-fixed p-3 bottom-0 end-0 m-4" id="toggleSidebar">
-            <span class="material-icons">tablerows</span>
-        </button> -->
 
         <!-- Your content here -->
     </div>
@@ -254,12 +197,30 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $("#toggleSidebar").on("click", function () {
-                $("#sidebar").toggleClass("active");
-                $("#content").toggleClass("active");
+        $(document).ready(function() {
+            $("#toggleSidebar").on("click", function() {
+                toggleSidebar();
             });
         });
+
+        checkSideBarState();
+        window.addEventListener('resize', () => {
+            checkSideBarState();
+        }, true);
+
+        function toggleSidebar() {
+            $("#sidebar").toggleClass("active");
+            $("#content").toggleClass("active");
+            $(".link-name").toggleClass("d-none");
+            $(".company-title").toggleClass("d-none");
+            $(".sub-nav-link").toggleClass("mx-2");
+        }
+
+        function checkSideBarState() {
+            var isSideBarOpened = $("#sidebar").hasClass("active");
+            if (screen.width <= 768 && !isSideBarOpened) toggleSidebar();
+            if (screen.width > 768 && isSideBarOpened) toggleSidebar();
+        }
     </script>
 </body>
 
