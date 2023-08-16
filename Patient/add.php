@@ -2,7 +2,7 @@
 
 <html lang="en">
 
-<form method="POST" id="addItemForm" action="addfunction.php">
+<form method="POST" action="addfunction.php">
 
     <Save class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel"
         aria-hidden="true">
@@ -35,7 +35,7 @@
                         placeholder="Enter employee nickname" required>
 
                      <b><label for="type">Birth of Date : </label></b>
-                        <input type="date" id="item_code" name="employee_bdate"  class="form-control"
+                        <input type="date" id="item_code" name="employee_bdate" class="form-control"
                         placeholder="Enter employee middle name" >
 
                        <b><label for="type">Marital Status : </label></b>
@@ -73,7 +73,7 @@
                      <input type="text" id="item_code" name="position" class="form-control"
                      placeholder="Enter Position" >
                   
-                         <b><label for="type">Date Started : </label></b>
+                         <b><label for="type">Position : </label></b>
                         <input type="date" id="item_code" name="employee_sdate" class="form-control"
                         placeholder="Enter employee middle name" >
 
