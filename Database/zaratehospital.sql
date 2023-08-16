@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 14, 2023 at 09:54 AM
+-- Generation Time: Aug 16, 2023 at 04:42 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -73,9 +73,10 @@ CREATE TABLE `inventory_tb` (
 --
 
 INSERT INTO `inventory_tb` (`InventoryID`, `itemTypeID`, `itemCode`, `Unit`, `Description`, `Generic`, `SugPrice`, `MWprice`, `IPDprice`, `Ppriceuse`, `Status`, `UnitType`, `createDate`, `modifiedDate`) VALUES
-(3, 4, '3333', 5, '3333', '3333', 3333, 3332, 3333, 3333, 0, 'pcs', '2023-08-14 14:49:41', '2023-08-14 15:09:32'),
-(4, 2, '4444451', 44444, '44444', '44444', 44444, 44444, 44444, 44444, 1, 'boxes', '2023-08-14 14:54:58', '2023-08-14 15:16:03'),
-(5, 1, '555555555555555555555', 55555, '55555', '55555', 55555, 55555, 55555, 55555, 0, 'box', '2023-08-14 14:58:01', '2023-08-14 15:08:42');
+(3, 4, '3333', 5, '3333', '3333', 3333, 3332, 3333, 3333, 0, 'pcs', '2023-08-14 14:49:41', '2023-08-14 16:39:02'),
+(4, 2, '4444451', 44444, '44444', '44444', 44444, 44444, 44444, 44444, 1, 'boxes', '2023-08-14 14:54:58', '2023-08-14 16:38:51'),
+(5, 1, '5555555555', 55555, '55555', '55555', 55555, 55555, 55555, 55555, 1, 'box', '2023-08-14 14:58:01', '2023-08-14 16:38:43'),
+(6, 12, '6666', 6666, '6666', '66666666', 6664, 6666, 6666, 6666, 1, 'pcs', '2023-08-14 16:38:30', '2023-08-14 16:38:30');
 
 -- --------------------------------------------------------
 
@@ -127,7 +128,7 @@ ALTER TABLE `itemtype_tb`
 -- AUTO_INCREMENT for table `inventory_tb`
 --
 ALTER TABLE `inventory_tb`
-  MODIFY `InventoryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `InventoryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `itemtype_tb`
