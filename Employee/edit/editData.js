@@ -7,8 +7,8 @@ export function handleEditClick(addModalLocator) {
 
         const toFillUpDatas = [
             {
-                dataKey: "itemCode",
-                inputName: "item_code"
+                dataKey: "DatabaseID",
+                inputName: "Database ID"
             },
             {
                 dataKey: "Type",
@@ -51,12 +51,12 @@ export function handleEditClick(addModalLocator) {
         }
 
         // edit the save button
-        const saveButton = $("[name='SaveItem']");
-        saveButton.text("Edit Item");
+        const saveButton = $("[name='SaveChanges']");
+        saveButton.text("Edit Employee Information");
 
         // edit header title
         const headerTitle = $("#addItemModalLabel");
-        headerTitle.text("Edit Item");
+        headerTitle.text("Edit Employee");
 
         const addItemForm = $("#addItemForm");
         addItemForm.attr("action", "./edit/editfunction.php");

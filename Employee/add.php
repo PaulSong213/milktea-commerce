@@ -4,7 +4,7 @@
 
 <form method="POST" action="addfunction.php">
 
-    <div class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel"
+    <Save class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -16,44 +16,44 @@
                 </div>
                 <div class="modal-body">
                     <!-- Your modal content goes here -->
-                    <label for="item_code">Employee Code:</label>  <!--Employee Code -->
-                    <input type="number" id="item_code" name="employee_code" class="form-control" 
-                        placeholder="Enter employee code" required>
                     
-                    <label for="item_code">Last Name:</label> <!--First Name -->
+                     <!--First Name -->
+                    <b><label for="type">Last Name</label></b>
                     <input type="text" id="item_code" name="employee_lname" class="form-control"
                         placeholder="Enter employee last name" required>
                     
-                     <label for="item_code">First Name:</label>
+                     <b><label for="type">First Name : </label></b>
                     <input type="text" id="item_code" name="employee_fname" class="form-control"
                         placeholder="Enter employee first name" required>
 
-                    <label for="item_code">Middle Name:</label>
+                     <b><label for="type">Middle Name : </label></b>
                     <input type="text" id="item_code" name="employee_mname" class="form-control"
                         placeholder="Enter employee middle name" required>
 
-                    <label for="item_code">Nickname:</label>
+                     <b><label for="type">Nickname : </label></b>
                     <input type="text" id="item_code" name="employee_nickname" class="form-control"
                         placeholder="Enter employee nickname" required>
 
-                    <label for="item_code">Date of Birth:</label>
+                     <b><label for="type">Birth of Date : </label></b>
                         <input type="date" id="item_code" name="employee_bdate" class="form-control"
                         placeholder="Enter employee middle name" >
 
-                      <label for="type">Marital Status</label>
+                       <b><label for="type">Marital Status : </label></b>
                     <select class="form-control" id="type" name="marital">
                         <option value="Single">Single</option>
                         <option value="Married">Married</option>
+                        <option value="Widowed">Widowed</option>
+                        <option value="Separated">Separated</option>
                     </select>
 
-                     <label for="type">Sex</label>
+                     <b><label for="type">Sex : </label></b>
                     <select class="form-control" id="type" name="sex">
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                     </select>
-                      <label for="type">Department</label>
-                      <option value="IT Department">IT Department</option>
+                      <b><label for="type">Department : </label></b>
                       <select class="form-control" id="type" name="dept">
+                        <option value="IT Department">IT Department</option>
                         <option value="Admin Department">Admin Department</option>
                         <option value="Information Department">Information Department</option>
                         <option value="HMO Department">HMO Department</option>
@@ -62,38 +62,34 @@
                         <option value="Accounting Department">Accounting Department</option>
                     </select>
 
-                    <label for="type">Title</label>
+                    <b><label for="type">Title: </label></b>
                     <select class="form-control" id="type" name="title">
                         <option value="Doctor">Doctor</option>
                         <option value="Nurse">Nurse</option>
                         <option value="Intern">Intern</option>
                     </select>
 
-                     <label for="type">Position</label>
-                    <select class="form-control" id="type" name="position">
-                        <option value="Administrator">Administrator</option>
-                        <option value="Owner">Owner</option>
-                        <option value="Nurse">Nurse</option>
-                        <option value="Director in Charge">Director in Charge</option>
-                    </select>
-                   
-                     <label for="item_code">Date Start:</label>
+                     <b><label for="type">Position : </label></b>
+                     <input type="text" id="item_code" name="position" class="form-control"
+                     placeholder="Enter Position" >
+                  
+                         <b><label for="type">Position : </label></b>
                         <input type="date" id="item_code" name="employee_sdate" class="form-control"
                         placeholder="Enter employee middle name" >
 
-                    <label for="email">User Name:</label>
+                     <b><label for="type">Email : </label></b>
                     <input type="email" id="email" class="form-control" name="email" placeholder="Enter employee email" required>
 
-                    <label for="Password">Password:</label>
+                    <b><label for="type">Password : </label></b>
                     <input type="password" id="Password" class="form-control" name="Password" placeholder="Enter employee password" required>
                     <!-- Add more fields as needed -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" id="Closemodal2" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="saveItemButton" name="SaveItem">Save Item</button>
+                    <button type="submit" class="btn btn-primary" id="saveItemButton" name="SaveItem">Save Employee</button>
                 </div>
             </div>
         </div>
-    </div>
+    </Save Employee
 </form>
 </html>

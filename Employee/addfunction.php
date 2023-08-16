@@ -15,7 +15,6 @@ if ($conn->connect_error) {
 }
 
 if (isset($_POST['SaveItem'])) {
-    $employeeCode = $_POST['employee_code'];
     $lname = $_POST['employee_lname'];
     $fname = $_POST['employee_fname'];
     $mname = $_POST['employee_mname'];
