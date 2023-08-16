@@ -130,7 +130,7 @@ ALTER TABLE `employee_tb`
 -- AUTO_INCREMENT for table `inventory_tb`
 --
 ALTER TABLE `inventory_tb`
-  MODIFY `InventoryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `InventoryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `itemtype_tb`

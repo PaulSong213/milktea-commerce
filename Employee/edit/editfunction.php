@@ -21,10 +21,9 @@ if (isset($_POST['SaveItem'])) {
 
     $sql = "UPDATE employee_tb
     SET
-        employee_code = 'employee_code',
         lname = '$lname',
         fname = '$fname',
-        Generic = '$generic',
+        mname = '$mname',
         SugPrice = '$sugPrice',
         MWprice = '$mwPrice',
         IPDprice = '$ipdPrice',
@@ -33,7 +32,7 @@ if (isset($_POST['SaveItem'])) {
         itemCode = '$itemCode',
         modifiedDate = now()
     WHERE
-        InventoryID = '$item_id';
+        SID = '$item_id';
     ";
 
     $result = mysqli_query($conn, $sql);
