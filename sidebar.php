@@ -1,3 +1,33 @@
+<?php
+
+$sidebarContent = [
+    [
+        "name" => "Dashboard", //name of the link
+        "icon" => "dashboard", //material icon name
+        "link" => "/inventory/inventorydashboard.php", //link of the page
+        "navigations" => [] //list of links on dropdown
+    ],
+    [
+        "name" => "Inventory System", //name of the link
+        "icon" => "dashboard", //material icon name
+        "link" => "/inventory/index.php", //link of the page
+        "navigations" => [] //list of links on dropdown
+    ],
+    [
+        "name" => "Sample Dropdown", //name of the link
+        "icon" => "dashboard", //material icon name
+        "link" => "#sample", //link of the page
+        "navigations" => [
+            [
+                "name" => "Dashboard", //name of the link
+                "link" => "/inventory/inventorydashboard", //link of the page
+            ],
+        ] //list of links on dropdown
+    ],
+]
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,14 +37,8 @@
     <title>Crud Dashboard</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-        }
-
         #sidebar {
             position: fixed;
             width: 260px;
@@ -84,15 +108,14 @@
         .dropdown-toggle::after {
             content: "\f105";
             font-family: "Material Icons";
-            position: absolute;
-            right: 20px;
-            top: 50%;
             transform: translateY(-50%);
             color: #777;
-            transition: transform 0.3s;
+            transition: all 0.3s;
+            margin-left: 10px;
+            margin-top: 5px;
         }
 
-        .dropdown.show .dropdown-toggle::after {
+        .dropdown:has(ul.show) .dropdown-toggle::after {
             transform: translateY(-50%) rotate(180deg);
         }
     </style>
@@ -105,15 +128,40 @@
                     Hospital</span></h3>
         </div>
         <ul class="list-unstyled components">
-            <li class="active">
-                <a href="#" class="dashboard"><i class="material-icons">dashboard</i>
-                    <span>Dashboard</span></a>
-            </li>
 
+            <?php
+            $root = "/zarate";
+            for ($i = 0; $i < sizeof($sidebarContent); $i++) {
+                $content = $sidebarContent[$i];
+                $isDropdown = sizeof($content["navigations"]) > 0;
+                $link = $isDropdown ? $content["link"] : $root . $content["link"]; //if link starts with #, it is a dropdowns
+                $navClass = $link == $_SERVER['REQUEST_URI'] ? "active" : "";
+                if (sizeof($content["navigations"]) > 0) $navClass = $navClass . " dropdown";
+                $dropdownProperties = $isDropdown ? 'data-toggle="collapse" aria-expanded="false"' : "";
 
+                // $navigationList = '<ul class="collapse list-unstyled menu" id="' . $content['name'] . '">';
+                // for ($i = 0; $i < sizeof($content['navigations']); $i++) {
+                //     $navigation = $content['navigations'][$i];
+                //     $navigationList = $navigationList . '<li><a href="' . $navigation['link'] . '">' . $navigation['name'] . '</a></li>';
+                // }
+                // $navigationList = $navigationList . '</ul>';
+
+                echo '
+                <li class="' . $navClass . '">
+                    <a href="' . $link . '" class="dashboard d-flex align-items-center nav-link dropdown-toggle" ' . $dropdownProperties . '>
+                        <i class="material-icons">' . $content["icon"] . '</i>
+                        <span class="mx-1">' . $content["name"] . '</span>
+                    </a>
+
+                </li>
+                ';
+            }
+            ?>
             <li class="dropdown">
-                <a href="#homeSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <i class="material-icons">aspect_ratio</i>Layouts</a>
+                <a href="#homeSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link my-auto d-flex align-items-center">
+                    <i class="material-icons ">aspect_ratio</i>
+                    <span class="mx-1">Layouts</span>
+                </a>
                 <ul class="collapse list-unstyled menu" id="homeSubmenu1">
                     <li>
                         <a href="#">Home 1</a>
@@ -126,117 +174,6 @@
                     </li>
                 </ul>
             </li>
-
-            <li class="dropdown">
-                <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <i class="material-icons">apps</i><span>widgets</span></a>
-                <ul class="collapse list-unstyled menu" id="pageSubmenu2">
-                    <li>
-                        <a href="#">Page 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 3</a>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="dropdown">
-                <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <i class="material-icons">equalizer</i>
-
-
-                    <span>chart</span></a>
-                <ul class="collapse list-unstyled menu" id="pageSubmenu3">
-                    <li>
-                        <a href="#">Page 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 3</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="dropdown">
-                <a href="#pageSubmenu4" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <i class="material-icons">extension</i><span>ui element</span></a>
-                <ul class="collapse list-unstyled menu" id="pageSubmenu4">
-                    <li>
-                        <a href="#">Page 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 3</a>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="dropdown">
-                <a href="#pageSubmenu5" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <i class="material-icons">border_color</i><span>forms</span></a>
-                <ul class="collapse list-unstyled menu" id="pageSubmenu5">
-                    <li>
-                        <a href="#">Page 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 3</a>
-                    </li>
-                </ul>
-            </li>
-
-
-
-            <li class="dropdown">
-                <a href="#pageSubmenu6" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <i class="material-icons">grid_on</i><span>tables</span></a>
-                <ul class="collapse list-unstyled menu" id="pageSubmenu6">
-                    <li>
-                        <a href="#">Page 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 3</a>
-                    </li>
-                </ul>
-            </li>
-
-
-            <li class="dropdown">
-                <a href="#pageSubmenu7" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <i class="material-icons">content_copy</i><span>Pages</span></a>
-                <ul class="collapse list-unstyled menu" id="pageSubmenu7">
-                    <li>
-                        <a href="#">Page 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 3</a>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="">
-                <a href="#"><i class="material-icons">date_range</i><span>copy</span></a>
-            </li>
-
-            <li class="">
-                <a href="#"><i class="material-icons">library_books</i><span>Calender
-                    </span></a>
-            </li>
-
 
         </ul>
     </nav>
@@ -254,8 +191,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $("#toggleSidebar").on("click", function () {
+        $(document).ready(function() {
+            $("#toggleSidebar").on("click", function() {
                 $("#sidebar").toggleClass("active");
                 $("#content").toggleClass("active");
             });
