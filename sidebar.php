@@ -8,6 +8,12 @@ $sidebarContent = [
         "navigations" => [] //list of links on dropdown
     ],
     [
+        "name" => "Billing", //name of the link
+        "icon" => "point_of_sale", //material icon name
+        "link" => "/billing/index.php", //link of the page
+        "navigations" => [] //list of links on dropdown
+    ],
+    [
         "name" => "Employee", //name of the link
         "icon" => "badge", //material icon name
         "link" => "/Employee/index.php", //link of the page

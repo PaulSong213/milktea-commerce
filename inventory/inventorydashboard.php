@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventory Dashboard</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
         body {
             background-color: #f5f5f5;
@@ -27,6 +27,9 @@
 
 <body>
     <div class="d-flex flex-direction-row">
+        <div class="d-block">
+            <?php include('../sidebar.php') ?>
+        </div>
         <div class="container mt-5">
             <h1 class="text-center mb-4 ">Inventory Summary Dashboard</h1>
 
@@ -46,10 +49,10 @@
                                 $username = 'root';
                                 $password = '';
                                 // Establish a database connection
-                                
+
                                 $db = new mysqli($host, $username, $password, $dbName);
                                 // Connect to the database
-                                
+
 
                                 // Check connection
                                 if ($db->connect_error) {
@@ -122,10 +125,10 @@
                                 $username = 'root';
                                 $password = '';
                                 // Establish a database connection
-                                
+
                                 $db = new mysqli($host, $username, $password, $dbName);
                                 // Connect to the database
-                                
+
 
                                 // Check connection
                                 if ($db->connect_error) {
@@ -161,10 +164,10 @@
                                 $username = 'root';
                                 $password = '';
                                 // Establish a database connection
-                                
+
                                 $db = new mysqli($host, $username, $password, $dbName);
                                 // Connect to the database
-                                
+
                                 // Check connection
                                 if ($db->connect_error) {
                                     die("Connection failed: " . $db->connect_error);
@@ -196,7 +199,7 @@
                 $username = 'root';
                 $password = '';
                 // Establish a database connection
-                
+
                 $db = new mysqli($host, $username, $password, $dbName);
                 // Connect
                 // Check connection
@@ -238,8 +241,7 @@
                     type: 'line',
                     data: {
                         labels: dailyData.map(item => item.date),
-                        datasets: [
-                            {
+                        datasets: [{
                                 label: 'Daily Summary',
                                 data: dailyData.map(item => item.total_quantity),
                                 borderColor: '#007bff',
@@ -277,6 +279,8 @@
             </script>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>
