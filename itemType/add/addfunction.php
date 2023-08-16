@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once '../../php/connect.php';
 $conn = connect();
 
@@ -15,14 +16,17 @@ if (isset($_POST['SaveItem'])) {
     VALUES ('$itemTypeCode', '$description')";
 
     $result = mysqli_query($conn, $sql);
-
     if ($result) {
-        header("Location: ../index.php");
-        die();
+        // success
+        $_SESSION["alert_message"] = "Successfully Added an Item Type";
+        $_SESSION["alert_message_success"] = true;
     } else {
-        header("Location: ../index.php");
-        die();
+        $_SESSION["alert_message"] = "Failed to Added an Item Type. Error Details: " . mysqli_error($conn);
+        $_SESSION["alert_message_error"] = true;
     }
+
+    header("Location: ../index.php");
+    die();
 }
 
 // Close the database connection

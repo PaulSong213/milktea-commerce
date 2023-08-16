@@ -21,9 +21,8 @@
                             <input type="text" id="itemTypeCode" name="itemTypeCode" class="form-control" placeholder="Enter item code" autocomplete="on" required>
                         </div>
                         <div class="mb-3">
-
-                            <label for="description">Description<span class="text-danger mx-1">*</span></label>
-                            <textarea class="form-control" id="description" name="description" placeholder="Enter description" required autocomplete="on"></textarea>
+                            <label for="description">Description</label>
+                            <textarea class="form-control" id="description" name="description" placeholder="Enter description" autocomplete="on"></textarea>
                         </div>
                         <!-- Add more fields as needed -->
                     </div>
