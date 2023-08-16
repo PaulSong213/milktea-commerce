@@ -1,5 +1,5 @@
 <?php
-
+// get icons here -> https://mui.com/material-ui/material-icons/
 $sidebarContent = [
     [
         "name" => "Dashboard", //name of the link
@@ -8,19 +8,23 @@ $sidebarContent = [
         "navigations" => [] //list of links on dropdown
     ],
     [
-        "name" => "Inventory System", //name of the link
-        "icon" => "dashboard", //material icon name
-        "link" => "/inventory/index.php", //link of the page
+        "name" => "Employee", //name of the link
+        "icon" => "badge", //material icon name
+        "link" => "/Employee/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
     ],
     [
-        "name" => "Sample Dropdown", //name of the link
-        "icon" => "dashboard", //material icon name
-        "link" => "#sample", //link of the page
+        "name" => "Inventory System", //name of the link
+        "icon" => "vaccines", //material icon name
+        "link" => "inventory", //link of the page
         "navigations" => [
             [
-                "name" => "Dashboard", //name of the link
-                "link" => "/inventory/inventorydashboard", //link of the page
+                "name" => "Inventory Items", //name of the link
+                "link" => "/inventory/index.php", //link of the page
+            ],
+            [
+                "name" => "Item Types", //name of the link
+                "link" => "/itemType/index.php", //link of the page
             ],
         ] //list of links on dropdown
     ],
@@ -43,13 +47,14 @@ $sidebarContent = [
             position: fixed;
             width: 260px;
             height: 100vh;
-            transition: all 0.3s;
+            transition: ease-in 0.1s;
             background-color: #fff;
             box-shadow: 0 0 30px rgba(200, 200, 200, 0.2);
+            z-index: 1000;
         }
 
         #sidebar.active {
-            width: 0;
+            width: 70px;
         }
 
         #content {
@@ -59,8 +64,7 @@ $sidebarContent = [
         }
 
         #content.active {
-            margin-left: 0;
-            width: 100%;
+            margin-left: 40px;
         }
 
         .sidebar-header {
@@ -118,14 +122,19 @@ $sidebarContent = [
         .dropdown:has(ul.show) .dropdown-toggle::after {
             transform: translateY(-50%) rotate(180deg);
         }
+
+        #toggleSidebar {
+            width: 3rem;
+            height: 3rem;
+        }
     </style>
 </head>
 
 <body>
     <nav id="sidebar">
         <div class="sidebar-header">
-            <h3><img src="/zarate/img/logo.png" class="img-fluid" alt="Logo" /><span class="fw-bold">E.Zarate
-                    Hospital</span></h3>
+            <h3><img src="/zarate/img/logo.png" class="img-fluid" alt="Logo" /><span class="fw-bold company-title">E.Zarate Hospital</span></h3>
+
         </div>
         <ul class="list-unstyled components">
 
@@ -134,55 +143,46 @@ $sidebarContent = [
             for ($i = 0; $i < sizeof($sidebarContent); $i++) {
                 $content = $sidebarContent[$i];
                 $isDropdown = sizeof($content["navigations"]) > 0;
-                $link = $isDropdown ? $content["link"] : $root . $content["link"]; //if link starts with #, it is a dropdowns
-                $navClass = $link == $_SERVER['REQUEST_URI'] ? "active" : "";
-                if (sizeof($content["navigations"]) > 0) $navClass = $navClass . " dropdown";
-                $dropdownProperties = $isDropdown ? 'data-toggle="collapse" aria-expanded="false"' : "";
+                $link = $isDropdown ? "#" . $content["link"] : $root . $content["link"]; //if link starts with #, it is a dropdowns
+                $navClass = $link == $_SERVER['REQUEST_URI'] ? "active " : "";
+                if (sizeof($content["navigations"]) > 0) $navClass = $navClass . "dropdown";
 
-                // $navigationList = '<ul class="collapse list-unstyled menu" id="' . $content['name'] . '">';
-                // for ($i = 0; $i < sizeof($content['navigations']); $i++) {
-                //     $navigation = $content['navigations'][$i];
-                //     $navigationList = $navigationList . '<li><a href="' . $navigation['link'] . '">' . $navigation['name'] . '</a></li>';
-                // }
-                // $navigationList = $navigationList . '</ul>';
+                $dropdownClass = $isDropdown ? "dropdown-toggle" : "";
+
+                $hasActiveSublink = false;
+                $navigationList = '<ul class="collapse list-unstyled menu" id="' .  $content["link"] . '">';
+                for ($j = 0; $j < sizeof($content['navigations']); $j++) {
+                    $navigation = $content['navigations'][$j];
+                    $subNavLink = $root . $navigation['link'];
+                    $isActive = $subNavLink == $_SERVER['REQUEST_URI'];
+                    if ($isActive) $hasActiveSublink = true;
+                    $activeClass = $isActive ? "active" : "";
+                    $navigationList = $navigationList . '<li class="' . $activeClass . '"><a class="nav-link sub-nav-link mx-2" href="' . $subNavLink . '">' . $navigation['name'] . '</a></li>';
+                }
+                $navigationList = $navigationList . '</ul>';
+                $dropdownProperties = $isDropdown ? 'data-toggle="collapse" aria-expanded="false"' : "";
+                if ($hasActiveSublink) $navigationList = str_replace("collapse", "collapse show", $navigationList);
 
                 echo '
                 <li class="' . $navClass . '">
-                    <a href="' . $link . '" class="dashboard d-flex align-items-center nav-link dropdown-toggle" ' . $dropdownProperties . '>
+                    <a id="' . $link . '" href="' . $link . '" class="dashboard d-flex align-items-center nav-link ' . $dropdownClass . '" ' . $dropdownProperties . '>
                         <i class="material-icons">' . $content["icon"] . '</i>
-                        <span class="mx-1">' . $content["name"] . '</span>
+                        <span class="mx-1 link-name">' . $content["name"] . '</span>
                     </a>
-
+                    ' . $navigationList . '
                 </li>
                 ';
             }
             ?>
-            <li class="dropdown">
-                <a href="#homeSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link my-auto d-flex align-items-center">
-                    <i class="material-icons ">aspect_ratio</i>
-                    <span class="mx-1">Layouts</span>
-                </a>
-                <ul class="collapse list-unstyled menu" id="homeSubmenu1">
-                    <li>
-                        <a href="#">Home 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Home 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Home 3</a>
-                    </li>
-                </ul>
-            </li>
-
         </ul>
+        <div>
+            <button class="btn btn-primary rounded-circle position-fixed p-3 bottom-0 start-0 m-4 d-flex justify-content-center align-items-center" id="toggleSidebar">
+                <span class="material-icons" id="sidebar-icon">table_rows</span>
+            </button>
+        </div>
     </nav>
 
     <div class="container-fluid" id="content">
-
-        <!-- <button class="btn btn-primary rounded-circle position-fixed p-3 bottom-0 end-0 m-4" id="toggleSidebar">
-            <span class="material-icons">tablerows</span>
-        </button> -->
 
         <!-- Your content here -->
     </div>
@@ -193,10 +193,28 @@ $sidebarContent = [
     <script>
         $(document).ready(function() {
             $("#toggleSidebar").on("click", function() {
-                $("#sidebar").toggleClass("active");
-                $("#content").toggleClass("active");
+                toggleSidebar();
             });
         });
+
+        checkSideBarState();
+        window.addEventListener('resize', () => {
+            checkSideBarState();
+        }, true);
+
+        function toggleSidebar() {
+            $("#sidebar").toggleClass("active");
+            $("#content").toggleClass("active");
+            $(".link-name").toggleClass("d-none");
+            $(".company-title").toggleClass("d-none");
+            $(".sub-nav-link").toggleClass("mx-2");
+        }
+
+        function checkSideBarState() {
+            var isSideBarOpened = $("#sidebar").hasClass("active");
+            if (screen.width <= 768 && !isSideBarOpened) toggleSidebar();
+            if (screen.width > 768 && isSideBarOpened) toggleSidebar();
+        }
     </script>
 </body>
 
