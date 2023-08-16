@@ -85,7 +85,8 @@
                                 <td><input type="text" class="form-control" name="unit" readonly /></td>
                                 <td><input type="number" class="form-control" name="price" step="0.01" /></td>
                                 <td><input type="number" class="form-control" name="disc_percent" /></td>
-                                <td><input type="number" class="form-control" name="disc_amt" step="0.01"readonly /></td>
+                                <td><input type="number" class="form-control" name="disc_amt" step="0.01" readonly />
+                                </td>
                                 <td><input type="text" class="form-control" name="subtotal" readonly /></td>
                                 <td><button class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button></td>
                             </tr>
@@ -96,7 +97,7 @@
 
             </div>
         </div>
-        <div class="sidebar">
+        <div class="sidebar">F
             <h3 class="app-title">E. ZARATE MEDICAL HOSPITAL</h3>
             <div class="net-sale">
                 <label for="netSale">Net Sale</label>
@@ -163,36 +164,81 @@
             inputFields.forEach(input => {
                 input.addEventListener("input", function () {
                     CalculateValues(newRow);
-                }); 
+                });
             });
         }
-            
+
         // Function to display values in console log and calculate subtotal
         function CalculateValues(row) {
-            const price = parseFloat(row.querySelector('[name="price"]').value);
-            const qty = parseFloat(row.querySelector('[name="qty"]').value);
-            const discPercent = row.querySelector('[name="disc_percent"]').value;
+            const price = parseFloat(row.querySelector('[name="price"]').value)|| 0;
+            const qty = parseFloat(row.querySelector('[name="qty"]').value)|| 0;
+            const discPercent = row.querySelector('[name="disc_percent"]').value || 0;
             const discAmt = row.querySelector('[name="disc_amt"]').value;
-           
 
             const subtotal = qty * price;
             const discount = subtotal * (discPercent / 100);
             const TotalDisc = subtotal - discount;
-
-            console.log("Qty:", qty);
-            console.log("Price:", price);
-            console.log("SubTotal:", subtotal);
-            console.log("Discount:", discount);
-            console.log("Total Discount:", TotalDisc);
 
             const subtotalInput = row.querySelector('[name="subtotal"]');
             subtotalInput.value = TotalDisc.toFixed(2);
 
             const DiscInput = row.querySelector('[name="disc_amt"]');
             DiscInput.value = discount.toFixed(2);
+
+            // Calculate net sale by summing up all subtotals
+            const allSubtotalInputs = document.querySelectorAll('[name="subtotal"]');
+            let netSale = 0;
+            allSubtotalInputs.forEach(subtotalInput => {
+                const subtotalValue = parseFloat(subtotalInput.value);
+                if (!isNaN(subtotalValue)) {
+                    netSale += subtotalValue;
+                }
+            });
+
+            // Calculate and update net amount based on additional discount
+            const additionalDiscountInput = document.getElementById("additionalDiscount");
+            const additionalDiscountValue = parseFloat(additionalDiscountInput.value)|| 0;
+        
+            const AmountTenderedInput = document.getElementById("amountTendered");
+            const AmountTenderedValue = parseFloat(AmountTenderedInput.value)|| 0;
+
+
+            const netAmount = netSale * (additionalDiscountValue / 100);
+            const TotalnetAmount = netSale - netAmount;
+            const TotalChange = AmountTenderedValue - TotalnetAmount;
+
+            // Update net sale and net amount input fields
+            const netSaleInput = document.getElementById("netSale");
+            const netAmountInput = document.getElementById("netAmount");
+            const NetTotalChange = document.getElementById("change");
+
+
+
+            netSaleInput.value = netSale.toFixed(2);
+            netAmountInput.value = TotalnetAmount.toFixed(2);
+            NetTotalChange.value = TotalChange.toFixed(2);
+
         }
 
+        // Attach the CalculateValues function to all input fields
+        const allInputFields = document.querySelectorAll('input');
+        allInputFields.forEach(inputField => {
+            inputField.addEventListener('input', function () {
+                CalculateValues(this.closest('tr')); // Pass the closest row to the function
+            });
+        });
 
+        // Attach input listener to additional discount input field
+        const additionalDiscountInput = document.getElementById("additionalDiscount");
+        additionalDiscountInput.addEventListener("input", function () {
+            CalculateValues(document.querySelector("table")); // Pass the table to update calculations
+        });
+
+
+        const AmountTenderedInput = document.getElementById("amountTendered");
+        AmountTenderedInput.addEventListener("input", function () {
+            CalculateValues(document.querySelector("table")); // Pass the table to update calculations
+        });
     </script>
 </body>
 
