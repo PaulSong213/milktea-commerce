@@ -1,5 +1,9 @@
 export function handleViewClick() {
     const viewDatas = [
+         {
+            dataKey: "DatabaseID",
+            label: "Database ID"
+        },
         {
             dataKey: "EmployeeCode",
             label: "Employee Code"
@@ -28,10 +32,7 @@ export function handleViewClick() {
             dataKey: "createDate",
             label: "Created Date"
         },
-        {
-            dataKey: "DatabaseID",
-            label: "Databade ID"
-        },
+
         {
             dataKey: "title",
             label: "Title"
