@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 14, 2023 at 07:38 AM
+-- Generation Time: Aug 11, 2023 at 07:47 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -28,11 +28,11 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `employee_tb` (
-  `DatabaseID` int(11) DEFAULT NULL,
+  `DatabaseID` int(11) NOT NULL,
   `EmployeeCode` int(11) DEFAULT NULL,
   `lname` varchar(100) DEFAULT NULL,
   `fname` varchar(100) DEFAULT NULL,
-  `mname` varchar(100) DEFAULT NULL,
+  `mname` varchar(100) DEFAULT 'N/A',
   `title` varchar(100) DEFAULT NULL,
   `position` varchar(100) NOT NULL,
   `maritalStatus` varchar(100) NOT NULL,
@@ -42,8 +42,25 @@ CREATE TABLE `employee_tb` (
   `department` varchar(100) NOT NULL,
   `dateStart` date NOT NULL,
   `createDate` datetime NOT NULL DEFAULT current_timestamp(),
-  `modifiedDate` datetime NOT NULL DEFAULT current_timestamp()
+  `modifiedDate` datetime NOT NULL DEFAULT current_timestamp(),
+  `userName` varchar(30) NOT NULL,
+  `password` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `employee_tb`
+--
+
+INSERT INTO `employee_tb` (`DatabaseID`, `EmployeeCode`, `lname`, `fname`, `mname`, `title`, `position`, `maritalStatus`, `sex`, `bDate`, `nickName`, `department`, `dateStart`, `createDate`, `modifiedDate`, `userName`, `password`, `Status`) VALUES
+(1, 231212, 'Sargento', 'Ryan Joshua', 'B.', 'Intern', 'System dev', 'Single', 'Male', '2020-05-05', 'RJ', 'IT department', '2023-08-03', '2023-08-11 14:02:05', '2023-08-11 14:02:05', '1', '1', 1),
+(2, 128, 'Eltagon', 'Lea', 'L.', 'MS', 'Med. Record', 'Single', 'Female', '1982-08-28', 'Yang2x', 'Info Department', '2023-08-01', '2023-08-07 15:07:40', '2023-08-11 15:14:13', 'eltagon@info.zarate', '12345', 1),
+(3, 1, 'sadsa', 'sdasd', 'sdasdas', 'type1', 'type1', 'type1', 'type1', '2023-08-02', '', 'type1', '2023-07-31', '2023-08-12 13:27:16', '2023-08-12 13:27:16', 'admin@gmail.com', 'kjbkkb', 1),
+(4, 2012012, 'Tabuyan', 'Kean Arthur', 'Sargento', 'type1', 'type2', 'type1', 'type1', '2014-11-15', 'Yan Yan', 'type1', '2023-08-11', '2023-08-12 13:31:08', '2023-08-12 13:31:08', 'kean@hr.com', 'kean', 1),
+(5, 90112, 'Tabuyan', 'Kean Arthur', 'Sargento', 'type1', 'type1', 'type1', 'Male', '2023-08-02', '', 'IT Department', '2023-08-04', '2023-08-12 18:20:29', '2023-08-12 18:20:29', 'kean@hr.com', 'sdasdasd', 1),
+(6, 12321323, 'SampleLastName', 'SampleFname', 'S.', 'Doctor', 'System', 'Single', 'Male', '1987-07-14', 'SampleNickname', 'IT Department', '2023-08-01', '2023-08-12 18:25:43', '2023-08-12 18:25:43', 'sample@hr.zarate', 'sample', 1),
+(7, 1123, 'Tabuyan', 'Kean Arthur', 'Sargento', 'Doctor', 'Administrator', 'Single', 'Male', '2023-08-03', 'sas', 'IT Department', '2023-08-03', '2023-08-13 13:03:49', '2023-08-13 13:03:49', 'kean@hr.com', 'password', 1),
+(8, 1234, 'fxfh', 'gxgx', 'gxhgx', 'Nurse', 'Nurse', 'Single', 'Female', '2023-08-15', 'ncnv', 'IP Department', '2023-08-15', '2023-08-14 05:36:52', '2023-08-14 05:36:52', 'sargentoryanjoshua@gmail.com', 'sarge', 1),
+(9, 128, 'xzxsdd', 'dsfsdfsd', 'dfssdsdfT.', 'Doctor', 'Administrator', 'Single', 'Male', '2023-08-10', 'T.', 'IT Department', '2023-08-02', '2023-08-14 07:13:20', '2023-08-14 07:13:20', 'admin@admin', 'admin', 1);
 
 -- --------------------------------------------------------
 
@@ -63,7 +80,7 @@ CREATE TABLE `inventory_tb` (
   `IPDprice` double NOT NULL,
   `Ppriceuse` double NOT NULL,
   `Status` tinyint(1) NOT NULL,
-  `Type` varchar(300) NOT NULL DEFAULT 'pcs',
+  `UnitType` varchar(300) NOT NULL DEFAULT 'pcs',
   `createDate` datetime DEFAULT current_timestamp(),
   `modifiedDate` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -73,67 +90,19 @@ CREATE TABLE `inventory_tb` (
 --
 
 INSERT INTO `inventory_tb` (`InventoryID`, `itemTypeID`, `itemCode`, `Unit`, `Description`, `Generic`, `SugPrice`, `MWprice`, `IPDprice`, `Ppriceuse`, `Status`, `Type`, `createDate`, `modifiedDate`) VALUES
-(2, 1, 'yyyyyyyyyyyyyyyyy', 0, '111111111', '111111111', 111111111, 111111111, 111111111, 111111111, 1, '111111111', '2021-03-02 00:00:00', '2022-01-11 15:46:56'),
-(4, 3, 'Biogesic', 100, 'is a medication that is typically used to relieve mild to moderate pain such as headache, backache, menstrual cramps, muscular strain, minor arthritis pain, toothache, and reduce fevers caused by illnesses such as the common cold and flu.', 'Paracetamol', 40, 10, 10, 10, 1, 'pcs', '2023-02-07 00:00:00', '2023-02-11 12:29:30'),
-(5, 5, 'Zyrtec', 100, 'Cetirizine is an antihistamine medicine that helps the symptoms of allergies. It\'s used to treat: hay fever. conjunctivitis (red, itchy eye)', 'Cetirizine', 40, 10, 10, 10, 1, 'pcs', '2023-12-17 00:00:00', '2023-08-11 12:29:30'),
-(6, 0, 'azzzzzzzzzzzzzz', 221, 'edited now', '111111', 11111, 11111, 1111, 11111, 1, 'azzzzzzzzzzzzzz', '2023-08-11 00:00:00', '2023-08-14 13:37:21'),
-(7, 0, 'xxxxxxxx2141241241214', 111111111, '111111111', '111111111', 111111111, 111111111, 111111111, 111111111, 1, '111111111', '2023-08-11 00:00:00', '2023-08-14 11:49:23'),
-(8, 0, 'zzzzzzzzzzzzzzzzzzzzzzz', 2147483647, '22222222222', '22222222222', 22222222222, 22222222222, 22222222222, 22222222222, 1, '22222222222', '2023-08-11 13:46:03', '2023-08-11 16:44:16'),
-(9, 0, '878787878787', 111111111, '111111111', '111111111', 111111111, 111111111, 111111111, 111111111, 1, '111111111', '2023-08-11 15:20:19', '2023-08-14 13:28:51'),
-(10, 0, 'zyyzyzyyzyz', 111111111, '111111111', '111111111', 111111111, 111111111, 111111111, 111111111, 1, '111111111', '2023-08-11 15:20:41', '2023-08-11 16:44:26'),
-(11, 0, 'wwe', 111111111, '111111111', '111111111', 111111111, 111111111, 111111111, 111111111, 1, '111111111', '2023-08-11 15:20:55', '2023-08-14 10:08:30'),
-(12, 0, 'rwarwa15555', 111111, '11a', '111111', 111111, 111111, 111111, 111111, 1, 'warawr', '2023-08-11 15:31:50', '2023-08-14 10:14:41'),
-(13, 0, '555555555555555555555', 2147483647, '555555555555555555555', '555555555555555555555', 5.5555555555555554e20, 5.555555555555556e17, 5.5555555555555554e20, 5.5555555555555554e20, 1, '555555555555555555555', '2023-08-11 15:48:14', '2023-08-14 13:36:27'),
-(14, 0, '3333333333', 2147483647, '3333333333', '3333333333', 3333333333, 3333333333, 3333333333, 3333333333, 1, '3333333333', '2023-08-11 09:51:47', '2023-08-11 09:51:47'),
-(15, 0, '1212121212121', 2147483647, '1212121212121', '1212121212121', 1212121212121, 1212121212121, 1212121212121, 1212121212121, 1, '1212121212121', '2023-08-11 10:47:20', '2023-08-11 10:47:20'),
-(16, 0, '1212121212121', 2147483647, '1212121212121', '1212121212121', 1212121212121, 1212121212121, 1212121212119, 1212121212121, 1, '1212121212121', '2023-08-11 11:08:19', '2023-08-11 11:08:19'),
-(17, 0, '1212121212121', 2147483647, '1212121212121', '1212121212121', 1212121212120, 1212121212121, 1212121212121, 1212121212121, 1, '1212121212121', '2023-08-14 03:58:03', '2023-08-14 03:58:03'),
-(18, 0, '1212121212121', 2147483647, '1212121212121', '1212121212121', 1212121212121, 1212121212121, 1212121212121, 1212121212121, 1, '12121212121211212121212121', '2023-08-14 04:01:10', '2023-08-14 04:01:10'),
-(19, 0, '1212121212121', 2147483647, '1212121212121', '1212121212121', 1212121212121, 1212121212121, 1212121212121, 1212121212121, 1, '1212121212121', '2023-08-14 04:02:48', '2023-08-14 04:02:48'),
-(20, 0, '1212121212121', 2147483647, '1212121212121', '1212121212121', 1212121212121, 1212121212119, 1212121212121, 1212121212121, 1, '1212121212121', '2023-08-14 04:04:26', '2023-08-14 04:04:26'),
-(21, 0, '1212121212121', 2147483647, '1212121212121', '1212121212121', 1212121212121, -11212121212121, 1212121212121, 1212121212121, 1, '1212121212121', '2023-08-14 04:06:25', '2023-08-14 04:06:25'),
-(22, 0, '1212121212121', 2147483647, '1212121212121', '1212121212121', 1212121212121, 1212121212121, 1212121212121, 1212121212121, 1, '1212121212121', '2023-08-14 04:07:43', '2023-08-14 04:07:43'),
-(23, 0, 'yyyyyyyyyyyyyyyyywww123', 123, '123', '123', 122, 123, 123, 123, 1, '123', '2023-08-14 04:13:47', '2023-08-14 04:13:47'),
-(24, 0, '1212121212121333', 2147483647, '1212121212121333', '1212121212121333', 1.212121212121333e15, 1.212121212121333e15, 1.212121212121333e15, 1.212121212121333e15, 1, '1212121212121333', '2023-08-14 04:25:41', '2023-08-14 04:25:41'),
-(25, 0, '12121212121214444', 2147483647, '12121212121214444', '12121212121214444', 1.2121212121214444e16, 1.2121212121214444e16, 1.2121212121214444e16, 1.2121212121214444e16, 1, '12121212121214444', '2023-08-14 05:49:09', '2023-08-14 05:49:09'),
-(26, 0, 'new item', 55, '55', '55', 55, 55, 55, 55, 1, '55', '2023-08-14 06:44:51', '2023-08-14 06:44:51'),
-(27, 0, 'new item1', 55, '55', '55', 55, 54, 55, 55, 1, '55', '2023-08-14 12:46:09', '2023-08-14 12:46:09'),
-(28, 0, 'check connect', 2147483647, '1212121212121', '1212121212121', 1212121212121, 1212121212121, 1212121212121, 1212121212121, 1, '1212121212121', '2023-08-14 12:49:37', '2023-08-14 12:49:37');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `itemtype_tb`
---
-
-CREATE TABLE `itemtype_tb` (
-  `itemTypeID` int(11) NOT NULL,
-  `itemTypeCode` varchar(120) NOT NULL,
-  `description` varchar(250) NOT NULL,
-  `createDate` datetime NOT NULL DEFAULT current_timestamp(),
-  `modifiedDate` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `itemtype_tb`
---
-
-INSERT INTO `itemtype_tb` (`itemTypeID`, `itemTypeCode`, `description`, `createDate`, `modifiedDate`) VALUES
-(1, 'X-Ray', '', '2023-08-14 10:55:56', '2023-08-14 10:55:56'),
-(2, 'ELoad', 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is availabl', '2023-08-14 10:56:33', '2023-08-14 10:56:33'),
-(3, 'US - Ultra Sound', 'UltraSound', '2023-08-14 11:11:58', '2023-08-14 11:11:58'),
-(4, 'US - Ultra Sound', 'US - Ultra Sound', '2023-08-14 13:22:57', '2023-08-14 13:22:57'),
-(5, 'US - Ultra Sound', 'US - Ultra Sound', '2023-08-14 13:23:02', '2023-08-14 13:23:02'),
-(6, 'US - Ultra Sound', 'US - Ultra Sound', '2023-08-14 13:23:06', '2023-08-14 13:23:06'),
-(7, 'US - Ultra Sound', 'US - Ultra Sound', '2023-08-14 13:23:09', '2023-08-14 13:23:09'),
-(8, 'US - Ultra Sound', 'US - Ultra Sound', '2023-08-14 13:23:13', '2023-08-14 13:23:13'),
-(9, 'US - Ultra Sound', 'US - Ultra Sound', '2023-08-14 13:23:18', '2023-08-14 13:23:18'),
-(10, 'US - Ultra Sound', 'US - Ultra Sound', '2023-08-14 13:23:23', '2023-08-14 13:23:23'),
-(11, 'US - Ultra Sound', 'US - Ultra Sound', '2023-08-14 13:23:26', '2023-08-14 13:23:26');
+(2, 1, 'Neozep', 100, 'This medicine is used for the relief of clogged nose, postnasal drip, headache, body aches, and fever associated with the common cold, sinusitis, flu, and other minor respiratory tract infections. ', 'Chlorphenamine Maleate', 50, 50, 10, 20, 1, 'pcs', '2023-03-02 00:00:00', '2023-08-11 12:29:30'),
+(4, 3, 'Biogesic', 100, 'is a medication that is typically used to relieve mild to moderate pain such as headache, backache, menstrual cramps, muscular strain, minor arthritis pain, toothache, and reduce fevers caused by illnesses such as the common cold and flu.', 'Paracetamol', 40, 10, 10, 10, 1, 'pcs', '2023-08-07 00:00:00', '2023-08-11 12:29:30'),
+(5, 5, 'Zyrtec', 100, 'Cetirizine is an antihistamine medicine that helps the symptoms of allergies. It\'s used to treat: hay fever. conjunctivitis (red, itchy eye)', 'Cetirizine', 40, 10, 10, 10, 1, 'pcs', '2023-12-17 00:00:00', '2023-08-11 12:29:30');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `employee_tb`
+--
+ALTER TABLE `employee_tb`
+  ADD PRIMARY KEY (`DatabaseID`);
 
 --
 -- Indexes for table `inventory_tb`
@@ -152,16 +121,22 @@ ALTER TABLE `itemtype_tb`
 --
 
 --
+-- AUTO_INCREMENT for table `employee_tb`
+--
+ALTER TABLE `employee_tb`
+  MODIFY `DatabaseID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
 -- AUTO_INCREMENT for table `inventory_tb`
 --
 ALTER TABLE `inventory_tb`
-  MODIFY `InventoryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `InventoryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `itemtype_tb`
 --
 ALTER TABLE `itemtype_tb`
-  MODIFY `itemTypeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `itemTypeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
