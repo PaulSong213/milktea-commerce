@@ -7,7 +7,7 @@ if (isset($_POST['SaveItem'])) {
     
     $lname = $_POST['employee_lname'];
     $fname = $_POST['employee_fname'];
-    $mname = $_POST['employee_mname'];
+    $mname = $_POST['employee_maname'];
     $nickname = $_POST['employee_nickname'];
     $bdate = $_POST['employee_bdate'];
     $marital = $_POST['marital'];
@@ -15,10 +15,10 @@ if (isset($_POST['SaveItem'])) {
     $title = $_POST['title'];
     $position = $_POST['position'];
     $employeesdate = $_POST['employee_sdate'];
-    $depart = $_POST['dept'];
+    $depart = $_POST['depart'];
     $email = $_POST['email'];
     $password= $_POST['Password'];
-    $item_id = $_POST['item_id'];
+    $statusData = 1;
 
     $sql = "UPDATE employee_tb
     SET
@@ -30,27 +30,25 @@ if (isset($_POST['SaveItem'])) {
         sex = '$sex',
         bDate = '$bdate',
         nickName = '$nickname',
+        Status = '$statusData',
         department =  '$depart',
         dateStart = '$employeesdate',
         password = '$password', 
-        userName = '$email',
+        email = '$email',
         modifiedDate = now()
     WHERE
         DatabaseID = '$item_id';
     ";
 
     $result = mysqli_query($conn, $sql);
-if ($result) {
-        // success
-        $_SESSION["alert_message"] = "Successfully Edited an Item Type";
-        $_SESSION["alert_message_success"] = true;
-    } else {
-        $_SESSION["alert_message"] = "Failed to Edited an Item Type. Error Details: " . mysqli_error($conn);
-        $_SESSION["alert_message_error"] = true;
-    }
 
-    header("Location: ../index.php");
-    die();
+    if ($result) {
+        header("Location: ../index.php");
+        die();
+    } else {
+        header("Location: ../index.php");
+        die();
+    }
 }
 
 // Close the database connection

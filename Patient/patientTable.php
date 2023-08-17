@@ -181,7 +181,7 @@
                     [5, 'asc']
                 ]
             });
-            handleArchiveClick(table, 1, "./edit/archive.php", 6);
+            handleArchiveClick(table, 1, "./edit/archive.php", 7);
             handleEditClick("#addItemModal");
             handleViewClick();
         });

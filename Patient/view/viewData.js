@@ -37,9 +37,13 @@ export function handleViewClick() {
             dataKey: "position",
             label: "Position"
         },
-            {
+        {
             dataKey: "sex",
             label: "Sex"
+        },
+         {
+            dataKey: "maritalStatus",
+            label: "Marital Status"
         },
             {
             dataKey: "department",
