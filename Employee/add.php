@@ -2,9 +2,9 @@
 
 <html lang="en">
 
-<form method="POST" id="addItemForm" action="addfunction.php">
+<form method="POST" onsubmit="return validatePassword();" id="addItemForm" action="addfunction.php">
 
-    <Save class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel"
+    <Save class="modal fade" data-bs-backdrop="static" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -20,19 +20,19 @@
                      <!--First Name -->
                     <b><label for="type">Last Name</label></b>
                     <input type="text" id="item_code" name="employee_lname" class="form-control"
-                        placeholder="Enter employee last name" required>
+                        placeholder="Enter employee last name" required autocomplete="on">
                     
                      <b><label for="type">First Name : </label></b>
                     <input type="text" id="item_code" name="employee_fname" class="form-control"
-                        placeholder="Enter employee first name" required>
+                        placeholder="Enter employee first name" required autocomplete="on">
 
                      <b><label for="type">Middle Name : </label></b>
                     <input type="text" id="item_code" name="employee_mname" class="form-control"
-                        placeholder="Enter employee middle name" required>
+                        placeholder="Enter employee middle name" required autocomplete="on">
 
                      <b><label for="type">Nickname : </label></b>
                     <input type="text" id="item_code" name="employee_nickname" class="form-control"
-                        placeholder="Enter employee nickname" required>
+                        placeholder="Enter employee nickname" required autocomplete="on">
 
                      <b><label for="type">Birth of Date : </label></b>
                         <input type="date" id="item_code" name="employee_bdate"  class="form-control"
@@ -62,27 +62,29 @@
                         <option value="Accounting Department">Accounting Department</option>
                     </select>
 
-                    <b><label for="type">Title: </label></b>
-                    <select class="form-control" id="type" name="title">
-                        <option value="Doctor">Doctor</option>
-                        <option value="Nurse">Nurse</option>
-                        <option value="Intern">Intern</option>
-                    </select>
+                    <b><label for="type">Title  </label></b>
+                     <input type="text" id="item_code" name="title" class="form-control"
+                     placeholder="Enter Title" required autocomplete="on">
 
-                     <b><label for="type">Position : </label></b>
+                     <b><label for="type">Position  </label></b>
                      <input type="text" id="item_code" name="position" class="form-control"
-                     placeholder="Enter Position" >
+                     placeholder="Enter Position" required autocomplete="on">
                   
-                         <b><label for="type">Date Started : </label></b>
+                         <b><label for="type">Date Started  </label></b>
                         <input type="date" id="item_code" name="employee_sdate" class="form-control"
                         placeholder="Enter employee middle name" >
 
-                     <b><label for="type">Email : </label></b>
-                    <input type="email" id="email" class="form-control" name="email" placeholder="Enter employee email" required>
+                     <b><label for="type">Email  </label></b>
+                    <input type="email" id="email" class="form-control" name="email" placeholder="Enter employee email" required autocomplete="on">
 
-                    <b><label for="type">Password : </label></b>
-                    <input type="password" id="Password" class="form-control" name="Password" placeholder="Enter employee password" required>
+                    <b><label for="type">Password  </label></b>
+                    <input type="password" id="Password" class="form-control" name="Password" placeholder="Enter employee password" required autocomplete="on">
                     <!-- Add more fields as needed -->
+
+                     <b><label for="type">Confirm Password  </label></b>
+                    <input type="password" id="CPassword" class="form-control" name="CPassword" placeholder="Enter employee password" required autocomplete="on">
+                    <!-- Add more fields as needed -->
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" id="Closemodal2" data-dismiss="modal">Close</button>
@@ -93,3 +95,31 @@
     </Save Employee
 </form>
 </html>
+
+<!-- Validate Password  -->
+<script>
+        function validatePassword() {
+            var password = document.getElementById("Password").value;
+            var cPassword = document.getElementById("CPassword").value;
+            
+            if (password !== cPassword) {
+                alert("Passwords do not match. Please re-enter.");
+                return false;
+            }
+            
+            return true;
+        }
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            const passwordInput = document.getElementById("Password");
+            const cPasswordInput = document.getElementById("CPassword");
+            
+            cPasswordInput.addEventListener("input", function() {
+                if (passwordInput.value !== cPasswordInput.value) {
+                    cPasswordInput.setCustomValidity("Passwords do not match.");
+                } else {
+                    cPasswordInput.setCustomValidity("");
+                }
+            });
+        });
+    </script>
