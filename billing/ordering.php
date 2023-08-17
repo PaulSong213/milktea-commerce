@@ -1,53 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ordering System</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<style>
-    body {
-        max-width: 100%;
-        margin: 0;
-        padding: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordering System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+        }
 
-    .container {
-        display: flex;
-        margin-top: 1%;
-        max-width: 100%;
-        justify-content: space-between;
-        align-items: flex-start;
-    }
+        .container {
+            display: flex;
+            margin-top: 1%;
+            max-width: 100%;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
 
-    .content {
-        width: 100%;
-    }
+        .content {
+            width: 100%;
+        }
 
-    .app-title {
-        text-align: center;
-        font-size: 28px;
-        color: #343a40;
-        margin-bottom: 20px;
-    }
+        .app-title {
+            text-align: center;
+            font-size: 28px;
+            color: #343a40;
+            margin-bottom: 20px;
+        }
 
-    .table-container {
-        margin-top: 20px;
+        .table-container {
+            margin-top: 20px;
 
-    }
+        }
 
-    .add-button {
-        margin-top: 20px;
-    }
+        .add-button {
+            margin-top: 20px;
+        }
 
-    .table-responsive {
-        overflow-x: auto;
-    }
+        .table-responsive {
+            overflow-x: auto;
+        }
 
-    .wide-table {
-        width: 100%;
-        /* Adjust the width as needed */
-    }
+        .wide-table {
+            width: 100%;
+            /* Adjust the width as needed */
+        }
     </style>
 </head>
 
@@ -87,7 +88,7 @@
     $conn->close();
     ?>
 
-    <div  >
+    <div>
         <form method="POST" action="databasefunctions.php" id="addItemForm" class="container">
             <div class="content">
                 <h1 class="app-title text-center">BILLING SYSTEM</h1>
@@ -110,15 +111,13 @@
                             </thead>
                             <tbody>
                                 <tr name="templateRow" style="display: none;">
-                                    <td><input type="text" class="form-control" name="product_id[]"
-                                            placeholder="Enter product ID"></td>
+                                    <td><input type="text" class="form-control" name="product_id[]" placeholder="Enter product ID"></td>
                                     <td><input type="text" class="form-control" readonly name="inv"></td>
                                     <td><input type="number" class="form-control" name="qty[]"></td>
                                     <td><input type="text" class="form-control" name="unit" readonly></td>
                                     <td><input type="number" class="form-control" name="price[]" step="0.01"></td>
                                     <td><input type="number" class="form-control" name="disc_percent[]"></td>
-                                    <td><input type="number" class="form-control" name="disc_amt[]" step="0.01"
-                                            readonly></td>
+                                    <td><input type="number" class="form-control" name="disc_amt[]" step="0.01" readonly></td>
                                     <td><input type="text" class="form-control" name="subtotal[]" readonly></td>
                                     <td><button class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button></td>
                                 </tr>
@@ -130,28 +129,23 @@
             </div>
 
             <div class="sidebar p-4 fw-bold">
-                <h3 class="app-title">E. ZARATE MEDICAL HOSPITAL</h3>
+                <h3 class="app-title">E. ZARATE HOSPITAL</h3>
                 <div class="additional-info p-3 bg-dark text-white">
                     <div class="form-group">
                         <label for="chargeSlipNumber">Charge Slip Number</label>
-                        <input type="text" class="form-control" name="chargeSlipNumber"
-                            placeholder="Enter Charge Slip Number" required
-                            value="<?php echo "00" . ($lastSalesID + 1); ?>" readonly>
+                        <input type="text" class="form-control" name="chargeSlipNumber" placeholder="Enter Charge Slip Number" required value="<?php echo "00" . ($lastSalesID + 1); ?>" readonly>
                     </div>
                     <div class="form-group">
                         <label for="patientAccountName">Patient Account Code</label>
-                        <input type="text" class="form-control" name="patientAccountName"
-                            placeholder="Enter Patient Account Name" required>
+                        <input type="text" class="form-control" name="patientAccountName" placeholder="Enter Patient Account Name" required>
                     </div>
                     <div class="form-group">
                         <label for="requestedByName">Requested By: </label>
-                        <input type="text" class="form-control" name="requestedByName"
-                            placeholder="Enter Requested By Name" required>
+                        <input type="text" class="form-control" name="requestedByName" placeholder="Enter Requested By Name" required>
                     </div>
                     <div class="form-group">
                         <label for="enteredByName">Entered By: </label>
-                        <input type="text" class="form-control" name="enteredByName" placeholder="Enter Entered By Name"
-                            required>
+                        <input type="text" class="form-control" name="enteredByName" placeholder="Enter Entered By Name" required>
                     </div>
 
 
@@ -213,7 +207,7 @@
         function attachInputListeners(row) {
             const inputFields = row.querySelectorAll("input");
             inputFields.forEach(input => {
-                input.addEventListener("input", function () {
+                input.addEventListener("input", function() {
                     CalculateValues(row);
                 });
             });
@@ -267,11 +261,11 @@
 
         }
 
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             addRow();
 
             const addRowButton = document.getElementById("addRow");
-            addRowButton.addEventListener("click", function () {
+            addRowButton.addEventListener("click", function() {
                 addRow();
             });
 
@@ -284,14 +278,14 @@
             // Attach input listeners to additional discount and amount tendered input fields
             const additionalDiscountInput = document.querySelector('[name="additionalDiscount"]');
             if (additionalDiscountInput) {
-                additionalDiscountInput.addEventListener("input", function () {
+                additionalDiscountInput.addEventListener("input", function() {
                     CalculateValues(document.querySelector("table"));
                 });
             }
 
             const amountTenderedInput = document.querySelector('[name="amountTendered"]');
             if (amountTenderedInput) {
-                amountTenderedInput.addEventListener("input", function () {
+                amountTenderedInput.addEventListener("input", function() {
                     CalculateValues(document.querySelector("table"));
                 });
             }

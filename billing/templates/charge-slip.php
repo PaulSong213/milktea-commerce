@@ -29,7 +29,7 @@
                     <div class="m-2 border p-2 shadow">
                         <div id="charge-slip" class="p-3 ">
                             <h4 class="fw-bold">
-                                E. Zarate Medical and Diagnostic Clinic
+                                E. Zarate Hospital
                             </h4>
                             <h4 class="fw-bold">
                                 <span>Charge Slip Number:</span>
