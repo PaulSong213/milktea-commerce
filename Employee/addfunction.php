@@ -1,13 +1,7 @@
 <?php
-// Database configuration
-$host = 'localhost';
-$dbName = 'zaratehospital';
-$username = 'root';
-$password = '';
-
-
-// Establish a database connection
-$conn = new mysqli($host, $username, $password, $dbName);
+session_start();
+require_once '../php/connect.php';
+$conn = connect();
 
 // Check connection
 if ($conn->connect_error) {
@@ -28,9 +22,9 @@ if (isset($_POST['SaveItem'])) {
     $startDate = $_POST['employee_sdate'];
     $username = $_POST['email'];
     $password = $_POST['Password'];
-  
 
-  $sql = "INSERT INTO employee_tb (lname, fname, mname, nickName, bDate, maritalStatus, sex, department, title, position, dateStart, userName, password, createDate, modifiedDate)
+
+    $sql = "INSERT INTO employee_tb (lname, fname, mname, nickName, bDate, maritalStatus, sex, department, title, position, dateStart, userName, password, createDate, modifiedDate)
         VALUES ('$lname', '$fname', '$mname', '$nickname', '$bdate', '$marital', '$sex', '$dept', '$title', '$position', '$startDate', '$username', '$password', NOW(), NOW())";
 
     $result = mysqli_query($conn, $sql);
@@ -43,10 +37,9 @@ if (isset($_POST['SaveItem'])) {
         $_SESSION["alert_message_error"] = true;
     }
 
-    header("Location: ../index.php");
+    header("Location: ./index.php");
     die();
 }
 
 // Close the database connection
 $conn->close();
-?>
