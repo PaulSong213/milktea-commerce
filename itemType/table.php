@@ -126,15 +126,24 @@
                 dom: 'Bfrtip',
                 buttons: [{
                         extend: 'excelHtml5',
-                        className: 'btn btn-success'
+                        className: 'btn btn-success',
+                        exportOptions: {
+                            columns: ':not(.action-column)'
+                        }
                     },
                     {
                         extend: 'pdfHtml5',
-                        className: 'btn btn-primary'
+                        className: 'btn btn-primary',
+                        exportOptions: {
+                            columns: ':not(.action-column)'
+                        }
                     },
                     {
                         extend: 'print',
-                        className: 'btn border border-info'
+                        className: 'btn border border-info',
+                        exportOptions: {
+                            columns: ':not(.action-column)'
+                        }
                     },
                     {
                         extend: 'colvis',
