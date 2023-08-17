@@ -1,4 +1,5 @@
 export function handleViewClick() {
+    
     const viewDatas = [
          {
             dataKey: "DatabaseID",
