@@ -179,14 +179,18 @@
                     "searchable": false
                 }],
                 order: [
-                    [4, 'asc']
+                    [3, 'asc']
                 ]
             });
             handleEditClick(table);
             handleViewClick(table);
-            $('.action-wrapper').each(function(i, e) {
-                $(this).removeClass('invisible');
+
+            table.on('draw', function() {
+                $('.action-wrapper').each(function(i, e) {
+                    $(this).removeClass('invisible');
+                });
             });
+            table.page(1).draw(true);
         });
     </script>
     <script>
