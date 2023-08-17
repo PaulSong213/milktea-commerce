@@ -1,93 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php
+require_once '../php/connect.php';
+$conn = connect();
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+// Function to get the last SalesID
+function getLastSalesID($conn)
+{
+    $querySalesID = "SELECT MAX(SalesID) AS LastSalesID FROM sales_tb";
+    $result = $conn->query($querySalesID);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row['LastSalesID'];
+    } else {
+        return 0; // If no records found
+    }
+}
+
+// Get the last SalesID
+$lastSalesID = getLastSalesID($conn);
+
+// Close the database connection
+$conn->close();
+?>
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ordering System</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<style>
-    body {
-        max-width: 100%;
-        margin: 0;
-        padding: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordering System</title>
+    <!-- Add this to your HTML <head> section -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+        }
 
-    .container {
-        display: flex;
-        margin-top: 1%;
-        max-width: 100%;
-        justify-content: space-between;
-        align-items: flex-start;
-    }
+        .container {
+            display: flex;
+            margin-top: 1%;
+            max-width: 100%;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
 
-    .content {
-        width: 100%;
-    }
+        .content {
+            width: 100%;
+        }
 
-    .app-title {
-        text-align: center;
-        font-size: 28px;
-        color: #343a40;
-        margin-bottom: 20px;
-    }
+        .app-title {
+            text-align: center;
+            font-size: 28px;
+            color: #343a40;
+            margin-bottom: 20px;
+        }
 
-    .table-container {
-        margin-top: 20px;
+        .table-container {
+            margin-top: 20px;
 
-    }
+        }
 
-    .add-button {
-        margin-top: 20px;
-    }
+        .add-button {
+            margin-top: 20px;
+        }
 
-    .table-responsive {
-        overflow-x: auto;
-    }
+        .table-responsive {
+            overflow-x: auto;
+        }
 
-    .wide-table {
-        width: 100%;
-        /* Adjust the width as needed */
-    }
+        .wide-table {
+            width: 100%;
+            /* Adjust the width as needed */
+        }
     </style>
 </head>
 
 <body>
-    <?php
-    $host = 'localhost';
-    $dbName = 'zaratehospital';
-    $username = 'root';
-    $password = '';
-
-    // Establish a database connection
-    $conn = new mysqli($host, $username, $password, $dbName);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    // Function to get the last SalesID
-    function getLastSalesID($conn)
-    {
-        $query = "SELECT MAX(SalesID) AS LastSalesID FROM sales_tb";
-        $result = $conn->query($query);
-
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            return $row['LastSalesID'];
-        } else {
-            return 0; // If no records found
-        }
-    }
-
-    // Get the last SalesID
-    $lastSalesID = getLastSalesID($conn);
-
-    // Close the database connection
-    $conn->close();
-    ?>
-
-    <div  >
+    <div>
         <form method="POST" action="databasefunctions.php" id="addItemForm" class="container">
             <div class="content">
                 <h1 class="app-title text-center">BILLING SYSTEM</h1>
@@ -110,12 +106,46 @@
                             </thead>
                             <tbody>
                                 <tr name="templateRow" style="display: none;">
-                                    <td><input type="text" class="form-control" name="product_id[]"
-                                            placeholder="Enter product ID"></td>
+                                    <td>
+                                        <input class="form-control" list="product_id_list" id="product_id_input"
+                                            name="product_id[]" />
+                                        <datalist id="product_id_list">
+                                            <?php
+                                            require_once '../php/connect.php';
+                                            $conn = connect();
+
+                                            if ($conn->connect_error) {
+                                                die("Connection failed: " . $conn->connect_error);
+                                            }
+
+                                            $query = "SELECT itemCode FROM inventory_tb";
+                                            $result = $conn->query($query);
+                                            $found = false;
+
+                                            while ($row = $result->fetch_assoc()) {
+                                                $itemCode = $row['itemCode'];
+                                                echo "<option value='$itemCode'>$itemCode</option>";
+                                                $found = true;
+                                            }
+
+                                            // Close the database connection
+                                            $conn->close();
+
+                                            while(!$found) {
+                                                echo "<script> Swal.fire({ icon: 'error',title: 'Invalid Input',text: 'Not Available Product!',});</script>";
+                                            }
+
+                                            echo " ";
+                                            ?>
+                                            
+                                        </datalist>
+                                    </td>
+
+
                                     <td><input type="text" class="form-control" readonly name="inv"></td>
                                     <td><input type="number" class="form-control" name="qty[]"></td>
                                     <td><input type="text" class="form-control" name="unit" readonly></td>
-                                    <td><input type="number" class="form-control" name="price[]" step="0.01"></td>
+                                    <td><input type="number" class="form-control" name="price[]" step="0.01" readonly></td>
                                     <td><input type="number" class="form-control" name="disc_percent[]"></td>
                                     <td><input type="number" class="form-control" name="disc_amt[]" step="0.01"
                                             readonly></td>
