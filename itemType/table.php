@@ -182,8 +182,8 @@
                     [4, 'asc']
                 ]
             });
-            handleEditClick();
-            handleViewClick();
+            handleEditClick(table);
+            handleViewClick(table);
             $('.action-wrapper').each(function(i, e) {
                 $(this).removeClass('invisible');
             });

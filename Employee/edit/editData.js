@@ -1,6 +1,5 @@
-export function handleEditClick(addModalLocator) {
-    $(".edit-btn").on('click', function (e) {
-
+export function handleEditClick(table) {
+    table.on('click', '.edit-btn', function (e) {
         const addModal = $("#addItemModal");
         addModal.modal('show');
         let data = JSON.parse($(this).attr("data-item"));
