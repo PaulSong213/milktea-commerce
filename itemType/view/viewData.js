@@ -1,4 +1,4 @@
-export function handleViewClick() {
+export function handleViewClick(table) {
     const viewDatas = [
         {
             dataKey: "itemTypeCode",
