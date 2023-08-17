@@ -28,21 +28,23 @@ if (isset($_POST['SaveItem'])) {
     $startDate = $_POST['employee_sdate'];
     $username = $_POST['email'];
     $password = $_POST['Password'];
-    $currentAddedDateTime = date('Y-m-d H:i:s');
-    $currentModifiedDateTime = date('Y-m-d H:i:s');
+  
 
-   $sql = "INSERT INTO employee_tb (lname, fname, mname, nickName, bDate, maritalStatus, sex, department, title, position, dateStart, userName, password, createDate, modifiedDate)
-        VALUES ('$lname', '$fname', '$mname', '$nickname', '$bdate', '$marital', '$sex', '$dept', '$title', '$position', '$startDate', '$username', '$password', '$currentAddedDateTime', '$currentModifiedDateTime')";
+  $sql = "INSERT INTO employee_tb (lname, fname, mname, nickName, bDate, maritalStatus, sex, department, title, position, dateStart, userName, password, createDate, modifiedDate)
+        VALUES ('$lname', '$fname', '$mname', '$nickname', '$bdate', '$marital', '$sex', '$dept', '$title', '$position', '$startDate', '$username', '$password', NOW(), NOW())";
 
     $result = mysqli_query($conn, $sql);
-
     if ($result) {
-        header("Location: ./index.php");
-        die();
+        // success
+        $_SESSION["alert_message"] = "Successfully Added an Employee";
+        $_SESSION["alert_message_success"] = true;
     } else {
-        header("Location: ./index.php");
-        die();
+        $_SESSION["alert_message"] = "Failed to Added an Employee. Error Details: " . mysqli_error($conn);
+        $_SESSION["alert_message_error"] = true;
     }
+
+    header("Location: ../index.php");
+    die();
 }
 
 // Close the database connection

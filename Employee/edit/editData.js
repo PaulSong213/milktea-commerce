@@ -40,12 +40,26 @@ export function handleEditClick(addModalLocator) {
                 inputName: "dept"
                 },                
                 {
-                dataKey: "department",
-                inputName: "dept"
-                },                
-
-
-           
+                dataKey: "title",
+                inputName: "title"
+                },
+                 {
+                dataKey: "position",
+                inputName: "position"
+                },  
+                 {
+                dataKey: "dateStart",
+                inputName: "employee_sdate"
+                }, 
+                {
+                dataKey: "userName",
+                inputName: "email"
+                },   
+                {
+                dataKey: "password",
+                inputName: "Password"
+                },
+            
         ];
 
         // fill up the fields
