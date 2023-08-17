@@ -172,10 +172,21 @@
                         const data = JSON.parse(d);
                         const id = data.InventoryID;
                         return `
-                        <div class="d-flex flex-column">
-                            <button class="btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
-                            <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
-                            <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>
+                        <div class="dropdown dropstart d-flex">
+                            <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
+                                <img class="mb-1" src="../img/icons/ellipsis-horizontal.svg">
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li class="mx-2">
+                                    <button class=" btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
+                                </li>
+                                <li class="mx-2">
+                                    <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
+                                </li>
+                                <li class="mx-2">
+                                    <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>
+                                </li>
+                            </ul>
                         </div>
                         `
                     },
