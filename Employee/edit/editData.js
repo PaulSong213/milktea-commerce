@@ -7,6 +7,44 @@ export function handleEditClick(addModalLocator) {
         console.log(data);
 
         const toFillUpDatas = [
+              {
+                dataKey: "lname",
+                inputName: "employee_lname"
+                },
+                {
+                dataKey: "fname",
+                inputName: "employee_fname"
+                },
+                 {
+                dataKey: "mname",
+                inputName: "employee_mname"
+                },
+                {
+                dataKey: "nickName",
+                inputName: "employee_nickname"
+                },
+                 {
+                dataKey: "bDate",
+                inputName: "employee_bdate"
+                },
+                  {
+                dataKey: "maritalStatus	",
+                inputName: "marital"
+                },
+                 {
+                dataKey: "sex",
+                inputName: "sex"
+                },
+                {
+                dataKey: "department",
+                inputName: "dept"
+                },                
+                {
+                dataKey: "department",
+                inputName: "dept"
+                },                
+
+
            
         ];
 
