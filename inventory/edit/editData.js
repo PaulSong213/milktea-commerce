@@ -1,5 +1,5 @@
-export function handleEditClick(addModalLocator) {
-    $(".edit-btn").on('click', function (e) {
+export function handleEditClick(table) {
+    table.on('click', '.edit-btn', function (e) {
         const addModal = $("#addItemModal");
         addModal.modal('show');
         let data = JSON.parse($(this).attr("data-item"));
@@ -71,6 +71,7 @@ export function handleEditClick(addModalLocator) {
             headerTitle.text("Add Item");
             saveButton.text("Add Item");
             addItemForm.attr("action", "./add/addfunction.php");
+            addItemForm.find("input[name='item_id']").remove();
             for (let i = 0; i < toFillUpDatas.length; i++) {
                 const toFillUpData = toFillUpDatas[i];
                 $(`[name="${toFillUpData.inputName}"]`).val("");

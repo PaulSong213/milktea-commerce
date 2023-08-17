@@ -1,7 +1,7 @@
-export function handleViewClick() {
-    
+export function handleViewClick(table) {
+
     const viewDatas = [
-         {
+        {
             dataKey: "DatabaseID",
             label: "Database ID"
         },
@@ -34,41 +34,41 @@ export function handleViewClick() {
             dataKey: "title",
             label: "Title"
         },
-            {
+        {
             dataKey: "position",
             label: "Position"
         },
-            {
+        {
             dataKey: "sex",
             label: "Sex"
         },
-            {
+        {
             dataKey: "department",
             label: "Department"
         },
-            {
+        {
             dataKey: "dateStart",
             label: "Date Start"
-        }, 
-            {
+        },
+        {
             dataKey: "modifiedDate",
             label: "Modified Date"
         },
-            {
+        {
             dataKey: "userName",
             label: "User Name"
         },
-            {
+        {
             dataKey: "password",
             label: "Password"
         },
-            {
+        {
             dataKey: "Status",
             label: "Status"
         }
 
     ];
-    $(".view-btn").on('click', function (event) {
+    table.on('click', '.view-btn', function (e) {
         let data = JSON.parse($(this).attr("data-item"));
         $("#viewModalBody").html("");
         for (let i = 0; i < viewDatas.length; i++) {
