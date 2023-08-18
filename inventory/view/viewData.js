@@ -1,3 +1,5 @@
+import { formatDate } from "../../costum-js/date.js";
+
 export function handleViewClick(table) {
     const viewDatas = [
         {
@@ -43,7 +45,15 @@ export function handleViewClick(table) {
         {
             dataKey: "Status",
             label: "Status"
-        }
+        },
+        {
+            dataKey: "createDate",
+            label: "Created Date"
+        },
+        {
+            dataKey: "modifiedDate",
+            label: "Modified Date"
+        },
     ];
     table.on('click', '.view-btn', function (e) {
         let data = JSON.parse($(this).attr("data-item"));
@@ -51,7 +61,12 @@ export function handleViewClick(table) {
         $("#viewModalBody").html("");
         for (let i = 0; i < viewDatas.length; i++) {
             const viewData = viewDatas[i];
-            if (viewData.dataKey === "Status") data[viewData.dataKey] = data[viewData.dataKey] === 1 ? "Active" : "Inactive";
+            if (viewData.label.includes("Date")) data[viewData.dataKey] = formatDate(new Date(data[viewData.dataKey]));
+            if (viewData.dataKey === "Status") {
+                console.log(data[viewData.dataKey]);
+                const status = data[viewData.dataKey] == 1 ? "Active" : "Inactive";
+                data[viewData.dataKey] = status;
+            }
             $("#viewModalBody").append(`
                 <div class="d-flex justify-content-between">
                     <h5>${viewData.label}:</h5>
