@@ -58,7 +58,7 @@ export function handleViewClick(table) {
         },
         {
             dataKey: "userName",
-            label: "User Name"
+            label: "Email"
         },
         {
             dataKey: "password",
