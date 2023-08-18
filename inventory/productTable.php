@@ -47,6 +47,7 @@
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
+                    <th>Item Type</th>
                     <th>Item Code</th>
                     <th>Unit</th>
                     <th>Generic</th>
@@ -61,7 +62,8 @@
                 <?php
                 $connection = connect();
 
-                $sql = "select * from inventory_tb ";
+                $sql = "select * from inventory_tb LEFT JOIN itemtype_tb
+                ON inventory_tb.itemTypeID = itemtype_tb.itemTypeID";
                 $result = $connection->query($sql);
 
                 while ($row = $result->fetch_assoc()) {
@@ -69,6 +71,7 @@
                     $statusColor = ($row["Status"]  == "1") ? "alert-success"  : "alert-danger"; //condition for color bg.
                     echo "
                         <tr>
+                            <td>" . $row["itemTypeCode"] . "</td>
                             <td>" . $row["itemCode"] . "</td>
                             <td>" . $row["Unit"] . " " . $row["UnitType"] . "</td>
                             <td>" . $row["Generic"] . "</td>

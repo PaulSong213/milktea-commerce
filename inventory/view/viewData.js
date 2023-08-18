@@ -1,6 +1,10 @@
 export function handleViewClick(table) {
     const viewDatas = [
         {
+            dataKey: "itemTypeCode",
+            label: "Item Type"
+        },
+        {
             dataKey: "itemCode",
             label: "Item Code"
         },
@@ -35,13 +39,19 @@ export function handleViewClick(table) {
         {
             dataKey: "Ppriceuse",
             label: "Ppriceuse"
+        },
+        {
+            dataKey: "Status",
+            label: "Status"
         }
     ];
     table.on('click', '.view-btn', function (e) {
         let data = JSON.parse($(this).attr("data-item"));
+
         $("#viewModalBody").html("");
         for (let i = 0; i < viewDatas.length; i++) {
             const viewData = viewDatas[i];
+            if (viewData.dataKey === "Status") data[viewData.dataKey] = data[viewData.dataKey] === 1 ? "Active" : "Inactive";
             $("#viewModalBody").append(`
                 <div class="d-flex justify-content-between">
                     <h5>${viewData.label}:</h5>
