@@ -100,6 +100,7 @@ $conn->close();
                                     <th>Price</th>
                                     <th>Item Type</th>
                                     <th style="display:none">ID</th>
+                                    <th style="display:none">itemTypeID</th>
                                     <th>Quantity</th>
                                     <th>Discount %</th>
                                     <th>Discount Amount</th>
@@ -137,8 +138,9 @@ $conn->close();
                                     <td><input type="number" class="form-control" name="price[]" readonly step="0.01"></td>
                                     <td><input type="text" class="form-control" name="itemType[]" readonly></td>
                                     <td style="display:none"><input type="number" style="display:none" class="form-control" name="id[]" readonly></td>
-                                    <td><input type="number" class="form-control" name="qty[]"></td>
-                                    <td><input type="number" class="form-control" name="disc_percent[]" step="1"></td>
+                                    <td style="display:none"><input type="number" style="display:none"  class="form-control" name="itemTypeID[]" readonly></td>
+                                    <td><input type="number" class="form-control" name="qty[]" min="0" value="0"></td>
+                                    <td><input type="number" class="form-control" name="disc_percent[]" step="0.01"></td>
                                     <td><input type="number" class="form-control" name="disc_amt[]" step="0.01" readonly></td>
                                     <td><input type="text" class="form-control" name="subtotal[]" readonly></td>
                                     <td><button class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button></td>
@@ -161,6 +163,7 @@ $conn->close();
                     var priceInput = row.querySelector('[name="price[]"]');
                     var itemTypeInput = row.querySelector('[name="itemType[]"]');
                     var idInput = row.querySelector('[name="id[]"]');
+                    var itemTypeIDInput = row.querySelector('[name="itemTypeID[]"]');
 
                     var xhr = new XMLHttpRequest();
                     xhr.open("GET", "get_product_details.php?itemCode=" + selectedValue, true);
@@ -171,16 +174,11 @@ $conn->close();
                                 invInput.value = response.inv;
                                 unitInput.value = response.unit;
                                 priceInput.value = response.price;
-                                itemTypeInput.value = response.itemtype; // Assign the value
+                                itemTypeInput.value = response.itemtype; 
                                 idInput.value = response.id;
+                                itemTypeIDInput.value =response.itemTypeID;
 
                                 console.log("Response:", response);
-                                console.log("invInput.value =", response.inv);
-                                console.log("unitInput.value =", response.unit);
-                                console.log("priceInput.value =", response.price);
-                                console.log("idInput.value =", response.id);
-                                console.log("itemTypeInput.value =", response.itemtype);
-
                             } else {
                                 console.error("Failed to fetch product details");
                             }
@@ -229,7 +227,7 @@ $conn->close();
                     </div>
                     <div class="change">
                         <label for="change">Change</label>
-                        <input type="text" class="form-control text-danger" name="change" readonly value="0.00">
+                        <input type="text" class="form-control text-danger" name="change" readonly value="0.00" min="0">
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary add-button" name="SaveItem">Save Transaction</button>
