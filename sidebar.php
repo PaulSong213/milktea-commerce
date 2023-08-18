@@ -4,7 +4,7 @@ $sidebarContent = [
     [
         "name" => "Dashboard", //name of the link
         "icon" => "dashboard", //material icon name
-        "link" => "/inventory/inventorydashboard.php", //link of the page
+        "link" => "/dashboard/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
     ],
     [

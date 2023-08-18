@@ -99,7 +99,7 @@ $conn->close();
                                     <th>Unit</th>
                                     <th>Price</th>
                                     <th>Item Type</th>
-                                    <th>ID</th>
+                                    <th style="display:none">ID</th>
                                     <th>Quantity</th>
                                     <th>Discount %</th>
                                     <th>Discount Amount</th>
@@ -136,7 +136,7 @@ $conn->close();
                                     <td><input type="text" class="form-control" name="unit[]" readonly></td>
                                     <td><input type="number" class="form-control" name="price[]" readonly step="0.01"></td>
                                     <td><input type="text" class="form-control" name="itemType[]" readonly></td>
-                                    <td><input type="number" class="form-control" name="id[]" readonly></td>
+                                    <td style="display:none"><input type="number" style="display:none" class="form-control" name="id[]" readonly></td>
                                     <td><input type="number" class="form-control" name="qty[]"></td>
                                     <td><input type="number" class="form-control" name="disc_percent[]" step="1"></td>
                                     <td><input type="number" class="form-control" name="disc_amt[]" step="0.01" readonly></td>
