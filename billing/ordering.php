@@ -134,11 +134,11 @@ $conn->close();
                                     </td>
                                     <td><input type="text" class="form-control" readonly name="inv"></td>
                                     <td><input type="text" class="form-control" name="unit[]" readonly></td>
-                                    <td><input type="number" class="form-control" name="price[]" readonly></td>
+                                    <td><input type="number" class="form-control" name="price[]" readonly step="0.01"></td>
                                     <td><input type="text" class="form-control" name="itemType[]" readonly></td>
                                     <td><input type="number" class="form-control" name="id[]" readonly></td>
                                     <td><input type="number" class="form-control" name="qty[]"></td>
-                                    <td><input type="number" class="form-control" name="disc_percent[]"></td>
+                                    <td><input type="number" class="form-control" name="disc_percent[]" step="1"></td>
                                     <td><input type="number" class="form-control" name="disc_amt[]" step="0.01" readonly></td>
                                     <td><input type="text" class="form-control" name="subtotal[]" readonly></td>
                                     <td><button class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button></td>

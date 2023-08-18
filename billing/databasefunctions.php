@@ -30,6 +30,7 @@ if (isset($_POST['SaveItem'])) {
     $disc_percent = $_POST['disc_percent'];
     $disc_amt = $_POST['disc_amt'];
     $id = $_POST['id'];
+    $ItemType = $_POST['itemType'];
 
     for ($i = 0; $i < count($product_id); $i++) {
         $productInfoArray[] = [
@@ -40,7 +41,8 @@ if (isset($_POST['SaveItem'])) {
             "price" => $price[$i],
             "disc_percent" => $disc_percent[$i],
             "disc_amt" => $disc_amt[$i],
-            "id" => $id[$i]
+            "id" => $id[$i],
+            "itemType" => $ItemType[$i]
         ];
     }
 
