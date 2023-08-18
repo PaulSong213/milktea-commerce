@@ -57,7 +57,7 @@
                     <th>Description</th>
                     <th>Date Added</th>
                     <th>Modified Date</th>
-                    <th>Actions</th>
+                    <th class="action-column">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -126,14 +126,14 @@
                 dom: 'Bfrtip',
                 buttons: [{
                         extend: 'excelHtml5',
-                        className: 'btn btn-success',
+                        className: 'btn border border-info',
                         exportOptions: {
                             columns: ':not(.action-column)'
                         }
                     },
                     {
                         extend: 'pdfHtml5',
-                        className: 'btn btn-primary',
+                        className: 'btn border border-info',
                         exportOptions: {
                             columns: ':not(.action-column)'
                         }
