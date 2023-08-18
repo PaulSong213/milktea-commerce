@@ -30,16 +30,18 @@ $conn->close();
 ?>
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ordering System</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<style>
-    body {
-        max-width: 100%;
-        margin: 0;
-        padding: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordering System</title>
+    <!-- Add this to your HTML <head> section -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+        }
 
         .container {
             display: flex;
@@ -81,43 +83,8 @@ $conn->close();
 </head>
 
 <body>
-    <?php
-    $host = 'localhost';
-    $dbName = 'zaratehospital';
-    $username = 'root';
-    $password = '';
-
-    // Establish a database connection
-    $conn = new mysqli($host, $username, $password, $dbName);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    // Function to get the last SalesID
-    function getLastSalesID($conn)
-    {
-        $query = "SELECT MAX(SalesID) AS LastSalesID FROM sales_tb";
-        $result = $conn->query($query);
-
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            return $row['LastSalesID'];
-        } else {
-            return 0; // If no records found
-        }
-    }
-
-    // Get the last SalesID
-    $lastSalesID = getLastSalesID($conn);
-
-    // Close the database connection
-    $conn->close();
-    ?>
-
-    <div  >
-        <form method="POST" action="databasefunctions.php" id="addItemForm" class="container">
+    <div>
+        <form method="POST" action="databasefunctions.php" id="addItemForm" class="container" autocomplete="off">
             <div class="content">
                 <h1 class="app-title text-center">BILLING SYSTEM</h1>
                 <!-- Additional Information Section -->
@@ -142,19 +109,37 @@ $conn->close();
                             </thead>
                             <tbody>
                                 <tr name="templateRow" style="display: none;">
-                                    <td><input type="text" class="form-control" name="product_id[]"
-                                            placeholder="Enter product ID"></td>
+
+                                    <td>
+                                        <input class="form-control" list="product_id_list" id="product_id_input" name="product_id[]" onchange="updateProductInfo(this)" />
+                                        <datalist id="product_id_list">
+                                            <?php
+                                            require_once '../php/connect.php';
+                                            $conn = connect();
+
+                                            if ($conn->connect_error) {
+                                                die("Connection failed: " . $conn->connect_error);
+                                            }
+
+                                            $query = "SELECT * FROM inventory_tb WHERE Status = 1";
+                                            $result = $conn->query($query);
+                                            $found = false;
+                                            while ($row = $result->fetch_assoc()) {
+                                                $itemCode = $row['itemCode'];
+                                                echo "<option value='$itemCode'>$itemCode</option>";
+                                            }
+                                            $conn->close();
+                                            ?>
+                                        </datalist>
+                                    </td>
                                     <td><input type="text" class="form-control" readonly name="inv"></td>
                                     <td><input type="text" class="form-control" name="unit[]" readonly></td>
                                     <td><input type="number" class="form-control" name="price[]" readonly step="0.01"></td>
                                     <td><input type="text" class="form-control" name="itemType[]" readonly></td>
                                     <td><input type="number" class="form-control" name="id[]" readonly></td>
                                     <td><input type="number" class="form-control" name="qty[]"></td>
-                                    <td><input type="text" class="form-control" name="unit" readonly></td>
-                                    <td><input type="number" class="form-control" name="price[]" step="0.01"></td>
-                                    <td><input type="number" class="form-control" name="disc_percent[]"></td>
-                                    <td><input type="number" class="form-control" name="disc_amt[]" step="0.01"
-                                            readonly></td>
+                                    <td><input type="number" class="form-control" name="disc_percent[]" step="1"></td>
+                                    <td><input type="number" class="form-control" name="disc_amt[]" step="0.01" readonly></td>
                                     <td><input type="text" class="form-control" name="subtotal[]" readonly></td>
                                     <td><button class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button></td>
                                 </tr>
@@ -206,7 +191,7 @@ $conn->close();
             </script>
 
             <div class="sidebar p-4 fw-bold">
-                <h3 class="app-title">E. ZARATE MEDICAL HOSPITAL</h3>
+                <h6 class="app-title">CHARGE NYP/ PATIENT INFOMATION</h6>
                 <div class="additional-info p-3 bg-dark text-white">
                     <div class="form-group">
                         <label for="chargeSlipNumber">Charge Slip Number</label>
@@ -340,12 +325,12 @@ $conn->close();
             const change = amountTenderedValue - netAmount;
             changeInput.value = change.toFixed(2);
         }
-
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             addRow();
 
             const addRowButton = document.getElementById("addRow");
-            addRowButton.addEventListener("click", function () {
+            addRowButton.addEventListener("click", function() {
+
                 addRow();
             });
 
