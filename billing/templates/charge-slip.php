@@ -23,7 +23,7 @@
                         <!-- HEADER -->
                         <div class="d-flex justify-content-between border-bottom border-5 border-secondary py-3 w-100 m-0">
                             <div class="d-flex">
-                                <img style="height: 60px;" src="../../img/logo.png" alt="ZARATE LOGO">
+                                <img style="height: 60px;" src="../img/logo.png" alt="ZARATE LOGO">
                                 <div class="mx-3 d-flex flex-column justify-content-end ">
                                     <h5 class="fw-bold mb-1">E. Zarate Hospital</h5>
                                     <h6 class="text-muted">16 J. Aguilar Avenue, Talon, Las Piñas City, <br />Metro Manila, Philippines 1747</h6>
@@ -109,6 +109,7 @@
             var itemTypeContainers = {};
             for (let i = 0; i < productInfo.length; i++) {
                 const info = productInfo[i];
+                if (!info.product_id) continue; // skip if product id is empty
 
                 var itemTypeID = info.itemTypeID;
 
@@ -117,7 +118,7 @@
                     const containerElement = $(`
                     <div id="${itemTypeID}" class="mt-3">
                         <div class="border border-3 d-flex  justify-content-between p-2 border-secondary w-100 align-items-center mb-2">
-                            <h6 class="fw-bold my-auto">${info.itemtypeCode}</h6>
+                            <h6 class="fw-bold my-auto">${info.itemType}</h6>
                             <div class="col-3 d-flex align-items-center justify-content-between">
                                 <h6 class="my-auto">TOTAL:</h6>
                                 <h6 class="my-auto" id="itemTypeTotal${itemTypeID}">0</h6>
@@ -139,7 +140,7 @@
                             <h6 class="col-6">${info.product_id}</h6>
                             <h6 class="col-2">₱${info.price}</h6>
                             <h6 class="col-1">${info.qty}</h6>
-                            <h6 class="col-1">${info.qtyType}</h6>
+                            <h6 class="col-1">${info.unit}</h6>
                             <h6 class="col-2 text-end">₱${info.subtotal}</h6>
                         </div>
                     </div>
@@ -162,17 +163,32 @@
                 printChargeSlip();
             });
         }
-        showChargeSlip('0001', 'John Doe', 'John Doe', 'John Doe', '2021-07-01', 'John Doe', '350.00', '[{"product_id":"dawd","qty":"1","qtyType":"Box","price":"100","disc_percent":"0","disc_amt":"0.00", "subtotal":"100.00","itemTypeID": 1, "itemtypeCode":"X-Ray"},{"product_id":"dawd","qty":"1","qtyType":"Box","price":"100","disc_percent":"0","disc_amt":"0.00", "subtotal":"100.00","itemTypeID": 1, "itemtypeCode":"X-Ray"},{"product_id":"dawd","qty":"1","qtyType":"Box","price":"100","disc_percent":"0","disc_amt":"0.00", "subtotal":"100.00","itemTypeID": 2, "itemtypeCode":"Laboratory"}]');
+
+
+        <?php
+        if (isset($_SESSION['printData'])) {
+            $printData = $_SESSION['printData'];
+            echo "showChargeSlip(`" . $printData['SalesID'] . "`, `" . $printData['PatientAcct'] . "`, `" . $printData['PatientAcct'] . "`, `" . $printData['PatientAcct'] . "`, `" . $printData['createDate'] . "`, `" . $printData['EnteredName'] . "`, `" . $printData['NetAmt'] . "`, `" . $printData['ProductInfo'] . "`);";
+            unset($_SESSION['printData']);
+        }
+        ?>
+
+
 
         function printChargeSlip() {
-            var divToPrint = document.getElementById('charge-slip');
-            var newWin = window.open(divToPrint, 'Print-Window');
-            newWin.document.open();
-            newWin.document.write('<html><head><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"></head><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
+            var divToPrint = document.getElementById('charge-slip').outerHTML;
+            var newWin = window.open('', '_blank');
+
+            newWin.document.write('<html><head><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"></head><body>');
+            newWin.document.write(divToPrint);
+            newWin.document.write('</body></html>');
+
             newWin.document.close();
-            setTimeout(function() {
+
+            newWin.onload = function() {
+                newWin.print();
                 newWin.close();
-            }, 10);
+            };
         }
     </script>
 </body>
