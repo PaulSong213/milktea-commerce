@@ -21,12 +21,12 @@ $sidebarContent = [
     ],
     [
         "name" => "Patient", //name of the link
-        "icon" => "vaccines", //material icon name
+        "icon" => "hotel", //material icon name
         "link" => "/Patient/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
     ],
     [
-        "name" => "Inventory System", //name of the link
+        "name" => "Inventory", //name of the link
         "icon" => "vaccines", //material icon name
         "link" => "/inventory/index.php", //link of the page
         "navigations" => [
