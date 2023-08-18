@@ -84,7 +84,7 @@ $conn->close();
 
 <body>
     <div>
-        <form method="POST" action="databasefunctions.php" id="addItemForm" class="container" autocomplete="off">
+        <form method="POST" action="databasefunctions.php" id="addItemForm" class="container" autocomplete="off" required>
             <div class="content">
                 <h1 class="app-title text-center">BILLING SYSTEM</h1>
                 <!-- Additional Information Section -->
@@ -138,8 +138,8 @@ $conn->close();
                                     <td><input type="number" class="form-control" name="price[]" readonly step="0.01"></td>
                                     <td><input type="text" class="form-control" name="itemType[]" readonly></td>
                                     <td style="display:none"><input type="number" style="display:none" class="form-control" name="id[]" readonly></td>
-                                    <td style="display:none"><input type="number" style="display:none"  class="form-control" name="itemTypeID[]" readonly></td>
-                                    <td><input type="number" class="form-control" name="qty[]" min="0" value="0"></td>
+                                    <td style="display:none"><input type="number" style="display:none" class="form-control" name="itemTypeID[]" readonly></td>
+                                    <td><input type="number" class="form-control" name="qty[]" min="1" value="1"></td>
                                     <td><input type="number" class="form-control" name="disc_percent[]" step="0.01"></td>
                                     <td><input type="number" class="form-control" name="disc_amt[]" step="0.01" readonly></td>
                                     <td><input type="text" class="form-control" name="subtotal[]" readonly></td>
@@ -174,9 +174,9 @@ $conn->close();
                                 invInput.value = response.inv;
                                 unitInput.value = response.unit;
                                 priceInput.value = response.price;
-                                itemTypeInput.value = response.itemtype; 
+                                itemTypeInput.value = response.itemtype;
                                 idInput.value = response.id;
-                                itemTypeIDInput.value =response.itemTypeID;
+                                itemTypeIDInput.value = response.itemTypeID;
 
                                 console.log("Response:", response);
                             } else {

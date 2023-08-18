@@ -118,7 +118,7 @@
                     const containerElement = $(`
                     <div id="${itemTypeID}" class="mt-3">
                         <div class="border border-3 d-flex  justify-content-between p-2 border-secondary w-100 align-items-center mb-2">
-                            <h6 class="fw-bold my-auto">${info.itemtypeCode}</h6>
+                            <h6 class="fw-bold my-auto">${info.itemType}</h6>
                             <div class="col-3 d-flex align-items-center justify-content-between">
                                 <h6 class="my-auto">TOTAL:</h6>
                                 <h6 class="my-auto" id="itemTypeTotal${itemTypeID}">0</h6>
@@ -140,7 +140,7 @@
                             <h6 class="col-6">${info.product_id}</h6>
                             <h6 class="col-2">₱${info.price}</h6>
                             <h6 class="col-1">${info.qty}</h6>
-                            <h6 class="col-1">${info.qtyType}</h6>
+                            <h6 class="col-1">${info.unit}</h6>
                             <h6 class="col-2 text-end">₱${info.subtotal}</h6>
                         </div>
                     </div>
@@ -167,23 +167,28 @@
 
         <?php
         if (isset($_SESSION['printData'])) {
-            // $printData = $_SESSION['printData'];
-            echo "showChargeSlip(`" . $printData['SalesID'] . "`, `" . $printData['RequestedName'] . "`, `" . $printData['PattientAcct'] . "`, `" . $printData['PattientAcct'] . "`, `" . $printData['createDate'] . "`, `" . $printData['EnteredName'] . "`, `" . $printData['Netamt'] . "`, `" . $printData['ProductInfo'] . "`);";
-            // unset($_SESSION['printData']);
+            $printData = $_SESSION['printData'];
+            echo "showChargeSlip(`" . $printData['SalesID'] . "`, `" . $printData['PatientAcct'] . "`, `" . $printData['PatientAcct'] . "`, `" . $printData['PatientAcct'] . "`, `" . $printData['createDate'] . "`, `" . $printData['EnteredName'] . "`, `" . $printData['NetAmt'] . "`, `" . $printData['ProductInfo'] . "`);";
+            unset($_SESSION['printData']);
         }
         ?>
 
 
 
         function printChargeSlip() {
-            var divToPrint = document.getElementById('charge-slip');
-            var newWin = window.open(divToPrint, 'Print-Window');
-            newWin.document.open();
-            newWin.document.write('<html><head><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"></head><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
+            var divToPrint = document.getElementById('charge-slip').outerHTML;
+            var newWin = window.open('', '_blank');
+
+            newWin.document.write('<html><head><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"></head><body>');
+            newWin.document.write(divToPrint);
+            newWin.document.write('</body></html>');
+
             newWin.document.close();
-            setTimeout(function() {
+
+            newWin.onload = function() {
+                newWin.print();
                 newWin.close();
-            }, 10);
+            };
         }
     </script>
 </body>

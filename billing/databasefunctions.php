@@ -63,24 +63,15 @@ if (isset($_POST['SaveItem'])) {
     $result = mysqli_query($conn, $insertQuery);
     if ($result) {
 
-        $selectQuery = "SELECT ProductInfo FROM sales_tb ORDER BY createDate DESC LIMIT 1";
-        $result = mysqli_query($conn, $selectQuery);
-        $row = mysqli_fetch_assoc($result);
         // Success
         $_SESSION["alert_message"] = "Successfully Added an Billing Statement.";
         $_SESSION["alert_message_success"] = true;
-        $printData = array(
-            'productInfoJSON' => $productInfoJSON,
-            'netSale' => $netSale,
-            'additionalDiscount' => $additionalDiscount,
-            'addDiscAmt' => $addDiscAmt,
-            'netAmount' => $netAmount,
-            'amountTendered' => $amountTendered,
-            'change' => $change,
-            'patientAccountName' => $patientAccountName,
-            'requestedByName' => $requestedByName,
-            'enteredByName' => $enteredByName
-        );
+
+        // get the data of the last inserted row
+        $last_id = mysqli_insert_id($conn);
+        $sql =  "SELECT * FROM sales_tb WHERE SalesID=$last_id";
+        $result = $conn->query($sql);
+        $printData = $result->fetch_assoc();
         $_SESSION['printData'] = $printData;
     } else {
         $_SESSION["alert_message"] = "Failed to Add a Billing Statement. Error Details: " . mysqli_error($conn);
