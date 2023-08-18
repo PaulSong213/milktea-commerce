@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 export function handleEditClick() {
+=======
+export function handleEditClick(table) {
+>>>>>>> 9878317e854c7c643f183bc29836f6422c5af5ca
     $(".edit-btn").on('click', function (e) {
         const addModal = $("#addItemModal");
         addModal.modal('show');

@@ -182,8 +182,8 @@
                 ]
             });
             handleArchiveClick(table, 1, "./edit/archive.php", 7);
-            handleEditClick("#addItemModal");
-            handleViewClick();
+            handleEditClick(table);
+            handleViewClick(table);
         });
     </script>
     <script type="text/javascript">

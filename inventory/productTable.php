@@ -47,6 +47,7 @@
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
+                    <th>Item Type</th>
                     <th>Item Code</th>
                     <th>Unit</th>
                     <th>Generic</th>
@@ -54,14 +55,15 @@
                     <th>Date Added</th>
                     <th>Modified Date</th>
                     <th>Status</th>
-                    <th>Actions</th>
+                    <th class="action-column">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
                 $connection = connect();
 
-                $sql = "select * from inventory_tb ";
+                $sql = "select * from inventory_tb LEFT JOIN itemtype_tb
+                ON inventory_tb.itemTypeID = itemtype_tb.itemTypeID";
                 $result = $connection->query($sql);
 
                 while ($row = $result->fetch_assoc()) {
@@ -69,6 +71,7 @@
                     $statusColor = ($row["Status"]  == "1") ? "alert-success"  : "alert-danger"; //condition for color bg.
                     echo "
                         <tr>
+                            <td>" . $row["itemTypeCode"] . "</td>
                             <td>" . $row["itemCode"] . "</td>
                             <td>" . $row["Unit"] . " " . $row["UnitType"] . "</td>
                             <td>" . $row["Generic"] . "</td>
@@ -128,15 +131,24 @@
                 dom: 'Bfrtip',
                 buttons: [{
                         extend: 'excelHtml5',
-                        className: 'btn btn-success'
+                        className: 'btn border border-info',
+                        exportOptions: {
+                            columns: ':not(.action-column)'
+                        }
                     },
                     {
                         extend: 'pdfHtml5',
-                        className: 'btn btn-primary'
+                        className: 'btn border border-info',
+                        exportOptions: {
+                            columns: ':not(.action-column)'
+                        }
                     },
                     {
                         extend: 'print',
-                        className: 'btn border border-info'
+                        className: 'btn border border-info',
+                        exportOptions: {
+                            columns: ':not(.action-column)'
+                        }
                     },
                     {
                         extend: 'colvis',
@@ -163,10 +175,21 @@
                         const data = JSON.parse(d);
                         const id = data.InventoryID;
                         return `
-                        <div class="d-flex flex-column">
-                            <button class="btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
-                            <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
-                            <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>
+                        <div class="dropdown dropstart d-flex">
+                            <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
+                                <img class="mb-1" src="../img/icons/ellipsis-horizontal.svg">
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li class="mx-2">
+                                    <button class=" btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
+                                </li>
+                                <li class="mx-2">
+                                    <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
+                                </li>
+                                <li class="mx-2">
+                                    <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>
+                                </li>
+                            </ul>
                         </div>
                         `
                     },
@@ -177,8 +200,8 @@
                 ]
             });
             handleArchiveClick(table, 0, "./edit/archive.php", 6);
-            handleEditClick("#addItemModal");
-            handleViewClick();
+            handleEditClick(table);
+            handleViewClick(table);
         });
     </script>
     <script type="text/javascript">

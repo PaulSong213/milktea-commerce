@@ -53,7 +53,7 @@
                     <th>Created Date</th>
                     <th>Modified Date</th>
                     <th>Status</th>
-                    <th>Actions</th>
+                    <th class="action-column">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -133,15 +133,24 @@
                 dom: 'Bfrtip',
                 buttons: [{
                         extend: 'excelHtml5',
-                        className: 'btn btn-success'
+                        className: 'btn border border-info',
+                        exportOptions: {
+                            columns: ':not(.action-column)'
+                        }
                     },
                     {
                         extend: 'pdfHtml5',
-                        className: 'btn btn-primary'
+                        className: 'btn border border-info',
+                        exportOptions: {
+                            columns: ':not(.action-column)'
+                        }
                     },
                     {
                         extend: 'print',
-                        className: 'btn border border-info'
+                        className: 'btn border border-info',
+                        exportOptions: {
+                            columns: ':not(.action-column)'
+                        }
                     },
                     {
                         extend: 'colvis',
@@ -164,26 +173,39 @@
                 },
                 columnDefs: [{
                     targets: -1,
+
                     render: (d) => {
                         const data = JSON.parse(d);
                         const id = data.DatabaseID;
                         return `
-                        <div class="d-flex flex-column">
-                            <button class="btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
-                            <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
-                            <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>
+                        <div class="dropdown dropstart d-flex">
+                            <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
+                                <img class="mb-1" src="../img/icons/ellipsis-horizontal.svg">
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li class="mx-2">
+                                    <button class=" btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
+                                </li>
+                                <li class="mx-2">
+                                    <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
+                                </li>
+                                <li class="mx-2">
+                                    <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>
+                                </li>
+                            </ul>
                         </div>
                         `
                     },
-                    "searchable": false
+                    "searchable": false,
+                    width: 30,
                 }],
                 order: [
                     [5, 'asc']
                 ]
             });
             handleArchiveClick(table, 1, "./edit/archive.php", 6);
-            handleEditClick("#addItemModal");
-            handleViewClick();
+            handleEditClick(table);
+            handleViewClick(table);
         });
     </script>
     <script type="text/javascript">
