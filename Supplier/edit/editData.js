@@ -11,41 +11,30 @@ export function handleEditClick(table) {
                 inputName: "supplier_name"
             },
             {
-                dataKey: "UnitType",
-                inputName: "UnitType"
+                dataKey: "address",
+                inputName: "address"
             },
             {
-                dataKey: "itemTypeID",
-                inputName: "itemTypeID"
+                dataKey: "telNum",
+                inputName: "telNum"
             },
             {
-                dataKey: "Unit",
-                inputName: "Unit"
+                dataKey: "faxNum",
+                inputName: "faxNum"
             },
             {
-                dataKey: "Description",
-                inputName: "description"
+                dataKey: "CelNum",
+                inputName: "CelNum"
             },
             {
-                dataKey: "Generic",
-                inputName: "Generic"
+                dataKey: "contactNum",
+                inputName: "contactNum"
             },
             {
-                dataKey: "SugPrice",
-                inputName: "Sugprice"
+                dataKey: "Snote",
+                inputName: "Snote"
             },
-            {
-                dataKey: "MWprice",
-                inputName: "MWprice"
-            },
-            {
-                dataKey: "IPDprice",
-                inputName: "IPDprice"
-            },
-            {
-                dataKey: "Ppriceuse",
-                inputName: "Ppriceuse"
-            }
+            
     
         ];
 
