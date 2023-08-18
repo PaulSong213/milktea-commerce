@@ -1,4 +1,4 @@
-export function handleEditClick(addModalLocator) {
+export function handleEditClick() {
     $(".edit-btn").on('click', function (e) {
         const addModal = $("#addItemModal");
         addModal.modal('show');
@@ -7,40 +7,12 @@ export function handleEditClick(addModalLocator) {
 
         const toFillUpDatas = [
             {
-                dataKey: "DatabaseID",
-                inputName: "Database ID"
+                dataKey: "itemTypeCode",
+                inputName: "itemTypeCode"
             },
             {
-                dataKey: "Type",
-                inputName: "type"
-            },
-            {
-                dataKey: "Unit",
-                inputName: "Unit"
-            },
-            {
-                dataKey: "Description",
+                dataKey: "description",
                 inputName: "description"
-            },
-            {
-                dataKey: "Generic",
-                inputName: "Generic"
-            },
-            {
-                dataKey: "SugPrice",
-                inputName: "Sugprice"
-            },
-            {
-                dataKey: "MWprice",
-                inputName: "MWprice"
-            },
-            {
-                dataKey: "IPDprice",
-                inputName: "IPDprice"
-            },
-            {
-                dataKey: "Ppriceuse",
-                inputName: "Ppriceuse"
             }
         ];
 
@@ -51,22 +23,23 @@ export function handleEditClick(addModalLocator) {
         }
 
         // edit the save button
-        const saveButton = $("[name='SaveChanges']");
-        saveButton.text("Edit Employee Information");
+        const saveButton = $("[name='SaveItem']");
+        saveButton.text("Edit Item");
 
         // edit header title
         const headerTitle = $("#addItemModalLabel");
-        headerTitle.text("Edit Employee");
+        headerTitle.text("Edit Item");
 
         const addItemForm = $("#addItemForm");
+        const addItemFormAction = addItemForm.attr("action");
         addItemForm.attr("action", "./edit/editfunction.php");
-        addItemForm.append(`<input type="hidden" name="item_id" value="${data['DatabaseID']}">`);
+        addItemForm.append(`<input type="hidden" name="itemTypeID" value="${data['itemTypeID']}">`);
 
         // watch modal close then reset data
         addModal.on("hidden.bs.modal", function () {
             headerTitle.text("Add Item");
             saveButton.text("Add Item");
-            addItemForm.attr("action", "addfunction.php");
+            addItemForm.attr("action", addItemFormAction);
             for (let i = 0; i < toFillUpDatas.length; i++) {
                 const toFillUpData = toFillUpDatas[i];
                 $(`[name="${toFillUpData.inputName}"]`).val("");

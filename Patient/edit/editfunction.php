@@ -1,54 +1,34 @@
 <?php
 require_once '../../php/connect.php';
 $conn = connect();
+session_start();
 
 if (isset($_POST['SaveItem'])) {
-   
-    
-    $lname = $_POST['employee_lname'];
-    $fname = $_POST['employee_fname'];
-    $mname = $_POST['employee_maname'];
-    $nickname = $_POST['employee_nickname'];
-    $bdate = $_POST['employee_bdate'];
-    $marital = $_POST['marital'];
-    $sex = $_POST['sex'];
-    $title = $_POST['title'];
-    $position = $_POST['position'];
-    $employeesdate = $_POST['employee_sdate'];
-    $depart = $_POST['depart'];
-    $email = $_POST['email'];
-    $password= $_POST['Password'];
-    $statusData = 1;
+    $itemTypeID = $_POST['itemTypeID'];
+    $description = $_POST['description'];
+    $itemTypeCode = $_POST['itemTypeCode'];
 
-    $sql = "UPDATE employee_tb
+    $sql = "UPDATE itemtype_tb
     SET
-        lname = '$lname',
-        fname = '$fname',
-        mname = '$mname',
-        title = '$title',
-        position = '$position',
-        sex = '$sex',
-        bDate = '$bdate',
-        nickName = '$nickname',
-        Status = '$statusData',
-        department =  '$depart',
-        dateStart = '$employeesdate',
-        password = '$password', 
-        email = '$email',
+        itemTypeCode = '$itemTypeCode',
+        description = '$description',
         modifiedDate = now()
     WHERE
-        DatabaseID = '$item_id';
+        itemTypeID = '$itemTypeID';
     ";
 
     $result = mysqli_query($conn, $sql);
-
     if ($result) {
-        header("Location: ../index.php");
-        die();
+        // success
+        $_SESSION["alert_message"] = "Successfully Edited an Item Type";
+        $_SESSION["alert_message_success"] = true;
     } else {
-        header("Location: ../index.php");
-        die();
+        $_SESSION["alert_message"] = "Failed to Edited an Item Type. Error Details: " . mysqli_error($conn);
+        $_SESSION["alert_message_error"] = true;
     }
+
+    header("Location: ../index.php");
+    die();
 }
 
 // Close the database connection
