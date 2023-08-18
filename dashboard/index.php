@@ -223,6 +223,7 @@
                 $yearlySummaryQuery = "SELECT YEAR(createDate) as year, SUM(Unit) as total_quantity FROM inventory_tb GROUP BY YEAR(createDate)";
                 $yearlySummaryResult = $db->query($yearlySummaryQuery);
 
+                
 
                 // Close the database connection
                 $db->close();
