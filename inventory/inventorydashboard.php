@@ -238,7 +238,7 @@
                 var yearlyData = <?php echo json_encode($yearlySummaryResult->fetch_all(MYSQLI_ASSOC)); ?>;
 
                 var combinedChart = new Chart(document.getElementById("combinedChart"), {
-                    type: 'line',
+                    type: 'bar',
                     data: {
                         labels: dailyData.map(item => item.date),
                         datasets: [{

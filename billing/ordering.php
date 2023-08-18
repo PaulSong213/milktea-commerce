@@ -84,7 +84,7 @@ $conn->close();
 
 <body>
     <div>
-        <form method="POST" action="databasefunctions.php" id="addItemForm" class="container">
+        <form method="POST" action="databasefunctions.php" id="addItemForm" class="container" autocomplete="off">
             <div class="content">
                 <h1 class="app-title text-center">BILLING SYSTEM</h1>
                 <!-- Additional Information Section -->
@@ -93,22 +93,25 @@ $conn->close();
                         <table class="table table-bordered">
                             <thead class="thead-dark">
                                 <tr>
+
                                     <th>Product Code</th>
                                     <th>Inventory</th>
-                                    <th>Quantity</th>
                                     <th>Unit</th>
                                     <th>Price</th>
+                                    <th>Item Type</th>
+                                    <th>ID</th>
+                                    <th>Quantity</th>
                                     <th>Discount %</th>
                                     <th>Discount Amount</th>
                                     <th>Sub-Total</th>
-                                    <th> </th>
+                                    <th>action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr name="templateRow" style="display: none;">
+
                                     <td>
-                                        <input class="form-control" list="product_id_list" id="product_id_input"
-                                            name="product_id[]" />
+                                        <input class="form-control" list="product_id_list" id="product_id_input" name="product_id[]" onchange="updateProductInfo(this)" />
                                         <datalist id="product_id_list">
                                             <?php
                                             require_once '../php/connect.php';
@@ -118,37 +121,25 @@ $conn->close();
                                                 die("Connection failed: " . $conn->connect_error);
                                             }
 
-                                            $query = "SELECT itemCode FROM inventory_tb";
+                                            $query = "SELECT * FROM inventory_tb WHERE Status = 1";
                                             $result = $conn->query($query);
                                             $found = false;
-
                                             while ($row = $result->fetch_assoc()) {
                                                 $itemCode = $row['itemCode'];
                                                 echo "<option value='$itemCode'>$itemCode</option>";
-                                                $found = true;
                                             }
-
-                                            // Close the database connection
                                             $conn->close();
-
-                                            while(!$found) {
-                                                echo "<script> Swal.fire({ icon: 'error',title: 'Invalid Input',text: 'Not Available Product!',});</script>";
-                                            }
-
-                                            echo " ";
                                             ?>
-                                            
                                         </datalist>
                                     </td>
-
-
                                     <td><input type="text" class="form-control" readonly name="inv"></td>
+                                    <td><input type="text" class="form-control" name="unit[]" readonly></td>
+                                    <td><input type="number" class="form-control" name="price[]" readonly></td>
+                                    <td><input type="text" class="form-control" name="itemType[]" readonly></td>
+                                    <td><input type="number" class="form-control" name="id[]" readonly></td>
                                     <td><input type="number" class="form-control" name="qty[]"></td>
-                                    <td><input type="text" class="form-control" name="unit" readonly></td>
-                                    <td><input type="number" class="form-control" name="price[]" step="0.01" readonly></td>
                                     <td><input type="number" class="form-control" name="disc_percent[]"></td>
-                                    <td><input type="number" class="form-control" name="disc_amt[]" step="0.01"
-                                            readonly></td>
+                                    <td><input type="number" class="form-control" name="disc_amt[]" step="0.01" readonly></td>
                                     <td><input type="text" class="form-control" name="subtotal[]" readonly></td>
                                     <td><button class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button></td>
                                 </tr>
@@ -156,32 +147,67 @@ $conn->close();
                         </table>
                     </div>
                     <button type="button" class="btn btn-primary add-button" id="addRow">ADD PRODUCT</button>
+
                 </div>
             </div>
+            <script>
+                function updateProductInfo(input) {
+                    var selectedValue = input.value;
+
+                    var row = input.closest("tr"); // Find the closest <tr> element
+
+                    var invInput = row.querySelector('[name="inv"]');
+                    var unitInput = row.querySelector('[name="unit[]"]');
+                    var priceInput = row.querySelector('[name="price[]"]');
+                    var itemTypeInput = row.querySelector('[name="itemType[]"]');
+                    var idInput = row.querySelector('[name="id[]"]');
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("GET", "get_product_details.php?itemCode=" + selectedValue, true);
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === XMLHttpRequest.DONE) {
+                            if (xhr.status === 200) {
+                                var response = JSON.parse(xhr.responseText);
+                                invInput.value = response.inv;
+                                unitInput.value = response.unit;
+                                priceInput.value = response.price;
+                                itemTypeInput.value = response.itemtype; // Assign the value
+                                idInput.value = response.id;
+
+                                console.log("Response:", response);
+                                console.log("invInput.value =", response.inv);
+                                console.log("unitInput.value =", response.unit);
+                                console.log("priceInput.value =", response.price);
+                                console.log("idInput.value =", response.id);
+                                console.log("itemTypeInput.value =", response.itemtype);
+
+                            } else {
+                                console.error("Failed to fetch product details");
+                            }
+                        }
+                    };
+                    xhr.send();
+                }
+            </script>
 
             <div class="sidebar p-4 fw-bold">
-                <h3 class="app-title">E. ZARATE MEDICAL HOSPITAL</h3>
+                <h6 class="app-title">CHARGE NYP/ PATIENT INFOMATION</h6>
                 <div class="additional-info p-3 bg-dark text-white">
                     <div class="form-group">
                         <label for="chargeSlipNumber">Charge Slip Number</label>
-                        <input type="text" class="form-control" name="chargeSlipNumber"
-                            placeholder="Enter Charge Slip Number" required
-                            value="<?php echo "00" . ($lastSalesID + 1); ?>" readonly>
+                        <input type="text" class="form-control" name="chargeSlipNumber" placeholder="Enter Charge Slip Number" required value="<?php echo "00" . ($lastSalesID + 1); ?>" readonly>
                     </div>
                     <div class="form-group">
                         <label for="patientAccountName">Patient Account Code</label>
-                        <input type="text" class="form-control" name="patientAccountName"
-                            placeholder="Enter Patient Account Name" required>
+                        <input type="text" class="form-control" name="patientAccountName" placeholder="Enter Patient Account Name" required>
                     </div>
                     <div class="form-group">
                         <label for="requestedByName">Requested By: </label>
-                        <input type="text" class="form-control" name="requestedByName"
-                            placeholder="Enter Requested By Name" required>
+                        <input type="text" class="form-control" name="requestedByName" placeholder="Enter Requested By Name" required>
                     </div>
                     <div class="form-group">
                         <label for="enteredByName">Entered By: </label>
-                        <input type="text" class="form-control" name="enteredByName" placeholder="Enter Entered By Name"
-                            required>
+                        <input type="text" class="form-control" name="enteredByName" placeholder="Enter Entered By Name" required>
                     </div>
 
 
@@ -243,7 +269,7 @@ $conn->close();
         function attachInputListeners(row) {
             const inputFields = row.querySelectorAll("input");
             inputFields.forEach(input => {
-                input.addEventListener("input", function () {
+                input.addEventListener("input", function() {
                     CalculateValues(row);
                 });
             });
@@ -254,6 +280,7 @@ $conn->close();
             const price = parseFloat(row.querySelector('[name="price[]"]').value) || 0;
             const qty = parseFloat(row.querySelector('[name="qty[]"]').value) || 0;
             const discPercent = parseFloat(row.querySelector('[name="disc_percent[]"]').value) || 0;
+            const inventory = parseFloat(row.querySelector('[name="inv"]').value) || 0;
 
             const subtotal = qty * price;
             const discount = subtotal * (discPercent / 100);
@@ -275,6 +302,9 @@ $conn->close();
                 }
             });
 
+
+
+
             // Calculate and update net amount based on additional discount
             const additionalDiscountInput = document.querySelector('[name="additionalDiscount"]');
             const additionalDiscountValue = parseFloat(additionalDiscountInput.value) || 0;
@@ -294,14 +324,13 @@ $conn->close();
 
             const change = amountTenderedValue - netAmount;
             changeInput.value = change.toFixed(2);
-
         }
-
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             addRow();
 
             const addRowButton = document.getElementById("addRow");
-            addRowButton.addEventListener("click", function () {
+            addRowButton.addEventListener("click", function() {
+
                 addRow();
             });
 
@@ -314,15 +343,17 @@ $conn->close();
             // Attach input listeners to additional discount and amount tendered input fields
             const additionalDiscountInput = document.querySelector('[name="additionalDiscount"]');
             if (additionalDiscountInput) {
-                additionalDiscountInput.addEventListener("input", function () {
+                additionalDiscountInput.addEventListener("input", function() {
                     CalculateValues(document.querySelector("table"));
+
                 });
             }
 
             const amountTenderedInput = document.querySelector('[name="amountTendered"]');
             if (amountTenderedInput) {
-                amountTenderedInput.addEventListener("input", function () {
+                amountTenderedInput.addEventListener("input", function() {
                     CalculateValues(document.querySelector("table"));
+
                 });
             }
         });
