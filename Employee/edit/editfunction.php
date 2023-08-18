@@ -1,10 +1,11 @@
 <?php
 require_once '../../php/connect.php';
+session_start();
 $conn = connect();
 
 if (isset($_POST['SaveItem'])) {
-   
-    
+
+
     $lname = $_POST['employee_lname'];
     $fname = $_POST['employee_fname'];
     $mname = $_POST['employee_mname'];
@@ -17,7 +18,7 @@ if (isset($_POST['SaveItem'])) {
     $employeesdate = $_POST['employee_sdate'];
     $depart = $_POST['dept'];
     $email = $_POST['email'];
-    $password= $_POST['Password'];
+    $password = $_POST['Password'];
     $item_id = $_POST['item_id'];
 
     $sql = "UPDATE employee_tb
@@ -34,18 +35,19 @@ if (isset($_POST['SaveItem'])) {
         dateStart = '$employeesdate',
         password = '$password', 
         userName = '$email',
+        maritalStatus = '$marital',
         modifiedDate = now()
     WHERE
         DatabaseID = '$item_id';
     ";
 
     $result = mysqli_query($conn, $sql);
-if ($result) {
+    if ($result) {
         // success
-        $_SESSION["alert_message"] = "Successfully Edited an Item Type";
+        $_SESSION["alert_message"] = "Successfully Edited an Employee.";
         $_SESSION["alert_message_success"] = true;
     } else {
-        $_SESSION["alert_message"] = "Failed to Edited an Item Type. Error Details: " . mysqli_error($conn);
+        $_SESSION["alert_message"] = "Failed to Edited an Employee. Error Details: " . mysqli_error($conn);
         $_SESSION["alert_message_error"] = true;
     }
 

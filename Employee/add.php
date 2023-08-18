@@ -2,10 +2,9 @@
 
 <html lang="en">
 
-<form method="POST" id="addItemForm" action="addfunction.php">
+<form method="POST" onsubmit="return validatePassword();" id="addItemForm" action="addfunction.php">
 
-    <Save class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" data-bs-backdrop="static" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -16,73 +15,99 @@
                 </div>
                 <div class="modal-body">
                     <!-- Your modal content goes here -->
-                    
-                     <!--First Name -->
-                    <b><label for="type">Last Name</label></b>
-                    <input type="text" id="item_code" name="employee_lname" class="form-control"
-                        placeholder="Enter employee last name" required>
-                    
-                     <b><label for="type">First Name : </label></b>
-                    <input type="text" id="item_code" name="employee_fname" class="form-control"
-                        placeholder="Enter employee first name" required>
 
-                     <b><label for="type">Middle Name : </label></b>
-                    <input type="text" id="item_code" name="employee_mname" class="form-control"
-                        placeholder="Enter employee middle name" required>
+                    <!--Last Name -->
+                    <div class="mb-3">
+                        <label class="form-label" for="employee_lname">Last Name<span class="text-danger mx-1">*</span></label>
+                        <input type="text" id="employee_lname" name="employee_lname" class="form-control" placeholder="Enter employee last name" autocomplete="on" required>
+                    </div>
 
-                     <b><label for="type">Nickname : </label></b>
-                    <input type="text" id="item_code" name="employee_nickname" class="form-control"
-                        placeholder="Enter employee nickname" required>
+                    <!--First Name -->
+                    <div class="mb-3">
+                        <label class="form-label" for="employee_fname">First Name<span class="text-danger mx-1">*</span></label>
+                        <input type="text" id="employee_fname" name="employee_fname" class="form-control" placeholder="Enter employee first name" autocomplete="on" required>
+                    </div>
 
-                     <b><label for="type">Birth of Date : </label></b>
-                        <input type="date" id="item_code" name="employee_bdate"  class="form-control"
-                        placeholder="Enter employee middle name" >
+                    <!--Middle Name -->
+                    <div class="mb-3">
+                        <label class="form-label" for="employee_mname">Middle Name<span class="text-danger mx-1">*</span></label>
+                        <input type="text" id="employee_mname" name="employee_mname" class="form-control" placeholder="Enter employee middle name" autocomplete="on" required>
+                    </div>
 
-                       <b><label for="type">Marital Status : </label></b>
-                    <select class="form-control" id="type" name="marital">
-                        <option value="Single">Single</option>
-                        <option value="Married">Married</option>
-                        <option value="Widowed">Widowed</option>
-                        <option value="Separated">Separated</option>
-                    </select>
+                    <!--Nickname -->
+                    <div class="mb-3">
+                        <label class="form-label" for="employee_nickname">Nickname<span class="text-danger mx-1">*</span></label>
+                        <input type="text" id="employee_nickname" name="employee_nickname" class="form-control" placeholder="Enter employee Nickname" autocomplete="on" required>
+                    </div>
 
-                     <b><label for="type">Sex : </label></b>
-                    <select class="form-control" id="type" name="sex">
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                    </select>
-                      <b><label for="type">Department : </label></b>
-                      <select class="form-control" id="type" name="dept">
-                        <option value="IT Department">IT Department</option>
-                        <option value="Admin Department">Admin Department</option>
-                        <option value="Information Department">Information Department</option>
-                        <option value="HMO Department">HMO Department</option>
-                        <option value="OR Department">OR Department</option>
-                        <option value="IP Department">IP Department</option>
-                        <option value="Accounting Department">Accounting Department</option>
-                    </select>
+                    <div class="mb-3">
+                        <label class="form-label" for="employee_bdate">Birth Date<span class="text-danger mx-1">*</span></label>
+                        <input type="date" id="employee_bdate" name="employee_bdate" class="form-control" placeholder="Enter employee middle name">
+                    </div>
 
-                    <b><label for="type">Title: </label></b>
-                    <select class="form-control" id="type" name="title">
-                        <option value="Doctor">Doctor</option>
-                        <option value="Nurse">Nurse</option>
-                        <option value="Intern">Intern</option>
-                    </select>
+                    <div class="mb-3">
+                        <label class="form-label" for="marital">Marital Status<span class="text-danger mx-1">*</span></label>
+                        <select class="form-select" id="marital" name="marital" required>
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                            <option value="Widowed">Widowed</option>
+                            <option value="Separated">Separated</option>
+                        </select>
+                    </div>
 
-                     <b><label for="type">Position : </label></b>
-                     <input type="text" id="item_code" name="position" class="form-control"
-                     placeholder="Enter Position" >
-                  
-                         <b><label for="type">Date Started : </label></b>
-                        <input type="date" id="item_code" name="employee_sdate" class="form-control"
-                        placeholder="Enter employee middle name" >
+                    <div class="mb-3">
+                        <label class="form-label" for="marital">Sex<span class="text-danger mx-1">*</span></label>
+                        <select class="form-select" id="type" name="sex" required>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
 
-                     <b><label for="type">Email : </label></b>
-                    <input type="email" id="email" class="form-control" name="email" placeholder="Enter employee email" required>
+                    <div class="mb-3">
+                        <label class="form-label" for="dept">Department<span class="text-danger mx-1">*</span></label>
+                        <select class="form-select" id="dept" name="dept" required>
+                            <option value="IT Department">IT Department</option>
+                            <option value="Admin Department">Admin Department</option>
+                            <option value="Information Department">Information Department</option>
+                            <option value="HMO Department">HMO Department</option>
+                            <option value="OR Department">OR Department</option>
+                            <option value="IP Department">IP Department</option>
+                            <option value="Accounting Department">Accounting Department</option>
+                        </select>
+                    </div>
 
-                    <b><label for="type">Password : </label></b>
-                    <input type="password" id="Password" class="form-control" name="Password" placeholder="Enter employee password" required>
+                    <div class="mb-3">
+                        <label class="form-label" for="title">Title<span class="text-danger mx-1">*</span></label>
+                        <input type="text" id="title" name="title" class="form-control" placeholder="Enter Title" required autocomplete="on" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="position">Position<span class="text-danger mx-1">*</span></label>
+                        <input type="text" id="position" name="position" class="form-control" placeholder="Enter Position" required autocomplete="on">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="employee_sdate">Date Started<span class="text-danger mx-1">*</span></label>
+                        <input type="date" id="employee_sdate" name="employee_sdate" class="form-control" placeholder="Enter employee middle name">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="email">Email<span class="text-danger mx-1">*</span></label>
+                        <input type="email" id="email" class="form-control" name="email" placeholder="Enter employee email" required autocomplete="on">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="Password">Password<span class="text-danger mx-1">*</span></label>
+                        <input type="password" id="Password" class="form-control" name="Password" placeholder="Enter employee password" required autocomplete="on">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="CPassword">Confirm Password<span class="text-danger mx-1">*</span></label>
+                        <input type="password" id="CPassword" class="form-control" name="CPassword" placeholder="Retype Password" required autocomplete="on">
+                    </div>
+
                     <!-- Add more fields as needed -->
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" id="Closemodal2" data-dismiss="modal">Close</button>
@@ -90,6 +115,35 @@
                 </div>
             </div>
         </div>
-    </Save Employee
+    </div>
 </form>
+
 </html>
+
+<!-- Validate Password  -->
+<script>
+    function validatePassword() {
+        var password = document.getElementById("Password").value;
+        var cPassword = document.getElementById("CPassword").value;
+
+        if (password !== cPassword) {
+            alert("Passwords do not match. Please re-enter.");
+            return false;
+        }
+
+        return true;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const passwordInput = document.getElementById("Password");
+        const cPasswordInput = document.getElementById("CPassword");
+
+        cPasswordInput.addEventListener("input", function() {
+            if (passwordInput.value !== cPasswordInput.value) {
+                cPasswordInput.setCustomValidity("Passwords do not match.");
+            } else {
+                cPasswordInput.setCustomValidity("");
+            }
+        });
+    });
+</script>
