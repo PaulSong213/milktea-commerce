@@ -19,10 +19,10 @@ if (isset($_POST['SaveItem'])) {
     $netAmount = $_POST['netAmount'];
     $amountTendered = $_POST['amountTendered'];
     $change = $_POST['change'];
-    $units = $_POST['unit'];
 
     // Create the array for ProductInfo column
     $productInfoArray = [];
+    $unit = $_POST['unit'];
     $subtotal = $_POST['subtotal'];
     $product_id = $_POST['product_id'];
     $qty = $_POST['qty'];
@@ -31,6 +31,7 @@ if (isset($_POST['SaveItem'])) {
     $disc_amt = $_POST['disc_amt'];
     $id = $_POST['id'];
     $ItemType = $_POST['itemType'];
+    $ItemTypeID = $_POST['itemTypeID'];
 
     for ($i = 0; $i < count($product_id); $i++) {
         $productInfoArray[] = [
@@ -42,7 +43,9 @@ if (isset($_POST['SaveItem'])) {
             "disc_percent" => $disc_percent[$i],
             "disc_amt" => $disc_amt[$i],
             "id" => $id[$i],
-            "itemType" => $ItemType[$i]
+            "unit" => $unit[$i],
+            "itemType" => $ItemType[$i],
+            "itemTypeID" => $ItemTypeID[$i]
         ];
     }
 
