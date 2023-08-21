@@ -34,8 +34,8 @@ if (isset($_POST['SaveItem'])) {
     $ItemTypeID = $_POST['itemTypeID'];
 
     for ($i = 0; $i < count($product_id); $i++) {
+        if (empty($product_id[$i])) continue;
         $productInfoArray[] = [
-
             "subtotal" => $subtotal[$i],
             "product_id" => $product_id[$i],
             "qty" => $qty[$i],
@@ -61,22 +61,51 @@ if (isset($_POST['SaveItem'])) {
 
     // Execute the query and handle the result
     $result = mysqli_query($conn, $insertQuery);
-    if ($result) {
-        // Success
-        $_SESSION["alert_message"] = "Successfully Added an Billing Statement.";
-        $_SESSION["alert_message_success"] = true;
 
-        // get the data of the last inserted row
-        $last_id = mysqli_insert_id($conn);
-        $sql =  "SELECT * FROM sales_tb WHERE SalesID=$last_id";
-        $result = $conn->query($sql);
-        $printData = $result->fetch_assoc();
-        $_SESSION['printData'] = $printData;
-        
-    } else {
+    // Inserting to the sales_tb failed
+    if (!$result) {
         $_SESSION["alert_message"] = "Failed to Add a Billing Statement. Error Details: " . mysqli_error($conn);
         $_SESSION["alert_message_error"] = true;
+        header("Location: ../billing/index.php");
+        echo "Error: " . $insertQuery . "<br>" . mysqli_error($conn);
+        die();
     }
+
+    // get the data of the last inserted row
+    $salesInsertedId = mysqli_insert_id($conn);
+
+    // Minus the quantity of the products in the inventory
+    for ($i = 0; $i < sizeof($productInfoArray); $i++) {
+        $productInfo = $productInfoArray[$i];
+        $toEditProductID = $productInfo["id"];
+        if (empty($toEditProductID)) continue;
+        $qty = $productInfo["qty"];
+        $updateQuery = "UPDATE inventory_tb SET Unit = Unit - $qty WHERE InventoryID = $toEditProductID";
+        $updateInventoryResult = mysqli_query($conn, $updateQuery);
+        if (!$updateInventoryResult) {
+            $_SESSION["alert_message"] = "Failed to Add a Billing Statement. Error Details: " . mysqli_error($conn);
+            $_SESSION["alert_message_error"] = true;
+            echo "Error: " . $updateQuery . "<br>" . mysqli_error($conn);
+            header("Location: ../billing/index.php");
+            die();
+        }
+    }
+
+
+    $salesSelectQuery =  "SELECT * FROM sales_tb WHERE SalesID=$salesInsertedId";
+    $salesSelectQueryResult = $conn->query($salesSelectQuery);
+    if (!$salesSelectQueryResult) {
+        $_SESSION["alert_message"] = "Failed to Add a Billing Statement. Error Details: " . mysqli_error($conn);
+        $_SESSION["alert_message_error"] = true;
+        header("Location: ../billing/index.php");
+        die();
+    }
+    $printData = $salesSelectQueryResult->fetch_assoc();
+
+    // Success
+    $_SESSION["alert_message"] = "Successfully Added an Billing Statement.";
+    $_SESSION["alert_message_success"] = true;
+    $_SESSION['printData'] = $printData;
 
     // Redirect after processing
     header("Location: ../billing/index.php");
