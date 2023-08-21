@@ -133,7 +133,7 @@
 
                         <div class="mb-3">
                             </select>
-                            <label for="philHealth">Marital Status : </label>
+                            <label for="philHealth">PhilHealth Member: </label>
                             <select class="form-control" id="philHealth" name="philHealth">
                                 <option value="NH">NH</option>
                                 <option value="NN">NN</option>
