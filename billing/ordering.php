@@ -42,270 +42,194 @@ $conn->close();
             max-width: 100%;
             margin: 0;
             padding: 0;
-        }
-
-        .container {
-            display: flex;
-            margin-top: 1%;
-            max-width: 100%;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .content {
-            width: 100%;
-        }
-
-        .app-title {
-            text-align: center;
-            font-size: 28px;
-            color: #343a40;
-            margin-bottom: 20px;
-        }
-
-        .table-container {
-            margin-top: 20px;
-
-        }
-
-        .add-button {
-            margin-top: 20px;
-        }
-
-        .table-responsive {
-            overflow-x: auto;
-        }
-
-        .wide-table {
-            width: 100%;
-            /* Adjust the width as needed */
+            justify-content: center;
         }
     </style>
 </head>
 
 <body>
-    <div>
-        <form method="POST" action="databasefunctions.php" id="addItemForm" class="container" autocomplete="off" required>
-            <div class="content">
-                <h1 class="app-title text-center">BILLING SYSTEM</h1>
-                <!-- Additional Information Section -->
-                <div class="table-container">
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead class="thead-dark">
-                                <tr>
-
-                                    <th>Product Code</th>
-                                    <th>Inventory</th>
-                                    <th>Unit</th>
-                                    <th>Price</th>
-                                    <th>Item Type</th>
-                                    <th style="display:none">ID</th>
-                                    <th style="display:none">itemTypeID</th>
-                                    <th>Quantity</th>
-                                    <th>Discount %</th>
-                                    <th>Discount Amount</th>
-                                    <th>Sub-Total</th>
-                                    <th>action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr name="templateRow" style="display: none;">
-
-                                    <td>
-                                        <input class="form-control" list="product_id_list" id="product_id_input" name="product_id[]" onchange="updateProductInfo(this)" />
-                                        <datalist id="product_id_list">
-                                            <?php
-                                            require_once '../php/connect.php';
-                                            $conn = connect();
-                                            if ($conn->connect_error) {
-                                                die("Connection failed: " . $conn->connect_error);
-                                            }
-                                            $query = "SELECT * FROM inventory_tb WHERE Status = 1 AND Unit > 0";
-                                            $result = $conn->query($query);
-                                            while ($row = $result->fetch_assoc()) {
-                                                $itemCode = $row['itemCode'];
-                                                echo "<option value='$itemCode'>$itemCode</option>";
-                                            }
-                                            $conn->close();
-                                            ?>
-                                        </datalist>
-                                    </td>
-                                    <td><input type="number" class="form-control" readonly name="inv"></td>
-                                    <td><input type="text" class="form-control" name="unit[]" readonly></td>
-                                    <td><input type="number" class="form-control" name="price[]" readonly step="0.01"></td>
-                                    <td><input type="text" class="form-control" name="itemType[]" readonly></td>
-                                    <td style="display:none"><input type="number" style="display:none" class="form-control" name="id[]" readonly></td>
-                                    <td style="display:none"><input type="number" style="display:none" class="form-control" name="itemTypeID[]" readonly></td>
-                                    <td><input type="number" class="form-control" name="qty[]" min="1" value="1"></td>
-                                    <td><input type="number" class="form-control" name="disc_percent[]" step="0.01"></td>
-                                    <td><input type="number" class="form-control" name="disc_amt[]" step="0.01" readonly></td>
-                                    <td><input type="text" class="form-control" name="subtotal[]" readonly></td>
-                                    <td><button class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
+    <div class="container-fluid mt-3">
+    <form method="POST" action="databasefunctions.php" id="addItemForm" class="container-fluid p-3" autocomplete="off" onsubmit="return validateForm()">
+            <div class="row bg-dark text-white mb-4">
+                <h3 class="app-title mt-4 text">CHARGE NYP/PATIENT INFORMATION</h3>
+                <div class="col-md-6 p-4">
+                    <div class="row">
+                        <div class="form-group fw-bold">
+                            <label for="chargeSlipNumber">Charge Slip Number</label>
+                            <input type="text" class="form-control" name="chargeSlipNumber" placeholder="Enter Charge Slip Number" required value="<?php echo "00" . ($lastSalesID + 1); ?>" readonly>
+                        </div>
+                        <div class="form-group was-validated">
+                            <label for="patientAccountName">Patient Account Code</label>
+                            <input type="text" class="form-control" name="patientAccountName" placeholder="Enter Patient Account Name" required>
+                            <div class="invalid-feedback">Please enter the patient account code.</div>
+                        </div>
+                        <div class="form-group was-validated">
+                            <label for="requestedByName">Requested By: </label>
+                            <input type="text" class="form-control" name="requestedByName" placeholder="Enter Requested By Name" required>
+                            <div class="invalid-feedback">Please enter the requested by name.</div>
+                        </div>
+                        <div class="form-group was-validated">
+                            <label for="enteredByName">Entered By: </label>
+                            <input type="text" class="form-control" name="enteredByName" placeholder="Enter Entered By Name" required>
+                            <div class="invalid-feedback">Please enter the entered by name.</div>
+                        </div>
                     </div>
-                    <button type="button" class="btn btn-primary add-button" id="addRow">ADD PRODUCT</button>
 
                 </div>
-            </div>
-            <script>
-                function updateProductInfo(input) {
-                    var selectedValue = input.value;
-
-                    var row = input.closest("tr"); // Find the closest <tr> element
-
-                    var invInput = row.querySelector('[name="inv"]');
-                    var unitInput = row.querySelector('[name="unit[]"]');
-                    var priceInput = row.querySelector('[name="price[]"]');
-                    var itemTypeInput = row.querySelector('[name="itemType[]"]');
-                    var idInput = row.querySelector('[name="id[]"]');
-                    var itemTypeIDInput = row.querySelector('[name="itemTypeID[]"]');
-
-                    var datalist = document.getElementById('product_id_list');
-                    
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("GET", "get_product_details.php?itemCode=" + selectedValue, true);
-                    xhr.onreadystatechange = function() {
-                        if (xhr.readyState === XMLHttpRequest.DONE) {
-                            if (xhr.status === 200) {
-                                var response = JSON.parse(xhr.responseText);
-                                invInput.value = response.inv;
-                                unitInput.value = response.unit;
-                                priceInput.value = response.price;
-                                itemTypeInput.value = response.itemtype;
-                                idInput.value = response.id;
-                                itemTypeIDInput.value = response.itemTypeID;
-                                for (var i = 0; i < datalist.options.length; i++) {
-                                    if (datalist.options[i].value === selectedValue) {
-                                        datalist.options[i].remove();
-                                        break;
-                                    }
-                                }
-                                console.log("Response:", response);
-                            } else {
-                                console.error("Failed to fetch product details");
-                            }
-                        }
-                    };
-                    xhr.send();
-                }
-            </script>
-
-
-            <div class="sidebar p-4 fw-bold">
-                <h6 class="app-title">CHARGE NYP/ PATIENT INFOMATION</h6>
-                <div class="additional-info p-3 bg-dark text-white">
-                    <div class="form-group">
-                        <label for="chargeSlipNumber">Charge Slip Number</label>
-                        <input type="text" class="form-control" name="chargeSlipNumber" placeholder="Enter Charge Slip Number" required value="<?php echo "00" . ($lastSalesID + 1); ?>" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="patientAccountName">Patient Account Code</label>
-                        <input type="text" class="form-control" name="patientAccountName" placeholder="Enter Patient Account Name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="requestedByName">Requested By: </label>
-                        <input type="text" class="form-control" name="requestedByName" placeholder="Enter Requested By Name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="enteredByName">Entered By: </label>
-                        <input type="text" class="form-control" name="enteredByName" placeholder="Enter Entered By Name" required>
-                    </div>
-
-
-                    <div class="net-sale">
+                <!-- Right Section -->
+                <div class="col-md-6 p-4">
+                    <!-- Additional Info Section -->
+                    <div class="form-group fw-bold">
                         <label for="netSale">Net Sale</label>
                         <input type="text" class="form-control text-danger" name="netSale" readonly value="0.00">
                     </div>
-                    <div class="additional-discount">
+                    <div class="form-group was-validated">
                         <label for="additionalDiscount">Additional Discount (%)</label>
-                        <input type="number" class="form-control" name="additionalDiscount" min="0" value="0" requried>
+                        <input type="number" class="form-control" name="additionalDiscount" min="0" value="0" required>
+                        <div class="invalid-feedback">Please enter a valid discount percentage.</div>
                     </div>
-                    <div class="net-amount">
+                    <div class="form-group fw-bold">
                         <label for="netAmount">Net Amount</label>
                         <input type="text" class="form-control text-danger" name="netAmount" readonly value="0.00">
                     </div>
-                    <div class="amount-tendered">
+                    <div class="form-group was-validated">
                         <label for="amountTendered">Amount Tendered</label>
-                        <input type="number" class="form-control" name="amountTendered" min="0" value="0" requried>
+                        <input type="number" class="form-control" name="amountTendered" min="0" required>
+                        <div class="invalid-feedback">Please enter a valid amount tendered.</div>
                     </div>
-                    <div class="change">
+                    <div class="form-group fw-bold">
                         <label for="change">Change</label>
                         <input type="text" class="form-control text-danger" name="change" readonly value="0.00" min="0">
                     </div>
+                    <button type="submit" class="btn btn-primary add-button" name="SaveItem">Save Transaction</button>
                 </div>
-                <button type="submit" class="btn btn-primary add-button" name="SaveItem" onclick="validateForm()">Save Transaction</button>
+            </div>
 
-                <script>
-                    function validateForm(event) {
-                        const form = document.getElementById('addItemForm');
-                        const formInputs = form.querySelectorAll('input[name], select[name]');
-                        let isValid = true;
+            <div class="table-container">
+                <div class="table-responsive p-2">
+                    <table class="table table-bordered wide-table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Product Code</th>
+                                <th>Inventory</th>
+                                <th>Unit</th>
+                                <th>Price</th>
+                                <th>Item Type</th>
+                                <th style="display:none">ID</th>
+                                <th style="display:none">itemTypeID</th>
+                                <th>Quantity</th>
+                                <th>Discount %</th>
+                                <th>Discount Amount</th>
+                                <th>Sub-Total</th>
+                                <th>action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                        formInputs.forEach(input => {
-                            const inputName = input.getAttribute('name');
-                            const inputValue = parseFloat(input.value);
-
-                            if (inputName === 'additionalDiscount' || inputName.startsWith('disc_percent')) {
-                                if (inputValue < 0) {
-                                    input.setCustomValidity(`Input cannot be less than 0.`);
-                                    isValid = false;
-                                    input.classList.add('error-input');
-                                } else {
-                                    input.setCustomValidity('');
-                                    input.classList.remove('error-input');
-                                }
-                            } else if (inputName === 'amountTendered' && inputValue < parseFloat(document.querySelector('[name="netAmount"]').value)) {
-                                input.setCustomValidity(`Amount tendered must be greater than or equal to Net Amount.`);
-                                isValid = false;
-                                input.classList.add('error-input');
-                            } else if (inputName === 'patientAccountName' || inputName === 'requestedByName' || inputName === 'enteredByName') {
-                                if (inputValue.trim() === '') {
-                                    input.setCustomValidity(`Please input data.`);
-                                    isValid = false;
-                                    input.classList.add('error-input');
-                                } else {
-                                    input.setCustomValidity('');
-                                    input.classList.remove('error-input');
-                                }
-                            } else if (!inputValue && input.type !== 'number') {
-                                input.setCustomValidity(`Please input data.`);
-                                isValid = false;
-                                input.classList.add('error-input');
-                            } else if (isNaN(inputValue) || inputValue < 1) {
-                                input.setCustomValidity(`Input must have a valid value (greater than or equal to 1).`);
-                                isValid = false;
-                                input.classList.add('error-input');
-                            } else {
-                                input.setCustomValidity(''); // Reset custom validity for valid input
-                                input.classList.remove('error-input'); // Remove error highlighting
-                            }
-                        });
-
-                        if (!isValid) {
-                            event.preventDefault(); // Prevent form submission
-                        }
-                    }
-
-                    // Attach the function to the form's submit event
-                    const form = document.getElementById('addItemForm');
-                    form.addEventListener('submit', validateForm);
-                    
-
-                    // Reset the custom validity when input changes
-                    const formInputs = form.querySelectorAll('input[name], select[name]');
-                    formInputs.forEach(input => {
-                        input.addEventListener('input', () => {
-                            input.setCustomValidity('');
-                            input.classList.remove('error-input');
-                        });
-                    });
-                </script>
+                            <tr name="templateRow" style="display: none;">
+                                <td>
+                                    <input autocomplete="off" class="form-control" list="product_id_list" id="product_id_input" name="product_id[]" onchange="updateProductInfo(this)" />
+                                    <datalist id="product_id_list">
+                                        <?php
+                                        require_once '../php/connect.php';
+                                        $conn = connect();
+                                        if ($conn->connect_error) {
+                                            die("Connection failed: " . $conn->connect_error);
+                                        }
+                                        $query = "SELECT * FROM inventory_tb WHERE Status = 1 AND Unit > 0";
+                                        $result = $conn->query($query);
+                                        while ($row = $result->fetch_assoc()) {
+                                            $itemCode = $row['itemCode'];
+                                            echo "<option value='$itemCode'>$itemCode</option>";
+                                        }
+                                        $conn->close();
+                                        ?>
+                                    </datalist>
+                                </td>
+                                <td><input type="number" class="form-control" readonly name="inv"></td>
+                                <td><input type="text" class="form-control" name="unit[]" readonly></td>
+                                <td><input type="number" class="form-control" name="price[]" readonly step="0.01"></td>
+                                <td><input type="text" class="form-control" name="itemType[]" readonly></td>
+                                <td style="display:none"><input type="number" style="display:none" class="form-control" name="id[]" readonly></td>
+                                <td style="display:none"><input type="number" style="display:none" class="form-control" name="itemTypeID[]" readonly></td>
+                                <td class="was-validated"><input type="number" class="form-control" name="qty[]" min="1" value="1"></td>
+                                <td class="was-validated"><input type="number" class="form-control" name="disc_percent[]" min="0" value="0"></td>
+                                <td><input type="number" class="form-control" name="disc_amt[]" step="0.01" readonly></td>
+                                <td><input type="text" class="form-control" name="subtotal[]" readonly></td>
+                                <td><button class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button type="button" class="btn btn-primary add-button" id="addRow">ADD PRODUCT</button>
             </div>
         </form>
     </div>
+    <script>
+        function updateProductInfo(input) {
+            var selectedValue = input.value;
+
+            var row = input.closest("tr"); // Find the closest <tr> element
+
+            var invInput = row.querySelector('[name="inv"]');
+            var unitInput = row.querySelector('[name="unit[]"]');
+            var priceInput = row.querySelector('[name="price[]"]');
+            var itemTypeInput = row.querySelector('[name="itemType[]"]');
+            var idInput = row.querySelector('[name="id[]"]');
+            var itemTypeIDInput = row.querySelector('[name="itemTypeID[]"]');
+            var validQtyInput = row.querySelector('[name="qty[]"]');
+
+            var datalist = document.getElementById('product_id_list');
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "get_product_details.php?itemCode=" + selectedValue, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        invInput.value = response.inv;
+                        unitInput.value = response.unit;
+                        priceInput.value = response.price;
+                        itemTypeInput.value = response.itemtype;
+                        idInput.value = response.id;
+                        itemTypeIDInput.value = response.itemTypeID;
+
+                        for (var i = 0; i < datalist.options.length; i++) {
+                            if (datalist.options[i].value === selectedValue) {
+                                datalist.options[i].remove();
+                                break;
+                            }
+                        }
+                        console.log("Response:", response);
+                    } else {
+                        console.error("Failed to fetch product details");
+                    }
+                }
+            };
+            xhr.send();
+        }
+    </script>
+
+    <script>
+        function validateForm() {
+            // Remove "was-validated" class from all elements
+            document.querySelectorAll('.was-validated').forEach(el => {
+                el.classList.remove('was-validated');
+            });
+
+            // Add "was-validated" class to the form to trigger Bootstrap validation styles
+            document.getElementById('addItemForm').classList.add('was-validated');
+
+            // Additional validation logic
+            // ...
+
+            // Return true to submit the form if all validations pass
+            return true;
+        }
+
+        // Rest of your JavaScript code...
+    </script>
+
 
     <script>
         // Your JavaScript code here
@@ -322,6 +246,7 @@ $conn->close();
             datalist.appendChild(option);
             row.parentNode.removeChild(row);
         }
+
         // Function to add a new row
         function addRow() {
             const templateRow = document.querySelector('[name="templateRow"]');
@@ -357,7 +282,6 @@ $conn->close();
             const qty = parseFloat(row.querySelector('[name="qty[]"]').value) || 0;
             const discPercent = parseFloat(row.querySelector('[name="disc_percent[]"]').value) || 0;
             const inventory = parseFloat(row.querySelector('[name="inv"]').value) || 0;
-
             const subtotal = qty * price;
             const discount = subtotal * (discPercent / 100);
             const totalWithDiscount = subtotal - discount;
