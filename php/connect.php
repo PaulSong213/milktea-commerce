@@ -2,7 +2,6 @@
 
 function connect()
 {
-
     // production setup
     $servername = "sql207.infinityfree.com";
     $username = "if0_34844081";
