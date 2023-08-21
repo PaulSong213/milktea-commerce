@@ -51,6 +51,8 @@ if (isset($_POST['SaveItem'])) {
 
     // Encode the array as JSON
     $productInfoJSON = json_encode($productInfoArray);
+    
+    echo $productInfoJSON;
 
     // Calculate additional discount amount
     $addDiscAmt = $netSale * ($additionalDiscount / 100);

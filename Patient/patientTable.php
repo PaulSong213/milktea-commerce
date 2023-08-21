@@ -58,13 +58,8 @@
             </thead>
             <tbody>
                 <?php
-                $servername = "localhost"; //localhost
-                $username = "root"; //username
-                $Password = ""; //password
-                $database = "zaratehospital"; //database
-
-                $connection = new mysqli($servername, $username, $Password, $database);
-
+                require_once '../php/connect.php';
+                $connection = connect();
                 $sql = "select * from employee_tb ";
                 $result = $connection->query($sql);
 

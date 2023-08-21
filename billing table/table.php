@@ -47,34 +47,51 @@
 
 <body>
     <div class="table w-100 p-4">
-        <h2 class="mt-4 mb-5">PATIENTS</h2>
+        <h2 class="mt-4 mb-5">ITEM TYPE</h2>
         <?php include './add/add.php'; ?>
         <?php include './view/view.php'; ?>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>Patient Name</th>
-                    <th>Age</th>
-                    <th>Gender</th>
-                    <th>Date Added</th>
-                    <th>Modified Date</th>
+                  
+                    <th>Subtotal</th>
+                    <th>Net Sale</th>
+                    <th>Add Disc</th>
+                    <th>Add Disc Amountt</th>
+                    <th>Net Amount</th>
+                    <th>Amt Tendered</th>
+                    <th>Change Amount</th>
+                    <th>Patient Account</th>
+                    <th>Requested Name</th>
+                    <th>Entered Name</th>
                     <th class="action-column">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                require_once '../php/connect.php';
-                $connection = connect();
-                $sql = "select * from patient_tb";
+                $servername = "localhost"; //localhost
+                $username = "root"; //username
+                $Password = ""; //password
+                $database = "zaratehospital"; //database
+
+                $connection = new mysqli($servername, $username, $Password, $database);
+
+                $sql = "select * from sales_tb ";
                 $result = $connection->query($sql);
                 while ($row = $result->fetch_assoc()) {
                     echo "
                         <tr>
-                            <td>" . $row["lname"] . " " . $row["fname"] . " " . $row["mname"] . "</td>
-                            <td>" . $row["age"] . "</td>
-                            <td>" . $row["gender"] . "</td>
-                            <td>" . date("M d, Y h:i", strtotime($row["createDate"])) . "</td>
-                            <td>" . date("M d, Y h:i", strtotime($row["modifiedDate"])) . "</td>
+                           
+                            <td>" . $row["Subtotal"] . "</td>
+                            <td>" . $row["NetSale"] . "</td>
+                            <td>" . $row["AddDisc"] . "</td>
+                            <td>" . $row["AddDiscAmt"] . "</td>
+                            <td>" . $row["NetAmt"] . "</td>
+                            <td>" . $row["AmtTendered"] . "</td>
+                            <td>" . $row["ChangeAmt"] . "</td>
+                            <td>" . $row["PatientAcct"] . "</td>
+                            <td>" . $row["RequestedName"] . "</td>
+                            <td>" . $row["EnteredName"] . "</td>
                             <td class='invisible action-wrapper'>" . json_encode($row) . "</td>
                         </tr>
                         ";
@@ -151,16 +168,13 @@
                         className: 'btn border border-info'
                     },
                     {
-                        text: 'Add Patient Information',
+                        text: 'Add Item Type',
                         className: 'btn btn-primary bg-primary text-white',
                         action: function(e, dt, node, config) {
                             $('#addItemModal').modal('show');
                         }
                     }
                 ],
-
-
-
                 initComplete: function() {
                     searchColumn(this.api());
                 },
@@ -178,10 +192,7 @@
                                 <li class="mx-2">
                                     <button class=" btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
                                 </li>
-                                <li class="mx-2">
-                                    <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
-                                </li>
-                                
+                              
                             </ul>
                         </div>
                         `
@@ -189,14 +200,18 @@
                     "searchable": false
                 }],
                 order: [
-                    [4, 'asc']
+                    [3, 'asc']
                 ]
             });
-            handleEditClick();
-            handleViewClick();
-            $('.action-wrapper').each(function(i, e) {
-                $(this).removeClass('invisible');
+            handleEditClick(table);
+            handleViewClick(table);
+
+            table.on('draw', function() {
+                $('.action-wrapper').each(function(i, e) {
+                    $(this).removeClass('invisible');
+                });
             });
+            table.page(1).draw(true);
         });
     </script>
     <script>

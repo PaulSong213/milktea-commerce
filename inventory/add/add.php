@@ -25,10 +25,11 @@
                             <select class="form-select" id="type" name="itemTypeID">
                                 <?php
                                 $connectionType = connect();
-                                $sqlType = "select * from itemType_tb ";
+                                $sqlType = "select * from itemtype_tb";
                                 $resultType = $connectionType->query($sqlType);
-                                while ($row = $resultType->fetch_assoc()) {
-                                    echo '<option value="' . $row["itemTypeID"] . '">' . $row["itemTypeCode"] . '</option>';
+                                if (!$resultType) die($connectionType->error);
+                                while ($rowType = $resultType->fetch_assoc()) {
+                                    echo '<option value="' . $rowType["itemTypeID"] . '">' . $rowType["itemTypeCode"] . '</option>';
                                 }
                                 ?>
                             </select>
@@ -73,7 +74,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" id="Closemodal2" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" name="SaveItem">SaveItem</button>
+                        <button type="submit" class="btn btn-primary" name="SaveItem">Save Item</button>
                     </div>
                 </div>
             </div>
