@@ -91,8 +91,6 @@
 			// Database connection parameters
 			require_once './php/connect.php';
 			$conn = connect();
-
-			// Create a connection
 			$conn = new mysqli($servername, $username, $password, $dbname);
 
 			// Check connection
