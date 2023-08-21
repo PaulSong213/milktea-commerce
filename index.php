@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 	<title>Login Page</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -85,12 +84,15 @@
 <body>
 	<div class="login-container">
 		<img src="img/logo.png" alt="Logo" class="logo">
-
 		<?php
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			// Database connection parameters
-			require_once './php/connect.php';
-			$conn = connect();
+			$servername = "localhost";
+			$username = "root";
+			$password = "";
+			$dbname = "zaratehospital";
+
+			// Create a connection
 			$conn = new mysqli($servername, $username, $password, $dbname);
 
 			// Check connection
