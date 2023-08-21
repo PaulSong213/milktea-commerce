@@ -11,13 +11,12 @@ $sidebarContent = [
         "name" => "Billing", //name of the link
         "icon" => "point_of_sale", //material icon name
         "link" => "/billing/index.php", //link of the page
-        "navigations" => [] //list of links on dropdown
-    ],
-    [
-        "name" => "Billing Statement", //name of the link
-        "icon" => "point_of_sale", //material icon name
-        "link" => "/billing table/index.php", //link of the page
-        "navigations" => [] //list of links on dropdown
+        "navigations" => [
+            [
+            "name" => "Billing Statement", //name of the link
+            "link" => "/billingtable/index.php", //link of the page
+            ],
+        ] 
     ],
 
     [
@@ -57,8 +56,6 @@ $sidebarContent = [
     ],
 
 ]
-
-
 ?>
 
 <!DOCTYPE html>
