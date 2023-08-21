@@ -1,3 +1,4 @@
+ 
 <?php
 require_once '../../php/connect.php';
 session_start();
@@ -5,13 +6,13 @@ $conn = connect();
 
 if (isset($_POST['SaveItem'])) {
    
-    
+    $itemTypeID = $_POST['itemTypeID'];
     
     $Sname = $_POST['supplier_name'];
     $address = $_POST['address'];
     $telNumber = $_POST['telNum'];
     $faxNumber = $_POST['faxNum'];
-    $celNumber = $_POST['celNum'];
+    $CelNumber = $_POST['celNum'];
     $contactNumber = $_POST['contactNum'];
     $note = $_POST['Snote'];
     
@@ -21,12 +22,12 @@ if (isset($_POST['SaveItem'])) {
     address = '$address',
     telNum  = '$telNumber',
     faxNum  = '$faxNumber',
-    CelNum  = '$celNumber',
+    celNum  = '$CelNumber',
     contactNum = '$contactNumber',
-    Snote = '$note',
+    Snote = '$note'
     
     WHERE
-        DatabaseID = '$supplier_code';
+    itemTypeID = '$supplier_code';
     ";
 
     $result = mysqli_query($conn, $sql);

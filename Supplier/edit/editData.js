@@ -1,5 +1,5 @@
 export function handleEditClick(table) {
-    $(".edit-btn").on('click', function (e) {
+    table.on('click', '.edit-btn', function (e) {
         const addModal = $("#addItemModal");
         addModal.modal('show');
         let data = JSON.parse($(this).attr("data-item"));
@@ -23,8 +23,8 @@ export function handleEditClick(table) {
                 inputName: "faxNum"
             },
             {
-                dataKey: "CelNum",
-                inputName: "CelNum"
+                dataKey: "celNum",
+                inputName: "celNum"
             },
             {
                 dataKey: "contactNum",
@@ -38,8 +38,8 @@ export function handleEditClick(table) {
     
         ];
 
-         // fill up the fields
-         for (let i = 0; i < toFillUpDatas.length; i++) {
+        // fill up the fields
+        for (let i = 0; i < toFillUpDatas.length; i++) {
             const toFillUpData = toFillUpDatas[i];
             $(`[name="${toFillUpData.inputName}"]`).val(data[toFillUpData.dataKey]);
         }
@@ -53,14 +53,15 @@ export function handleEditClick(table) {
         headerTitle.text("Edit Item");
 
         const addItemForm = $("#addItemForm");
+        const addItemFormAction = addItemForm.attr("action");
         addItemForm.attr("action", "./edit/editfunction.php");
-        addItemForm.append(`<input type="hidden" name="item_id" value="${data['DatabaseID']}">`);
+        addItemForm.append(`<input type="hidden" name="itemTypeID" value="${data['supplier_code']}">`);
 
         // watch modal close then reset data
         addModal.on("hidden.bs.modal", function () {
             headerTitle.text("Add Item");
             saveButton.text("Add Item");
-            addItemForm.attr("action", "./add/addfunction.php");
+            addItemForm.attr("action", addItemFormAction);
             addItemForm.find("input[name='item_id']").remove();
             for (let i = 0; i < toFillUpDatas.length; i++) {
                 const toFillUpData = toFillUpDatas[i];

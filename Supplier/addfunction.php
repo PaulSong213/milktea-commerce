@@ -20,13 +20,13 @@ if (isset($_POST['SaveItem'])) {
     $address = $_POST['address'];
     $telNumber = $_POST['telNum'];
     $faxNumber = $_POST['faxNum'];
-    $celNumber = $_POST['celNum'];
+    $CelNumber = $_POST['celNum'];
     $contactNumber = $_POST['contactNum'];
     $note = $_POST['Snote'];
     
 
-    $sql = "INSERT INTO supplier_tb (supplier_name,address, telNum, faxNum,CelNum,contactNum,Snote)
-    VALUES ('$Sname','$address', '$telNumber', '$faxNumber', '$celNumber', '$contactNumber', '$note')";
+    $sql = "INSERT INTO supplier_tb (supplier_name,address, telNum, faxNum,celNum,contactNum,Snote)
+    VALUES ('$Sname','$address', '$telNumber', '$faxNumber', '$CelNumber', '$contactNumber', '$note')";
 
     $result = mysqli_query($conn, $sql);
 
