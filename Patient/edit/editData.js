@@ -187,8 +187,8 @@ export function handleEditClick(table) {
 
         // watch modal close then reset data
         addModal.on("hidden.bs.modal", function () {
-            headerTitle.text("Add Item");
-            saveButton.text("Add Item");
+            headerTitle.text("Add New Patient");
+            saveButton.text("Add New Patient");
             addItemForm.attr("action", addItemFormAction);
             for (let i = 0; i < toFillUpDatas.length; i++) {
                 const toFillUpData = toFillUpDatas[i];

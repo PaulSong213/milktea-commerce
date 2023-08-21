@@ -2,9 +2,9 @@
 
 <html lang="en">
 
-<form method="POST" action="addfunction.php">
+<form id="addItemForm" method="POST" action="./add/addfunction.php">
 
-    <Save class="modal fade" data-bs-backdrop="static" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel" aria-hidden="true">
+    <div class="modal fade" data-bs-backdrop="static" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -45,6 +45,8 @@
                 </div>
             </div>
         </div>
-    </Save Supplier </form>
+    </div Supplier </div>
+    </div>
+</form>
 
 </html>

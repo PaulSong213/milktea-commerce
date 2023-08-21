@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>Login Page</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -11,11 +12,13 @@
 			justify-content: center;
 			align-items: center;
 			height: 100vh;
-			background-image: url(img/loginbg.jpg), linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4)); /* Background image and black gradient */
+			background-image: url(img/loginbg.jpg), linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4));
+			/* Background image and black gradient */
 			background-size: cover, cover;
-			background-blend-mode: multiply; 
-			backdrop-filter: blur(5px); 
+			background-blend-mode: multiply;
+			backdrop-filter: blur(5px);
 		}
+
 		.login-container {
 			position: relative;
 			width: 320px;
@@ -25,24 +28,29 @@
 			background-color: rgba(255, 255, 255, 0.9);
 			text-align: center;
 		}
+
 		.logo {
 			margin-top: -100px;
 			margin-bottom: 20px;
 			width: 140px;
 			height: 140px;
-			background-image: url(img/logo.png); /* Replace with your logo URL */
+			background-image: url(img/logo.png);
+			/* Replace with your logo URL */
 			background-size: cover;
 			border-radius: 50%;
 			box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
 		}
+
 		.login-container h2 {
 			font-size: 24px;
 			margin-bottom: 20px;
 			color: #333;
 		}
+
 		.login-container label {
 			color: #666;
 		}
+
 		.login-container input[type="text"],
 		.login-container input[type="password"] {
 			width: 100%;
@@ -51,6 +59,7 @@
 			border: 1px solid #ccc;
 			border-radius: 5px;
 		}
+
 		.login-container button[type="submit"] {
 			width: 100%;
 			padding: 12px;
@@ -65,70 +74,65 @@
 			transform: translateZ(0);
 			transition: background-color 0.3s ease, transform 0.3s ease;
 		}
+
 		.login-container button[type="submit"]:hover {
 			background-color: #2980b9;
 			transform: translateY(-3px);
 		}
 	</style>
 </head>
+
 <body>
-	  <div class="login-container">
-        <img src="img/logo.png" alt="Logo" class="logo">
+	<div class="login-container">
+		<img src="img/logo.png" alt="Logo" class="logo">
 
-        <?php
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // Database connection parameters
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "zaratehospital";
+		<?php
+		if ($_SERVER["REQUEST_METHOD"] == "POST") {
+			// Database connection parameters
+			require_once './php/connect.php';
+			$conn = connect();
+			$conn = new mysqli($servername, $username, $password, $dbname);
 
-            // Create a connection
-            $conn = new mysqli($servername, $username, $password, $dbname);
+			// Check connection
+			if ($conn->connect_error) {
+				die("Connection failed: " . $conn->connect_error);
+			}
 
-            // Check connection
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
+			$usernameOrEmail = $_POST['mailuid'];
+			$password = $_POST['pwd'];
 
-            $usernameOrEmail = $_POST['mailuid'];
-            $password = $_POST['pwd'];
+			// Prepare and execute a SELECT query
+			$sql = "SELECT * FROM employee_tb WHERE userName = ? AND password = ?";
+			$stmt = $conn->prepare($sql);
+			$stmt->bind_param("ss", $usernameOrEmail, $password);
+			$stmt->execute();
+			$result = $stmt->get_result();
 
-            // Prepare and execute a SELECT query
-            $sql = "SELECT * FROM employee_tb WHERE userName = ? AND password = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ss", $usernameOrEmail, $password);
-            $stmt->execute();
-            $result = $stmt->get_result();
+			if ($result->num_rows === 1) {
+				// Successful login
+				// You can redirect the user to a dashboard or another page
+				echo '<p class="error">valid credentials. Please try again.</p>';
+				header("Location: ./inventory/index.php");
+				exit();
+			} else {
+				// Invalid credentials
+				// You can display an error message
+				echo '<p class="error">Invalid credentials. Please try again.</p>';
+			}
 
-            if ($result->num_rows === 1) {
-                // Successful login
-                // You can redirect the user to a dashboard or another page
-				 echo '<p class="error">valid credentials. Please try again.</p>';
-                header("Location: ./inventory/index.php");
-                exit();
-            } else {
-                // Invalid credentials
-                // You can display an error message
-                echo '<p class="error">Invalid credentials. Please try again.</p>';
-            }
+			$conn->close();
+		}
+		?>
 
-            $conn->close();
-        }
-        ?>
-
-        <form class="" action="" method="post">
-            <h2>LOGIN FORM</h2>
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" name="mailuid" placeholder="Username/Email..." required>
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" name="pwd" placeholder="Password..." required>
-            <button type="submit" class="btn btn-primary" name="login-submit">Login</button>
-        </form>
-    </div>
+		<form class="" action="" method="post">
+			<h2>LOGIN FORM</h2>
+			<label for="exampleInputEmail1">Email address</label>
+			<input type="text" class="form-control" id="exampleInputEmail1" name="mailuid" placeholder="Username/Email..." required>
+			<label for="exampleInputPassword1">Password</label>
+			<input type="password" class="form-control" id="exampleInputPassword1" name="pwd" placeholder="Password..." required>
+			<button type="submit" class="btn btn-primary" name="login-submit">Login</button>
+		</form>
+	</div>
 </body>
+
 </html>
-
-
-
-

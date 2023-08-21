@@ -2,10 +2,22 @@
 
 function connect()
 {
-    $servername = "localhost";
-    $username = "root";
-    $Password = "";
-    $database = "zaratehospital";
+    // production setup
+    $servername = "sql207.infinityfree.com";
+    $username = "if0_34844081";
+    $Password = "wwwYlVEuaI";
+    $database = "if0_34844081_zaratehostpital";
+
+    // local setup
+    $isDevelopment = false;
+    if ($isDevelopment) {
+        $servername = "localhost";
+        $username = "root";
+        $Password = "";
+        $database = "zaratehospital";
+    }
+
+
     $connection = new mysqli($servername, $username, $Password, $database);
 
     // Check connection
