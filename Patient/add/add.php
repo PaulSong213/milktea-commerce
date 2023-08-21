@@ -42,7 +42,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="age">Age<span class="text-danger mx-1"></span></label>
+                            <label class="form-label" for="age">Age<span class="text-danger mx-1"></span>*</label>
                             <input type="number" id="age" name="age" class="form-control" placeholder="Enter Age" autocomplete="on" required>
                         </div>
                         <b><label class="form-label">Personal Details<span class="text-danger mx-1">*</span></label></b>
@@ -56,35 +56,35 @@
                             <input type="date" id="bdate" name="bdate" class="form-control" autocomplete="on" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="phoneHome">Phone No.(Home)<span class="text-danger mx-1">*</span></label>
-                            <input type="text" id="phoneHome" name="phoneHome" placeholder="Enter Phone No. (Home)" class="form-control" autocomplete="on" required>
+                            <label class="form-label" for="phoneHome">Phone No.(Home)</label>
+                            <input type="number" id="phoneHome" name="phoneHome" placeholder="Enter Phone No. (Home)" class="form-control" autocomplete="on" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="phoneWork">Phone No.(Work)<span class="text-danger mx-1">*</span></label>
-                            <input type="text" id="phoneWork" name="phoneWork" placeholder="Enter Phone No. (Work)" class=" form-control" autocomplete="on" required>
+                            <label class="form-label" for="phoneWork">Phone No.(Work)</label>
+                            <input type="number" id="phoneWork" name="phoneWork" placeholder="Enter Phone No. (Work)" class=" form-control" autocomplete="on" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="phoneCell">Cellphone<span class="text-danger mx-1">*</span></label>
-                            <input type="text" id="phoneCell" name="phoneCell" placeholder="Enter Phone No. (Cellphone)" class=" form-control" autocomplete="on" required>
+                            <label class="form-label" for="phoneCell">Cellphone</label>
+                            <input type="number" id="phoneCell" name="phoneCell" placeholder="Enter Phone No. (Cellphone)" class=" form-control" autocomplete="on" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="email">Email Address<span class="text-danger mx-1">*</span></label>
+                            <label class="form-label" for="email">Email Address</label>
                             <input type="email" id="email" name="email" class="form-control" placeholder="Enter Email Address" autocomplete=" on" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="occupation">Occupation<span class="text-danger mx-1">*</span></label>
+                            <label class="form-label" for="occupation">Occupation</label>
                             <input type="text" id="occupation" name="occupation" placeholder="Enter Occupation" class=" form-control" autocomplete="on" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="employerName">Employer's Name<span class="text-danger mx-1">*</span></label>
+                            <label class="form-label" for="employerName">Employer's Name</label>
                             <input type="text" id="employerName" name="employerName" placeholder="Enter Employer Name" class=" form-control" autocomplete="on" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="employerNo">Employer's Contact No.<span class="text-danger mx-1">*</span></label>
+                            <label class="form-label" for="employerNo">Employer's Contact No.</label>
                             <input type="text" id="employerNo" name="employerNo" placeholder="Enter Contact No." class=" form-control" autocomplete="on" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="workAddress">Work Address<span class="text-danger mx-1">*</span></label>
+                            <label class="form-label" for="workAddress">Work Address</label>
                             <textarea type="text" id="workAddress" name="workAddress" placeholder="Enter Work Address" class="form-control" autocomplete="on" required></textarea>
                         </div>
                         <div class="mb-3">
@@ -96,29 +96,29 @@
                             <input type="text" id="religion" name="religion" placeholder="Religion" class=" form-control" autocomplete="on" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="SpouseName">Name of Spouse(if Applicable)<span class="text-danger mx-1">*</span></label>
+                            <label class="form-label" for="SpouseName">Name of Spouse(if Applicable)</label>
                             <input type="text" id="SpouseName" name="SpouseName" placeholder="Enter Spouse Name " class=" form-control" autocomplete="on">
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label" for="spousecontactNo">Contact No.(Spouse)<span class="text-danger mx-1"></span></label>
-                            <input type="text" id="spousecontactNo" name="spousecontactNo" class="form-control" placeholder="Enter Phone No." autocomplete=" on">
+                            <label class="form-label" for="spousecontactNo">Contact No.(Spouse)</label>
+                            <input type="number" id="spousecontactNo" name="spousecontactNo" class="form-control" placeholder="Enter Phone No." autocomplete=" on">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="MotherName">Name of Mother<span class="text-danger mx-1">*</span></label>
+                            <label class="form-label" for="MotherName">Name of Mother</label>
                             <input type="text" id="MotherName" name="MotherName" class="form-control" placeholder="Enter Mother Name" autocomplete=" on">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="mothercontactNo">Contact No.(Mother)<span class="text-danger mx-1">*</span></label>
-                            <input type="text" id="mothercontactNo" name="mothercontactNo" placeholder="Enter Phone No." class=" form-control" autocomplete="on">
+                            <label class="form-label" for="mothercontactNo">Contact No.(Mother)</label>
+                            <input type="number" id="mothercontactNo" name="mothercontactNo" placeholder="Enter Phone No." class=" form-control" autocomplete="on">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="FatherName">Name of Father<span class="text-danger mx-1">*</span></label>
+                            <label class="form-label" for="FatherName">Name of Father</label>
                             <input type="text" id="FatherName" name="FatherName" class="form-control" placeholder="Enter Father Name " autocomplete=" on">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="fathercontactNo">Contact No.(Father)<span class="text-danger mx-1">*</span></label>
-                            <input type="text" id="fathercontactNo" name="fathercontactNo" class="form-control" placeholder="Enter Phone No." autocomplete=" on">
+                            <label class="form-label" for="fathercontactNo">Contact No.(Father)</label>
+                            <input type="number" id="fathercontactNo" name="fathercontactNo" class="form-control" placeholder="Enter Phone No." autocomplete=" on">
                         </div>
                         <div class="mb-3">
                             </select>
@@ -143,52 +143,52 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label" for="phPin">Phil Health No. (PIN)</label>
+                            <label class="form-label" id="phPinlabel" for="phPin">Phil Health No. (PIN)</label>
                             <input type="text" id="phPin" name="phPin" class="form-control" placeholder="Enter PhilHealth No.(PIN)" autocomplete=" on">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="HMO">HMO<span class="text-danger mx-1">*</span></label>
+                            <label class="form-label" for="HMO">HMO</label>
                             <input type="text" id="HMO" name="HMO" class="form-control" autocomplete="on">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="typeHMO">Type of HMO Coverage<span class="text-danger mx-1">*</span></label>
+                            <label class="form-label" for="typeHMO">Type of HMO Coverage</label>
                             <input type="text" id="typeHMO" name="typeHMO" class="form-control" autocomplete="on">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="certNo">Cert No.<span class="text-danger mx-1">*</span></label>
+                            <label class="form-label" for="certNo">Cert No.</label>
                             <input type="text" id="certNo" name="certNo" class="form-control" autocomplete="on">
                         </div>
                         <b><label class="form-label">Emergency Contact Person<span class="text-danger mx-1"></span></label></b>
                         <div class="mb-3">
-                            <label class="form-label" for="emergencyName">Name<span class="text-danger mx-1">*</span></label>
+                            <label class="form-label" for="emergencyName">Name</label>
                             <input type="text" id="emergencyname" name="emergencyname" placeholder="Enter Name of Emergency Contact Person" class=" form-control" autocomplete="on">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="emergencyRelation">Relationship <span class="text-danger mx-1">*</span></label>
+                            <label class="form-label" for="emergencyRelation">Relationship</label>
                             <input type="text" id="emergencyRelation" name="emergencyRelation" placeholder="Enter Relationship to the patients" class=" form-control" autocomplete="on">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="emergencyAddress">Address <span class="text-danger mx-1">*</span></label>
+                            <label class="form-label" for="emergencyAddress">Address</label>
                             <textarea type="text" id="emergencyAddress" name="emergencyAddress" placeholder="Address" class="form-control" autocomplete="on"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="emergencyphoneHome">Phone No. (Home)<span class="text-danger mx-1">*</span></label>
-                            <input type="text" id="emergencyphoneHome" name="emergencyphoneHome" class="form-control" autocomplete="on">
+                            <label class="form-label" for="emergencyphoneHome">Phone No. (Home)</label>
+                            <input type="number" id="emergencyphoneHome" name="emergencyphoneHome" class="form-control" autocomplete="on">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="emergencyphoneWork">Phone No. (Work)<span class="text-danger mx-1">*</span></label>
-                            <input type="text" id="emergencyphoneWork" name="emergencyphoneWork" class="form-control" autocomplete="on">
+                            <label class="form-label" for="emergencyphoneWork">Phone No. (Work)</label>
+                            <input type="number" id="emergencyphoneWork" name="emergencyphoneWork" class="form-control" autocomplete="on">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="emergencyCphone">Phone No. (Cellphone)<span class="text-danger mx-1">*</span></label>
-                            <input type="text" id="emergencyCphone" name="emergencyCphone" class="form-control" autocomplete="on">
+                            <label class="form-label" for="emergencyCphone">Phone No. (Cellphone)</label>
+                            <input type="number" id="emergencyCphone" name="emergencyCphone" class="form-control" autocomplete="on">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="allergies">Allergies<span class="text-danger mx-1">*</span></label>
+                            <label class="form-label" for="allergies">Allergies</label>
                             <input type="text" id="allergies" name="allergies" class="form-control" autocomplete="on">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="surgicalHistory">Pertinent Past Medical/ Surgical History<span class="text-danger mx-1">*</span></label>
+                            <label class="form-label" for="surgicalHistory">Pertinent Past Medical/ Surgical History</label>
                             <textarea type="text" id="surgicalHistory" name="surgicalHistory" class="form-control" autocomplete="on"></textarea>
                         </div>
                         <div class="mb-3">
@@ -199,11 +199,6 @@
                             <label class="form-label" for="activeMeds">Active Medication<span class="text-danger mx-1">*</span></label>
                             <textarea class="form-control" id="activeMeds" name="activeMeds" placeholder="Enter description" autocomplete="on"></textarea>
                         </div>
-
-
-
-
-
 
                         <!-- Add more fields as needed -->
                     </div>
@@ -228,16 +223,18 @@
 
         // Get a reference to the input field
         var phPinInput = $("#phPin");
+        var phPinlabel = $("#phPinlabel");
 
         // Attach an event handler to the select input
         philHealthSelect.on("change", function() {
             // Check the selected value
             if (philHealthSelect.val() === "NN") {
-                // Disable the input field
-                phPinInput.prop("disabled", true);
+                // Hide the input field
+                phPinInput.hide();
+                phPinlabel.hide();
             } else {
-                // Enable the input field
-                phPinInput.prop("disabled", false);
+                // Show the input field
+                phPinInput.show();
             }
         });
     });

@@ -13,12 +13,7 @@ $sidebarContent = [
         "link" => "/billing/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
     ],
-    [
-        "name" => "Patient Information", //name of the link
-        "icon" => "badge", //material icon name
-        "link" => "/Patient/index.php", //link of the page
-        "navigations" => [] //list of links on dropdown
-    ],
+   
     [
         "name" => "Employee", //name of the link
         "icon" => "badge", //material icon name
@@ -26,7 +21,7 @@ $sidebarContent = [
         "navigations" => [] //list of links on dropdown
     ],
     [
-        "name" => "Patient", //name of the link
+        "name" => "Patient Information", //name of the link
         "icon" => "hotel", //material icon name
         "link" => "/Patient/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
