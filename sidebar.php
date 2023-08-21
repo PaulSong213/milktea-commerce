@@ -14,6 +14,12 @@ $sidebarContent = [
         "navigations" => [] //list of links on dropdown
     ],
     [
+        "name" => "Patient Information", //name of the link
+        "icon" => "badge", //material icon name
+        "link" => "/Patient/index.php", //link of the page
+        "navigations" => [] //list of links on dropdown
+    ],
+    [
         "name" => "Employee", //name of the link
         "icon" => "badge", //material icon name
         "link" => "/Employee/index.php", //link of the page
@@ -34,6 +40,7 @@ $sidebarContent = [
             ],
         ] //list of links on dropdown
     ],
+    
 ]
 
 

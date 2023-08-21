@@ -21,6 +21,148 @@ export function handleEditClick(table) {
              {
                 dataKey: "gender",
                 inputName: "gender"
+            },
+             {
+                dataKey: "age",
+                inputName: "age"
+            },
+             {
+                dataKey: "address",
+                inputName: "add"
+            },
+             {
+                dataKey: "bDate",
+                inputName: "bdate"
+            },
+            {
+                dataKey: "phone_home",
+                inputName: "phoneHome"
+            },
+            {
+                dataKey: "phone_work",
+                inputName: "phoneWork"
+            },
+            {
+                dataKey: "cellNo",
+                inputName: "phoneCell"
+            },
+           
+            {
+                dataKey: "email",
+                inputName: "email"
+            },
+            {
+                dataKey: "occupation",
+                inputName: "occupation"
+            },
+            {
+                dataKey: "employerName",
+                inputName: "employerName"
+            },
+            {
+                dataKey: "employerDetail",
+                inputName: "employerNo"
+            },
+            {
+                dataKey: "workAddress",
+                inputName: "workAddress"
+            },
+            {
+                dataKey: "nationality",
+                inputName: "nationality"
+            },
+            {
+                dataKey: "religion",
+                inputName: "religion"
+            },
+            {
+                dataKey: "spouseName",
+                inputName: "SpouseName"
+            },
+            {
+                dataKey: "spouseContact",
+                inputName: "spousecontactNo"
+            },
+             {
+                dataKey: "motherName",
+                inputName: "MotherName"
+            },
+             {
+                dataKey: "motherContact",
+                inputName: "mothercontactNo"
+            },
+             {
+                dataKey: "fatherContact",
+                inputName: "FatherName"
+            },
+             {
+                dataKey: "fatherName",
+                inputName: "fathercontactNo"
+            },
+             {
+                dataKey: "maritalStatus",
+                inputName: "marital"
+            },
+             {
+                dataKey: "phMember",
+                inputName: "philHealth"
+            },
+             {
+                dataKey: "phNo",
+                inputName: "phPin"
+            },
+              {
+                dataKey: "HMO",
+                inputName: "HMO"
+            },
+              {
+                dataKey: "typeHMO",
+                inputName: "typeHMO"
+            },
+              {
+                dataKey: "CertNo",
+                inputName: "certNo"
+            },
+              {
+                dataKey: "emergencyName",
+                inputName: "emergencyname"
+            },
+              {
+                dataKey: "patientRelationship",
+                inputName: "emergencyRelation"
+            },
+             {
+                dataKey: "emergencyAddress",
+                inputName: "emergencyAddress"
+            },
+              {
+                dataKey: "emergencyHome",
+                inputName: "emergencyphoneHome"
+            },
+             {
+                dataKey: "emergencyWork",
+                inputName: "emergencyphoneWork"
+            },
+             {
+                dataKey: "emergencyCell",
+                inputName: "emergencyCphone"
+            },
+             {
+                dataKey: "patientAllergies",
+                inputName: "allergies"
+            },
+
+             {
+                dataKey: "patientsurgicalHistory",
+                inputName: "surgicalHistory"
+            },
+             {
+                dataKey: "patientActiveDiag",
+                inputName: "activeDiagnosis"
+            },
+             {
+                dataKey: "patientActiveMed",
+                inputName: "activeMeds"
             }
         ];
 
@@ -32,16 +174,16 @@ export function handleEditClick(table) {
 
         // edit the save button
         const saveButton = $("[name='SaveItem']");
-        saveButton.text("Edit Item");
+        saveButton.text("Edit Patient Information");
 
         // edit header title
         const headerTitle = $("#addItemModalLabel");
-        headerTitle.text("Edit Item");
+        headerTitle.text("Edit Patient Information");
 
         const addItemForm = $("#addItemForm");
         const addItemFormAction = addItemForm.attr("action");
         addItemForm.attr("action", "./edit/editfunction.php");
-        addItemForm.append(`<input type="hidden" name="itemTypeID" value="${data['itemTypeID']}">`);
+        addItemForm.append(`<input type="hidden" name="itemTypeID" value="${data['hospistalrecordNo']}">`);
 
         // watch modal close then reset data
         addModal.on("hidden.bs.modal", function () {
