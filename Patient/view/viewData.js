@@ -17,6 +17,10 @@ export function handleViewClick() {
             dataKey: "age",
             label: "Age"
         },
+          {
+            dataKey: "gender",
+            label: "Gender"
+        },
          {
             dataKey: "bDate",
             label: "Birth Date"
@@ -82,6 +86,10 @@ export function handleViewClick() {
             label: "Mother Name"
         },
          {
+            dataKey: "motherContact",
+            label: "Mother Contact"
+        },
+         {
             dataKey: "fatherName",
             label: "Father Name"
         },
@@ -114,7 +122,7 @@ export function handleViewClick() {
             label: "Emergency Name"
         },
          {
-            dataKey: "emergencyRelationship",
+            dataKey: "patientRelationship",
             label: "Relationship in the Patient"
         },
          {
@@ -142,13 +150,9 @@ export function handleViewClick() {
             label: "Patient Surgical Diagnosis History"
         },
          {
-            dataKey: "patientactiveMed",
+            dataKey: "patientActiveMed",
             label: "Patient Active Medication"
         },
-
-
-
-
 
     ];
     $(".view-btn").on('click', function (event) {
