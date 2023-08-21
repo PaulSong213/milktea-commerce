@@ -13,16 +13,13 @@ $sidebarContent = [
         "link" => "/billing/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
     ],
-<<<<<<< HEAD
     [
         "name" => "Billing Statement", //name of the link
         "icon" => "point_of_sale", //material icon name
         "link" => "/billing table/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
     ],
-=======
->>>>>>> 0626d9b83b3aee76771c141fd6e0dad457cdf108
-   
+
     [
         "name" => "Employee", //name of the link
         "icon" => "badge", //material icon name
@@ -35,14 +32,14 @@ $sidebarContent = [
         "link" => "/Patient/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
     ],
- 
+
     [
         "name" => "Supplier", //name of the link
         "icon" => "local_shipping", //material icon name
         "link" => "/SupplierTable/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
     ],
-    
+
     [
         "name" => "Inventory", //name of the link
         "icon" => "vaccines", //material icon name
