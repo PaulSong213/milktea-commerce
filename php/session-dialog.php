@@ -11,7 +11,7 @@ if (isset($_SESSION["alert_message"])) {
     // fire sweetalert2
     echo "<script>
         Swal.fire(
-            '$message',
+            `$message`,
             '',
             '$alertType'
         );
