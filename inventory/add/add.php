@@ -25,10 +25,11 @@
                             <select class="form-select" id="type" name="itemTypeID">
                                 <?php
                                 $connectionType = connect();
-                                $sqlType = "select * from itemType_tb ";
+                                $sqlType = "select * from itemtype_tb";
                                 $resultType = $connectionType->query($sqlType);
-                                while ($row = $resultType->fetch_assoc()) {
-                                    echo '<option value="' . $row["itemTypeID"] . '">' . $row["itemTypeCode"] . '</option>';
+                                if (!$resultType) die($connectionType->error);
+                                while ($rowType = $resultType->fetch_assoc()) {
+                                    echo '<option value="' . $rowType["itemTypeID"] . '">' . $rowType["itemTypeCode"] . '</option>';
                                 }
                                 ?>
                             </select>
