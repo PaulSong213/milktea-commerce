@@ -33,35 +33,33 @@ export function handleEditClick(table) {
             {
                 dataKey: "Snote",
                 inputName: "Snote"
-            },
-            
-    
+            }
         ];
 
-         // fill up the fields
-         for (let i = 0; i < toFillUpDatas.length; i++) {
+        // fill up the fields
+        for (let i = 0; i < toFillUpDatas.length; i++) {
             const toFillUpData = toFillUpDatas[i];
             $(`[name="${toFillUpData.inputName}"]`).val(data[toFillUpData.dataKey]);
         }
 
         // edit the save button
         const saveButton = $("[name='SaveItem']");
-        saveButton.text("Edit Item");
+        saveButton.text("Edit Patient Information");
 
         // edit header title
         const headerTitle = $("#addItemModalLabel");
-        headerTitle.text("Edit Item");
+        headerTitle.text("Edit Patient Information");
 
         const addItemForm = $("#addItemForm");
+        const addItemFormAction = addItemForm.attr("action");
         addItemForm.attr("action", "./edit/editfunction.php");
-        addItemForm.append(`<input type="hidden" name="item_id" value="${data['DatabaseID']}">`);
+        addItemForm.append(`<input type="hidden" name="itemTypeID" value="${data['hospistalrecordNo']}">`);
 
         // watch modal close then reset data
         addModal.on("hidden.bs.modal", function () {
             headerTitle.text("Add Item");
             saveButton.text("Add Item");
-            addItemForm.attr("action", "./add/addfunction.php");
-            addItemForm.find("input[name='item_id']").remove();
+            addItemForm.attr("action", addItemFormAction);
             for (let i = 0; i < toFillUpDatas.length; i++) {
                 const toFillUpData = toFillUpDatas[i];
                 $(`[name="${toFillUpData.inputName}"]`).val("");
