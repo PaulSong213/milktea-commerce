@@ -51,7 +51,7 @@ export function handleViewClick(table) {
         for (let i = 0; i < viewDatas.length; i++) {
             const viewData = viewDatas[i];
             if (viewData.label.includes("Date")) data[viewData.dataKey] = formatDate(new Date(data[viewData.dataKey]));
-            if (viewData.dataKey === "Status") {
+            if (viewData.dataKey === "status") {
                 console.log(data[viewData.dataKey]);
                 const status = data[viewData.dataKey] == 1 ? "Active" : "Inactive";
                 data[viewData.dataKey] = status;
