@@ -53,7 +53,7 @@ $sidebarContent = [
             ],
         ] //list of links on dropdown
     ],
-    
+
 ]
 
 
@@ -166,13 +166,13 @@ $sidebarContent = [
 <body>
     <nav id="sidebar">
         <div class="sidebar-header">
-            <h3><img src="/zarate/img/logo.png" class="img-fluid" alt="Logo" /><span class="fw-bold company-title">E.Zarate Hospital</span></h3>
+            <h3><img src="/Zarate/img/logo.png" class="img-fluid" alt="Logo" /><span class="fw-bold company-title">E.Zarate Hospital</span></h3>
 
         </div>
         <ul class="list-unstyled components">
 
             <?php
-            $root = "/zarate";
+            $root = "/Zarate";
             for ($i = 0; $i < sizeof($sidebarContent); $i++) {
                 $content = $sidebarContent[$i];
                 $isDropdown = sizeof($content["navigations"]) > 0;
