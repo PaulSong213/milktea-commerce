@@ -117,14 +117,11 @@ $conn->close();
                                             <?php
                                             require_once '../php/connect.php';
                                             $conn = connect();
-
                                             if ($conn->connect_error) {
                                                 die("Connection failed: " . $conn->connect_error);
                                             }
-
                                             $query = "SELECT * FROM inventory_tb WHERE Status = 1";
                                             $result = $conn->query($query);
-                                            $found = false;
                                             while ($row = $result->fetch_assoc()) {
                                                 $itemCode = $row['itemCode'];
                                                 echo "<option value='$itemCode'>$itemCode</option>";
@@ -165,6 +162,8 @@ $conn->close();
                     var idInput = row.querySelector('[name="id[]"]');
                     var itemTypeIDInput = row.querySelector('[name="itemTypeID[]"]');
 
+                    var datalist = document.getElementById('product_id_list');
+
                     var xhr = new XMLHttpRequest();
                     xhr.open("GET", "get_product_details.php?itemCode=" + selectedValue, true);
                     xhr.onreadystatechange = function() {
@@ -178,6 +177,12 @@ $conn->close();
                                 idInput.value = response.id;
                                 itemTypeIDInput.value = response.itemTypeID;
 
+                                for (var i = 0; i < datalist.options.length; i++) {
+                                    if (datalist.options[i].value === selectedValue) {
+                                        datalist.options[i].remove();
+                                        break;
+                                    }
+                                }
                                 console.log("Response:", response);
                             } else {
                                 console.error("Failed to fetch product details");
@@ -187,6 +192,7 @@ $conn->close();
                     xhr.send();
                 }
             </script>
+
 
             <div class="sidebar p-4 fw-bold">
                 <h6 class="app-title">CHARGE NYP/ PATIENT INFOMATION</h6>
@@ -240,10 +246,16 @@ $conn->close();
 
         // Function to remove a row
         function removeRow(button) {
-            const row = button.parentNode.parentNode;
-            row.parentNode.removeChild(row);
-        }
+        const row = button.parentNode.parentNode;
+        const productIdInput = row.querySelector('[name="product_id[]"]');
+        const productCode = productIdInput.value;
 
+        const datalist = document.getElementById('product_id_list');
+        const option = document.createElement('option');
+        option.value = productCode;
+        datalist.appendChild(option);
+        row.parentNode.removeChild(row);
+    }
         // Function to add a new row
         function addRow() {
             const templateRow = document.querySelector('[name="templateRow"]');
