@@ -72,7 +72,6 @@ if (isset($_POST['SaveItem'])) {
         $result = $conn->query($sql);
         $printData = $result->fetch_assoc();
         $_SESSION['printData'] = $printData;
-        
     } else {
         $_SESSION["alert_message"] = "Failed to Add a Billing Statement. Error Details: " . mysqli_error($conn);
         $_SESSION["alert_message_error"] = true;

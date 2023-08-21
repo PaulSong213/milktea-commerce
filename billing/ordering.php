@@ -34,7 +34,8 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ordering System</title>
     <!-- Add this to your HTML <head> section -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
@@ -120,7 +121,7 @@ $conn->close();
                                             if ($conn->connect_error) {
                                                 die("Connection failed: " . $conn->connect_error);
                                             }
-                                            $query = "SELECT * FROM inventory_tb WHERE Status = 1";
+                                            $query = "SELECT * FROM inventory_tb WHERE Status = 1 AND Unit > 0";
                                             $result = $conn->query($query);
                                             while ($row = $result->fetch_assoc()) {
                                                 $itemCode = $row['itemCode'];
@@ -130,7 +131,7 @@ $conn->close();
                                             ?>
                                         </datalist>
                                     </td>
-                                    <td><input type="text" class="form-control" readonly name="inv"></td>
+                                    <td><input type="number" class="form-control" readonly name="inv"></td>
                                     <td><input type="text" class="form-control" name="unit[]" readonly></td>
                                     <td><input type="number" class="form-control" name="price[]" readonly step="0.01"></td>
                                     <td><input type="text" class="form-control" name="itemType[]" readonly></td>
@@ -163,7 +164,7 @@ $conn->close();
                     var itemTypeIDInput = row.querySelector('[name="itemTypeID[]"]');
 
                     var datalist = document.getElementById('product_id_list');
-
+                    
                     var xhr = new XMLHttpRequest();
                     xhr.open("GET", "get_product_details.php?itemCode=" + selectedValue, true);
                     xhr.onreadystatechange = function() {
@@ -176,7 +177,6 @@ $conn->close();
                                 itemTypeInput.value = response.itemtype;
                                 idInput.value = response.id;
                                 itemTypeIDInput.value = response.itemTypeID;
-
                                 for (var i = 0; i < datalist.options.length; i++) {
                                     if (datalist.options[i].value === selectedValue) {
                                         datalist.options[i].remove();
@@ -236,7 +236,73 @@ $conn->close();
                         <input type="text" class="form-control text-danger" name="change" readonly value="0.00" min="0">
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary add-button" name="SaveItem">Save Transaction</button>
+                <button type="submit" class="btn btn-primary add-button" name="SaveItem" onclick="validateForm()">Save Transaction</button>
+
+                <script>
+                    function validateForm(event) {
+                        const form = document.getElementById('addItemForm');
+                        const formInputs = form.querySelectorAll('input[name], select[name]');
+                        let isValid = true;
+
+                        formInputs.forEach(input => {
+                            const inputName = input.getAttribute('name');
+                            const inputValue = parseFloat(input.value);
+
+                            if (inputName === 'additionalDiscount' || inputName.startsWith('disc_percent')) {
+                                if (inputValue < 0) {
+                                    input.setCustomValidity(`Input cannot be less than 0.`);
+                                    isValid = false;
+                                    input.classList.add('error-input');
+                                } else {
+                                    input.setCustomValidity('');
+                                    input.classList.remove('error-input');
+                                }
+                            } else if (inputName === 'amountTendered' && inputValue < parseFloat(document.querySelector('[name="netAmount"]').value)) {
+                                input.setCustomValidity(`Amount tendered must be greater than or equal to Net Amount.`);
+                                isValid = false;
+                                input.classList.add('error-input');
+                            } else if (inputName === 'patientAccountName' || inputName === 'requestedByName' || inputName === 'enteredByName') {
+                                if (inputValue.trim() === '') {
+                                    input.setCustomValidity(`Please input data.`);
+                                    isValid = false;
+                                    input.classList.add('error-input');
+                                } else {
+                                    input.setCustomValidity('');
+                                    input.classList.remove('error-input');
+                                }
+                            } else if (!inputValue && input.type !== 'number') {
+                                input.setCustomValidity(`Please input data.`);
+                                isValid = false;
+                                input.classList.add('error-input');
+                            } else if (isNaN(inputValue) || inputValue < 1) {
+                                input.setCustomValidity(`Input must have a valid value (greater than or equal to 1).`);
+                                isValid = false;
+                                input.classList.add('error-input');
+                            } else {
+                                input.setCustomValidity(''); // Reset custom validity for valid input
+                                input.classList.remove('error-input'); // Remove error highlighting
+                            }
+                        });
+
+                        if (!isValid) {
+                            event.preventDefault(); // Prevent form submission
+                        }
+                    }
+
+                    // Attach the function to the form's submit event
+                    const form = document.getElementById('addItemForm');
+                    form.addEventListener('submit', validateForm);
+                    
+
+                    // Reset the custom validity when input changes
+                    const formInputs = form.querySelectorAll('input[name], select[name]');
+                    formInputs.forEach(input => {
+                        input.addEventListener('input', () => {
+                            input.setCustomValidity('');
+                            input.classList.remove('error-input');
+                        });
+                    });
+                </script>
             </div>
         </form>
     </div>
@@ -246,16 +312,16 @@ $conn->close();
 
         // Function to remove a row
         function removeRow(button) {
-        const row = button.parentNode.parentNode;
-        const productIdInput = row.querySelector('[name="product_id[]"]');
-        const productCode = productIdInput.value;
+            const row = button.parentNode.parentNode;
+            const productIdInput = row.querySelector('[name="product_id[]"]');
+            const productCode = productIdInput.value;
 
-        const datalist = document.getElementById('product_id_list');
-        const option = document.createElement('option');
-        option.value = productCode;
-        datalist.appendChild(option);
-        row.parentNode.removeChild(row);
-    }
+            const datalist = document.getElementById('product_id_list');
+            const option = document.createElement('option');
+            option.value = productCode;
+            datalist.appendChild(option);
+            row.parentNode.removeChild(row);
+        }
         // Function to add a new row
         function addRow() {
             const templateRow = document.querySelector('[name="templateRow"]');
@@ -311,10 +377,6 @@ $conn->close();
                     netSale += subtotalValue;
                 }
             });
-
-
-
-
             // Calculate and update net amount based on additional discount
             const additionalDiscountInput = document.querySelector('[name="additionalDiscount"]');
             const additionalDiscountValue = parseFloat(additionalDiscountInput.value) || 0;
@@ -329,12 +391,15 @@ $conn->close();
             netAmountInput.value = netAmount.toFixed(2);
 
             // Calculate and update change amount
+
             const amountTenderedInput = document.querySelector('[name="amountTendered"]');
             const amountTenderedValue = parseFloat(amountTenderedInput.value) || 0;
-
             const change = amountTenderedValue - netAmount;
             changeInput.value = change.toFixed(2);
         }
+
+
+
         document.addEventListener("DOMContentLoaded", function() {
             addRow();
 
