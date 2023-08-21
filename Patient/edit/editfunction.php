@@ -1,54 +1,112 @@
 <?php
 require_once '../../php/connect.php';
 $conn = connect();
+session_start();
 
 if (isset($_POST['SaveItem'])) {
-   
-    
-    $lname = $_POST['employee_lname'];
-    $fname = $_POST['employee_fname'];
-    $mname = $_POST['employee_maname'];
-    $nickname = $_POST['employee_nickname'];
-    $bdate = $_POST['employee_bdate'];
-    $marital = $_POST['marital'];
-    $sex = $_POST['sex'];
-    $title = $_POST['title'];
-    $position = $_POST['position'];
-    $employeesdate = $_POST['employee_sdate'];
-    $depart = $_POST['depart'];
+    $itemTypeID = $_POST['itemTypeID'];
+    $lname = $_POST['lname'];
+    $fname = $_POST['fname'];
+    $lname = $_POST['lname'];
+    $mname = $_POST['mname'];
+    $age = $_POST['age'];
+    $gender = $_POST['gender'];
+    $bdate = $_POST['bdate'];
+    $address = $_POST['add'];
+    $phone_home = $_POST['phoneHome'];
+    $phone_work = $_POST['phoneWork']; //8 phone_work
+    $phone_cell = $_POST['phoneCell']; //9 cellNo
     $email = $_POST['email'];
-    $password= $_POST['Password'];
-    $statusData = 1;
+    $occupation = $_POST['occupation'];
+    $employerName = $_POST['employerName'];
+    $employeeDetail = $_POST['employerNo'];
+    $workAddress = $_POST['workAddress'];
+    $nationality = $_POST['nationality'];
+    $religion = $_POST['religion'];
+    $maritalStatus = $_POST['marital'];
+    $spouseName = $_POST['SpouseName'];
+    $spousecontactNo = $_POST['spousecontactNo'];
+    $MotherName = $_POST['MotherName'];
+    $mothercontactNo = $_POST['mothercontactNo'];
+    $FatherName = $_POST['FatherName'];
+    $fathercontactNo = $_POST['fathercontactNo'];
+    $philHealth = $_POST['philHealth'];
+    $phPin = $_POST['phPin'];
+    $HMO = $_POST['HMO'];
+    $typeHMO = $_POST['typeHMO'];
+    $certNo = $_POST['certNo'];
+    $emergencyname = $_POST['emergencyname'];
+    $emergencyRelation = $_POST['emergencyRelation'];
+    $emergencyAddress = $_POST['emergencyAddress'];
+    $emergencyphoneHome = $_POST['emergencyphoneHome'];
+    $emergencyphoneWork = $_POST['emergencyphoneWork'];
+    $emergencyCphone = $_POST['emergencyCphone'];
+    $allergies = $_POST['allergies'];
+    $surgicalHistory = $_POST['surgicalHistory'];
+    $activeDiagnosis = $_POST['activeDiagnosis'];
+    $activeMeds = $_POST['activeMeds'];
 
-    $sql = "UPDATE employee_tb
+
+
+    $sql = "UPDATE patient_tb
     SET
         lname = '$lname',
         fname = '$fname',
-        mname = '$mname',
-        title = '$title',
-        position = '$position',
-        sex = '$sex',
+        mname = ' $mname',
+        age = '$age',
+        gender = '$gender',
         bDate = '$bdate',
-        nickName = '$nickname',
-        Status = '$statusData',
-        department =  '$depart',
-        dateStart = '$employeesdate',
-        password = '$password', 
+        address = '$address',
+        phone_home = '$phone_home',
+        phone_work = '$phone_work',
+        cellNo = '$phone_cell',
         email = '$email',
-        modifiedDate = now()
+        occupation = '$occupation',
+        employerName = '$employerName',
+        employerDetail = '$employerDetail', 
+        workAddress = '$workAddress',
+        nationality = '$nationality', 
+        religion = '$religion',
+        maritalStatus = '$maritalStatus',
+        spouseName = '$spouseName',
+        spouseContact = '$spousecontactNo',
+        motherName = '$MotherName',
+        motherContact = '$mothercontactNo', 
+        fatherContact = '$fathercontactNo',
+        phMember = '$philHealth', 
+        phNo = '$phPin', 
+        HMO = '$HMO',  
+        typeHMO = '$typeHMO',  
+        CertNo = '$certNo', 
+        emergencyName = '$emergencyname', 
+        patientRelationship = '$emergencyRelation',  
+        emergencyAddress = '$emergencyAddress',  
+        emergencyHome = '$emergencyphoneHome', 
+        emergencyWork = '$emergencyphoneWork',  
+        emergencyCell = '$emergencyCphone', 
+        patientAllergies = '$allergies',  
+        patientsurgicalHistory = '$surgicalHistory',  
+        patientActiveDiag = '$activeDiagnosis',  
+        patientActiveMed = ' $activeMeds',  
+        modifiedDate = now(),
+        fatherName = ' $FatherName'
+   
     WHERE
-        DatabaseID = '$item_id';
+        hospistalrecordNo = '$itemTypeID';
     ";
 
     $result = mysqli_query($conn, $sql);
-
     if ($result) {
-        header("Location: ../index.php");
-        die();
+        // success
+        $_SESSION["alert_message"] = "Successfully Edited an Patient Information";
+        $_SESSION["alert_message_success"] = true;
     } else {
-        header("Location: ../index.php");
-        die();
+        $_SESSION["alert_message"] = "Failed to Edited an Patient Information. Error Details: " . mysqli_error($conn);
+        $_SESSION["alert_message_error"] = true;
     }
+
+    header("Location: ../index.php");
+    die();
 }
 
 // Close the database connection

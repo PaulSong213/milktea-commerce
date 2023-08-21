@@ -1,9 +1,10 @@
+<?php require_once '../php/connect.php'; ?>
 <!DOCTYPE html>
 
 <html lang="en">
 
 <head>
-    <title>Employee</title>
+    <title></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
@@ -40,17 +41,20 @@
 
 <body>
     <div class="table w-100 p-4">
-        <h2 class="mt-4 mb-5">EMPLOYEE</h2>
-        <?php include 'add.php'; ?>
+        <h2 class="mt-4 mb-5">SUPPLIER</h2>
+        <?php include './add/add.php'; ?>
         <?php include './view/view.php'; ?>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>Employee Name</th>
-                    <th>Department</th>
-                    <th>Position</th>
-                    <th>Title</th>
-                    <th>Created Date</th>
+                    <th>Supplier Name</th>
+                    <th>Address</th>
+                    <th>Telephone Number</th>
+                    <th>Fax Number</th>
+                    <th>Cell Phone</th>
+                    <th>Contact No</th>
+                    <th>Supplier Note</th>
+                    <th>Date Added</th>
                     <th>Modified Date</th>
                     <th>Status</th>
                     <th class="action-column">Actions</th>
@@ -58,26 +62,23 @@
             </thead>
             <tbody>
                 <?php
-                $servername = "localhost"; //localhost
-                $username = "root"; //username
-                $Password = ""; //password
-                $database = "zaratehospital"; //database
+                $connection = connect();
 
-                $connection = new mysqli($servername, $username, $Password, $database);
-
-                $sql = "select * from employee_tb ";
+                $sql = " select * from supplier_tb ";
                 $result = $connection->query($sql);
 
                 while ($row = $result->fetch_assoc()) {
-                    $activeStatus = ($row["Status"]  == "1") ? "Active"  : "Inactive"; //condition for status
-                    $statusColor = ($row["Status"]  == "1") ? "alert-success"  : "alert-danger"; //condition for color bg.
+                   $activeStatus = ($row["status"]  == "1") ? "Active"  : "Inactive"; //condition for status
+                    $statusColor = ($row["status"]  == "1") ? "alert-success"  : "alert-danger"; //condition for color bg.
                     echo "
                         <tr>
-                           
-                            <td>" . $row["lname"] . ", " . $row["fname"] . ", " . $row["mname"] . "</td>
-                            <td>" . $row["department"] . "</td>
-                            <td>" . $row["position"] . "</td>
-                            <td>" . $row["title"] . "</td>
+                            <td>" . $row["supplier_name"] . "</td>
+                            <td>" . $row["address"] . "</td>
+                            <td>" . $row["telNum"] . "</td>
+                            <td>" . $row["faxNum"] . "</td>
+                            <td>" . $row["CelNum"] . "</td>
+                             <td>" . $row["contactNo"] . "</td>
+                            <td>" . $row["Snote"] . "</td>
                             <td>" . date("M d, Y h:i", strtotime($row["createDate"])) . "</td>
                             <td>" . date("M d, Y h:i", strtotime($row["modifiedDate"])) . "</td>
                             <td>
@@ -161,7 +162,7 @@
                         className: 'btn border border-info'
                     },
                     {
-                        text: 'Add Employee',
+                        text: 'Add Item',
                         className: 'btn btn-primary bg-primary text-white',
                         action: function(e, dt, node, config) {
                             $('#addItemModal').modal('show');
@@ -173,10 +174,9 @@
                 },
                 columnDefs: [{
                     targets: -1,
-
                     render: (d) => {
                         const data = JSON.parse(d);
-                        const id = data.DatabaseID;
+                        const id = data.supplier_code;
                         return `
                         <div class="dropdown dropstart d-flex">
                             <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
@@ -196,14 +196,13 @@
                         </div>
                         `
                     },
-                    "searchable": false,
-                    width: 30,
+                    "searchable": false
                 }],
                 order: [
                     [5, 'asc']
                 ]
             });
-            handleArchiveClick(table, 1, "./edit/archive.php", 6);
+            handleArchiveClick(table, 0, "./edit/archive.php", 9);
             handleEditClick(table);
             handleViewClick(table);
         });

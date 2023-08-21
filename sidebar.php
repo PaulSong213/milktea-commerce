@@ -4,7 +4,7 @@ $sidebarContent = [
     [
         "name" => "Dashboard", //name of the link
         "icon" => "dashboard", //material icon name
-        "link" => "/inventory/inventorydashboard.php", //link of the page
+        "link" => "/dashboard/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
     ],
     [
@@ -14,15 +14,34 @@ $sidebarContent = [
         "navigations" => [] //list of links on dropdown
     ],
     [
+        "name" => "Patient Information", //name of the link
+        "icon" => "badge", //material icon name
+        "link" => "/Patient/index.php", //link of the page
+        "navigations" => [] //list of links on dropdown
+    ],
+    [
         "name" => "Employee", //name of the link
         "icon" => "badge", //material icon name
         "link" => "/Employee/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
     ],
     [
-        "name" => "Inventory System", //name of the link
+        "name" => "Patient", //name of the link
+        "icon" => "hotel", //material icon name
+        "link" => "/Patient/index.php", //link of the page
+        "navigations" => [] //list of links on dropdown
+    ],
+    [
+        "name" => "Supplier", //name of the link
+        "icon" => "local_shipping", //material icon name
+        "link" => "/SupplierTable/index.php", //link of the page
+        "navigations" => [] //list of links on dropdown
+    ],
+    
+    [
+        "name" => "Inventory", //name of the link
         "icon" => "vaccines", //material icon name
-        "link" => "inventory", //link of the page
+        "link" => "/inventory/index.php", //link of the page
         "navigations" => [
             [
                 "name" => "Inventory Items", //name of the link
@@ -34,7 +53,9 @@ $sidebarContent = [
             ],
         ] //list of links on dropdown
     ],
+    
 ]
+
 
 ?>
 
@@ -133,6 +154,12 @@ $sidebarContent = [
             width: 3rem;
             height: 3rem;
         }
+
+        .transform-scale-small {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     </style>
 </head>
 
@@ -149,8 +176,10 @@ $sidebarContent = [
             for ($i = 0; $i < sizeof($sidebarContent); $i++) {
                 $content = $sidebarContent[$i];
                 $isDropdown = sizeof($content["navigations"]) > 0;
-                $link = $isDropdown ? "#" . $content["link"] : $root . $content["link"]; //if link starts with #, it is a dropdowns
-                $navClass = $link == $_SERVER['REQUEST_URI'] ? "active " : "";
+                $link = $root . $content["link"];
+                $navClass = $link == $_SERVER['REQUEST_URI'] && !$isDropdown ? "active " : "";
+
+
                 if (sizeof($content["navigations"]) > 0) $navClass = $navClass . "dropdown";
 
                 $dropdownClass = $isDropdown ? "dropdown-toggle" : "";
@@ -166,12 +195,11 @@ $sidebarContent = [
                     $navigationList = $navigationList . '<li class="' . $activeClass . '"><a class="nav-link sub-nav-link mx-2" href="' . $subNavLink . '">' . $navigation['name'] . '</a></li>';
                 }
                 $navigationList = $navigationList . '</ul>';
-                $dropdownProperties = $isDropdown ? 'data-toggle="collapse" aria-expanded="false"' : "";
                 if ($hasActiveSublink) $navigationList = str_replace("collapse", "collapse show", $navigationList);
 
                 echo '
                 <li class="' . $navClass . '">
-                    <a id="' . $link . '" href="' . $link . '" class="dashboard d-flex align-items-center nav-link ' . $dropdownClass . '" ' . $dropdownProperties . '>
+                    <a id="' . $link . '" href="' . $link . '" class="dashboard d-flex align-items-center nav-link ' . $dropdownClass . '">
                         <i class="material-icons">' . $content["icon"] . '</i>
                         <span class="mx-1 link-name">' . $content["name"] . '</span>
                     </a>
@@ -213,7 +241,7 @@ $sidebarContent = [
             $("#content").toggleClass("active");
             $(".link-name").toggleClass("d-none");
             $(".company-title").toggleClass("d-none");
-            $(".sub-nav-link").toggleClass("mx-2");
+            $(".sub-nav-link").toggleClass("transform-scale-small");
         }
 
         function checkSideBarState() {

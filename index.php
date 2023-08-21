@@ -76,6 +76,8 @@
         <img src="img/logo.png" alt="Logo" class="logo">
 
         <?php
+		session_start(); 
+
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Database connection parameters
             $servername = "localhost";

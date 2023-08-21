@@ -3,57 +3,46 @@ import { formatDate } from "../../costum-js/date.js";
 export function handleViewClick(table) {
     const viewDatas = [
         {
-            dataKey: "itemTypeCode",
-            label: "Item Type"
+            dataKey: "supplier_name",
+            label: "Supplier Name"
         },
         {
-            dataKey: "itemCode",
-            label: "Item Code"
+            dataKey: "address",
+            label: "Address"
         },
         {
-            dataKey: "UnitType",
-            label: "Unit Type"
+            dataKey: "telNum",
+            label: "Telephone No"
         },
         {
-            dataKey: "Unit",
-            label: "Unit"
+            dataKey: "faxNum",
+            label: "Fax Number"
         },
         {
-            dataKey: "Description",
-            label: "Description"
+            dataKey: "contactNo",
+            label: "Contact No"
         },
         {
-            dataKey: "Generic",
-            label: "Generic"
+            dataKey: "CelNum",
+            label: "Cellphone No"
         },
         {
-            dataKey: "SugPrice",
-            label: "Sugprice"
+            dataKey: "Snote",
+            label: "Supplier Note"
         },
         {
-            dataKey: "MWprice",
-            label: "MWprice"
-        },
-        {
-            dataKey: "IPDprice",
-            label: "IPDprice"
-        },
-        {
-            dataKey: "Ppriceuse",
-            label: "Ppriceuse"
-        },
-        {
-            dataKey: "Status",
+            dataKey: "status",
             label: "Status"
         },
         {
             dataKey: "createDate",
-            label: "Created Date"
+            label: "Create Date"
         },
         {
             dataKey: "modifiedDate",
             label: "Modified Date"
-        },
+        }
+        
     ];
     table.on('click', '.view-btn', function (e) {
         let data = JSON.parse($(this).attr("data-item"));
@@ -62,7 +51,7 @@ export function handleViewClick(table) {
         for (let i = 0; i < viewDatas.length; i++) {
             const viewData = viewDatas[i];
             if (viewData.label.includes("Date")) data[viewData.dataKey] = formatDate(new Date(data[viewData.dataKey]));
-            if (viewData.dataKey === "Status") {
+            if (viewData.dataKey === "status") {
                 console.log(data[viewData.dataKey]);
                 const status = data[viewData.dataKey] == 1 ? "Active" : "Inactive";
                 data[viewData.dataKey] = status;
