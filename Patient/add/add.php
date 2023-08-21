@@ -3,11 +3,12 @@
 
 <head>
     <title>Suggested Input Text</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
     <form method="POST" action="./add/addfunction.php" autocomplete="on" id="addItemForm">
-        <div class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel" aria-hidden="true">
+        <div class="modal fade" data-bs-backdrop="static" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -35,14 +36,14 @@
                         <div class="mb-3">
                             </select>
                             <label for="type">Gender : </label>
-                            <select class="form-control" id="type" name="gender">
+                            <select class="form-select" id="type" name="gender">
                                 <option value="Female">Female</option>
                                 <option value="Male">Male</option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="age">Age<span class="text-danger mx-1"></span></label>
-                            <input type="text" id="age" name="age" class="form-control" placeholder="Enter Age" autocomplete="on" required>
+                            <input type="number" id="age" name="age" class="form-control" placeholder="Enter Age" autocomplete="on" required>
                         </div>
                         <b><label class="form-label">Personal Details<span class="text-danger mx-1">*</span></label></b>
                         <div class="mb-3">
@@ -98,8 +99,9 @@
                             <label class="form-label" for="SpouseName">Name of Spouse(if Applicable)<span class="text-danger mx-1">*</span></label>
                             <input type="text" id="SpouseName" name="SpouseName" placeholder="Enter Spouse Name " class=" form-control" autocomplete="on">
                         </div>
+
                         <div class="mb-3">
-                            <label class="form-label" for="spousecontactNo">Contact No.(Spouse)<span class="text-danger mx-1">*</span></label>
+                            <label class="form-label" for="spousecontactNo">Contact No.(Spouse)<span class="text-danger mx-1"></span></label>
                             <input type="text" id="spousecontactNo" name="spousecontactNo" class="form-control" placeholder="Enter Phone No." autocomplete=" on">
                         </div>
                         <div class="mb-3">
@@ -121,7 +123,7 @@
                         <div class="mb-3">
                             </select>
                             <label for="marital">Marital Status : </label>
-                            <select class="form-control" id="marital" name="marital">
+                            <select class="form-select" id="marital" name="marital">
                                 <option value="Single">Single</option>
                                 <option value="Married">Married</option>
                                 <option value="Widowed">Widowed</option>
@@ -134,14 +136,14 @@
                         <div class="mb-3">
                             </select>
                             <label for="philHealth">PhilHealth Member: </label>
-                            <select class="form-control" id="philHealth" name="philHealth">
+                            <select class="form-select" id="philHealth" name="philHealth">
                                 <option value="NH">NH</option>
                                 <option value="NN">NN</option>
                             </select>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label" for="phPin">Phil Health No. (PIN)<span class="text-danger mx-1">*</span></label>
+                            <label class="form-label" for="phPin">Phil Health No. (PIN)</label>
                             <input type="text" id="phPin" name="phPin" class="form-control" placeholder="Enter PhilHealth No.(PIN)" autocomplete=" on">
                         </div>
                         <div class="mb-3">
@@ -217,3 +219,26 @@
 </body>
 
 </html>
+
+
+<script>
+    $(document).ready(function() {
+        // Get a reference to the select input element
+        var philHealthSelect = $("#philHealth");
+
+        // Get a reference to the input field
+        var phPinInput = $("#phPin");
+
+        // Attach an event handler to the select input
+        philHealthSelect.on("change", function() {
+            // Check the selected value
+            if (philHealthSelect.val() === "NN") {
+                // Disable the input field
+                phPinInput.prop("disabled", true);
+            } else {
+                // Enable the input field
+                phPinInput.prop("disabled", false);
+            }
+        });
+    });
+</script>
