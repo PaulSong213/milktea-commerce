@@ -1,3 +1,4 @@
+<?php require_once '../php/connect.php'; ?>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -35,47 +36,57 @@
             font-size: 10px;
             margin-bottom: 5px;
         }
-
-        td:nth-child(2) {
-            max-width: 200px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
     </style>
 </head>
 
 <body>
     <div class="table w-100 p-4">
-        <h2 class="mt-4 mb-5">PATIENTS</h2>
+        <h2 class="mt-4 mb-5">SUPPLIER</h2>
         <?php include './add/add.php'; ?>
         <?php include './view/view.php'; ?>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>Patient Name</th>
-                    <th>Age</th>
-                    <th>Gender</th>
+                    <th>Supplier Name</th>
+                    <th>Address</th>
+                    <th>Telephone Number</th>
+                    <th>Fax Number</th>
+                    <th>Cell Phone</th>
+                    <th>Contact No</th>
+                    <th>Supplier Note</th>
                     <th>Date Added</th>
                     <th>Modified Date</th>
+                    <th>Status</th>
                     <th class="action-column">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                require_once '../php/connect.php';
                 $connection = connect();
-                $sql = "select * from patient_tb";
+
+                $sql = " select * from supplier_tb ";
                 $result = $connection->query($sql);
+
                 while ($row = $result->fetch_assoc()) {
+                   $activeStatus = ($row["status"]  == "1") ? "Active"  : "Inactive"; //condition for status
+                    $statusColor = ($row["status"]  == "1") ? "alert-success"  : "alert-danger"; //condition for color bg.
                     echo "
                         <tr>
-                            <td>" . $row["lname"] . " " . $row["fname"] . " " . $row["mname"] . "</td>
-                            <td>" . $row["age"] . "</td>
-                            <td>" . $row["gender"] . "</td>
+                            <td>" . $row["supplier_name"] . "</td>
+                            <td>" . $row["address"] . "</td>
+                            <td>" . $row["telNum"] . "</td>
+                            <td>" . $row["faxNum"] . "</td>
+                            <td>" . $row["CelNum"] . "</td>
+                             <td>" . $row["contactNo"] . "</td>
+                            <td>" . $row["Snote"] . "</td>
                             <td>" . date("M d, Y h:i", strtotime($row["createDate"])) . "</td>
                             <td>" . date("M d, Y h:i", strtotime($row["modifiedDate"])) . "</td>
-                            <td class='invisible action-wrapper'>" . json_encode($row) . "</td>
+                            <td>
+                                <div class='d-flex w-100 h-100 d-flex '>
+                                    <h6 style='font-size: 13px' class='p-1 alert m-auto " . $statusColor . "'>" . $activeStatus . "</h6>
+                                </div>
+                            </td>
+                            <td class='invisible'>" . json_encode($row) . "</td>
                         </tr>
                         ";
                 }
@@ -151,16 +162,13 @@
                         className: 'btn border border-info'
                     },
                     {
-                        text: 'Add Patient Information',
+                        text: 'Add Item',
                         className: 'btn btn-primary bg-primary text-white',
                         action: function(e, dt, node, config) {
                             $('#addItemModal').modal('show');
                         }
                     }
                 ],
-
-
-
                 initComplete: function() {
                     searchColumn(this.api());
                 },
@@ -168,7 +176,7 @@
                     targets: -1,
                     render: (d) => {
                         const data = JSON.parse(d);
-                        const id = data.InventoryID;
+                        const id = data.supplier_code;
                         return `
                         <div class="dropdown dropstart d-flex">
                             <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
@@ -181,7 +189,9 @@
                                 <li class="mx-2">
                                     <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
                                 </li>
-                                
+                                <li class="mx-2">
+                                    <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>
+                                </li>
                             </ul>
                         </div>
                         `
@@ -189,13 +199,23 @@
                     "searchable": false
                 }],
                 order: [
-                    [4, 'asc']
+                    [5, 'asc']
                 ]
             });
-            handleEditClick();
-            handleViewClick();
-            $('.action-wrapper').each(function(i, e) {
-                $(this).removeClass('invisible');
+            handleArchiveClick(table, 0, "./edit/archive.php", 9);
+            handleEditClick(table);
+            handleViewClick(table);
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".xp-menubar").on('click', function() {
+                $('#sidebar').toggleClass('active');
+                $('#content').toggleClass('active');
+            });
+
+            $(".xp-menubar,.body-overlay").on('click', function() {
+                $('#sidebar,.body-overlay').toggleClass('show-nav');
             });
         });
     </script>

@@ -60,8 +60,8 @@
             </thead>
             <tbody>
                 <?php
-                $connection = connect();
 
+                $connection = connect();
                 $sql = " select * from inventory_tb LEFT JOIN itemtype_tb
                 ON inventory_tb.itemTypeID = itemtype_tb.itemTypeID";
                 $result = $connection->query($sql);

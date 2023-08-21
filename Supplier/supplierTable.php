@@ -55,18 +55,13 @@
                     <th>Note</th>
                     <th>Status</th>
                     <th>Actions</th>
-                   
+
                 </tr>
             </thead>
             <tbody>
                 <?php
-                $servername = "localhost"; //localhost
-                $username = "root"; //username
-                $Password = ""; //password
-                $database = "zaratehospital"; //database
-
-                $connection = new mysqli($servername, $username, $Password, $database);
-
+                require_once '../php/connect.php';
+                $connection = connect();
                 $sql = "select * from supplier_tb ";
                 $result = $connection->query($sql);
 
@@ -75,14 +70,12 @@
                     $statusColor = ($row["status"]  == "1") ? "alert-success"  : "alert-danger"; //condition for color bg.
                     echo "
                         <tr>
-                           
-                          
                             <td>" . $row["supplier_name"] . "</td>
                             <td>" . $row["address"] . "</td>
                             <td>" . $row["telNum"] . "</td>
                             <td>" . $row["faxNum"] . "</td>
                             <td>" . $row["CelNum"] . "</td>
-                            <td>" . $row["contactNum"] . "</td>
+                            <td>" . $row["contactNo"] . "</td>
                             <td>" . $row["Snote"] . "</td>
                            
                            

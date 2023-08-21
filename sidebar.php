@@ -13,12 +13,16 @@ $sidebarContent = [
         "link" => "/billing/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
     ],
+<<<<<<< HEAD
     [
-        "name" => "Patient Information", //name of the link
-        "icon" => "badge", //material icon name
-        "link" => "/Patient/index.php", //link of the page
+        "name" => "Billing Statement", //name of the link
+        "icon" => "point_of_sale", //material icon name
+        "link" => "/billing table/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
     ],
+=======
+>>>>>>> 0626d9b83b3aee76771c141fd6e0dad457cdf108
+   
     [
         "name" => "Employee", //name of the link
         "icon" => "badge", //material icon name
@@ -26,11 +30,19 @@ $sidebarContent = [
         "navigations" => [] //list of links on dropdown
     ],
     [
-        "name" => "Patient", //name of the link
+        "name" => "Patient Information", //name of the link
         "icon" => "hotel", //material icon name
         "link" => "/Patient/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
     ],
+ 
+    [
+        "name" => "Supplier", //name of the link
+        "icon" => "local_shipping", //material icon name
+        "link" => "/SupplierTable/index.php", //link of the page
+        "navigations" => [] //list of links on dropdown
+    ],
+    
     [
         "name" => "Inventory", //name of the link
         "icon" => "vaccines", //material icon name
@@ -46,7 +58,7 @@ $sidebarContent = [
             ],
         ] //list of links on dropdown
     ],
-    
+
 ]
 
 
@@ -159,13 +171,13 @@ $sidebarContent = [
 <body>
     <nav id="sidebar">
         <div class="sidebar-header">
-            <h3><img src="/zarate/img/logo.png" class="img-fluid" alt="Logo" /><span class="fw-bold company-title">E.Zarate Hospital</span></h3>
+            <h3><img src="/Zarate/img/logo.png" class="img-fluid" alt="Logo" /><span class="fw-bold company-title">E.Zarate Hospital</span></h3>
 
         </div>
         <ul class="list-unstyled components">
 
             <?php
-            $root = "/zarate";
+            $root = "/Zarate";
             for ($i = 0; $i < sizeof($sidebarContent); $i++) {
                 $content = $sidebarContent[$i];
                 $isDropdown = sizeof($content["navigations"]) > 0;
