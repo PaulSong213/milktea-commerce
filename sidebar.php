@@ -32,6 +32,13 @@ $sidebarContent = [
         "navigations" => [] //list of links on dropdown
     ],
     [
+        "name" => "Supplier", //name of the link
+        "icon" => "local_shipping", //material icon name
+        "link" => "/SupplierTable/index.php", //link of the page
+        "navigations" => [] //list of links on dropdown
+    ],
+    
+    [
         "name" => "Inventory", //name of the link
         "icon" => "vaccines", //material icon name
         "link" => "/inventory/index.php", //link of the page
