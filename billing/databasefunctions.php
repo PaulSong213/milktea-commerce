@@ -7,7 +7,6 @@ $conn = connect();
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
 if (isset($_POST['SaveItem'])) {
     // Retrieve form inputs
     $chargeSlipNumber = $_POST['chargeSlipNumber'];
@@ -51,8 +50,6 @@ if (isset($_POST['SaveItem'])) {
 
     // Encode the array as JSON
     $productInfoJSON = json_encode($productInfoArray);
-    
-    echo $productInfoJSON;
 
     // Calculate additional discount amount
     $addDiscAmt = $netSale * ($additionalDiscount / 100);
@@ -60,8 +57,27 @@ if (isset($_POST['SaveItem'])) {
     // Prepare the INSERT query
     $insertQuery = "INSERT INTO sales_tb (ProductInfo, NetSale, AddDisc, AddDiscAmt, NetAmt, AmtTendered, ChangeAmt, PatientAcct, RequestedName, EnteredName, createDate)
                     VALUES ('$productInfoJSON', '$netSale', '$additionalDiscount', '$addDiscAmt', '$netAmount', '$amountTendered', '$change', '$patientAccountName', '$requestedByName', '$enteredByName', NOW())";
+    
 
-    // Execute the query and handle the result
+    for ($i = 0; $i < count($product_id); $i++) {
+        if (empty($product_id[$i])) continue;
+        // ... (populate productInfoArray)
+    }
+
+    // Validate the productInfoArray
+    if (empty($productInfoArray)) {
+        $_SESSION["alert_message"] = "Please fill Product information on the cart.";
+        $_SESSION["alert_message_error"] = true;
+        header("Location: ../billing/index.php");
+        die();
+    }
+    elseif( $change <1){
+        $_SESSION["alert_message"] = "Please enter the right Tendered Amount.";
+        $_SESSION["alert_message_error"] = true;
+        header("Location: ../billing/index.php");
+        die();
+    }          
+
     $result = mysqli_query($conn, $insertQuery);
 
     // Inserting to the sales_tb failed

@@ -7,6 +7,8 @@ $conn = connect();
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+ 
+//PRINT ALL VALUES
 
 if (isset($_POST['SaveItem'])) {
     $lname = $_POST['employee_lname'];
@@ -40,6 +42,7 @@ if (isset($_POST['SaveItem'])) {
     header("Location: ./index.php");
     die();
 }
+
 
 // Close the database connection
 $conn->close();
