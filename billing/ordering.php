@@ -68,13 +68,15 @@ $conn->close();
                                 if ($conn->connect_error) {
                                     die("Connection failed: " . $conn->connect_error);
                                 }
-                                $query = "SELECT fname , lname , mname FROM patient_tb";
+                                $query = "SELECT fname , lname , mname , hospistalrecordNo FROM patient_tb";
                                 $result = $conn->query($query);
                                 while ($row = $result->fetch_assoc()) {
+
+                                    $hospistalrecordNo = $row['hospistalrecordNo'];
                                     $fname = $row['fname'];
                                     $lname = $row['lname'];
                                     $mname = $row['mname'];
-                                    $fullName = $lname . ',' . $fname . ' ' . $mname;
+                                    $fullName = $lname . ',' . $fname . ' ' . $mname . ' | ID: ' . $hospistalrecordNo;
 
                                     echo "<option value='$fullName'>$fullName</option>";
                                 }
@@ -176,26 +178,27 @@ $conn->close();
                                         if ($conn->connect_error) {
                                             die("Connection failed: " . $conn->connect_error);
                                         }
-                                        $query = "SELECT * FROM inventory_tb WHERE Status = 1 AND Unit > 0";
+                                        $query = "SELECT inventory_tb.itemCode, itemtype_tb.itemTypeCode FROM inventory_tb LEFT JOIN itemtype_tb ON inventory_tb.itemTypeID = itemtype_tb.itemTypeID WHERE Status = 1";
                                         $result = $conn->query($query);
                                         while ($row = $result->fetch_assoc()) {
                                             $itemCode = $row['itemCode'];
-                                            echo "<option value='$itemCode'>$itemCode</option>";
+                                            $itemTypeCode = $row['itemTypeCode'];
+                                            echo "<option value='$itemCode'>$itemTypeCode</option>";
                                         }
                                         $conn->close();
                                         ?>
                                     </datalist>
                                 </td>
-                                <td><input type="number" class="form-control" readonly name="inv"></td>
-                                <td><input type="text" class="form-control" name="unit[]" readonly></td>
-                                <td><input type="number" class="form-control" name="price[]" readonly step="0.01"></td>
-                                <td><input type="text" class="form-control" name="itemType[]" readonly></td>
-                                <td style="display:none"><input type="number" style="display:none" class="form-control" name="id[]" readonly></td>
-                                <td style="display:none"><input type="number" style="display:none" class="form-control" name="itemTypeID[]" readonly></td>
+                                <td><input type="number" class="form-control text-light bg-secondary" readonly name="inv"></td>
+                                <td><input type="text" class="form-control text-light bg-secondary" name="unit[]" readonly></td>
+                                <td><input type="number" class="form-control text-light bg-secondary" name="price[]" readonly step="0.01"></td>
+                                <td><input type="text" class="form-control text-light bg-secondary" name="itemType[]" readonly></td>
+                                <td style="display:none"><input type="number" style="display:none" class="form-control text-light bg-secondary" name="id[]" readonly></td>
+                                <td style="display:none"><input type="number" style="display:none" class="form-control text-light bg-secondary" name="itemTypeID[]" readonly></td>
                                 <td><input type="number" class="form-control" name="qty[]" min="1" value="1"></td>
                                 <td><input type="number" class="form-control" name="disc_percent[]" min="0" value="0"></td>
-                                <td><input type="number" class="form-control" name="disc_amt[]" step="0.01" readonly></td>
-                                <td><input type="text" class="form-control" name="subtotal[]" readonly></td>
+                                <td><input type="number" class="form-control text-light bg-secondary" name="disc_amt[] " step="0.01" readonly></td>
+                                <td><input type="text" class="form-control text-light bg-secondary" name="subtotal[]" readonly></td>
                                 <td><button class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button></td>
                             </tr>
                         </tbody>
@@ -254,28 +257,17 @@ $conn->close();
 
             var datalist = document.getElementById('product_id_list');
 
+            fetchProductDetails(selectedValue, row, datalist);
+        }
+
+        function fetchProductDetails(selectedValue, row, datalist) {
             var xhr = new XMLHttpRequest();
             xhr.open("GET", "get_product_details.php?itemCode=" + selectedValue, true);
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (xhr.status === 200) {
                         var response = JSON.parse(xhr.responseText);
-                        invInput.value = response.inv;
-                        unitInput.value = response.unit;
-                        priceInput.value = response.price;
-                        itemTypeInput.value = response.itemtype;
-                        idInput.value = response.id;
-                        itemTypeIDInput.value = response.itemTypeID;
-
-                        for (var i = 0; i < datalist.options.length; i++) {
-                            if (datalist.options[i].value === selectedValue) {
-                                datalist.options[i].remove();
-                                CalculateValues(row);
-                                break;
-                            }
-                            CalculateValues(row);
-                        }
-
+                        updateRowDetails(response, row, datalist, selectedValue);
                         console.log("Response:", response);
                     } else {
                         console.error("Failed to fetch product details");
@@ -285,17 +277,45 @@ $conn->close();
             xhr.send();
         }
 
+        function updateRowDetails(response, row, datalist, selectedValue) {
+            var invInput = row.querySelector('[name="inv"]');
+            var unitInput = row.querySelector('[name="unit[]"]');
+            var priceInput = row.querySelector('[name="price[]"]');
+            var itemTypeInput = row.querySelector('[name="itemType[]"]');
+            var idInput = row.querySelector('[name="id[]"]');
+            var itemTypeIDInput = row.querySelector('[name="itemTypeID[]"]');
+
+            invInput.value = response.inv;
+            unitInput.value = response.unit;
+            priceInput.value = response.price;
+            itemTypeInput.value = response.itemtype;
+            idInput.value = response.id;
+            itemTypeIDInput.value = response.itemTypeID;
+
+            for (var i = 0; i < datalist.options.length; i++) {
+                if (datalist.options[i].value === selectedValue) {
+                    datalist.options[i].disabled = true;
+                    CalculateValues(row);
+                    break;
+                }
+                CalculateValues(row);
+            }
+        }
+
         function removeRow(button) {
             const row = button.parentNode.parentNode;
             const productIdInput = row.querySelector('[name="product_id[]"]');
             const productCode = productIdInput.value;
+            const productHtml = productIdInput.innerHTML;
 
             const datalist = document.getElementById('product_id_list');
             const option = document.createElement('option');
             option.value = productCode;
+            option.innerHTML = productIdInput.value;;
             datalist.appendChild(option);
             row.parentNode.removeChild(row);
         }
+
 
         // Function to add a new row
         function addRow() {
@@ -324,7 +344,7 @@ $conn->close();
             inputFields.forEach(input => {
                 input.addEventListener("input", function() {
                     CalculateValues(row);
-
+                    updateProductInfo(input);
                 });
             });
         }
@@ -382,8 +402,8 @@ $conn->close();
 
             const addRowButton = document.getElementById("addRow");
             addRowButton.addEventListener("click", function() {
-
                 addRow();
+                CalculateValues(row);
             });
 
             // Attach input listeners to initial rows
@@ -405,12 +425,9 @@ $conn->close();
             if (amountTenderedInput) {
                 amountTenderedInput.addEventListener("input", function() {
                     CalculateValues(document.querySelector("table"));
-
                 });
             }
         });
     </script>
 </body>
-
-
 </html>
