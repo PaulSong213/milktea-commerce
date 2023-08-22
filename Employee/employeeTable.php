@@ -65,7 +65,7 @@
 
                 $connection = new mysqli($servername, $username, $Password, $database);
 
-                $sql = "select * from employee_tb ";
+                $sql = "select lname, fname, mname, department, position, title, createDate, modifiedDate, Status from employee_tb ";
                 $result = $connection->query($sql);
 
                 while ($row = $result->fetch_assoc()) {

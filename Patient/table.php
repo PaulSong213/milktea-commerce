@@ -70,7 +70,7 @@
 
                 $connection = new mysqli($servername, $username, $Password, $database);
 
-                $sql = "select * from patient_tb";
+                $sql = "select lname, fname, mname, age, gender, createDate, modifiedDate from patient_tb";
                 $result = $connection->query($sql);
                 while ($row = $result->fetch_assoc()) {
                     echo "

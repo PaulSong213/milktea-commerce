@@ -48,12 +48,10 @@
             <thead>
                 <tr>
                     <th>Supplier Name</th>
-                    <th>Address</th>
-                    <th>Telephone Number</th>
+                   
+                   
                     <th>Fax Number</th>
-                    <th>Cell Phone</th>
-                    <th>Contact No</th>
-                    <th>Supplier Note</th>
+                  
                     <th>Date Added</th>
                     <th>Modified Date</th>
                     <th>Status</th>
@@ -64,7 +62,7 @@
                 <?php
                 $connection = connect();
 
-                $sql = " select * from supplier_tb ";
+                $sql = " select supplier_code ,supplier_name, faxNum, createDate, modifiedDate, status from supplier_tb ";
                 $result = $connection->query($sql);
 
                 while ($row = $result->fetch_assoc()) {
@@ -73,12 +71,11 @@
                     echo "
                         <tr>
                             <td>" . $row["supplier_name"] . "</td>
-                            <td>" . $row["address"] . "</td>
-                            <td>" . $row["telNum"] . "</td>
+                          
+                           
                             <td>" . $row["faxNum"] . "</td>
-                            <td>" . $row["CelNum"] . "</td>
-                             <td>" . $row["contactNo"] . "</td>
-                            <td>" . $row["Snote"] . "</td>
+                          
+                           
                             <td>" . date("M d, Y h:i", strtotime($row["createDate"])) . "</td>
                             <td>" . date("M d, Y h:i", strtotime($row["modifiedDate"])) . "</td>
                             <td>
@@ -202,7 +199,7 @@
                     [5, 'asc']
                 ]
             });
-            handleArchiveClick(table, 0, "./edit/archive.php", 9);
+            handleArchiveClick(table, 0, "./edit/archive.php", 4);
             handleEditClick(table);
             handleViewClick(table);
         });

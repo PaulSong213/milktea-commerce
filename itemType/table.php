@@ -69,7 +69,7 @@
 
                 $connection = new mysqli($servername, $username, $Password, $database);
 
-                $sql = "select * from itemtype_tb ";
+                $sql = "select itemTypeCode, description, createDate, modifiedDate from itemtype_tb ";
                 $result = $connection->query($sql);
                 while ($row = $result->fetch_assoc()) {
                     echo "
