@@ -23,7 +23,7 @@ $sidebarContent = [
             ],
         ]
     ],
-   
+
     [
         "name" => "Employee", //name of the link
         "icon" => "badge", //material icon name
@@ -43,7 +43,7 @@ $sidebarContent = [
         "link" => "/SupplierTable/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
     ],
-    
+
     [
         "name" => "Inventory", //name of the link
         "icon" => "vaccines", //material icon name
@@ -255,13 +255,9 @@ $sidebarContent = [
         </ul>
         <div class="session">
             <i class="material-icons icon">account_circle</i>
-            <span><?php
-                    if (isset($_SESSION['username'])) {
-                        echo  $_SESSION['username'];
-                    } else {
-                        echo "Not logged in.";
-                    }
-                    ?></span>
+            <label class="sessionlabel">
+                <?php include('session.php'); ?></label>
+
 
         </div>
 
@@ -295,13 +291,16 @@ $sidebarContent = [
         window.addEventListener('resize', () => {
             checkSideBarState();
         }, true);
+
         function toggleSidebar() {
             $("#sidebar").toggleClass("active");
             $("#content").toggleClass("active");
             $(".link-name").toggleClass("d-none");
+            $(".sessionlabel").toggleClass("d-none");
             $(".company-title").toggleClass("d-none");
             $(".sub-nav-link").toggleClass("transform-scale-small");
         }
+
         function checkSideBarState() {
             var isSideBarOpened = $("#sidebar").hasClass("active");
             if (screen.width <= 768 && !isSideBarOpened) toggleSidebar();
@@ -310,4 +309,5 @@ $sidebarContent = [
     </script>
 
 </body>
+
 </html>
