@@ -22,7 +22,6 @@ $sidebarContent = [
             ],
         ]
     ],
-
     [
         "name" => "Employee", //name of the link
         "icon" => "badge", //material icon name

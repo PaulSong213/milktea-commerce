@@ -2,6 +2,17 @@
 
 <html lang="en">
 
+<head>
+    <script>
+        function allowOnlyNumbers(input) {
+            input.value = input.value.replace(/\D/g, ''); // Replace non-numeric characters with an empty string
+        }
+    </script>
+</head>
+
+<body>
+ 
+
 <form id="addItemForm" method="POST" action="./add/addfunction.php">
 
     <div class="modal fade" data-bs-backdrop="static" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel" aria-hidden="true">
@@ -23,16 +34,16 @@
                     <input type="text" id="address" name="address" class="form-control" placeholder="Enter Address" required>
 
                     <b><label for="telNum">Tel Number: </label></b>
-                    <input type="text" id="telNum" name="telNum" class="form-control" placeholder="Enter Telephone Number" required>
+                    <input type="text" id="telNum" name="telNum" class="form-control" placeholder="Enter Telephone Number" oninput="allowOnlyNumbers(this)" required>
 
                     <b><label for="faxNum">Fax Number: </label></b>
-                    <input type="text" id="faxNum" name="faxNum" class="form-control" placeholder="Enter Fax Number" required>
+                    <input type="text" id="faxNum" name="faxNum" class="form-control" placeholder="Enter Fax Number" oninput="allowOnlyNumbers(this)" required>
 
                     <b><label for="CelNum">Cel Number: </label></b>
-                    <input type="text" id="CelNum" name="CelNum" class="form-control" placeholder="Enter Cellphone Number" required>
+                    <input type="text" id="CelNum" name="CelNum" class="form-control" placeholder="Enter Cellphone Number" oninput="allowOnlyNumbers(this)" required>
 
                     <b><label for="contactNum">Contact Number: </label></b>
-                    <input type="text" id="contactNum" name="contactNum" class="form-control" placeholder="Enter Contact Number" required>
+                    <input type="text" id="contactNum" name="contactNum" class="form-control" placeholder="Enter Contact Number" oninput="allowOnlyNumbers(this)" required>
 
                     <b><label for="Snote">Note : </label></b>
                     <input type="text" id="Snote" name="Snote" class="form-control" placeholder="Enter Note">
@@ -48,5 +59,6 @@
     </div Supplier </div>
     </div>
 </form>
+</body>   
 
 </html>

@@ -17,14 +17,14 @@ if (isset($_POST['SaveItem'])) {
     SET
         supplier_name = '$Sname',
         address = '$address',
-        telNum = '$itemTypeID',
+        telNum = '$telNumber',
         faxNum = '$faxNumber',
         CelNum ='$celNumber', 
         contactNo ='$contactNumber', 
         Snote ='$Snote',
         modifiedDate = now()
     WHERE
-        supplier_code = '$item_id';
+        supplier_code = '$itemTypeID';
     ";
 
     $result = mysqli_query($conn, $sql);
