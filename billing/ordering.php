@@ -253,7 +253,6 @@ $conn->close();
             var itemTypeInput = row.querySelector('[name="itemType[]"]');
             var idInput = row.querySelector('[name="id[]"]');
             var itemTypeIDInput = row.querySelector('[name="itemTypeID[]"]');
-
             var datalist = document.getElementById('product_id_list');
 
             var xhr = new XMLHttpRequest();
