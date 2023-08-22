@@ -37,7 +37,7 @@
                         <div class="mb-3 row">
                             <div class="col">
                                 <label class="form-label" for="Unit">Unit<span class="text-danger mx-1">*</span></label>
-                                <input type="number" id="Unit" class="form-control" name="Unit" placeholder="0" required>
+                                <input type="number" step="0.01" id="Unit" class="form-control" name="Unit" placeholder="0" required>
                             </div>
                             <div class="col">
                                 <label class="form-label" for="UnitType">Unit Type<span class="text-danger mx-1">*</span></label>
@@ -49,26 +49,26 @@
                             <textarea class="form-control" id="description" name="description" placeholder="Enter description" required autocomplete="on"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="Generic">Generic<span class="text-danger mx-1">*</span></label>
-                            <input type="text" id="Generic" class="form-control" name="Generic" placeholder="Enter Generic" required autocomplete="on">
+                            <label for="Generic">Generic</label>
+                            <input type="text" id="Generic" class="form-control" name="Generic" placeholder="Enter Generic" autocomplete="on">
                         </div>
                         <div class="mb-3">
                             <label for="Sugprice">Sug Price<span class="text-danger mx-1">*</span></label>
-                            <input type="number" id="Sugprice" class="form-control" name="Sugprice" placeholder="0.0000" required autocomplete="on">
+                            <input type="number" step="0.01" id="Sugprice" class="form-control" name="Sugprice" placeholder="0.0000" required autocomplete="on">
                         </div>
                         <div class="mb-3">
 
                             <label for="MWprice">MW Price<span class="text-danger mx-1">*</span></label>
-                            <input type="number" id="MWprice" class="form-control" name="MWprice" placeholder="0.00" required autocomplete="on">
+                            <input type="number" step="0.01" id="MWprice" class="form-control" name="MWprice" placeholder="0.00" required autocomplete="on">
                         </div>
                         <div class="mb-3">
 
                             <label for="IPDprice">IPD Percent<span class="text-danger mx-1">*</span></label>
-                            <input type="number" id="IPDprice" class="form-control" name="IPDprice" placeholder="0.00 %" required autocomplete="on">
+                            <input type="number" step="0.01" id="IPDprice" class="form-control" name="IPDprice" placeholder="0.00 %" required autocomplete="on">
                         </div>
                         <div class="mb-3">
                             <label for="Ppriceuse">Ppriceuse<span class="text-danger mx-1">*</span></label>
-                            <input type="number" id="Ppriceuse" class="form-control" name="Ppriceuse" placeholder="0.0000" required autocomplete="on">
+                            <input type="number" step="0.01" id="Ppriceuse" class="form-control" name="Ppriceuse" placeholder="0.0000" required autocomplete="on">
                         </div>
                         <!-- Add more fields as needed -->
                     </div>

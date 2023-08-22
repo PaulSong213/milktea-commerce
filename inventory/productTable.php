@@ -73,7 +73,7 @@
                         <tr>
                             <td>" . $row["itemTypeCode"] . "</td>
                             <td>" . $row["itemCode"] . "</td>
-                            <td>" . $row["Unit"] . " " . $row["UnitType"] . "</td>
+                            <td>" . (($row["Unit"] !== null) ? $row["Unit"] : 0) . " " . (($row["UnitType"] !== null) ? $row["UnitType"] : 0) . "</td>
                             <td>" . $row["Generic"] . "</td>
                             <td>" . $row["SugPrice"] . "</td>
                             <td>" . date("M d, Y h:i", strtotime($row["createDate"])) . "</td>
@@ -85,7 +85,7 @@
                             </td>
                             <td class='invisible'>" . json_encode($row) . "</td>
                         </tr>
-                        ";
+                    ";
                 }
                 ?>
             </tbody>
