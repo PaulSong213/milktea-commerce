@@ -37,14 +37,7 @@ $conn->close();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            max-width: 100%;
-            margin: 0;
-            padding: 0;
-            justify-content: center;
-        }
-    </style>
+
 </head>
 
 <body>
