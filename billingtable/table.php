@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title></title>
+    <title>Billing Statement</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
@@ -47,14 +47,14 @@
 
 <body>
     <div class="table w-100 p-4">
-        <h2 class="mt-4 mb-5">ITEM TYPE</h2>
+        <h2 class="mt-4 mb-5">Billing Statement Table</h2>
         <?php include './add/add.php'; ?>
         <?php include './view/view.php'; ?>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                  
-                    <th>Subtotal</th>
+
+                    <th>Product Cart</th>
                     <th>Net Sale</th>
                     <th>Add Disc</th>
                     <th>Add Disc Amountt</th>
@@ -69,34 +69,35 @@
             </thead>
             <tbody>
                 <?php
-                $servername = "localhost"; //localhost
-                $username = "root"; //username
-                $Password = ""; //password
-                $database = "zaratehospital"; //database
-
-                $connection = new mysqli($servername, $username, $Password, $database);
-
-                $sql = "select * from sales_tb ";
-                $result = $connection->query($sql);
-                while ($row = $result->fetch_assoc()) {
-                    echo "
-                        <tr>
-                           
-                            <td>" . $row["Subtotal"] . "</td>
-                            <td>" . $row["NetSale"] . "</td>
-                            <td>" . $row["AddDisc"] . "</td>
-                            <td>" . $row["AddDiscAmt"] . "</td>
-                            <td>" . $row["NetAmt"] . "</td>
-                            <td>" . $row["AmtTendered"] . "</td>
-                            <td>" . $row["ChangeAmt"] . "</td>
-                            <td>" . $row["PatientAcct"] . "</td>
-                            <td>" . $row["RequestedName"] . "</td>
-                            <td>" . $row["EnteredName"] . "</td>
-                            <td class='invisible action-wrapper'>" . json_encode($row) . "</td>
-                        </tr>
-                        ";
+                require_once '../php/connect.php';
+                $conn = connect();
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
                 }
-                ?>
+                $sql = "SELECT * FROM sales_tb";
+
+                $result = $conn->query($sql);
+                    while ($row = $result->fetch_assoc()) {
+                        echo "
+                            <tr>                        
+                                <td>" . $row["ProductInfo"] . "</td>
+                                <td>" . $row["NetSale"] . "</td>
+                                <td>" . $row["AddDisc"] . "</td>
+                                <td>" . $row["AddDiscAmt"] . "</td>
+                                <td>" . $row["NetAmt"] . "</td>
+                                <td>" . $row["AmtTendered"] . "</td>
+                                <td>" . $row["ChangeAmt"] . "</td>
+                                <td>" . $row["PatientAcct"] . "</td>
+                                <td>" . $row["RequestedName"] . "</td>
+                                <td>" . $row["EnteredName"] . "</td>
+                                <td class='invisible action-wrapper'>" . json_encode($row) . "</td>
+                            </tr>
+                            ";
+                    }
+                          $conn->close();
+                    ?> 
+
+
             </tbody>
         </table>
     </div>

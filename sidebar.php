@@ -11,9 +11,17 @@ $sidebarContent = [
         "name" => "Billing", //name of the link
         "icon" => "point_of_sale", //material icon name
         "link" => "/billing/index.php", //link of the page
-        "navigations" => [] //list of links on dropdown
+        "navigations" => [
+            [
+                "name" => "Charge NYP/ Billing", //name of the link
+                "link" => "/billing/index.php", //link of the page
+            ],
+            [
+                "name" => "Billing Statement", //name of the link
+                "link" => "/billingtable/index.php", //link of the page
+            ],
+        ]
     ],
-   
     [
         "name" => "Employee", //name of the link
         "icon" => "badge", //material icon name
@@ -26,14 +34,14 @@ $sidebarContent = [
         "link" => "/Patient/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
     ],
- 
+
     [
         "name" => "Supplier", //name of the link
         "icon" => "local_shipping", //material icon name
         "link" => "/SupplierTable/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
     ],
-    
+
     [
         "name" => "Inventory", //name of the link
         "icon" => "vaccines", //material icon name
@@ -51,8 +59,6 @@ $sidebarContent = [
     ],
 
 ]
-
-
 ?>
 
 <!DOCTYPE html>
