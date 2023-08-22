@@ -57,7 +57,7 @@ if (isset($_POST['SaveItem'])) {
     // Prepare the INSERT query
     $insertQuery = "INSERT INTO sales_tb (ProductInfo, NetSale, AddDisc, AddDiscAmt, NetAmt, AmtTendered, ChangeAmt, PatientAcct, RequestedName, EnteredName, createDate)
                     VALUES ('$productInfoJSON', '$netSale', '$additionalDiscount', '$addDiscAmt', '$netAmount', '$amountTendered', '$change', '$patientAccountName', '$requestedByName', '$enteredByName', NOW())";
-    
+
 
     for ($i = 0; $i < count($product_id); $i++) {
         if (empty($product_id[$i])) continue;
@@ -70,13 +70,12 @@ if (isset($_POST['SaveItem'])) {
         $_SESSION["alert_message_error"] = true;
         header("Location: ../billing/index.php");
         die();
-    }
-    elseif( $change <0){
+    } elseif ($change < 0) {
         $_SESSION["alert_message"] = "Please enter the right Tendered Amount.";
         $_SESSION["alert_message_error"] = true;
         header("Location: ../billing/index.php");
         die();
-    }          
+    }
 
     $result = mysqli_query($conn, $insertQuery);
 
@@ -93,17 +92,22 @@ if (isset($_POST['SaveItem'])) {
     $salesInsertedId = mysqli_insert_id($conn);
 
     // Minus the quantity of the products in the inventory
+    // Update inventory quantities
     for ($i = 0; $i < sizeof($productInfoArray); $i++) {
         $productInfo = $productInfoArray[$i];
         $toEditProductID = $productInfo["id"];
         if (empty($toEditProductID)) continue;
-        $qty = $productInfo["qty"];
-        $updateQuery = "UPDATE inventory_tb SET Unit = Unit - $qty WHERE InventoryID = $toEditProductID";
-        $updateInventoryResult = mysqli_query($conn, $updateQuery);
+        $qty = $productInfo["qty"] ;
+        $updateQuery = "UPDATE inventory_tb SET Unit = Unit - ? WHERE InventoryID = ?";
+        $stmt = $conn->prepare($updateQuery);
+        $stmt->bind_param("ii", $qty, $toEditProductID);
+        $updateInventoryResult = $stmt->execute();
+        $stmt->close();
+
         if (!$updateInventoryResult) {
-            $_SESSION["alert_message"] = "Failed to Add a Billing Statement. Error Details: " . mysqli_error($conn);
+            // Handle inventory update error
+            $_SESSION["alert_message"] = "Failed to update inventory. Please try again later.";
             $_SESSION["alert_message_error"] = true;
-            echo "Error: " . $updateQuery . "<br>" . mysqli_error($conn);
             header("Location: ../billing/index.php");
             die();
         }

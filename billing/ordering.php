@@ -188,7 +188,7 @@ $conn->close();
                                 <td><input type="text" class="form-control text-light bg-secondary" name="itemType[]" readonly></td>
                                 <td style="display:none"><input type="number" style="display:none" class="form-control text-light bg-secondary" name="id[]" readonly></td>
                                 <td style="display:none"><input type="number" style="display:none" class="form-control text-light bg-secondary" name="itemTypeID[]" readonly></td>
-                                <td><input type="number" class="form-control" name="qty[]" min="1" value="1"></td>
+                                <td><input type="number" class="form-control" name="qty[]" min="1"></td>
                                 <td><input type="number" class="form-control" name="disc_percent[]" min="0" value="0"></td>
                                 <td><input type="number" class="form-control text-light bg-secondary" name="disc_amt[]" readonly></td>
                                 <td><input type="text" class="form-control text-light bg-secondary" name="subtotal[]" readonly></td>
@@ -336,7 +336,7 @@ $conn->close();
         // Function to display values and calculate subtotal
         function CalculateValues(row) {
             const price = parseFloat(row.querySelector('[name="price[]"]').value) || 0;
-            const qty = parseFloat(row.querySelector('[name="qty[]"]').value) || 0;
+            const qty = parseFloat(row.querySelector('[name="qty[]"]').value) || 1;
             const discPercent = parseFloat(row.querySelector('[name="disc_percent[]"]').value) || 0;
             const inventory = parseFloat(row.querySelector('[name="inv"]').value) || 0;
             const subtotal = qty * price;
