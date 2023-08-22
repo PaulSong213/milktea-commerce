@@ -37,14 +37,7 @@ $conn->close();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            max-width: 100%;
-            margin: 0;
-            padding: 0;
-            justify-content: center;
-        }
-    </style>
+
 </head>
 
 <body>
@@ -178,7 +171,7 @@ $conn->close();
                                         if ($conn->connect_error) {
                                             die("Connection failed: " . $conn->connect_error);
                                         }
-                                        $query = "SELECT inventory_tb.itemCode, itemtype_tb.itemTypeCode FROM inventory_tb LEFT JOIN itemtype_tb ON inventory_tb.itemTypeID = itemtype_tb.itemTypeID WHERE Status = 1";
+                                        $query = "SELECT inventory_tb.itemCode, itemtype_tb.itemTypeCode FROM inventory_tb LEFT JOIN itemtype_tb ON inventory_tb.itemTypeID = itemtype_tb.itemTypeID WHERE Status = 1  ";
                                         $result = $conn->query($query);
                                         while ($row = $result->fetch_assoc()) {
                                             $itemCode = $row['itemCode'];
@@ -197,9 +190,9 @@ $conn->close();
                                 <td style="display:none"><input type="number" style="display:none" class="form-control text-light bg-secondary" name="itemTypeID[]" readonly></td>
                                 <td><input type="number" class="form-control" name="qty[]" min="1" value="1"></td>
                                 <td><input type="number" class="form-control" name="disc_percent[]" min="0" value="0"></td>
-                                <td><input type="number" class="form-control text-light bg-secondary" name="disc_amt[] " step="0.01" readonly></td>
+                                <td><input type="number" class="form-control text-light bg-secondary" name="disc_amt[]" readonly></td>
                                 <td><input type="text" class="form-control text-light bg-secondary" name="subtotal[]" readonly></td>
-                                <td><button class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button></td>
+                                <td><button class="btn btn-danger btn-sm" onclick="removeRow(this)"> X </button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -241,33 +234,54 @@ $conn->close();
                     title: 'Validation Error',
                     text: 'Please fill in all required fields.',
                 });
+            } else {
+                const changeInput = document.querySelector('[name="change"]');
+                const changeValue = parseFloat(changeInput.value);
+
+                if (changeValue < 0) {
+                    event.preventDefault(); // Prevent form submission if change is less than 0
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Insufficient Amount',
+                        text: 'The tendered amount is insufficient.',
+                    });
+                }
             }
         });
 
+
         function updateProductInfo(input) {
             var selectedValue = input.value;
-            var row = input.closest("tr"); // Find the closest <tr> element
+            var row = input.closest("tr");
             var invInput = row.querySelector('[name="inv"]');
             var unitInput = row.querySelector('[name="unit[]"]');
             var priceInput = row.querySelector('[name="price[]"]');
             var itemTypeInput = row.querySelector('[name="itemType[]"]');
             var idInput = row.querySelector('[name="id[]"]');
             var itemTypeIDInput = row.querySelector('[name="itemTypeID[]"]');
-            var validQtyInput = row.querySelector('[name="qty[]"]');
-
             var datalist = document.getElementById('product_id_list');
 
-            fetchProductDetails(selectedValue, row, datalist);
-        }
-
-        function fetchProductDetails(selectedValue, row, datalist) {
             var xhr = new XMLHttpRequest();
             xhr.open("GET", "get_product_details.php?itemCode=" + selectedValue, true);
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (xhr.status === 200) {
                         var response = JSON.parse(xhr.responseText);
-                        updateRowDetails(response, row, datalist, selectedValue);
+                        invInput.value = response.inv;
+                        unitInput.value = response.unit;
+                        priceInput.value = response.price;
+                        itemTypeInput.value = response.itemtype;
+                        idInput.value = response.id;
+                        itemTypeIDInput.value = response.itemTypeID;
+
+                        for (var i = 0; i < datalist.options.length; i++) {
+                            if (datalist.options[i].value === selectedValue) {
+                                datalist.options[i].disabled = true;
+                                CalculateValues(row);
+                                break;
+                            }
+                        }
+
                         console.log("Response:", response);
                     } else {
                         console.error("Failed to fetch product details");
@@ -277,46 +291,18 @@ $conn->close();
             xhr.send();
         }
 
-        function updateRowDetails(response, row, datalist, selectedValue) {
-            var invInput = row.querySelector('[name="inv"]');
-            var unitInput = row.querySelector('[name="unit[]"]');
-            var priceInput = row.querySelector('[name="price[]"]');
-            var itemTypeInput = row.querySelector('[name="itemType[]"]');
-            var idInput = row.querySelector('[name="id[]"]');
-            var itemTypeIDInput = row.querySelector('[name="itemTypeID[]"]');
-
-            invInput.value = response.inv;
-            unitInput.value = response.unit;
-            priceInput.value = response.price;
-            itemTypeInput.value = response.itemtype;
-            idInput.value = response.id;
-            itemTypeIDInput.value = response.itemTypeID;
-
-            for (var i = 0; i < datalist.options.length; i++) {
-                if (datalist.options[i].value === selectedValue) {
-                    datalist.options[i].disabled = true;
-                    CalculateValues(row);
-                    break;
-                }
-                CalculateValues(row);
-            }
-        }
-
         function removeRow(button) {
             const row = button.parentNode.parentNode;
             const productIdInput = row.querySelector('[name="product_id[]"]');
             const productCode = productIdInput.value;
-            const productHtml = productIdInput.innerHTML;
 
             const datalist = document.getElementById('product_id_list');
             const option = document.createElement('option');
             option.value = productCode;
-            option.innerHTML = productIdInput.value;;
+            option.innerHTML = productIdInput.value; // Set the innerHTML
             datalist.appendChild(option);
             row.parentNode.removeChild(row);
         }
-
-
         // Function to add a new row
         function addRow() {
 
@@ -344,11 +330,9 @@ $conn->close();
             inputFields.forEach(input => {
                 input.addEventListener("input", function() {
                     CalculateValues(row);
-                    updateProductInfo(input);
                 });
             });
         }
-
         // Function to display values and calculate subtotal
         function CalculateValues(row) {
             const price = parseFloat(row.querySelector('[name="price[]"]').value) || 0;
@@ -396,14 +380,16 @@ $conn->close();
         }
 
 
-
         document.addEventListener("DOMContentLoaded", function() {
             addRow();
 
             const addRowButton = document.getElementById("addRow");
             addRowButton.addEventListener("click", function() {
                 addRow();
-                CalculateValues(row);
+
+                // Attach input listeners to the new row
+                const newRow = document.querySelector('tbody tr:last-child');
+                attachInputListeners(newRow);
             });
 
             // Attach input listeners to initial rows
@@ -417,7 +403,6 @@ $conn->close();
             if (additionalDiscountInput) {
                 additionalDiscountInput.addEventListener("input", function() {
                     CalculateValues(document.querySelector("table"));
-
                 });
             }
 
@@ -430,4 +415,6 @@ $conn->close();
         });
     </script>
 </body>
+
+
 </html>
