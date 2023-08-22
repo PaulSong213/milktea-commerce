@@ -178,12 +178,12 @@ $conn->close();
                                         if ($conn->connect_error) {
                                             die("Connection failed: " . $conn->connect_error);
                                         }
-                                        $query = "SELECT inventory_tb.itemCode, itemtype_tb.itemTypeCode FROM inventory_tb LEFT JOIN itemtype_tb ON inventory_tb.itemTypeID = itemtype_tb.itemTypeID WHERE Status = 1 AND Unit >1 ";
+                                        $query = "SELECT inventory_tb.itemCode, itemtype_tb.itemTypeCode FROM inventory_tb LEFT JOIN itemtype_tb ON inventory_tb.itemTypeID = itemtype_tb.itemTypeID WHERE Status = 1  ";
                                         $result = $conn->query($query);
                                         while ($row = $result->fetch_assoc()) {
                                             $itemCode = $row['itemCode'];
                                             $itemTypeCode = $row['itemTypeCode'];
-                                            echo "<option value='$itemCode'>$itemTypeID</option>";
+                                            echo "<option value='$itemCode'>$itemTypeCode</option>";
                                         }
                                         $conn->close();
                                         ?>
@@ -199,7 +199,7 @@ $conn->close();
                                 <td><input type="number" class="form-control" name="disc_percent[]" min="0" value="0"></td>
                                 <td><input type="number" class="form-control text-light bg-secondary" name="disc_amt[]" readonly></td>
                                 <td><input type="text" class="form-control text-light bg-secondary" name="subtotal[]" readonly></td>
-                                <td><button class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button></td>
+                                <td><button class="btn btn-danger btn-sm" onclick="removeRow(this)"> X </button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -241,8 +241,21 @@ $conn->close();
                     title: 'Validation Error',
                     text: 'Please fill in all required fields.',
                 });
+            } else {
+                const changeInput = document.querySelector('[name="change"]');
+                const changeValue = parseFloat(changeInput.value);
+
+                if (changeValue < 0) {
+                    event.preventDefault(); // Prevent form submission if change is less than 0
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Insufficient Amount',
+                        text: 'The tendered amount is insufficient.',
+                    });
+                }
             }
         });
+
 
         function updateProductInfo(input) {
             var selectedValue = input.value;
@@ -327,7 +340,6 @@ $conn->close();
                 });
             });
         }
-
         // Function to display values and calculate subtotal
         function CalculateValues(row) {
             const price = parseFloat(row.querySelector('[name="price[]"]').value) || 0;
