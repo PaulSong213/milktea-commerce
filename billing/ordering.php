@@ -205,11 +205,9 @@ $conn->close();
             </div>
         </form>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
-
+    <script script src = "https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js" ></script>
     <script>
-        
+     
         function validateForm() {
             const form = document.getElementById('addItemForm');
             const inputFields = form.querySelectorAll('.form-control');
@@ -221,30 +219,9 @@ $conn->close();
             });
 
             // Additional validation logic
-            // Check if required fields are empty
+            // Example: Check if required fields are empty
             inputFields.forEach(input => {
                 if (input.hasAttribute('required') && input.value.trim() === '') {
-                    input.classList.add('is-invalid');
-                    isValid = false;
-                }
-            });
-
-            // Validate product ID from datalist
-            const productIDInput = form.querySelectorAll('[name="product_id[]"]');
-            productIDInput.forEach(input => {
-                const datalist = document.getElementById('product_id_list');
-                const validOptions = Array.from(datalist.options).map(option => option.value);
-                if (!validOptions.includes(input.value)) {
-                    input.classList.add('is-invalid');
-                    isValid = false;
-                }
-            });
-
-            // Validate quantity > 0
-            const quantityInputs = form.querySelectorAll('[name="qty[]"]');
-            quantityInputs.forEach(input => {
-                const quantity = parseFloat(input.value);
-                if (isNaN(quantity) || quantity <= 0) {
                     input.classList.add('is-invalid');
                     isValid = false;
                 }
@@ -254,7 +231,6 @@ $conn->close();
             return isValid;
         }
 
-        // 
         document.getElementById('addItemForm').addEventListener('submit', function(event) {
             if (!validateForm()) {
                 event.preventDefault(); // Prevent form submission if validation fails
