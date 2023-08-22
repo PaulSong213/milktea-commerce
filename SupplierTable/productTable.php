@@ -62,7 +62,7 @@
                 <?php
                 $connection = connect();
 
-                $sql = " select supplier_code ,supplier_name, faxNum, createDate, modifiedDate, status from supplier_tb ";
+                $sql = " select * from supplier_tb ";
                 $result = $connection->query($sql);
 
                 while ($row = $result->fetch_assoc()) {
@@ -159,7 +159,7 @@
                         className: 'btn border border-info'
                     },
                     {
-                        text: 'Add Item',
+                        text: 'Add Supplier',
                         className: 'btn btn-primary bg-primary text-white',
                         action: function(e, dt, node, config) {
                             $('#addItemModal').modal('show');
