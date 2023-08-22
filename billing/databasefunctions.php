@@ -7,7 +7,6 @@ $conn = connect();
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
 if (isset($_POST['SaveItem'])) {
     // Retrieve form inputs
     $chargeSlipNumber = $_POST['chargeSlipNumber'];
@@ -58,7 +57,7 @@ if (isset($_POST['SaveItem'])) {
     // Prepare the INSERT query
     $insertQuery = "INSERT INTO sales_tb (ProductInfo, NetSale, AddDisc, AddDiscAmt, NetAmt, AmtTendered, ChangeAmt, PatientAcct, RequestedName, EnteredName, createDate)
                     VALUES ('$productInfoJSON', '$netSale', '$additionalDiscount', '$addDiscAmt', '$netAmount', '$amountTendered', '$change', '$patientAccountName', '$requestedByName', '$enteredByName', NOW())";
-
+    
 
     for ($i = 0; $i < count($product_id); $i++) {
         if (empty($product_id[$i])) continue;
@@ -77,9 +76,7 @@ if (isset($_POST['SaveItem'])) {
         $_SESSION["alert_message_error"] = true;
         header("Location: ../billing/index.php");
         die();
-    }
-
-
+    }          
 
     $result = mysqli_query($conn, $insertQuery);
 
