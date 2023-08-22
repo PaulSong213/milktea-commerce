@@ -53,16 +53,22 @@
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>Item Type Code</th>
-                    <th>Description</th>
-                    <th>Date Added</th>
-                    <th>Modified Date</th>
+                  
+                    <th>Subtotal</th>
+                    <th>Net Sale</th>
+                    <th>Add Disc</th>
+                    <th>Add Disc Amountt</th>
+                    <th>Net Amount</th>
+                    <th>Amt Tendered</th>
+                    <th>Change Amount</th>
+                    <th>Patient Account</th>
+                    <th>Requested Name</th>
+                    <th>Entered Name</th>
                     <th class="action-column">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-<<<<<<< HEAD
                 $servername = "localhost"; //localhost
                 $username = "root"; //username
                 $Password = ""; //password
@@ -70,20 +76,22 @@
 
                 $connection = new mysqli($servername, $username, $Password, $database);
 
-                $sql = "select itemTypeCode, description, createDate, modifiedDate from itemtype_tb ";
-=======
-                require_once '../php/connect.php';
-                $connection = connect();
-                $sql = "select * from itemtype_tb ";
->>>>>>> 0743054e35332a36b55f4655cbcd565947030726
+                $sql = "select * from sales_tb ";
                 $result = $connection->query($sql);
                 while ($row = $result->fetch_assoc()) {
                     echo "
                         <tr>
-                            <td>" . $row["itemTypeCode"] . "</td>
-                            <td>" . $row["description"] . "</td>
-                            <td>" . date("M d, Y h:i", strtotime($row["createDate"])) . "</td>
-                            <td>" . date("M d, Y h:i", strtotime($row["modifiedDate"])) . "</td>
+                           
+                            <td>" . $row["Subtotal"] . "</td>
+                            <td>" . $row["NetSale"] . "</td>
+                            <td>" . $row["AddDisc"] . "</td>
+                            <td>" . $row["AddDiscAmt"] . "</td>
+                            <td>" . $row["NetAmt"] . "</td>
+                            <td>" . $row["AmtTendered"] . "</td>
+                            <td>" . $row["ChangeAmt"] . "</td>
+                            <td>" . $row["PatientAcct"] . "</td>
+                            <td>" . $row["RequestedName"] . "</td>
+                            <td>" . $row["EnteredName"] . "</td>
                             <td class='invisible action-wrapper'>" . json_encode($row) . "</td>
                         </tr>
                         ";
@@ -184,9 +192,7 @@
                                 <li class="mx-2">
                                     <button class=" btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
                                 </li>
-                                <li class="mx-2">
-                                    <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
-                                </li>
+                              
                             </ul>
                         </div>
                         `

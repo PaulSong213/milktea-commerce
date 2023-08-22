@@ -11,9 +11,8 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <title>Supplier</title>
+    <title>Item Type</title>
 </head>
-
 
 <body>
 
@@ -24,7 +23,7 @@
         </div>
         <div class="d-block w-100">
             <?php include('../php/session-dialog.php') ?>
-            <?php include('./productTable.php') ?>
+            <?php include('./table.php') ?>
         </div>
     </div>
     <!-- end of main -->

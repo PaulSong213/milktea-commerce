@@ -63,6 +63,7 @@
             </thead>
             <tbody>
                 <?php
+<<<<<<< HEAD
                 $servername = "localhost"; //localhost
                 $username = "root"; //username
                 $Password = ""; //password
@@ -71,6 +72,11 @@
                 $connection = new mysqli($servername, $username, $Password, $database);
 
                 $sql = "select lname, fname, mname, age, gender, createDate, modifiedDate from patient_tb";
+=======
+                require_once '../php/connect.php';
+                $connection = connect();
+                $sql = "select * from patient_tb";
+>>>>>>> 0743054e35332a36b55f4655cbcd565947030726
                 $result = $connection->query($sql);
                 while ($row = $result->fetch_assoc()) {
                     echo "

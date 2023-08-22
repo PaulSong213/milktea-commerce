@@ -235,6 +235,7 @@
             } else {
                 // Show the input field
                 phPinInput.show();
+                phPinlabel.show();
             }
         });
     });
