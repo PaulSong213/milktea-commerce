@@ -313,7 +313,14 @@ $conn->close();
             // Clear values of cloned input fields
             const inputFields = newRow.querySelectorAll("input");
             inputFields.forEach(input => {
-                input.value = "";
+                let nextInputValue = "";
+                if (input.getAttribute("name") === "qty[]") {
+                    nextInputValue = "1";
+                }
+                if (input.getAttribute("name") === "disc_percent[]") {
+                    nextInputValue = "0";
+                }
+                input.value = nextInputValue;
             });
             attachInputListeners(newRow); // Add 
 
