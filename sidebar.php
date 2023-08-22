@@ -232,12 +232,10 @@ $sidebarContent = [
                 toggleSidebar();
             });
         });
-
         checkSideBarState();
         window.addEventListener('resize', () => {
             checkSideBarState();
         }, true);
-
         function toggleSidebar() {
             $("#sidebar").toggleClass("active");
             $("#content").toggleClass("active");
@@ -245,7 +243,6 @@ $sidebarContent = [
             $(".company-title").toggleClass("d-none");
             $(".sub-nav-link").toggleClass("transform-scale-small");
         }
-
         function checkSideBarState() {
             var isSideBarOpened = $("#sidebar").hasClass("active");
             if (screen.width <= 768 && !isSideBarOpened) toggleSidebar();
@@ -253,5 +250,4 @@ $sidebarContent = [
         }
     </script>
 </body>
-
 </html>

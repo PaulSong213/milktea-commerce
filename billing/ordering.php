@@ -205,11 +205,8 @@ $conn->close();
             </div>
         </form>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
-
+    <script script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
     <script>
-        
         function validateForm() {
             const form = document.getElementById('addItemForm');
             const inputFields = form.querySelectorAll('.form-control');
@@ -221,30 +218,9 @@ $conn->close();
             });
 
             // Additional validation logic
-            // Check if required fields are empty
+            // Example: Check if required fields are empty
             inputFields.forEach(input => {
                 if (input.hasAttribute('required') && input.value.trim() === '') {
-                    input.classList.add('is-invalid');
-                    isValid = false;
-                }
-            });
-
-            // Validate product ID from datalist
-            const productIDInput = form.querySelectorAll('[name="product_id[]"]');
-            productIDInput.forEach(input => {
-                const datalist = document.getElementById('product_id_list');
-                const validOptions = Array.from(datalist.options).map(option => option.value);
-                if (!validOptions.includes(input.value)) {
-                    input.classList.add('is-invalid');
-                    isValid = false;
-                }
-            });
-
-            // Validate quantity > 0
-            const quantityInputs = form.querySelectorAll('[name="qty[]"]');
-            quantityInputs.forEach(input => {
-                const quantity = parseFloat(input.value);
-                if (isNaN(quantity) || quantity <= 0) {
                     input.classList.add('is-invalid');
                     isValid = false;
                 }
@@ -254,7 +230,6 @@ $conn->close();
             return isValid;
         }
 
-        // 
         document.getElementById('addItemForm').addEventListener('submit', function(event) {
             if (!validateForm()) {
                 event.preventDefault(); // Prevent form submission if validation fails
@@ -268,9 +243,7 @@ $conn->close();
 
         function updateProductInfo(input) {
             var selectedValue = input.value;
-
             var row = input.closest("tr"); // Find the closest <tr> element
-
             var invInput = row.querySelector('[name="inv"]');
             var unitInput = row.querySelector('[name="unit[]"]');
             var priceInput = row.querySelector('[name="price[]"]');
@@ -297,9 +270,12 @@ $conn->close();
                         for (var i = 0; i < datalist.options.length; i++) {
                             if (datalist.options[i].value === selectedValue) {
                                 datalist.options[i].remove();
+                                CalculateValues(row);
                                 break;
                             }
+                            CalculateValues(row);
                         }
+
                         console.log("Response:", response);
                     } else {
                         console.error("Failed to fetch product details");
@@ -348,6 +324,7 @@ $conn->close();
             inputFields.forEach(input => {
                 input.addEventListener("input", function() {
                     CalculateValues(row);
+
                 });
             });
         }
