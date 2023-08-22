@@ -205,9 +205,8 @@ $conn->close();
             </div>
         </form>
     </div>
-    <script script src = "https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js" ></script>
+    <script script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
     <script>
-     
         function validateForm() {
             const form = document.getElementById('addItemForm');
             const inputFields = form.querySelectorAll('.form-control');
@@ -244,9 +243,7 @@ $conn->close();
 
         function updateProductInfo(input) {
             var selectedValue = input.value;
-
             var row = input.closest("tr"); // Find the closest <tr> element
-
             var invInput = row.querySelector('[name="inv"]');
             var unitInput = row.querySelector('[name="unit[]"]');
             var priceInput = row.querySelector('[name="price[]"]');
@@ -273,9 +270,12 @@ $conn->close();
                         for (var i = 0; i < datalist.options.length; i++) {
                             if (datalist.options[i].value === selectedValue) {
                                 datalist.options[i].remove();
+                                CalculateValues(row);
                                 break;
                             }
+                            CalculateValues(row);
                         }
+
                         console.log("Response:", response);
                     } else {
                         console.error("Failed to fetch product details");
@@ -324,6 +324,7 @@ $conn->close();
             inputFields.forEach(input => {
                 input.addEventListener("input", function() {
                     CalculateValues(row);
+
                 });
             });
         }

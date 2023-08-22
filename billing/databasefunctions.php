@@ -72,6 +72,12 @@ if (isset($_POST['SaveItem'])) {
         header("Location: ../billing/index.php");
         die();
     }
+    elseif( $change <1){
+        $_SESSION["alert_message"] = "Please enter the right Tendered Amount.";
+        $_SESSION["alert_message_error"] = true;
+        header("Location: ../billing/index.php");
+        die();
+    }
 
 
 
