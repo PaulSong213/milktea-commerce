@@ -13,10 +13,14 @@ $sidebarContent = [
         "link" => "/billing/index.php", //link of the page
         "navigations" => [
             [
-            "name" => "Billing Statement", //name of the link
-            "link" => "/billingtable/index.php", //link of the page
+                "name" => "Charge NYP/ Billing", //name of the link
+                "link" => "/billing/index.php", //link of the page
             ],
-        ] 
+            [
+                "name" => "Billing Statement", //name of the link
+                "link" => "/billingtable/index.php", //link of the page
+            ],
+        ]
     ],
 
     [
