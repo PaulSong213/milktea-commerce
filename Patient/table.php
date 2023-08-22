@@ -47,7 +47,7 @@
 
 <body>
     <div class="table w-100 p-4">
-        <h2 class="mt-4 mb-5">PATIENTS</h2>
+        <h2 class="mt-4 mb-5">Patients</h2>
         <?php include './add/add.php'; ?>
         <?php include './view/view.php'; ?>
         <table id="example" class="table table-striped" style="width:100%">
@@ -63,20 +63,9 @@
             </thead>
             <tbody>
                 <?php
-<<<<<<< HEAD
-                $servername = "localhost"; //localhost
-                $username = "root"; //username
-                $Password = ""; //password
-                $database = "zaratehospital"; //database
-
-                $connection = new mysqli($servername, $username, $Password, $database);
-
-                $sql = "select lname, fname, mname, age, gender, createDate, modifiedDate from patient_tb";
-=======
                 require_once '../php/connect.php';
                 $connection = connect();
                 $sql = "select * from patient_tb";
->>>>>>> 0743054e35332a36b55f4655cbcd565947030726
                 $result = $connection->query($sql);
                 while ($row = $result->fetch_assoc()) {
                     echo "

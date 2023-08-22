@@ -192,11 +192,11 @@
                             <textarea type="text" id="surgicalHistory" name="surgicalHistory" class="form-control" autocomplete="on"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="activeDiagnosis">Active Diagnosis<span class="text-danger mx-1">*</span></label>
+                            <label class="form-label" for="activeDiagnosis">Active Diagnosis</label>
                             <textarea id="activeDiagnosis" name="activeDiagnosis" class="form-control" autocomplete="on"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="activeMeds">Active Medication<span class="text-danger mx-1">*</span></label>
+                            <label class="form-label" for="activeMeds">Active Medication</label>
                             <textarea class="form-control" id="activeMeds" name="activeMeds" placeholder="Enter description" autocomplete="on"></textarea>
                         </div>
 

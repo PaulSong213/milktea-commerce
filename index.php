@@ -114,7 +114,7 @@
 				// Successful login
 				// You can redirect the user to a dashboard or another page
 				echo '<p class="error">valid credentials. Please try again.</p>';
-				header("Location: ./inventory/index.php");
+				header("Location: ./billing/");
 				exit();
 			} else {
 				// Invalid credentials
