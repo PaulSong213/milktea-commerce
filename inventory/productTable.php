@@ -199,7 +199,7 @@
                     [5, 'asc']
                 ]
             });
-            handleArchiveClick(table, 0, "./edit/archive.php", 6);
+            handleArchiveClick(table, 0, "./edit/archive.php", 7);
             handleEditClick(table);
             handleViewClick(table);
         });

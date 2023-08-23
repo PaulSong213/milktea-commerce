@@ -104,19 +104,19 @@
 			}
 
 			$usernameOrEmail = $_POST['mailuid'];
-			$password = $_POST['pwd'];
+			$inputPassword = $_POST['pwd']; // Password entered by the user
 
 			// Prepare and execute a SELECT query
-			$sql = "SELECT * FROM employee_tb WHERE userName = ? AND password = ?";
+			$sql = "SELECT * FROM employee_tb WHERE userName = ?";
 			$stmt = $conn->prepare($sql);
-			$stmt->bind_param("ss", $usernameOrEmail, $password);
+			$stmt->bind_param("s", $usernameOrEmail);
 			$stmt->execute();
 			$result = $stmt->get_result();
 
 			if ($result->num_rows === 1) {
 				// Successful login
 				$_SESSION['username'] = $usernameOrEmail; // Store user's username in the session
-				header("Location: ./billing/index.php");
+				header("Location: ./billing/");
 				exit();
 			} else {
 				// Invalid credentials
@@ -126,6 +126,7 @@
 			$conn->close();
 		}
 		?>
+
 		<form class="" action="" method="post">
 			<h2>LOGIN FORM</h2>
 			<label for="exampleInputEmail1">Email address</label>
