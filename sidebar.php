@@ -18,15 +18,11 @@ $sidebarContent = [
     [
         "name" => "Billing", //name of the link
         "icon" => "point_of_sale", //material icon name
-        "link" => "/billing_nyp_opd/index.php", //link of the page
+        "link" => "/billing_slip/index.php", //link of the page
         "navigations" => [
             [
-                "name" => "Charge Billing / NYP / OPD", //name of the link
-                "link" => "/billing_nyp_opd/index.php", //link of the page
-            ],
-            [
                 "name" => "Charge Billing / IPD", //name of the link
-                "link" => "/billing_ipd/index.php", //link of the page
+                "link" => "/billing_slip/index.php", //link of the page
             ],
             [
                 "name" => "Billing Statement", //name of the link

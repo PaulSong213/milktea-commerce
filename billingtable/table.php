@@ -193,7 +193,6 @@
                                 <li class="mx-2">
                                     <button class=" btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
                                 </li>
-                              
                             </ul>
                         </div>
                         `
