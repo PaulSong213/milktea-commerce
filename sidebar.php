@@ -99,12 +99,7 @@ $sidebarContent = [
         .session {
             display: flex;
             align-items: center;
-<<<<<<< HEAD
             margin-top: 80px;
-=======
-            margin-top: 100px;
-            bottom:10%;
->>>>>>> 9fa7a40e0cf0e9c127390ccd6700a3bf8a99a366
             /* Align items vertically */
         }
 
