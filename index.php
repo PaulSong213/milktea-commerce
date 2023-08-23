@@ -104,28 +104,38 @@
 			}
 
 			$usernameOrEmail = $_POST['mailuid'];
-			$password = $_POST['pwd'];
+			$inputPassword = $_POST['pwd']; // Password entered by the user
 
 			// Prepare and execute a SELECT query
-			$sql = "SELECT * FROM employee_tb WHERE userName = ? AND password = ?";
+			$sql = "SELECT * FROM employee_tb WHERE userName = ?";
 			$stmt = $conn->prepare($sql);
-			$stmt->bind_param("ss", $usernameOrEmail, $password);
+			$stmt->bind_param("s", $usernameOrEmail);
 			$stmt->execute();
 			$result = $stmt->get_result();
 
 			if ($result->num_rows === 1) {
-				// Successful login
-				$_SESSION['username'] = $usernameOrEmail; // Store user's username in the session
-				header("Location: ./billing/");
-				exit();
+				$row = $result->fetch_assoc();
+				$hashedPasswordFromDatabase = $row['password']; // Fetch the hashed password from the database
+
+				// Verify the input password against the hashed password
+				if (password_verify($inputPassword, $hashedPasswordFromDatabase)) {
+					// Successful login
+					$_SESSION['username'] = $usernameOrEmail; // Store user's username in the session
+					header("Location: ./billing/");
+					exit();
+				} else {
+					// Invalid credentials
+					echo '<p class="error">Invalid credentials. Please try again.</p>';
+				}
 			} else {
-				// Invalid credentials
-				echo '<p class="error">Invalid credentials. Please try again.</p>';
+				// User not found
+				echo '<p class="error">User not found. Please try again.</p>';
 			}
 
 			$conn->close();
 		}
 		?>
+
 		<form class="" action="" method="post">
 			<h2>LOGIN FORM</h2>
 			<label for="exampleInputEmail1">Email address</label>
