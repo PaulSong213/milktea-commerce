@@ -114,22 +114,13 @@
 			$result = $stmt->get_result();
 
 			if ($result->num_rows === 1) {
-				$row = $result->fetch_assoc();
-				$hashedPasswordFromDatabase = $row['password']; // Fetch the hashed password from the database
-
-				// Verify the input password against the hashed password
-				if (password_verify($inputPassword, $hashedPasswordFromDatabase)) {
-					// Successful login
-					$_SESSION['username'] = $usernameOrEmail; // Store user's username in the session
-					header("Location: ./billing/");
-					exit();
-				} else {
-					// Invalid credentials
-					echo '<p class="error">Invalid credentials. Please try again.</p>';
-				}
+				// Successful login
+				$_SESSION['username'] = $usernameOrEmail; // Store user's username in the session
+				header("Location: ./billing/");
+				exit();
 			} else {
-				// User not found
-				echo '<p class="error">User not found. Please try again.</p>';
+				// Invalid credentials
+				echo '<p class="error">Invalid credentials. Please try again.</p>';
 			}
 
 			$conn->close();
