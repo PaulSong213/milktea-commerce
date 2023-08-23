@@ -92,7 +92,7 @@ $sidebarContent = [
         .session {
             display: flex;
             align-items: center;
-            margin-top: 100px;
+            margin-top: 80px;
             /* Align items vertically */
         }
 
@@ -257,8 +257,6 @@ $sidebarContent = [
             <i class="material-icons icon">account_circle</i>
             <label class="sessionlabel">
                 <?php include('session.php'); ?></label>
-
-
         </div>
 
 
