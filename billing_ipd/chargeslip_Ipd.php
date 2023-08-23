@@ -42,7 +42,7 @@ $conn->close();
 </head>
 
 <body style="background-color: #dab785;">
-    <div class="container-fluid ">
+    <div class="container-fluid mb-5">
         <form method="POST" action="databasefunctions.php" id="addItemForm" class="container-fluid p-3" autocomplete="off">
             <div class="row text-white mb-4">
                 <h3 class="app-title mt-4 text">CHARGE IPD BILLING /PATIENT INFORMATION</h3>
@@ -205,6 +205,7 @@ $conn->close();
                 <button type="button" class="btn btn-primary add-button" id="addRow">ADD PRODUCT</button>
             </div>
         </form>
+        
     </div>
     <script script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
     <script>
@@ -310,7 +311,7 @@ $conn->close();
         }
         // Function to add a new row
         function addRow() {
-
+            window.scrollTo(0, document.body.scrollHeight);
             const templateRow = document.querySelector('[name="templateRow"]');
             const newRow = templateRow.cloneNode(true);
             newRow.removeAttribute("style"); // Show the cloned row

@@ -42,7 +42,7 @@ $conn->close();
 </head>
 
 <body style="background-color: #175676;">
-    <div class="container-fluid ">
+    <div class="container-fluid mb-5">
         <form method="POST" action="databasefunctions.php" id="addItemForm" class="container-fluid p-3" autocomplete="off">
             <div class="row text-white mb-4">
                 <h3 class="app-title mt-4 text">CHARGE NYP/OPD BILLING PATIENT INFORMATION</h3>
@@ -306,7 +306,7 @@ $conn->close();
         }
         // Function to add a new row
         function addRow() {
-
+            window.scrollTo(0, document.body.scrollHeight);
             const templateRow = document.querySelector('[name="templateRow"]');
             const newRow = templateRow.cloneNode(true);
             newRow.removeAttribute("style"); // Show the cloned row
