@@ -22,7 +22,7 @@
             <?php include('../sidebar.php') ?>
         </div>
         <div class="d-block w-100">
-            <?php include('./ordering.php') ?>
+            <?php include('./chargeslip_ipd.php') ?>
             <?php include('../php/session-dialog.php') ?>
             <?php include('./templates/charge-slip.php') ?>
         </div>

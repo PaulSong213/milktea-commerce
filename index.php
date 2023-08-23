@@ -116,7 +116,7 @@
 			if ($result->num_rows === 1) {
 				// Successful login
 				$_SESSION['username'] = $usernameOrEmail; // Store user's username in the session
-				header("Location: ./billing/");
+				header("Location: ./billing/index.php");
 				exit();
 			} else {
 				// Invalid credentials

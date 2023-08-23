@@ -8,14 +8,25 @@ $sidebarContent = [
         "link" => "/dashboard/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
     ],
+
+    [
+        "name" => "Patient Admission", //name of the link
+        "icon" => "local_hospital", //material icon name 
+        "link" => "/patient_admission/index.php", //link of the page
+        "navigations" => [] //list of links on dropdown
+    ],
     [
         "name" => "Billing", //name of the link
         "icon" => "point_of_sale", //material icon name
-        "link" => "/billing/index.php", //link of the page
+        "link" => "/billing_nyp_opd/index.php", //link of the page
         "navigations" => [
             [
-                "name" => "Charge NYP/ Billing", //name of the link
-                "link" => "/billing/index.php", //link of the page
+                "name" => "Charge Billing / NYP / OPD", //name of the link
+                "link" => "/billing_nyp_opd/index.php", //link of the page
+            ],
+            [
+                "name" => "Charge Billing / IPD", //name of the link
+                "link" => "/billing_ipd/index.php", //link of the page
             ],
             [
                 "name" => "Billing Statement", //name of the link
@@ -93,6 +104,7 @@ $sidebarContent = [
             display: flex;
             align-items: center;
             margin-top: 100px;
+            bottom:10%;
             /* Align items vertically */
         }
 
@@ -253,9 +265,9 @@ $sidebarContent = [
             }
             ?>
         </ul>
-        <div class="session">
+        <div class="session position-absolute">
             <i class="material-icons icon">account_circle</i>
-            <label class="sessionlabel">
+            <label class="sessionlabel mt-2">
                 <?php include('session.php'); ?></label>
 
 
