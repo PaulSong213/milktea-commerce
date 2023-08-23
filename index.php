@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>Login Page</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -85,6 +86,8 @@
 	<div class="login-container">
 		<img src="img/logo.png" alt="Logo" class="logo">
 		<?php
+		session_start(); // Start or resume the session
+
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			// Database connection parameters
 			$servername = "localhost";
@@ -101,24 +104,22 @@
 			}
 
 			$usernameOrEmail = $_POST['mailuid'];
-			$password = $_POST['pwd'];
+			$inputPassword = $_POST['pwd']; // Password entered by the user
 
 			// Prepare and execute a SELECT query
-			$sql = "SELECT * FROM employee_tb WHERE userName = ? AND password = ?";
+			$sql = "SELECT * FROM employee_tb WHERE userName = ?";
 			$stmt = $conn->prepare($sql);
-			$stmt->bind_param("ss", $usernameOrEmail, $password);
+			$stmt->bind_param("s", $usernameOrEmail);
 			$stmt->execute();
 			$result = $stmt->get_result();
 
 			if ($result->num_rows === 1) {
 				// Successful login
-				// You can redirect the user to a dashboard or another page
-				echo '<p class="error">valid credentials. Please try again.</p>';
+				$_SESSION['username'] = $usernameOrEmail; // Store user's username in the session
 				header("Location: ./billing/");
 				exit();
 			} else {
 				// Invalid credentials
-				// You can display an error message
 				echo '<p class="error">Invalid credentials. Please try again.</p>';
 			}
 
@@ -132,7 +133,9 @@
 			<input type="text" class="form-control" id="exampleInputEmail1" name="mailuid" placeholder="Username/Email..." required>
 			<label for="exampleInputPassword1">Password</label>
 			<input type="password" class="form-control" id="exampleInputPassword1" name="pwd" placeholder="Password..." required>
+			<input type="hidden" name="depart" class="form-control" id="department"></input>
 			<button type="submit" class="btn btn-primary" name="login-submit">Login</button>
+
 		</form>
 	</div>
 </body>

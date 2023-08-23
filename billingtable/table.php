@@ -77,8 +77,8 @@
                 $sql = "SELECT * FROM sales_tb";
 
                 $result = $conn->query($sql);
-                    while ($row = $result->fetch_assoc()) {
-                        echo "
+                while ($row = $result->fetch_assoc()) {
+                    echo "
                             <tr>                        
                                 <td>" . $row["ProductInfo"] . "</td>
                                 <td>" . $row["NetSale"] . "</td>
@@ -93,9 +93,9 @@
                                 <td class='invisible action-wrapper'>" . json_encode($row) . "</td>
                             </tr>
                             ";
-                    }
-                          $conn->close();
-                    ?> 
+                }
+                $conn->close();
+                ?>
 
 
             </tbody>

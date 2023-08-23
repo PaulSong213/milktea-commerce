@@ -1,4 +1,5 @@
 <?php
+
 // get icons here -> https://mui.com/material-ui/material-icons/
 $sidebarContent = [
     [
@@ -7,14 +8,25 @@ $sidebarContent = [
         "link" => "/dashboard/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
     ],
+
+    [
+        "name" => "Patient Admission", //name of the link
+        "icon" => "local_hospital", //material icon name 
+        "link" => "/patient_admission/index.php", //link of the page
+        "navigations" => [] //list of links on dropdown
+    ],
     [
         "name" => "Billing", //name of the link
         "icon" => "point_of_sale", //material icon name
-        "link" => "/billing/index.php", //link of the page
+        "link" => "/billing_nyp_opd/index.php", //link of the page
         "navigations" => [
             [
-                "name" => "Charge NYP/ Billing", //name of the link
-                "link" => "/billing/index.php", //link of the page
+                "name" => "Charge Billing / NYP / OPD", //name of the link
+                "link" => "/billing_nyp_opd/index.php", //link of the page
+            ],
+            [
+                "name" => "Charge Billing / IPD", //name of the link
+                "link" => "/billing_ipd/index.php", //link of the page
             ],
             [
                 "name" => "Billing Statement", //name of the link
@@ -22,6 +34,7 @@ $sidebarContent = [
             ],
         ]
     ],
+
     [
         "name" => "Employee", //name of the link
         "icon" => "badge", //material icon name
@@ -58,6 +71,7 @@ $sidebarContent = [
         ] //list of links on dropdown
     ],
 
+
 ]
 ?>
 
@@ -86,11 +100,25 @@ $sidebarContent = [
             width: 70px;
         }
 
+        .session {
+            display: flex;
+            align-items: center;
+<<<<<<< HEAD
+            margin-top: 80px;
+=======
+            margin-top: 100px;
+            bottom:10%;
+>>>>>>> 9fa7a40e0cf0e9c127390ccd6700a3bf8a99a366
+            /* Align items vertically */
+        }
+
         #content {
             width: calc(100% - 260px);
             margin-left: 260px;
             transition: all 0.3s;
         }
+
+
 
         #content.active {
             margin-left: 40px;
@@ -100,6 +128,13 @@ $sidebarContent = [
             padding: 20px;
             background-color: #fff;
             border-bottom: 1px solid #eee;
+        }
+
+        .icon {
+            margin-left: 20px;
+            margin-top: 3px;
+
+            /* Add some space between icon and text */
         }
 
         .sidebar-header h3 {
@@ -162,6 +197,29 @@ $sidebarContent = [
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+
+        @media (max-width: 600px) {
+            .session {
+                flex-direction: column;
+                /* Stack items vertically */
+                align-items: flex-start;
+                /* Align items to the left */
+                text-align: center;
+                /* Center text */
+            }
+
+            .icon {
+                margin-right: 0;
+                /* Reset margin for icon */
+                margin-bottom: 5px;
+                /* Add spacing below icon */
+            }
+
+            span {
+                font-size: 14px;
+                /* Adjust font size for smaller screens */
+            }
+        }
     </style>
 </head>
 
@@ -211,11 +269,22 @@ $sidebarContent = [
             }
             ?>
         </ul>
+        <div class="session position-absolute">
+            <i class="material-icons icon">account_circle</i>
+            <label class="sessionlabel mt-2">
+                <?php include('session.php'); ?></label>
+        </div>
+
+
+
+
+
         <div>
             <button class="btn btn-primary rounded-circle position-fixed p-3 bottom-0 start-0 m-4 d-flex justify-content-center align-items-center" id="toggleSidebar">
                 <span class="material-icons" id="sidebar-icon">table_rows</span>
             </button>
         </div>
+
     </nav>
 
     <div class="container-fluid" id="content">
@@ -236,18 +305,23 @@ $sidebarContent = [
         window.addEventListener('resize', () => {
             checkSideBarState();
         }, true);
+
         function toggleSidebar() {
             $("#sidebar").toggleClass("active");
             $("#content").toggleClass("active");
             $(".link-name").toggleClass("d-none");
+            $(".sessionlabel").toggleClass("d-none");
             $(".company-title").toggleClass("d-none");
             $(".sub-nav-link").toggleClass("transform-scale-small");
         }
+
         function checkSideBarState() {
             var isSideBarOpened = $("#sidebar").hasClass("active");
             if (screen.width <= 768 && !isSideBarOpened) toggleSidebar();
             if (screen.width > 768 && isSideBarOpened) toggleSidebar();
         }
     </script>
+
 </body>
+
 </html>
