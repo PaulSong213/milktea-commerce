@@ -222,7 +222,7 @@
                     [5, 'asc']
                 ],
             });
-            handleArchiveClick(table, 0, "./edit/archive.php", "Status");
+            handleArchiveClick(table, "itemTypeCode", "./edit/archive.php", "Status");
             handleEditClick(table);
             handleViewClick(table);
 

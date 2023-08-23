@@ -35,21 +35,26 @@ $conn->close();
     <title>Ordering System</title>
     <!-- Add this to your HTML <head> section -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
-
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+    </style>
 
 </head>
 
-<body>
-    <div class="container-fluid bg-dark">
+<body style="background-color: #dab785;">
+    <div class="container-fluid mb-5">
         <form method="POST" action="databasefunctions.php" id="addItemForm" class="container-fluid p-3" autocomplete="off">
-            <div class="row bg-dark text-white mb-4">
-                <h3 class="app-title mt-4 text">CHARGE NYP/PATIENT INFORMATION</h3>
+            <div class="row text-white mb-4">
+                <h3 class="app-title mt-4 text">CHARGE IPD BILLING /PATIENT INFORMATION</h3>
                 <div class="col-md-6 p-4">
                     <div class="row">
                         <div class="form-group fw-bold">
                             <label for="chargeSlipNumber">Charge Slip Number</label>
                             <input type="text" class="form-control text-light bg-secondary" name="chargeSlipNumber" placeholder="Enter Charge Slip Number" required value="<?php echo "00" . ($lastSalesID + 1); ?>" readonly>
+                        </div>
+                        <div class="form-group fw-bold">
+                            <label for="chargeSlipNumber">Billing Number</label>
+                            <input type="text" class="form-control text-light " name="billingnumber" placeholder="Enter Billing Number" required value="">
                         </div>
                         <div class="form-group was-validated">
                             <label for="patientAccountName">Patient Account Code</label>
@@ -188,7 +193,7 @@ $conn->close();
                                 <td><input type="text" class="form-control text-light bg-secondary" name="itemType[]" readonly></td>
                                 <td style="display:none"><input type="number" style="display:none" class="form-control text-light bg-secondary" name="id[]" readonly></td>
                                 <td style="display:none"><input type="number" style="display:none" class="form-control text-light bg-secondary" name="itemTypeID[]" readonly></td>
-                                <td><input type="number" class="form-control" name="qty[]" min="1" value="1"></td>
+                                <td><input type="number" class="form-control" name="qty[]" min="1"></td>
                                 <td><input type="number" class="form-control" name="disc_percent[]" min="0" value="0"></td>
                                 <td><input type="number" class="form-control text-light bg-secondary" name="disc_amt[]" readonly></td>
                                 <td><input type="text" class="form-control text-light bg-secondary" name="subtotal[]" readonly></td>
@@ -200,6 +205,7 @@ $conn->close();
                 <button type="button" class="btn btn-primary add-button" id="addRow">ADD PRODUCT</button>
             </div>
         </form>
+        
     </div>
     <script script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
     <script>
@@ -305,7 +311,7 @@ $conn->close();
         }
         // Function to add a new row
         function addRow() {
-
+            window.scrollTo(0, document.body.scrollHeight);
             const templateRow = document.querySelector('[name="templateRow"]');
             const newRow = templateRow.cloneNode(true);
             newRow.removeAttribute("style"); // Show the cloned row
@@ -323,11 +329,9 @@ $conn->close();
                 input.value = nextInputValue;
             });
             attachInputListeners(newRow); // Add 
-
             // Add the new row to the table
             const tbody = document.querySelector("tbody");
             tbody.appendChild(newRow);
-
             attachInputListeners(newRow); // Attach input listeners to the new row
         }
 
@@ -343,7 +347,7 @@ $conn->close();
         // Function to display values and calculate subtotal
         function CalculateValues(row) {
             const price = parseFloat(row.querySelector('[name="price[]"]').value) || 0;
-            const qty = parseFloat(row.querySelector('[name="qty[]"]').value) || 0;
+            const qty = parseFloat(row.querySelector('[name="qty[]"]').value) || 1;
             const discPercent = parseFloat(row.querySelector('[name="disc_percent[]"]').value) || 0;
             const inventory = parseFloat(row.querySelector('[name="inv"]').value) || 0;
             const subtotal = qty * price;
@@ -422,6 +426,5 @@ $conn->close();
         });
     </script>
 </body>
-
 
 </html>
