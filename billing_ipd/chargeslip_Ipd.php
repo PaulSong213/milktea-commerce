@@ -35,21 +35,26 @@ $conn->close();
     <title>Ordering System</title>
     <!-- Add this to your HTML <head> section -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
-
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+    </style>
 
 </head>
 
-<body>
-    <div class="container-fluid bg-dark">
+<body style="background-color: #dab785;">
+    <div class="container-fluid ">
         <form method="POST" action="databasefunctions.php" id="addItemForm" class="container-fluid p-3" autocomplete="off">
-            <div class="row bg-dark text-white mb-4">
-                <h3 class="app-title mt-4 text">CHARGE NYP/PATIENT INFORMATION</h3>
+            <div class="row text-white mb-4">
+                <h3 class="app-title mt-4 text">CHARGE IPD BILLING /PATIENT INFORMATION</h3>
                 <div class="col-md-6 p-4">
                     <div class="row">
                         <div class="form-group fw-bold">
                             <label for="chargeSlipNumber">Charge Slip Number</label>
                             <input type="text" class="form-control text-light bg-secondary" name="chargeSlipNumber" placeholder="Enter Charge Slip Number" required value="<?php echo "00" . ($lastSalesID + 1); ?>" readonly>
+                        </div>
+                        <div class="form-group fw-bold">
+                            <label for="chargeSlipNumber">Billing Number</label>
+                            <input type="text" class="form-control text-light " name="billingnumber" placeholder="Enter Billing Number" required value="">
                         </div>
                         <div class="form-group was-validated">
                             <label for="patientAccountName">Patient Account Code</label>
@@ -323,11 +328,9 @@ $conn->close();
                 input.value = nextInputValue;
             });
             attachInputListeners(newRow); // Add 
-
             // Add the new row to the table
             const tbody = document.querySelector("tbody");
             tbody.appendChild(newRow);
-
             attachInputListeners(newRow); // Attach input listeners to the new row
         }
 
@@ -422,6 +425,5 @@ $conn->close();
         });
     </script>
 </body>
-
 
 </html>

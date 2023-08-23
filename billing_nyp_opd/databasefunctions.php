@@ -34,10 +34,12 @@ if (isset($_POST['SaveItem'])) {
 
     for ($i = 0; $i < count($product_id); $i++) {
         if (empty($product_id[$i])) continue;
+        $qtyValue = ($qty[$i] === null || $qty[$i] <= 0) ? 1 : $qty[$i];
+
         $productInfoArray[] = [
             "subtotal" => $subtotal[$i],
             "product_id" => $product_id[$i],
-            "qty" => $qty[$i],
+            "qty" => $qtyValue,
             "price" => $price[$i],
             "disc_percent" => $disc_percent[$i],
             "disc_amt" => $disc_amt[$i],
@@ -68,12 +70,12 @@ if (isset($_POST['SaveItem'])) {
     if (empty($productInfoArray)) {
         $_SESSION["alert_message"] = "Please fill Product information on the cart.";
         $_SESSION["alert_message_error"] = true;
-        header("Location: ../billing/index.php");
+        header("Location: ../billing_nyp_opd/index.php");
         die();
     } elseif ($change < 0) {
         $_SESSION["alert_message"] = "Please enter the right Tendered Amount.";
         $_SESSION["alert_message_error"] = true;
-        header("Location: ../billing/index.php");
+        header("Location: ../billing_nyp_opd/index.php");
         die();
     }
 
@@ -83,7 +85,7 @@ if (isset($_POST['SaveItem'])) {
     if (!$result) {
         $_SESSION["alert_message"] = "Failed to Add a Billing Statement. Error Details: " . mysqli_error($conn);
         $_SESSION["alert_message_error"] = true;
-        header("Location: ../billing/index.php");
+        header("Location: ../billing_nyp_opd/index.php");
         echo "Error: " . $insertQuery . "<br>" . mysqli_error($conn);
         die();
     }
@@ -97,7 +99,7 @@ if (isset($_POST['SaveItem'])) {
         $productInfo = $productInfoArray[$i];
         $toEditProductID = $productInfo["id"];
         if (empty($toEditProductID)) continue;
-        $qty = $productInfo["qty"] ;
+        $qty = $productInfo["qty"];
         $updateQuery = "UPDATE inventory_tb SET Unit = Unit - ? WHERE InventoryID = ?";
         $stmt = $conn->prepare($updateQuery);
         $stmt->bind_param("ii", $qty, $toEditProductID);
@@ -108,18 +110,16 @@ if (isset($_POST['SaveItem'])) {
             // Handle inventory update error
             $_SESSION["alert_message"] = "Failed to update inventory. Please try again later.";
             $_SESSION["alert_message_error"] = true;
-            header("Location: ../billing/index.php");
+            header("Location: ../billing_nyp_opd/index.php");
             die();
         }
     }
-
-
     $salesSelectQuery =  "SELECT * FROM sales_tb WHERE SalesID=$salesInsertedId";
     $salesSelectQueryResult = $conn->query($salesSelectQuery);
     if (!$salesSelectQueryResult) {
         $_SESSION["alert_message"] = "Failed to Add a Billing Statement. Error Details: " . mysqli_error($conn);
         $_SESSION["alert_message_error"] = true;
-        header("Location: ../billing/index.php");
+        header("Location: ../billing_nyp_opd/index.php");
         die();
     }
     $printData = $salesSelectQueryResult->fetch_assoc();
@@ -130,7 +130,7 @@ if (isset($_POST['SaveItem'])) {
     $_SESSION['printData'] = $printData;
 
     // Redirect after processing
-    header("Location: ../billing/index.php");
+    header("Location: ../billing_nyp_opd/index.php");
     die();
 }
 
