@@ -67,6 +67,21 @@ $sidebarContent = [
             ],
         ] //list of links on dropdown
     ],
+    [
+        "name" => $_SESSION['username'], //name of the link
+        "icon" => "account_circle", //material icon name
+        "link" => "/dashboard/index.php", //link of the page
+        "navigations" => [
+            [
+                "name" => $_SESSION['username'], //name of the link
+                "link" => "/dashboard/index.php", //link of the page
+            ],
+            [
+                "name" => "Log Out", //name of the link
+                "link" => "/index.php", //link of the page
+            ],
+        ] //list of links on dropdown
+    ],
 
 
 ]
@@ -262,18 +277,20 @@ $sidebarContent = [
             }
             ?>
         </ul>
-        <div class="session position-absolute">
+        <<<<<<< HEAD <div class="session position-absolute">
             <i class="material-icons icon">account_circle</i>
             <label class="sessionlabel mt-2">
                 <?php include('session.php'); ?></label>
-        </div>
+            </div>
 
+            =======
+            >>>>>>> 566b995967f3852baa0334d758677a41ee5d690a
 
-        <div>
-            <button class="btn btn-primary rounded-circle position-fixed p-3 bottom-0 start-0 m-4 d-flex justify-content-center align-items-center" id="toggleSidebar">
-                <span class="material-icons" id="sidebar-icon">table_rows</span>
-            </button>
-        </div>
+            <div>
+                <button class="btn btn-primary rounded-circle position-fixed p-3 bottom-0 start-0 m-4 d-flex justify-content-center align-items-center" id="toggleSidebar">
+                    <span class="material-icons" id="sidebar-icon">table_rows</span>
+                </button>
+            </div>
 
     </nav>
 
