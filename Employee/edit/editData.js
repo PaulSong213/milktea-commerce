@@ -1,12 +1,13 @@
 export function handleEditClick(table) {
     
     table.on('click', '.edit-btn', function (e) {
-        const adminModal = $("#AdminPassModal");
-        adminModal.modal('show');
         const addModal = $("#addItemModal");
         let data = JSON.parse($(this).attr("data-item"));
         console.log(data);
 
+         const adminModal = $("#AdminPassModal");
+         adminModal.modal('show');
+       
         const toFillUpDatas = [
             {
                 dataKey: "lname",

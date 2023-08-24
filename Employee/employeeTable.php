@@ -268,7 +268,7 @@
 
 
     <div class="modal fade" id="AdminPassModal" tabindex="2" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-        <form method="Post" action="validateAdmin.php">
+        <form method="Post" action="./edit/validateAdmin.php">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -279,18 +279,19 @@
                         <!-- Your editing content goes here -->
                         <div class="form-group">
                             <b><label for="adminPassword">Administrator Password : </label></b>
-                            <input type="password" class="form-control" id="adminPassword" placeholder="Enter Admin Password" oninput="checkField()">
+                            <input type="password" class="form-control" id="adminPassword" name="adminPassword" placeholder="Enter Admin Password" oninput="checkField()">
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Close</button>
-                        <button type="button" class="btn btn-primary" id="enterPasswordButton" disabled>Enter Admin Password</button>
+                        <button type="submit" class="btn btn-primary" id="enterPasswordButton" disabled>Enter Admin Password</button>
                     </div>
                 </div>
             </div>
         </form>
     </div>
-   
+
+
     <script>
         function openEditModal() {
             $('#AdminPassModal').modal('show'); // Show the modal
