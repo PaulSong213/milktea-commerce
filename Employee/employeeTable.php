@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="path-to-your-bootstrap-css">
+    <script src="path-to-your-bootstrap-js"></script>
 
     <style>
         .dt-button-collection,
@@ -213,6 +215,7 @@
                                 <li class="mx-2">
                                     <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
                                 </li>
+                               
                                   <li class="mx-2">
                                     <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>
                                 </li>
@@ -228,8 +231,9 @@
                 ]
             });
             handleArchiveClick(table, 1, "./edit/archive.php", 6);
-            handleEditClick(table);
+            handleEditClick(table, $('#editModal'));
             handleViewClick(table);
+
         });
     </script>
     <script type="text/javascript">
@@ -261,6 +265,59 @@
             $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
         });
     </script>
+
+
+    <div class="modal fade" id="AdminPassModal" tabindex="2" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <form method="Post" action="validateAdmin.php">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Requires Admin Permission</h5>
+
+                    </div>
+                    <div class="modal-body">
+                        <!-- Your editing content goes here -->
+                        <div class="form-group">
+                            <b><label for="adminPassword">Administrator Password : </label></b>
+                            <input type="password" class="form-control" id="adminPassword" placeholder="Enter Admin Password" oninput="checkField()">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Close</button>
+                        <button type="button" class="btn btn-primary" id="enterPasswordButton" disabled>Enter Admin Password</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+   
+    <script>
+        function openEditModal() {
+            $('#AdminPassModal').modal('show'); // Show the modal
+        }
+
+        // Close the modal when the "Close" button is clicked
+        document.getElementById('closeModalButton').addEventListener('click', function() {
+            $('#AdminPassModal').modal('hide'); // Hide the modal
+        });
+
+
+        function closeEditModal() {
+            $('#AdminPassModal').modal('hide'); // Show the modal
+        }
+
+        function checkField() {
+            var passwordField = document.getElementById('adminPassword');
+            var enterButton = document.getElementById('enterPasswordButton');
+
+            if (passwordField.value.trim() !== '') {
+                enterButton.disabled = false;
+            } else {
+                enterButton.disabled = true;
+            }
+        }
+    </script>
+
 </body>
 
 </html>
