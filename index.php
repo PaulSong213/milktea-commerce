@@ -116,12 +116,13 @@
 			if ($result->num_rows === 1) {
 				// Successful login
 				$_SESSION['username'] = $usernameOrEmail; // Store user's username in the session
-				header("Location: ./billing/");
+				header("Location: ./billing_ipd/index.php ");
 				exit();
 			} else {
 				// Invalid credentials
 				echo '<p class="error">Invalid credentials. Please try again.</p>';
 			}
+			
 
 			$conn->close();
 		}
