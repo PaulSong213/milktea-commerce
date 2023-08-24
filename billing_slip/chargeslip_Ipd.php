@@ -3,7 +3,6 @@
 <?php
 require_once '../php/connect.php';
 $conn = connect();
-session_start(); // Start the session
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
