@@ -79,6 +79,7 @@ export function handleEditClick(table) {
         headerTitle.text("Edit Employee");
 
         const addItemForm = $("#addItemForm");
+        
         addItemForm.attr("action", "./edit/editfunction.php");
         addItemForm.append(`<input type="hidden" name="item_id" value="${data['DatabaseID']}">`);
 

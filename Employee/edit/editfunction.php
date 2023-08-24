@@ -6,6 +6,9 @@ $conn = connect();
 if (isset($_POST['SaveItem'])) {
 
 
+
+
+
     $lname = $_POST['employee_lname'];
     $fname = $_POST['employee_fname'];
     $mname = $_POST['employee_mname'];
@@ -20,6 +23,14 @@ if (isset($_POST['SaveItem'])) {
     $email = $_POST['email'];
     $password = $_POST['Password'];
     $item_id = $_POST['item_id'];
+
+    $passwordAdmin = $_POST['passwordAdmin'];
+
+    $sql2 = "SELECT * FROM employee_tb 
+      
+    WHERE
+        password = '$';
+    ";
 
     $sql = "UPDATE employee_tb
     SET
@@ -40,6 +51,12 @@ if (isset($_POST['SaveItem'])) {
     WHERE
         DatabaseID = '$item_id';
     ";
+
+
+
+
+
+
 
     $result = mysqli_query($conn, $sql);
     if ($result) {
