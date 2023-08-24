@@ -70,7 +70,22 @@ $sidebarContent = [
             ],
         ] //list of links on dropdown
     ],
-
+    [
+        "name" => $_SESSION['username'], //name of the link
+        "icon" => "account_circle",//material icon name
+        "link" => "/dashboard/index.php", //link of the page
+        "navigations" => [
+            [
+                "name" =>$_SESSION['username'], //name of the link
+                "link" => "/dashboard/index.php", //link of the page
+            ],
+            [
+                "name" => "Log Out", //name of the link
+                "link" => "/index.php", //link of the page
+            ],
+        ] //list of links on dropdown
+    ],
+   
 
 ]
 ?>
@@ -103,12 +118,8 @@ $sidebarContent = [
         .session {
             display: flex;
             align-items: center;
-<<<<<<< HEAD
-            margin-top: 80px;
-=======
             margin-top: 100px;
             bottom:10%;
->>>>>>> 9fa7a40e0cf0e9c127390ccd6700a3bf8a99a366
             /* Align items vertically */
         }
 
@@ -269,15 +280,6 @@ $sidebarContent = [
             }
             ?>
         </ul>
-        <div class="session position-absolute">
-            <i class="material-icons icon">account_circle</i>
-            <label class="sessionlabel mt-2">
-                <?php include('session.php'); ?></label>
-        </div>
-
-
-
-
 
         <div>
             <button class="btn btn-primary rounded-circle position-fixed p-3 bottom-0 start-0 m-4 d-flex justify-content-center align-items-center" id="toggleSidebar">

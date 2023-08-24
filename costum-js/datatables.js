@@ -17,6 +17,32 @@ export function searchColumn(api) {
             cell.hide();
             // TODO: add a working search by column
         });
+    $("#example_filter").html(`
+            <div class="d-flex justify-content-end">
+                <input class="form-control" type="search" id="searchInput" placeholder="Search...">
+                <button class="btn btn-primary mx-1" id="searchButton">Search</button>
+            </div>
+        `);
+    $('#searchButton').on('click', function () {
+        const searchValue = $('#searchInput').val();
+        api.search(searchValue).draw();
+    });
+
+    // Input keyup event handler
+    $('#searchInput').on('keyup', function (event) {
+        if (event.key === 'Enter') {
+            // If Enter key is pressed, trigger the search
+            const searchValue = $(this).val();
+            api.search(searchValue).draw();
+        } else if ($(this).val() === '') {
+            // If input value is empty, trigger the search
+            api.search('').draw();
+        }
+    });
+
+    $('#searchInput').on('search', function () {
+        api.search('').draw();
+    });
 }
 
 /**
@@ -33,13 +59,13 @@ export function handleArchiveClick(table, titleIndex, apiEndpoint, statusIndex) 
     table.on('click', '.archive-btn', function (e) {
 
         const id = e.target.id;
-        console.log(id)
         // Get the data for the row that was clicked on
         let data = table.row(e.target.closest('tr')).data();
+        console.log(data)
         const status = data[statusIndex];
         console.log(status);
-        const action = status.includes("Active") ? "Archive" : "Unarchive";
-        const actionColor = status.includes("Active") ? "btn-danger" : "btn-success";
+        const action = status.includes("1") ? "Archive" : "Unarchive";
+        const actionColor = status.includes("1") ? "btn-danger" : "btn-success";
         // Get the title for the row that was clicked on
         let title = data[titleIndex] || "Data";
         // Open a sweet alert to confirm the action
@@ -74,10 +100,20 @@ function renderArchiveButton(table, statusIndex) {
     $('.archive-btn').each(function (i, e) {
         let data = table.row(e.closest('tr')).data();
         let statusElement = data[statusIndex];
-        let isActive = statusElement.includes("Active");
+        let isActive = statusElement.includes("1");
         $(this).text(isActive ? 'Archive' : 'Unarchive');
         $(this).addClass(isActive ? 'bg-secondary' : 'btn-success');
         $(this).closest('td').removeClass('invisible');
     });
     handleArchiveUIonRedraw(table, statusIndex);
+}
+
+export function toFormattedDate(date) {
+    const inputDate = new Date(date);
+    const months = [
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    const formattedDate = `${months[inputDate.getMonth()]} ${inputDate.getDate()}, ${inputDate.getFullYear()} ${inputDate.getHours()}:${inputDate.getMinutes()}`;
+    return formattedDate;
 }
