@@ -60,183 +60,187 @@ $lastSalesID = getLastSalesID($conn);
 </head>
 
 <body class="fluid bg-dark" style="background-color: black;">
-        <form method="POST" action="databasefunctions.php" id="addItemForm" class="container-fluid p-3" autocomplete="off">
-            <div class="row text-white mb-4">
-                <h3 class="app-title mt-4 text">CHARGE IPD BILLING /PATIENT INFORMATION</h3>
-                <div class="col-md-6 p-4">
-                    <div class="row">
-                        <div class="form-group fw-bold">
-                            <label for="chargeSlipNumber">Charge Slip Number</label>
-                            <input type="text" class="form-control text-light bg-secondary" name="chargeSlipNumber" placeholder="Enter Charge Slip Number" required value="<?php echo "00" . ($lastSalesID + 1); ?>" readonly>
-                        </div>
-                        <!-- <div class="form-group fw-bold">
+    <form method="POST" action="databasefunctions.php" id="addItemForm" class="container-fluid p-3" autocomplete="off">
+        <div class="row text-white mb-4">
+            <h3 class="app-title mt-4 text">CHARGE IPD BILLING /PATIENT INFORMATION</h3>
+            <div class="col-md-6 p-4">
+                <div class="row">
+                    <div class="form-group fw-bold">
+                        <label for="chargeSlipNumber">Charge Slip Number</label>
+                        <input type="text" class="form-control text-light bg-secondary" name="chargeSlipNumber" placeholder="Enter Charge Slip Number" required value="<?php echo "00" . ($lastSalesID + 1); ?>" readonly>
+                    </div>
+                    <!-- <div class="form-group fw-bold">
                             <label for="chargeSlipNumber">Billing Number</label>
                             <input type="text" class="form-control text-light " name="billingnumber" placeholder="Enter Billing Number" required value="">
                         </div> -->
-                        <div class="form-group row">
-                            <div class="form-group col-md-6 was-validated ">
-                                <label for="patientAccountName">Patient Account Code</label>
-                                <input type="text" class="form-control" name="patientAccountName" list="patientAccountName" placeholder="Enter Patient Account Name" required>
-                                <datalist id="patientAccountName">
+                    <div class="form-group row">
+                        <div class="form-group col-md-6 was-validated ">
+                            <label for="patientAccountName">Patient Account Code</label>
+                            <input type="text" class="form-control" name="patientAccountName" list="patientAccountName" placeholder="Enter Patient Account Name" required>
+                            <datalist id="patientAccountName">
+                                <?php
+                                require_once '../php/connect.php';
+                                $conn = connect();
+                                if ($conn->connect_error) {
+                                    die("Connection failed: " . $conn->connect_error);
+                                }
+                                $query = "SELECT fname , lname , mname , hospistalrecordNo FROM patient_tb";
+                                $result = $conn->query($query);
+                                while ($row = $result->fetch_assoc()) {
+
+                                    $hospistalrecordNo = $row['hospistalrecordNo'];
+                                    $fname = $row['fname'];
+                                    $lname = $row['lname'];
+                                    $mname = $row['mname'];
+                                    $fullName = $lname . ',' . $fname . ' ' . $mname . ' | ID: ' . $hospistalrecordNo;
+
+                                    echo "<option value='$fullName'>$fullName</option>";
+                                }
+                                $conn->close();
+                                ?>
+
+                            </datalist>
+                            <div class="invalid-feedback">Please enter the patient account code.</div>
+                        </div>
+                        <div class="col-md-3 d-flex align-items-center justify-content-center">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="opdRadio" name="patientAccountType" value="OPD" required>
+                                <label class="form-check-label" for="opdRadio">OPD</label>
+                                <div class="invalid-feedback">Please select a patient type.</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 d-flex align-items-center justify-content-center">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="ipdRadio" name="patientAccountType" value="IPD" required>
+                                <label class="form-check-label" for="ipdRadio">IPD</label>
+                                <div class="invalid-feedback">Please select a patient type.</div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group was-validated">
+                        <label for="requestedByName">Requested By: </label>
+                        <input type="text" class="form-control" name="requestedByName" list="requestedByName" placeholder="Enter Requested By Name" required>
+                        <datalist id="requestedByName">
+                            <?php
+                            require_once '../php/connect.php';
+                            $conn = connect();
+                            $query = "SELECT title, position,fname , lname , mname, databaseID FROM employee_tb";
+                            $result = $conn->query($query);
+                            while ($row = $result->fetch_assoc()) {
+                                $databaseID = $row['databaseID'];
+                                $title = $row['title'];
+                                $position = $row['position'];
+                                $fname = $row['fname'];
+                                $lname = $row['lname'];
+                                $mname = $row['mname'];
+                                $Outputvalue = $title . '. ' . $lname . ',' . $fname . ' ' . $mname . ' | ' . $position . ' | ' . $databaseID;
+                                echo "<option value='$Outputvalue'>$Outputvalue</option>";
+                            }
+                            $conn->close();
+                            ?>
+                        </datalist>
+                        <div class="invalid-feedback">Please enter the requested by name.</div>
+
+                    </div>
+                    <div class="form-group was-validated">
+                        <label for="enteredByName">Entered By: </label>
+                        <input type="text" class="form-control" name="enteredByName" placeholder="Enter Entered By Name" value="<?php echo $employeeReference; ?>" required>
+                        <div class="invalid-feedback">Please enter the entered by name.</div>
+                    </div>
+                    <h3 class="app-title mt-4 text">PRODUCT CART:</h3>
+                </div>
+
+            </div>
+            <!-- Right Section -->
+            <div class="col-md-6 p-4">
+                <!-- Additional Info Section -->
+                <div class="form-group fw-bold">
+                    <label for="netSale">Net Sale</label>
+                    <input type="text" class="form-control text-light bg-secondary" name="netSale" readonly value="0.00">
+                </div>
+                <div class="form-group was-validated">
+                    <label for="additionalDiscount">Additional Discount (%)</label>
+                    <input type="number" class="form-control" name="additionalDiscount" min="0" value="0" required>
+                    <div class="invalid-feedback">Please enter a valid discount percentage.</div>
+                </div>
+                <div class="form-group fw-bold">
+                    <label for="netAmount">Net Amount</label>
+                    <input type="text" class="form-control text-light bg-secondary " name="netAmount" readonly value="0.00">
+                </div>
+                <div class="form-group was-validated">
+                    <label for="amountTendered">Amount Tendered</label>
+                    <input type="number" class="form-control" name="amountTendered" min="0" required>
+                    <div class="invalid-feedback">Please enter a valid amount tendered.</div>
+                </div>
+                <div class="form-group fw-bold">
+                    <label for="change">Change</label>
+                    <input type="text" class="form-control text-light bg-secondary" name="change" readonly value="0.00" min="0">
+                </div>
+                <button type="submit" class="btn btn-primary add-button" name="SaveItem">Save Transaction</button>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <div class="table-responsive p-2">
+                <table class="table table-bordered wide-table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Product Code</th>
+                            <th>Inventory</th>
+                            <th>Unit</th>
+                            <th>Price</th>
+                            <th>Item Type</th>
+                            <th style="display:none">ID</th>
+                            <th style="display:none">itemTypeID</th>
+                            <th>Quantity</th>
+                            <th>Discount %</th>
+                            <th>Discount Amount</th>
+                            <th>Sub-Total</th>
+                            <th>action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr name="templateRow" style="display: none;">
+                            <td>
+                                <input autocomplete="off" class="form-control" list="product_id_list" id="product_id_input" name="product_id[]" onchange="updateProductInfo(this)" />
+                                <datalist id="product_id_list">
                                     <?php
                                     require_once '../php/connect.php';
                                     $conn = connect();
                                     if ($conn->connect_error) {
                                         die("Connection failed: " . $conn->connect_error);
                                     }
-                                    $query = "SELECT fname , lname , mname , hospistalrecordNo FROM patient_tb";
+                                    $query = "SELECT inventory_tb.itemCode, itemtype_tb.itemTypeCode FROM inventory_tb LEFT JOIN itemtype_tb ON inventory_tb.itemTypeID = itemtype_tb.itemTypeID WHERE Status = 1  ";
                                     $result = $conn->query($query);
                                     while ($row = $result->fetch_assoc()) {
-
-                                        $hospistalrecordNo = $row['hospistalrecordNo'];
-                                        $fname = $row['fname'];
-                                        $lname = $row['lname'];
-                                        $mname = $row['mname'];
-                                        $fullName = $lname . ',' . $fname . ' ' . $mname . ' | ID: ' . $hospistalrecordNo;
-
-                                        echo "<option value='$fullName'>$fullName</option>";
+                                        $itemCode = $row['itemCode'];
+                                        $itemTypeCode = $row['itemTypeCode'];
+                                        echo "<option value='$itemCode'>$itemTypeCode</option>";
                                     }
                                     $conn->close();
                                     ?>
-                                    
                                 </datalist>
-                                <div class="invalid-feedback">Please enter the patient account code.</div>
-                            </div>
-                            <div class="col-md-3 d-flex align-items-center justify-content-center">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="opdCheckbox" name="patientAccountType[]" value="OPD">
-                                    <label class="form-check-label" for="opdCheckbox">OPD</label>
-                                </div>
-                            </div>
-                            <div class="col-md-3 d-flex align-items-center justify-content-center">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="ipdCheckbox" name="patientAccountType[]" value="IPD">
-                                    <label class="form-check-label" for="ipdCheckbox">IPD</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group was-validated">
-                            <label for="requestedByName">Requested By: </label>
-                            <input type="text" class="form-control" name="requestedByName" list="requestedByName" placeholder="Enter Requested By Name" required>
-                            <datalist id="requestedByName">
-                                <?php
-                                require_once '../php/connect.php';
-                                $conn = connect();
-                                $query = "SELECT title, position,fname , lname , mname, databaseID FROM employee_tb";
-                                $result = $conn->query($query);
-                                while ($row = $result->fetch_assoc()) {
-                                    $databaseID = $row['databaseID'];
-                                    $title = $row['title'];
-                                    $position = $row['position'];
-                                    $fname = $row['fname'];
-                                    $lname = $row['lname'];
-                                    $mname = $row['mname'];
-                                    $Outputvalue = $title . '. ' . $lname . ',' . $fname . ' ' . $mname . ' | ' . $position . ' | ' . $databaseID;
-                                    echo "<option value='$Outputvalue'>$Outputvalue</option>";
-                                }
-                                $conn->close();
-                                ?>
-                            </datalist>
-                            <div class="invalid-feedback">Please enter the requested by name.</div>
-
-                        </div>
-                        <div class="form-group was-validated">
-                            <label for="enteredByName">Entered By: </label>
-                            <input type="text" class="form-control" name="enteredByName" placeholder="Enter Entered By Name" value="<?php echo $employeeReference; ?>" required>
-                            <div class="invalid-feedback">Please enter the entered by name.</div>
-                        </div>
-                        <h3 class="app-title mt-4 text">PRODUCT CART:</h3>
-                    </div>
-
-                </div>
-                <!-- Right Section -->
-                <div class="col-md-6 p-4">
-                    <!-- Additional Info Section -->
-                    <div class="form-group fw-bold">
-                        <label for="netSale">Net Sale</label>
-                        <input type="text" class="form-control text-light bg-secondary" name="netSale" readonly value="0.00">
-                    </div>
-                    <div class="form-group was-validated">
-                        <label for="additionalDiscount">Additional Discount (%)</label>
-                        <input type="number" class="form-control" name="additionalDiscount" min="0" value="0" required>
-                        <div class="invalid-feedback">Please enter a valid discount percentage.</div>
-                    </div>
-                    <div class="form-group fw-bold">
-                        <label for="netAmount">Net Amount</label>
-                        <input type="text" class="form-control text-light bg-secondary " name="netAmount" readonly value="0.00">
-                    </div>
-                    <div class="form-group was-validated">
-                        <label for="amountTendered">Amount Tendered</label>
-                        <input type="number" class="form-control" name="amountTendered" min="0" required>
-                        <div class="invalid-feedback">Please enter a valid amount tendered.</div>
-                    </div>
-                    <div class="form-group fw-bold">
-                        <label for="change">Change</label>
-                        <input type="text" class="form-control text-light bg-secondary" name="change" readonly value="0.00" min="0">
-                    </div>
-                    <button type="submit" class="btn btn-primary add-button" name="SaveItem">Save Transaction</button>
-                </div>
+                            </td>
+                            <td><input type="number" class="form-control text-light bg-secondary" readonly name="inv"></td>
+                            <td><input type="text" class="form-control text-light bg-secondary" name="unit[]" readonly></td>
+                            <td><input type="number" class="form-control text-light bg-secondary" name="price[]" readonly step="0.01"></td>
+                            <td><input type="text" class="form-control text-light bg-secondary" name="itemType[]" readonly></td>
+                            <td style="display:none"><input type="number" style="display:none" class="form-control text-light bg-secondary" name="id[]" readonly></td>
+                            <td style="display:none"><input type="number" style="display:none" class="form-control text-light bg-secondary" name="itemTypeID[]" readonly></td>
+                            <td><input type="number" class="form-control" name="qty[]" min="1"></td>
+                            <td><input type="number" class="form-control" name="disc_percent[]" min="0" value="0"></td>
+                            <td><input type="number" class="form-control text-light bg-secondary" name="disc_amt[]" readonly></td>
+                            <td><input type="text" class="form-control text-light bg-secondary" name="subtotal[]" readonly></td>
+                            <td><button class="btn btn-danger btn-sm" onclick="removeRow(this)"> X </button></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-
-            <div class="table-container">
-                <div class="table-responsive p-2">
-                    <table class="table table-bordered wide-table">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>Product Code</th>
-                                <th>Inventory</th>
-                                <th>Unit</th>
-                                <th>Price</th>
-                                <th>Item Type</th>
-                                <th style="display:none">ID</th>
-                                <th style="display:none">itemTypeID</th>
-                                <th>Quantity</th>
-                                <th>Discount %</th>
-                                <th>Discount Amount</th>
-                                <th>Sub-Total</th>
-                                <th>action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr name="templateRow" style="display: none;">
-                                <td>
-                                    <input autocomplete="off" class="form-control" list="product_id_list" id="product_id_input" name="product_id[]" onchange="updateProductInfo(this)" />
-                                    <datalist id="product_id_list">
-                                        <?php
-                                        require_once '../php/connect.php';
-                                        $conn = connect();
-                                        if ($conn->connect_error) {
-                                            die("Connection failed: " . $conn->connect_error);
-                                        }
-                                        $query = "SELECT inventory_tb.itemCode, itemtype_tb.itemTypeCode FROM inventory_tb LEFT JOIN itemtype_tb ON inventory_tb.itemTypeID = itemtype_tb.itemTypeID WHERE Status = 1  ";
-                                        $result = $conn->query($query);
-                                        while ($row = $result->fetch_assoc()) {
-                                            $itemCode = $row['itemCode'];
-                                            $itemTypeCode = $row['itemTypeCode'];
-                                            echo "<option value='$itemCode'>$itemTypeCode</option>";
-                                        }
-                                        $conn->close();
-                                        ?>
-                                    </datalist>
-                                </td>
-                                <td><input type="number" class="form-control text-light bg-secondary" readonly name="inv"></td>
-                                <td><input type="text" class="form-control text-light bg-secondary" name="unit[]" readonly></td>
-                                <td><input type="number" class="form-control text-light bg-secondary" name="price[]" readonly step="0.01"></td>
-                                <td><input type="text" class="form-control text-light bg-secondary" name="itemType[]" readonly></td>
-                                <td style="display:none"><input type="number" style="display:none" class="form-control text-light bg-secondary" name="id[]" readonly></td>
-                                <td style="display:none"><input type="number" style="display:none" class="form-control text-light bg-secondary" name="itemTypeID[]" readonly></td>
-                                <td><input type="number" class="form-control" name="qty[]" min="1"></td>
-                                <td><input type="number" class="form-control" name="disc_percent[]" min="0" value="0"></td>
-                                <td><input type="number" class="form-control text-light bg-secondary" name="disc_amt[]" readonly></td>
-                                <td><input type="text" class="form-control text-light bg-secondary" name="subtotal[]" readonly></td>
-                                <td><button class="btn btn-danger btn-sm" onclick="removeRow(this)"> X </button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <button type="button" class="btn btn-primary add-button" id="addRow">ADD PRODUCT</button>
-            </div>
-        </form>
+            <button type="button" class="btn btn-primary add-button" id="addRow">ADD PRODUCT</button>
+        </div>
+    </form>
     <script script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
     <script>
         function validateForm() {
@@ -306,30 +310,40 @@ $lastSalesID = getLastSalesID($conn);
                 const changeInput = document.querySelector('[name="change"]');
                 const changeValue = parseFloat(changeInput.value);
                 const changeFinalValue = changeValue * -1;
-                const IpdCheckbox = document.querySelector('[id="ipdCheckbox"]');
-                const OpdCheckbox = document.querySelector('[id="opdCheckbox"]');
-
-                if (changeValue < 0 || !IpdCheckbox || !opdCheckbox) {
-                    event.preventDefault();
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Checkbox Error',
-                        text: 'Please fill in any of the checkbox.',
-                    });
-                } else if (changeValue < 0 && !OpdCheckbox) {
+                const ipdRadio = document.querySelector('[id="ipdRadio"]');
+                const opdRadio = document.querySelector('[id="opdRadio"]');
+                if (!ipdRadio.checked && !opdRadio.checked) {
                     event.preventDefault();
                     Swal.fire({
                         icon: 'warning',
-                        title: 'Insufficient tendered Amount',
-                        html: `Click Yes and add the patient information to make this <span style="color: red;">${changeFinalValue}</span> as a balance.`,
-                        showCancelButton: true,
-                        confirmButtonText: 'Yes',
-                        cancelButtonText: 'No'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.open('../Patient/index.php', '_blank');
-                        } else if (result.dismiss === Swal.DismissReason.cancel) {}
+                        title: 'Select Patient Type',
+                        text: 'Please select either IPD or OPD.',
                     });
+                } else if (changeValue < 0) {
+                    if (opdRadio.checked) {
+                        event.preventDefault();
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Insufficient Tendered Amount',
+                            html: `Click Yes to add the patient information and make this <span style="color: red;">${changeFinalValue}</span> the balance.`,
+                            showCancelButton: true,
+                            confirmButtonText: 'Yes',
+                            cancelButtonText: 'No'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.open('../Patient/index.php', '_blank');
+                            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                // User clicked "No"
+                            }
+                        });
+                    } else if (ipdRadio.checked) {
+                        event.preventDefault();
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'IPD Checked',
+                            text: 'Please fill in all required fields.',
+                        });
+                    }
                 }
             }
         });
