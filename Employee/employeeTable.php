@@ -93,7 +93,7 @@
                         <tr>
                            
                             <td>" . $row["lname"] . ", " . $row["fname"] . ", " . $row["mname"] . "</td>
-                            <td>" . $row["department"] . "</td>
+                            <td>" . $row["departmentID"] . "</td>
                             <td>" . $row["position"] . "</td>
                             <td>" . $row["title"] . "</td>
                             <td>" . date("M d, Y h:i", strtotime($row["createDate"])) . "</td>
