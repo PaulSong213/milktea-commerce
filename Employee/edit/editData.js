@@ -1,10 +1,13 @@
 export function handleEditClick(table) {
+    
     table.on('click', '.edit-btn', function (e) {
         const addModal = $("#addItemModal");
-        addModal.modal('show');
         let data = JSON.parse($(this).attr("data-item"));
         console.log(data);
 
+         const adminModal = $("#AdminPassModal");
+         adminModal.modal('show');
+       
         const toFillUpDatas = [
             {
                 dataKey: "lname",
@@ -93,6 +96,11 @@ export function handleEditClick(table) {
                 const toFillUpData = toFillUpDatas[i];
                 $(`[name="${toFillUpData.inputName}"]`).val("");
             }
+        });
+
+        adminModal.on("hidden.bs.modal", function () {
+            
+            addModal.modal('show');
         });
     });
 }
