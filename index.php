@@ -122,6 +122,7 @@
 				// Invalid credentials
 				echo '<p class="error">Invalid credentials. Please try again.</p>';
 			}
+			
 
 			$conn->close();
 		}

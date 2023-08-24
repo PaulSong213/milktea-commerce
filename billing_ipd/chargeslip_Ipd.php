@@ -205,7 +205,7 @@ $conn->close();
                 <button type="button" class="btn btn-primary add-button" id="addRow">ADD PRODUCT</button>
             </div>
         </form>
-        
+
     </div>
     <script script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
     <script>
