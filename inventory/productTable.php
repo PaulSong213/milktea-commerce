@@ -45,6 +45,8 @@
         <?php include './add/add.php'; ?>
         <?php include './view/view.php'; ?>
         <table id="example" class="table table-striped" style="width:100%">
+
+
             <thead>
                 <tr>
                     <th>Item Type</th>
@@ -58,37 +60,6 @@
                     <th class="action-column">Actions</th>
                 </tr>
             </thead>
-            <tbody>
-                <?php
-
-                $connection = connect();
-                $sql = " select * from inventory_tb LEFT JOIN itemtype_tb
-                ON inventory_tb.itemTypeID = itemtype_tb.itemTypeID";
-                $result = $connection->query($sql);
-
-                while ($row = $result->fetch_assoc()) {
-                    $activeStatus = ($row["Status"]  == "1") ? "Active"  : "Inactive"; //condition for status
-                    $statusColor = ($row["Status"]  == "1") ? "alert-success"  : "alert-danger"; //condition for color bg.
-                    echo "
-                        <tr>
-                            <td>" . $row["itemTypeCode"] . "</td>
-                            <td>" . $row["itemCode"] . "</td>
-                            <td>" . (($row["Unit"] !== null) ? $row["Unit"] : 0) . " " . (($row["UnitType"] !== null) ? $row["UnitType"] : 0) . "</td>
-                            <td>" . $row["Generic"] . "</td>
-                            <td>" . $row["SugPrice"] . "</td>
-                            <td>" . date("M d, Y h:i", strtotime($row["createDate"])) . "</td>
-                            <td>" . date("M d, Y h:i", strtotime($row["modifiedDate"])) . "</td>
-                            <td>
-                                <div class='d-flex w-100 h-100 d-flex '>
-                                    <h6 style='font-size: 13px' class='p-1 alert m-auto " . $statusColor . "'>" . $activeStatus . "</h6>
-                                </div>
-                            </td>
-                            <td class='invisible'>" . json_encode($row) . "</td>
-                        </tr>
-                    ";
-                }
-                ?>
-            </tbody>
         </table>
     </div>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
@@ -106,6 +77,7 @@
         import {
             searchColumn,
             handleArchiveClick,
+            toFormattedDate
         } from "../costum-js/datatables.js";
 
         import {
@@ -124,6 +96,83 @@
                 .appendTo('#example thead');
 
             const table = $('#example').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '/Zarate/API/inventory/view.php',
+                    dataType: 'JSON',
+                    type: 'POST',
+                    data: function(d) {
+                        d.draw = d.draw || 1;
+                    }
+                },
+                columns: [{
+                        data: 'itemTypeCode',
+                    },
+                    {
+                        data: 'itemCode'
+                    },
+                    {
+                        data: 'Unit'
+                    },
+                    {
+                        data: 'Generic'
+                    },
+                    {
+                        data: 'SugPrice'
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            return toFormattedDate(data.createDate);
+                        }
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            return toFormattedDate(data.modifiedDate);
+                        }
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            const activeStatus = (data.Status == "1") ? "Active" : "Inactive"; //condition for status
+                            const statusColor = (data.Status == "1") ? "alert-success" : "alert-danger"; //condition for color bg.
+                            return `
+                            <td>
+                                <div class='d-flex w-100 h-100 d-flex '>
+                                    <h6 style='font-size: 13px' class='p-1 alert m-auto ${statusColor}'>${activeStatus} </h6>
+                                </div>
+                            </td>
+                            `
+                        }
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            const id = data.InventoryID;
+                            return `
+                            <div class="dropdown dropstart d-flex">
+                                <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
+                                    <img class="mb-1" src="../img/icons/ellipsis-horizontal.svg">
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="mx-2">
+                                        <button class=" btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
+                                    </li>
+                                    <li class="mx-2">
+                                        <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
+                                    </li>
+                                    <li class="mx-2">
+                                        <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>
+                                    </li>
+                                </ul>
+                            </div>
+                            `
+                        },
+                        "searchable": false
+                    }
+                ],
                 orderCellsTop: true,
                 fixedHeader: true,
                 responsive: true,
@@ -169,39 +218,14 @@
                 initComplete: function() {
                     searchColumn(this.api());
                 },
-                columnDefs: [{
-                    targets: -1,
-                    render: (d) => {
-                        const data = JSON.parse(d);
-                        const id = data.InventoryID;
-                        return `
-                        <div class="dropdown dropstart d-flex">
-                            <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
-                                <img class="mb-1" src="../img/icons/ellipsis-horizontal.svg">
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li class="mx-2">
-                                    <button class=" btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
-                                </li>
-                                <li class="mx-2">
-                                    <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
-                                </li>
-                                <li class="mx-2">
-                                    <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>
-                                </li>
-                            </ul>
-                        </div>
-                        `
-                    },
-                    "searchable": false
-                }],
                 order: [
                     [5, 'asc']
-                ]
+                ],
             });
-            handleArchiveClick(table, 0, "./edit/archive.php", 7);
+            handleArchiveClick(table, "itemTypeCode", "./edit/archive.php", "Status");
             handleEditClick(table);
             handleViewClick(table);
+
         });
     </script>
     <script type="text/javascript">
