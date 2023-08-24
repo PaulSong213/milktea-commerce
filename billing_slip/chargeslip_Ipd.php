@@ -3,11 +3,33 @@
 <?php
 require_once '../php/connect.php';
 $conn = connect();
-
+session_start(); // Start the session
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+$username = $_SESSION['username'];
+
+// Create a function to retrieve the employee reference
+function getEmployeeReference($conn, $username)
+{
+    $escapedUsername = $conn->real_escape_string($username);
+
+    $queryValue = "SELECT title, lname, fname, mname, position AS reference FROM employee_tb WHERE userName = '$escapedUsername'";
+    $result = $conn->query($queryValue);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row['reference'];
+    } else {
+        return 'No Records'; // Return an empty string if no records found
+    }
+}
+
+// Assuming you have a valid database connection in $conn
+$employeeReference = getEmployeeReference($conn, $username);
+
 // Function to get the last SalesID
 function getLastSalesID($conn)
 {
@@ -21,12 +43,9 @@ function getLastSalesID($conn)
         return 0; // If no records found
     }
 }
-
 // Get the last SalesID
 $lastSalesID = getLastSalesID($conn);
 
-// Close the database connection
-$conn->close();
 ?>
 
 <head>
@@ -41,8 +60,7 @@ $conn->close();
 
 </head>
 
-<body style="background-color: #dab785;">
-    <div class="container-fluid mb-5">
+<body class="fluid bg-dark" style="background-color: black;">
         <form method="POST" action="databasefunctions.php" id="addItemForm" class="container-fluid p-3" autocomplete="off">
             <div class="row text-white mb-4">
                 <h3 class="app-title mt-4 text">CHARGE IPD BILLING /PATIENT INFORMATION</h3>
@@ -52,36 +70,51 @@ $conn->close();
                             <label for="chargeSlipNumber">Charge Slip Number</label>
                             <input type="text" class="form-control text-light bg-secondary" name="chargeSlipNumber" placeholder="Enter Charge Slip Number" required value="<?php echo "00" . ($lastSalesID + 1); ?>" readonly>
                         </div>
-                        <div class="form-group fw-bold">
+                        <!-- <div class="form-group fw-bold">
                             <label for="chargeSlipNumber">Billing Number</label>
                             <input type="text" class="form-control text-light " name="billingnumber" placeholder="Enter Billing Number" required value="">
-                        </div>
-                        <div class="form-group was-validated">
-                            <label for="patientAccountName">Patient Account Code</label>
-                            <input type="text" class="form-control" name="patientAccountName" list="patientAccountName" placeholder="Enter Patient Account Name" required>
-                            <datalist id="patientAccountName">
-                                <?php
-                                require_once '../php/connect.php';
-                                $conn = connect();
-                                if ($conn->connect_error) {
-                                    die("Connection failed: " . $conn->connect_error);
-                                }
-                                $query = "SELECT fname , lname , mname , hospistalrecordNo FROM patient_tb";
-                                $result = $conn->query($query);
-                                while ($row = $result->fetch_assoc()) {
+                        </div> -->
+                        <div class="form-group row">
+                            <div class="form-group col-md-6 was-validated ">
+                                <label for="patientAccountName">Patient Account Code</label>
+                                <input type="text" class="form-control" name="patientAccountName" list="patientAccountName" placeholder="Enter Patient Account Name" required>
+                                <datalist id="patientAccountName">
+                                    <?php
+                                    require_once '../php/connect.php';
+                                    $conn = connect();
+                                    if ($conn->connect_error) {
+                                        die("Connection failed: " . $conn->connect_error);
+                                    }
+                                    $query = "SELECT fname , lname , mname , hospistalrecordNo FROM patient_tb";
+                                    $result = $conn->query($query);
+                                    while ($row = $result->fetch_assoc()) {
 
-                                    $hospistalrecordNo = $row['hospistalrecordNo'];
-                                    $fname = $row['fname'];
-                                    $lname = $row['lname'];
-                                    $mname = $row['mname'];
-                                    $fullName = $lname . ',' . $fname . ' ' . $mname . ' | ID: ' . $hospistalrecordNo;
+                                        $hospistalrecordNo = $row['hospistalrecordNo'];
+                                        $fname = $row['fname'];
+                                        $lname = $row['lname'];
+                                        $mname = $row['mname'];
+                                        $fullName = $lname . ',' . $fname . ' ' . $mname . ' | ID: ' . $hospistalrecordNo;
 
-                                    echo "<option value='$fullName'>$fullName</option>";
-                                }
-                                $conn->close();
-                                ?>
-                            </datalist>
-                            <div class="invalid-feedback">Please enter the patient account code.</div>
+                                        echo "<option value='$fullName'>$fullName</option>";
+                                    }
+                                    $conn->close();
+                                    ?>
+                                    
+                                </datalist>
+                                <div class="invalid-feedback">Please enter the patient account code.</div>
+                            </div>
+                            <div class="col-md-3 d-flex align-items-center justify-content-center">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="opdCheckbox" name="patientAccountType[]" value="OPD">
+                                    <label class="form-check-label" for="opdCheckbox">OPD</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3 d-flex align-items-center justify-content-center">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="ipdCheckbox" name="patientAccountType[]" value="IPD">
+                                    <label class="form-check-label" for="ipdCheckbox">IPD</label>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group was-validated">
                             <label for="requestedByName">Requested By: </label>
@@ -110,7 +143,7 @@ $conn->close();
                         </div>
                         <div class="form-group was-validated">
                             <label for="enteredByName">Entered By: </label>
-                            <input type="text" class="form-control" name="enteredByName" placeholder="Enter Entered By Name" required>
+                            <input type="text" class="form-control" name="enteredByName" placeholder="Enter Entered By Name" value="<?php echo $employeeReference; ?>" required>
                             <div class="invalid-feedback">Please enter the entered by name.</div>
                         </div>
                         <h3 class="app-title mt-4 text">PRODUCT CART:</h3>
@@ -205,8 +238,6 @@ $conn->close();
                 <button type="button" class="btn btn-primary add-button" id="addRow">ADD PRODUCT</button>
             </div>
         </form>
-        
-    </div>
     <script script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
     <script>
         function validateForm() {
@@ -228,12 +259,44 @@ $conn->close();
                 }
             });
 
+            // Check if at least one checkbox is checked
+            let isCheckboxChecked = false;
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    isCheckboxChecked = true;
+                }
+            });
+
+            if (!isCheckboxChecked) {
+                isValid = false;
+            }
             // Return true to submit the form if all validations pass
             return isValid;
         }
 
+
         document.getElementById('addItemForm').addEventListener('submit', function(event) {
-            if (!validateForm()) {
+            // Validate the form
+            const form = event.target;
+            const checkboxes = form.querySelectorAll('.form-check-input');
+            const inputFields = form.querySelectorAll('.form-control');
+            let isValid = true;
+
+            // Remove "was-validated" class from all elements
+            inputFields.forEach(input => {
+                input.classList.remove('is-invalid');
+            });
+
+            // Additional validation logic
+            // Example: Check if required fields are empty
+            inputFields.forEach(input => {
+                if (input.hasAttribute('required') && input.value.trim() === '') {
+                    input.classList.add('is-invalid');
+                    isValid = false;
+                }
+            });
+
+            if (!isValid) {
                 event.preventDefault(); // Prevent form submission if validation fails
                 Swal.fire({
                     icon: 'error',
@@ -243,13 +306,30 @@ $conn->close();
             } else {
                 const changeInput = document.querySelector('[name="change"]');
                 const changeValue = parseFloat(changeInput.value);
+                const changeFinalValue = changeValue * -1;
+                const IpdCheckbox = document.querySelector('[id="ipdCheckbox"]');
+                const OpdCheckbox = document.querySelector('[id="opdCheckbox"]');
 
-                if (changeValue < 0) {
-                    event.preventDefault(); // Prevent form submission if change is less than 0
+                if (changeValue < 0 || !IpdCheckbox || !opdCheckbox) {
+                    event.preventDefault();
                     Swal.fire({
                         icon: 'error',
-                        title: 'Insufficient Amount',
-                        text: 'The tendered amount is insufficient.',
+                        title: 'Checkbox Error',
+                        text: 'Please fill in any of the checkbox.',
+                    });
+                } else if (changeValue < 0 && !OpdCheckbox) {
+                    event.preventDefault();
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Insufficient tendered Amount',
+                        html: `Click Yes and add the patient information to make this <span style="color: red;">${changeFinalValue}</span> as a balance.`,
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes',
+                        cancelButtonText: 'No'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.open('../Patient/index.php', '_blank');
+                        } else if (result.dismiss === Swal.DismissReason.cancel) {}
                     });
                 }
             }
@@ -389,8 +469,6 @@ $conn->close();
             const change = amountTenderedValue - netAmount;
             changeInput.value = change.toFixed(2);
         }
-
-
         document.addEventListener("DOMContentLoaded", function() {
             addRow();
 

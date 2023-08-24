@@ -21,7 +21,7 @@ $sidebarContent = [
         "link" => "/billing_slip/index.php", //link of the page
         "navigations" => [
             [
-                "name" => "Charge Billing / IPD", //name of the link
+                "name" => "ChargeBilling/IPD/OPD", //name of the link
                 "link" => "/billing_slip/index.php", //link of the page
             ],
             [

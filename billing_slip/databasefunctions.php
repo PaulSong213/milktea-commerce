@@ -70,12 +70,12 @@ if (isset($_POST['SaveItem'])) {
     if (empty($productInfoArray)) {
         $_SESSION["alert_message"] = "Please fill Product information on the cart.";
         $_SESSION["alert_message_error"] = true;
-        header("Location: ../billing/index.php");
+        header("Location: ../billing_slip/index.php");
         die();
     } elseif ($change < 0) {
         $_SESSION["alert_message"] = "Please enter the right Tendered Amount.";
         $_SESSION["alert_message_error"] = true;
-        header("Location: ../billing/index.php");
+        header("Location: ../billing_slip/index.php");
         die();
     }
 
@@ -85,7 +85,7 @@ if (isset($_POST['SaveItem'])) {
     if (!$result) {
         $_SESSION["alert_message"] = "Failed to Add a Billing Statement. Error Details: " . mysqli_error($conn);
         $_SESSION["alert_message_error"] = true;
-        header("Location: ../billing/index.php");
+        header("Location: ../billing_slip/index.php");
         echo "Error: " . $insertQuery . "<br>" . mysqli_error($conn);
         die();
     }
@@ -100,17 +100,17 @@ if (isset($_POST['SaveItem'])) {
         $toEditProductID = $productInfo["id"];
         if (empty($toEditProductID)) continue;
         $qty = $productInfo["qty"];
-        $updateQuery = "UPDATE inventory_tb SET Unit = Unit - ? WHERE InventoryID = ?";
+        $updateQuery = "UPDATE inventory_tb SET Unit = Unit - ? WHERE InventoryID = ? AND Consumable = 1";
         $stmt = $conn->prepare($updateQuery);
         $stmt->bind_param("ii", $qty, $toEditProductID);
         $updateInventoryResult = $stmt->execute();
         $stmt->close();
-
+        
         if (!$updateInventoryResult) {
             // Handle inventory update error
             $_SESSION["alert_message"] = "Failed to update inventory. Please try again later.";
             $_SESSION["alert_message_error"] = true;
-            header("Location: ../billing/index.php");
+            header("Location: ../billing_slip/index.php");
             die();
         }
     }
@@ -118,10 +118,11 @@ if (isset($_POST['SaveItem'])) {
 
     $salesSelectQuery =  "SELECT * FROM sales_tb WHERE SalesID=$salesInsertedId";
     $salesSelectQueryResult = $conn->query($salesSelectQuery);
+
     if (!$salesSelectQueryResult) {
         $_SESSION["alert_message"] = "Failed to Add a Billing Statement. Error Details: " . mysqli_error($conn);
         $_SESSION["alert_message_error"] = true;
-        header("Location: ../billing/index.php");
+        header("Location: ../billing_slip/index.php");
         die();
     }
     $printData = $salesSelectQueryResult->fetch_assoc();
@@ -132,7 +133,7 @@ if (isset($_POST['SaveItem'])) {
     $_SESSION['printData'] = $printData;
 
     // Redirect after processing
-    header("Location: ../billing/index.php");
+    header("Location: ../billing_slip/index.php");
     die();
 }
 
