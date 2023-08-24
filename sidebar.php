@@ -1,5 +1,4 @@
 <?php
-
 // get icons here -> https://mui.com/material-ui/material-icons/
 $sidebarContent = [
     [
@@ -64,14 +63,10 @@ $sidebarContent = [
         ] //list of links on dropdown
     ],
     [
-        "name" => $_SESSION['username'], //name of the link
+        "name" =>isset( $_SESSION['username'])?$_SESSION['username']:'You are Logout', //name of the link
         "icon" => "account_circle", //material icon name
         "link" => "/dashboard/index.php", //link of the page
         "navigations" => [
-            [
-                "name" => $_SESSION['username'], //name of the link
-                "link" => "/dashboard/index.php", //link of the page
-            ],
             [
                 "name" => "Log Out", //name of the link
                 "link" => "/index.php", //link of the page
@@ -111,12 +106,8 @@ $sidebarContent = [
         .session {
             display: flex;
             align-items: center;
-<<<<<<< HEAD
-            margin-top: 80px;
-=======
             margin-top: 100px;
             bottom: 10%;
->>>>>>> b2867bd669105511376c0430464f3c9baba3578f
             /* Align items vertically */
         }
 
@@ -277,14 +268,7 @@ $sidebarContent = [
             }
             ?>
         </ul>
-        <<<<<<< HEAD <div class="session position-absolute">
-            <i class="material-icons icon">account_circle</i>
-            <label class="sessionlabel mt-2">
-                <?php include('session.php'); ?></label>
-            </div>
 
-            =======
-            >>>>>>> 566b995967f3852baa0334d758677a41ee5d690a
 
             <div>
                 <button class="btn btn-primary rounded-circle position-fixed p-3 bottom-0 start-0 m-4 d-flex justify-content-center align-items-center" id="toggleSidebar">
