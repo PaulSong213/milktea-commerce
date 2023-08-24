@@ -8,15 +8,8 @@ $sidebarContent = [
         "link" => "/dashboard/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
     ],
-
     [
-        "name" => "Patient Admission", //name of the link
-        "icon" => "local_hospital", //material icon name 
-        "link" => "/patient_admission/index.php", //link of the page
-        "navigations" => [] //list of links on dropdown
-    ],
-    [
-        "name" => "Billing", //name of the link
+        "name" => "Charge Slip", //name of the link
         "icon" => "point_of_sale", //material icon name
         "link" => "/billing_nyp_opd/index.php", //link of the page
         "navigations" => [
@@ -28,13 +21,8 @@ $sidebarContent = [
                 "name" => "Charge Billing / IPD", //name of the link
                 "link" => "/billing_ipd/index.php", //link of the page
             ],
-            [
-                "name" => "Billing Statement", //name of the link
-                "link" => "/billingtable/index.php", //link of the page
-            ],
         ]
     ],
-
     [
         "name" => "Employee", //name of the link
         "icon" => "badge", //material icon name
@@ -42,10 +30,19 @@ $sidebarContent = [
         "navigations" => [] //list of links on dropdown
     ],
     [
-        "name" => "Patient Information", //name of the link
+        "name" => "Patient", //name of the link
         "icon" => "hotel", //material icon name
         "link" => "/Patient/index.php", //link of the page
-        "navigations" => [] //list of links on dropdown
+        "navigations" => [
+            [
+                "name" => "Enter new Patient Record", //name of the link
+                "link" => "/Patient/index.php", //link of the page
+            ],
+            [
+                "name" => "Enter Billing (New Admission)", //name of the link
+                "link" => "/billing-new-admission/index.php", //link of the page
+            ],
+        ] //list of links on dropdown
     ],
 
     [
@@ -72,11 +69,11 @@ $sidebarContent = [
     ],
     [
         "name" => $_SESSION['username'], //name of the link
-        "icon" => "account_circle",//material icon name
+        "icon" => "account_circle", //material icon name
         "link" => "/dashboard/index.php", //link of the page
         "navigations" => [
             [
-                "name" =>$_SESSION['username'], //name of the link
+                "name" => $_SESSION['username'], //name of the link
                 "link" => "/dashboard/index.php", //link of the page
             ],
             [
@@ -85,7 +82,7 @@ $sidebarContent = [
             ],
         ] //list of links on dropdown
     ],
-   
+
 
 ]
 ?>
@@ -119,7 +116,7 @@ $sidebarContent = [
             display: flex;
             align-items: center;
             margin-top: 100px;
-            bottom:10%;
+            bottom: 10%;
             /* Align items vertically */
         }
 
@@ -280,16 +277,24 @@ $sidebarContent = [
             }
             ?>
         </ul>
+        <<<<<<< HEAD <div class="session position-absolute">
+            <i class="material-icons icon">account_circle</i>
+            <label class="sessionlabel mt-2">
+                <?php include('session.php'); ?></label>
+            </div>
 
-        <div>
-            <button class="btn btn-primary rounded-circle position-fixed p-3 bottom-0 start-0 m-4 d-flex justify-content-center align-items-center" id="toggleSidebar">
-                <span class="material-icons" id="sidebar-icon">table_rows</span>
-            </button>
-        </div>
+            =======
+            >>>>>>> 566b995967f3852baa0334d758677a41ee5d690a
+
+            <div>
+                <button class="btn btn-primary rounded-circle position-fixed p-3 bottom-0 start-0 m-4 d-flex justify-content-center align-items-center" id="toggleSidebar">
+                    <span class="material-icons" id="sidebar-icon">table_rows</span>
+                </button>
+            </div>
 
     </nav>
 
-    <div class="container-fluid" id="content">
+    <div class="container-fluid bg-danger" id="content">
 
         <!-- Your content here -->
     </div>
