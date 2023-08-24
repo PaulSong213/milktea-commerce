@@ -8,15 +8,8 @@ $sidebarContent = [
         "link" => "/dashboard/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
     ],
-
     [
-        "name" => "Patient Admission", //name of the link
-        "icon" => "local_hospital", //material icon name 
-        "link" => "/patient_admission/index.php", //link of the page
-        "navigations" => [] //list of links on dropdown
-    ],
-    [
-        "name" => "Billing", //name of the link
+        "name" => "Charge Slip", //name of the link
         "icon" => "point_of_sale", //material icon name
         "link" => "/billing_nyp_opd/index.php", //link of the page
         "navigations" => [
@@ -28,13 +21,8 @@ $sidebarContent = [
                 "name" => "Charge Billing / IPD", //name of the link
                 "link" => "/billing_ipd/index.php", //link of the page
             ],
-            [
-                "name" => "Billing Statement", //name of the link
-                "link" => "/billingtable/index.php", //link of the page
-            ],
         ]
     ],
-
     [
         "name" => "Employee", //name of the link
         "icon" => "badge", //material icon name
@@ -42,10 +30,19 @@ $sidebarContent = [
         "navigations" => [] //list of links on dropdown
     ],
     [
-        "name" => "Patient Information", //name of the link
+        "name" => "Patient", //name of the link
         "icon" => "hotel", //material icon name
         "link" => "/Patient/index.php", //link of the page
-        "navigations" => [] //list of links on dropdown
+        "navigations" => [
+            [
+                "name" => "Enter new Patient Record", //name of the link
+                "link" => "/Patient/index.php", //link of the page
+            ],
+            [
+                "name" => "Enter Billing (New Admission)", //name of the link
+                "link" => "/billing-new-admission/index.php", //link of the page
+            ],
+        ] //list of links on dropdown
     ],
 
     [
@@ -103,12 +100,8 @@ $sidebarContent = [
         .session {
             display: flex;
             align-items: center;
-<<<<<<< HEAD
-            margin-top: 80px;
-=======
             margin-top: 100px;
-            bottom:10%;
->>>>>>> 9fa7a40e0cf0e9c127390ccd6700a3bf8a99a366
+            bottom: 10%;
             /* Align items vertically */
         }
 
@@ -276,9 +269,6 @@ $sidebarContent = [
         </div>
 
 
-
-
-
         <div>
             <button class="btn btn-primary rounded-circle position-fixed p-3 bottom-0 start-0 m-4 d-flex justify-content-center align-items-center" id="toggleSidebar">
                 <span class="material-icons" id="sidebar-icon">table_rows</span>
@@ -287,7 +277,7 @@ $sidebarContent = [
 
     </nav>
 
-    <div class="container-fluid" id="content">
+    <div class="container-fluid bg-danger" id="content">
 
         <!-- Your content here -->
     </div>
