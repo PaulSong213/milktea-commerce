@@ -6,9 +6,6 @@ $conn = connect();
 if (isset($_POST['SaveItem'])) {
 
 
-
-
-
     $lname = $_POST['employee_lname'];
     $fname = $_POST['employee_fname'];
     $mname = $_POST['employee_mname'];
@@ -51,11 +48,6 @@ if (isset($_POST['SaveItem'])) {
     WHERE
         DatabaseID = '$item_id';
     ";
-
-
-
-
-
 
 
     $result = mysqli_query($conn, $sql);
