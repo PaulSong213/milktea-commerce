@@ -11,15 +11,11 @@ $sidebarContent = [
     [
         "name" => "Charge Slip", //name of the link
         "icon" => "point_of_sale", //material icon name
-        "link" => "/billing_nyp_opd/index.php", //link of the page
+        "link" => "/billing_slip/index.php", //link of the page
         "navigations" => [
             [
-                "name" => "Charge Billing / NYP / OPD", //name of the link
-                "link" => "/billing_nyp_opd/index.php", //link of the page
-            ],
-            [
-                "name" => "Charge Billing / IPD", //name of the link
-                "link" => "/billing_ipd/index.php", //link of the page
+                "name" => "ChargeBilling/IPD/OPD", //name of the link
+                "link" => "/billing_slip/index.php", //link of the page
             ],
         ]
     ],
@@ -115,8 +111,12 @@ $sidebarContent = [
         .session {
             display: flex;
             align-items: center;
+<<<<<<< HEAD
+            margin-top: 80px;
+=======
             margin-top: 100px;
             bottom: 10%;
+>>>>>>> b2867bd669105511376c0430464f3c9baba3578f
             /* Align items vertically */
         }
 
