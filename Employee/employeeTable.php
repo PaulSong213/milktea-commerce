@@ -9,9 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="path-to-your-bootstrap-css">
-    <script src="path-to-your-bootstrap-js"></script>
-
     <style>
         .dt-button-collection,
         .dt-button-background {
@@ -83,7 +80,9 @@
                 <?php
                 require_once '../php/connect.php';
                 $connection = connect();
-                $sql = "select * from employee_tb ";
+                $sql = "select * from employee_tb 
+                    LEFT JOIN department_tb 
+                    ON employee_tb.departmentID = department_tb.departmentID";
                 $result = $connection->query($sql);
 
                 while ($row = $result->fetch_assoc()) {
@@ -91,9 +90,8 @@
                     $statusColor = ($row["Status"]  == "1") ? "alert-success"  : "alert-danger"; //condition for color bg.
                     echo "
                         <tr>
-                           
                             <td>" . $row["lname"] . ", " . $row["fname"] . ", " . $row["mname"] . "</td>
-                            <td>" . $row["departmentID"] . "</td>
+                            <td>" . $row["departmentName"] . "</td>
                             <td>" . $row["position"] . "</td>
                             <td>" . $row["title"] . "</td>
                             <td>" . date("M d, Y h:i", strtotime($row["createDate"])) . "</td>
@@ -215,8 +213,7 @@
                                 <li class="mx-2">
                                     <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
                                 </li>
-                               
-                                  <li class="mx-2">
+                                <li class="mx-2">
                                     <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>
                                 </li>
                             </ul>
@@ -293,20 +290,6 @@
 
 
     <script>
-        function openEditModal() {
-            $('#AdminPassModal').modal('show'); // Show the modal
-        }
-
-        // Close the modal when the "Close" button is clicked
-        document.getElementById('closeModalButton').addEventListener('click', function() {
-            $('#AdminPassModal').modal('hide'); // Hide the modal
-        });
-
-
-        function closeEditModal() {
-            $('#AdminPassModal').modal('hide'); // Show the modal
-        }
-
         function checkField() {
             var passwordField = document.getElementById('adminPassword');
             var enterButton = document.getElementById('enterPasswordButton');
