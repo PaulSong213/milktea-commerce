@@ -189,6 +189,15 @@ $lastSalesID = getLastSalesID($conn);
     </form>
     <script script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
     <script>
+        import {
+            validateDataList
+        } from "./js/datalist.js";
+
+        validateDataList({
+            patientsData: JSON.parse('<?= $patientsData ?>'),
+            employeesData: JSON.parse('<?= $employeesData ?>')
+        });
+
         function validateForm() {
             const form = document.getElementById('addItemForm');
             const inputFields = form.querySelectorAll('.form-control');
