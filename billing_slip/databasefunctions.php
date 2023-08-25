@@ -19,6 +19,8 @@ if (isset($_POST['SaveItem'])) {
     $amountTendered = $_POST['amountTendered'];
     $change = $_POST['change'];
 
+    $patientType = $_POST['patientAccountType'];
+
     // Create the array for ProductInfo column
     $productInfoArray = [];
     $unit = $_POST['unit'];
@@ -57,8 +59,9 @@ if (isset($_POST['SaveItem'])) {
     $addDiscAmt = $netSale * ($additionalDiscount / 100);
 
     // Prepare the INSERT query
-    $insertQuery = "INSERT INTO sales_tb (ProductInfo, NetSale, AddDisc, AddDiscAmt, NetAmt, AmtTendered, ChangeAmt, PatientAcct, RequestedName, EnteredName, createDate)
-                    VALUES ('$productInfoJSON', '$netSale', '$additionalDiscount', '$addDiscAmt', '$netAmount', '$amountTendered', '$change', '$patientAccountName', '$requestedByName', '$enteredByName', NOW())";
+    $insertQuery = "INSERT INTO sales_tb (ProductInfo, NetSale, AddDisc, AddDiscAmt, NetAmt, AmtTendered, ChangeAmt, PatientAcct, RequestedName, EnteredName, PatientType, createDate)
+                    VALUES ('$productInfoJSON', '$netSale', '$additionalDiscount', '$addDiscAmt', '$netAmount', '$amountTendered', '$change', '$patientAccountName', '$requestedByName', '$enteredByName', '$patientType', NOW())";
+
 
 
     for ($i = 0; $i < count($product_id); $i++) {
@@ -105,7 +108,7 @@ if (isset($_POST['SaveItem'])) {
         $stmt->bind_param("ii", $qty, $toEditProductID);
         $updateInventoryResult = $stmt->execute();
         $stmt->close();
-        
+
         if (!$updateInventoryResult) {
             // Handle inventory update error
             $_SESSION["alert_message"] = "Failed to update inventory. Please try again later.";

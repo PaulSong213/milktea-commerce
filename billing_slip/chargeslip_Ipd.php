@@ -246,13 +246,15 @@ $lastSalesID = getLastSalesID($conn);
                 const changeFinalValue = changeValue * -1;
                 const ipdRadio = document.querySelector('[id="ipdRadio"]');
                 const opdRadio = document.querySelector('[id="opdRadio"]');
-                if (!ipdRadio.checked && !opdRadio.checked) {
+                const cashRadio = document.querySelector('[id="cashRadio"]');
+                if (!ipdRadio.checked && !opdRadio.checked && !cashRadio.checked) {
                     event.preventDefault();
                     Swal.fire({
                         icon: 'warning',
                         title: 'Select Patient Type',
                         text: 'Please select either IPD or OPD.',
                     });
+                    cashRadio = true;
                 } else if (changeValue < 0) {
                     if (opdRadio.checked) {
                         event.preventDefault();
@@ -263,6 +265,11 @@ $lastSalesID = getLastSalesID($conn);
                         });
                     } else if (ipdRadio.checked) {
                         event.preventDefault();
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Insufficient Tendered Amount For IPD patient',
+                            html: `Proceed First to the OPD and Register Patient to make <span style="color: red;">${changeFinalValue}</span> as balance.`,
+                        });
                     }
                 }
             }
