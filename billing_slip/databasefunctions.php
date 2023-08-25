@@ -100,7 +100,7 @@ if (isset($_POST['SaveItem'])) {
         $toEditProductID = $productInfo["id"];
         if (empty($toEditProductID)) continue;
         $qty = $productInfo["qty"];
-        $updateQuery = "UPDATE inventory_tb SET Unit = Unit - ? WHERE InventoryID = ? AND Consumable = 1";
+        $updateQuery = "UPDATE inventory_tb SET Unit = Unit - ? WHERE InventoryID = ? "; // AND Consumable = 1";
         $stmt = $conn->prepare($updateQuery);
         $stmt->bind_param("ii", $qty, $toEditProductID);
         $updateInventoryResult = $stmt->execute();

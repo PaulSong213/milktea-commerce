@@ -76,71 +76,36 @@ $lastSalesID = getLastSalesID($conn);
                     <div class="form-group row">
                         <div class="form-group col-md-6 was-validated ">
                             <label for="patientAccountName">Patient Account Code</label>
-                            <input type="text" class="form-control" name="patientAccountName" list="patientAccountName" placeholder="Enter Patient Account Name" required>
-                            <datalist id="patientAccountName">
-                                <?php
-                                require_once '../php/connect.php';
-                                $conn = connect();
-                                if ($conn->connect_error) {
-                                    die("Connection failed: " . $conn->connect_error);
-                                }
-                                $query = "SELECT fname , lname , mname , hospistalrecordNo FROM patient_tb";
-                                $result = $conn->query($query);
-                                while ($row = $result->fetch_assoc()) {
-
-                                    $hospistalrecordNo = $row['hospistalrecordNo'];
-                                    $fname = $row['fname'];
-                                    $lname = $row['lname'];
-                                    $mname = $row['mname'];
-                                    $fullName = $lname . ',' . $fname . ' ' . $mname . ' | ID: ' . $hospistalrecordNo;
-
-                                    echo "<option value='$fullName'>$fullName</option>";
-                                }
-                                $conn->close();
-                                ?>
-
-                            </datalist>
+                            <input type="text" class="form-control" name="patientAccountName" list="patientList" correctData="patientsData" placeholder="Enter Patient Account Name" required>
+                            <?php require_once('../API/datalist/patient-list.php') ?>
                             <div class="invalid-feedback">Please enter the patient account code.</div>
                         </div>
-                        <div class="col-md-3 d-flex align-items-center justify-content-center">
+                        <div class="col-md-2 d-flex align-items-center justify-content-center">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="opdRadio" name="patientAccountType" value="OPD" required>
                                 <label class="form-check-label" for="opdRadio">OPD</label>
                                 <div class="invalid-feedback">Please select a patient type.</div>
                             </div>
                         </div>
-                        <div class="col-md-3 d-flex align-items-center justify-content-center">
+                        <div class="col-md-2 d-flex align-items-center justify-content-center">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="ipdRadio" name="patientAccountType" value="IPD" required>
                                 <label class="form-check-label" for="ipdRadio">IPD</label>
                                 <div class="invalid-feedback">Please select a patient type.</div>
                             </div>
                         </div>
-
-
+                        <div class="col-md-2 d-flex align-items-center justify-content-center">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="cashRadio" name="patientAccountType" value="CASH" required>
+                                <label class="form-check-label" for="cashRadio">CASH</label>
+                                <div class="invalid-feedback">Please select a patient type.</div>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group was-validated">
                         <label for="requestedByName">Requested By: </label>
-                        <input type="text" class="form-control" name="requestedByName" list="requestedByName" placeholder="Enter Requested By Name" required>
-                        <datalist id="requestedByName">
-                            <?php
-                            require_once '../php/connect.php';
-                            $conn = connect();
-                            $query = "SELECT title, position,fname , lname , mname, databaseID FROM employee_tb";
-                            $result = $conn->query($query);
-                            while ($row = $result->fetch_assoc()) {
-                                $databaseID = $row['databaseID'];
-                                $title = $row['title'];
-                                $position = $row['position'];
-                                $fname = $row['fname'];
-                                $lname = $row['lname'];
-                                $mname = $row['mname'];
-                                $Outputvalue = $title . '. ' . $lname . ',' . $fname . ' ' . $mname . ' | ' . $position . ' | ' . $databaseID;
-                                echo "<option value='$Outputvalue'>$Outputvalue</option>";
-                            }
-                            $conn->close();
-                            ?>
-                        </datalist>
+                        <input type="text" class="form-control" name="requestedByName" list="patientList" placeholder="Enter Requested By Name" required>
+                        <?php require_once('../API/datalist/patient-list.php') ?>
                         <div class="invalid-feedback">Please enter the requested by name.</div>
 
                     </div>
@@ -204,23 +169,9 @@ $lastSalesID = getLastSalesID($conn);
                     <tbody>
                         <tr name="templateRow" style="display: none;">
                             <td>
-                                <input autocomplete="off" class="form-control" list="product_id_list" id="product_id_input" name="product_id[]" onchange="updateProductInfo(this)" />
+                                <input autocomplete="off" class="form-control" list="productList" id="product_id_input" name="product_id[]" onchange="updateProductInfo(this)" />
                                 <datalist id="product_id_list">
-                                    <?php
-                                    require_once '../php/connect.php';
-                                    $conn = connect();
-                                    if ($conn->connect_error) {
-                                        die("Connection failed: " . $conn->connect_error);
-                                    }
-                                    $query = "SELECT inventory_tb.itemCode, itemtype_tb.itemTypeCode FROM inventory_tb LEFT JOIN itemtype_tb ON inventory_tb.itemTypeID = itemtype_tb.itemTypeID WHERE Status = 1  ";
-                                    $result = $conn->query($query);
-                                    while ($row = $result->fetch_assoc()) {
-                                        $itemCode = $row['itemCode'];
-                                        $itemTypeCode = $row['itemTypeCode'];
-                                        echo "<option value='$itemCode'>$itemTypeCode</option>";
-                                    }
-                                    $conn->close();
-                                    ?>
+                                <?php require_once('../API/datalist/product-list.php') ?>
                                 </datalist>
                             </td>
                             <td><input type="number" class="form-control text-light bg-secondary" readonly name="inv"></td>
@@ -261,23 +212,7 @@ $lastSalesID = getLastSalesID($conn);
                     isValid = false;
                 }
             });
-
-            // Check if at least one checkbox is checked
-            let isCheckboxChecked = false;
-            checkboxes.forEach(checkbox => {
-                if (checkbox.checked) {
-                    isCheckboxChecked = true;
-                }
-            });
-
-            if (!isCheckboxChecked) {
-                isValid = false;
-            }
-            // Return true to submit the form if all validations pass
-            return isValid;
         }
-
-
         document.getElementById('addItemForm').addEventListener('submit', function(event) {
             // Validate the form
             const form = event.target;
@@ -289,7 +224,6 @@ $lastSalesID = getLastSalesID($conn);
             inputFields.forEach(input => {
                 input.classList.remove('is-invalid');
             });
-
             // Additional validation logic
             // Example: Check if required fields are empty
             inputFields.forEach(input => {
@@ -324,25 +258,11 @@ $lastSalesID = getLastSalesID($conn);
                         event.preventDefault();
                         Swal.fire({
                             icon: 'warning',
-                            title: 'Insufficient Tendered Amount',
-                            html: `Click Yes to add the patient information and make this <span style="color: red;">${changeFinalValue}</span> the balance.`,
-                            showCancelButton: true,
-                            confirmButtonText: 'Yes',
-                            cancelButtonText: 'No'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                window.open('../Patient/index.php', '_blank');
-                            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                // User clicked "No"
-                            }
+                            title: 'Insufficient Tendered Amount For OPD patient',
+                            html: `Proceed First to the OPD and Register Patient to make <span style="color: red;">${changeFinalValue}</span> as balance.`,
                         });
                     } else if (ipdRadio.checked) {
                         event.preventDefault();
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'IPD Checked',
-                            text: 'Please fill in all required fields.',
-                        });
                     }
                 }
             }

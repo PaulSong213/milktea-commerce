@@ -90,8 +90,7 @@
                     $activeStatus = ($row["Status"]  == "1") ? "Active"  : "Inactive"; //condition for status
                     $statusColor = ($row["Status"]  == "1") ? "alert-success"  : "alert-danger"; //condition for color bg.
                     echo "
-                        <tr>
-                           
+                        <tr>  
                             <td>" . $row["lname"] . ", " . $row["fname"] . ", " . $row["mname"] . "</td>
                             <td>" . $row["departmentID"] . "</td>
                             <td>" . $row["position"] . "</td>
