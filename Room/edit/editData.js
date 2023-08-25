@@ -1,5 +1,5 @@
 export function handleEditClick(table) {
-    $(".edit-btn").on('click', function (e) {
+    table.on('click', '.edit-btn', function (e) {
         const addModal = $("#addItemModal");
         addModal.modal('show');
         let data = JSON.parse($(this).attr("data-item"));
@@ -8,16 +8,17 @@ export function handleEditClick(table) {
         const toFillUpDatas = [
             {
                 dataKey: "Roomref",
-                inputName: "roomRef"
+                inputName: "room_ref"
             },
             {
                 dataKey: "roomDescription",
-                inputName: "roomDescription"
+                inputName: "room_description"
             },
-             {
+            {
                 dataKey: "rateperDay",
-                inputName: "rateperDay"
-            }
+                inputName: "rate_per_day"
+            },
+      
         ];
 
         // fill up the fields
@@ -28,22 +29,23 @@ export function handleEditClick(table) {
 
         // edit the save button
         const saveButton = $("[name='SaveItem']");
-        saveButton.text("Edit Room Information");
+        saveButton.text("Edit Item");
 
         // edit header title
         const headerTitle = $("#addItemModalLabel");
-        headerTitle.text("Edit Room Information");
+        headerTitle.text("Edit Item");
 
         const addItemForm = $("#addItemForm");
         const addItemFormAction = addItemForm.attr("action");
         addItemForm.attr("action", "./edit/editfunction.php");
-        addItemForm.append(`<input type="hidden" name="itemTypeID" value="${data['hospistalrecordNo']}">`);
+        addItemForm.append(`<input type="hidden" name="item_id" value="${data['supplier_code']}">`);
 
         // watch modal close then reset data
         addModal.on("hidden.bs.modal", function () {
-            headerTitle.text("Add New Patient");
-            saveButton.text("Add New Patient");
-            addItemForm.attr("action", addItemFormAction);
+            headerTitle.text("Add Item");
+            saveButton.text("Add Item");
+            addItemForm.attr("action", "./add/addfunction.php");
+            addItemForm.find("input[name='item_id']").remove();
             for (let i = 0; i < toFillUpDatas.length; i++) {
                 const toFillUpData = toFillUpDatas[i];
                 $(`[name="${toFillUpData.inputName}"]`).val("");
