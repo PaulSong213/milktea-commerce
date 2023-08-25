@@ -48,10 +48,16 @@
                     <div class="mb-3">
                         <label class="form-label" for="marital">Marital Status<span class="text-danger mx-1">*</span></label>
                         <select class="form-select" id="marital" name="marital" required>
-                            <option value="Single">Single</option>
-                            <option value="Married">Married</option>
-                            <option value="Widowed">Widowed</option>
-                            <option value="Separated">Separated</option>
+                            <?php
+                            require_once '../php/connect.php';
+                            $connectionType = connect();
+                            $sqlDepartment = "select * from department_tb";
+                            $resultDepartment = $connectionType->query($sqlDepartment);
+                            if (!$resultDepartment) die($connectionType->error);
+                            while ($rowType = $resultDepartment->fetch_assoc()) {
+                                echo '<option value="' . $rowType["departmentID"] . '">' . $rowType["departmentName"] . '</option>';
+                            }
+                            ?>
                         </select>
                     </div>
 
@@ -146,5 +152,4 @@
             }
         });
     });
-    
 </script>

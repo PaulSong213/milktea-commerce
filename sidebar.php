@@ -1,5 +1,4 @@
 <?php
-
 // get icons here -> https://mui.com/material-ui/material-icons/
 $sidebarContent = [
     [
@@ -11,15 +10,11 @@ $sidebarContent = [
     [
         "name" => "Charge Slip", //name of the link
         "icon" => "point_of_sale", //material icon name
-        "link" => "/billing_nyp_opd/index.php", //link of the page
+        "link" => "/billing_slip/index.php", //link of the page
         "navigations" => [
             [
-                "name" => "Charge Billing / NYP / OPD", //name of the link
-                "link" => "/billing_nyp_opd/index.php", //link of the page
-            ],
-            [
-                "name" => "Charge Billing / IPD", //name of the link
-                "link" => "/billing_ipd/index.php", //link of the page
+                "name" => "ChargeBilling/IPD/OPD", //name of the link
+                "link" => "/billing_slip/index.php", //link of the page
             ],
         ]
     ],
@@ -68,14 +63,10 @@ $sidebarContent = [
         ] //list of links on dropdown
     ],
     [
-        "name" => $_SESSION['username'], //name of the link
+        "name" =>isset( $_SESSION['username'])?$_SESSION['username']:'You are Logout', //name of the link
         "icon" => "account_circle", //material icon name
         "link" => "/dashboard/index.php", //link of the page
         "navigations" => [
-            [
-                "name" => $_SESSION['username'], //name of the link
-                "link" => "/dashboard/index.php", //link of the page
-            ],
             [
                 "name" => "Log Out", //name of the link
                 "link" => "/index.php", //link of the page
@@ -277,14 +268,7 @@ $sidebarContent = [
             }
             ?>
         </ul>
-        <<<<<<< HEAD <div class="session position-absolute">
-            <i class="material-icons icon">account_circle</i>
-            <label class="sessionlabel mt-2">
-                <?php include('session.php'); ?></label>
-            </div>
 
-            =======
-            >>>>>>> 566b995967f3852baa0334d758677a41ee5d690a
 
             <div>
                 <button class="btn btn-primary rounded-circle position-fixed p-3 bottom-0 start-0 m-4 d-flex justify-content-center align-items-center" id="toggleSidebar">
