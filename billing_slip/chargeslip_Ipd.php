@@ -7,8 +7,9 @@ $conn = connect();
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+$username = isset($_SESSION['user']) ? $_SESSION['user'] : 'You are Logout';
 
-$username = $_SESSION['username'];
+
 
 // Create a function to retrieve the employee reference
 function getEmployeeReference($conn, $username)
@@ -89,11 +90,44 @@ $lastSalesID = getLastSalesID($conn);
                                 <div class="invalid-feedback">Please select a patient type.</div>
                             </div>
                         </div>
-                        <div class="col-md-2 d-flex align-items-center justify-content-center">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="cashRadio" name="patientAccountType" value="CASH" required>
-                                <label class="form-check-label" for="cashRadio">CASH</label>
-                                <div class="invalid-feedback">Please select a patient type.</div>
+                    </div>
+                    <div class="container-fluid mb-3 p-3 rounded" id="additionalContent" style="display: none;background-color: #444465;">
+                        <ul class="nav nav-tabs ">
+                            <li class="nav-item">
+                                <a class="nav-link active text-secondary" data-toggle="tab" href="#activeTab">Select Billing</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-secondary" data-toggle="tab" href="#nameTab">New Billing</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content mt-3">
+                            <div id="activeTab" class="tab-pane fade show active">
+                                <div class="row">
+                                    <div class="col-md-3 ">
+                                        <label for="name">Billing Number:</label>
+                                        <input type="text" class="form-control" id="name" placeholder="Enter Billing NumberD" list="billingList" autocomplete="off">
+                                        <?php require_once('../API/datalist/billing-list.php') ?>
+                                    </div>
+                                    <div class="col-md-3 ">
+                                        <label for="Date">Admission Date:</label>
+                                        <input type="text" class="form-control" id="Date" placeholder="" autocomplete="off" readonly>
+                                    </div>
+                                    <div class="col-md-3 ">
+                                        <label for="Date">Admission Date:</label>
+                                        <input type="text" class="form-control" id="Date" placeholder="" autocomplete="off" readonly>
+                                    </div>
+                                    <div class="col-md-3 ">
+                                        <label for="Date">Admission Date:</label>
+                                        <input type="text" class="form-control" id="Date" placeholder="" autocomplete="off" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="nameTab" class="tab-pane fade">
+                                <div class="form-group">
+                                    <label for="name">Name:</label>
+                                    <input type="text" class="form-control" id="name" placeholder="Enter Name">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -189,6 +223,20 @@ $lastSalesID = getLastSalesID($conn);
     </form>
     <script script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const radioInput = document.getElementById('ipdRadio');
+            const additionalContent = document.getElementById('additionalContent');
+
+            radioInput.addEventListener('change', function() {
+                if (radioInput.checked) {
+                    additionalContent.style.display = 'block';
+                } else {
+                    additionalContent.style.display = 'none';
+                }
+            });
+        });
+
+
         function validateForm() {
             const form = document.getElementById('addItemForm');
             const inputFields = form.querySelectorAll('.form-control');
@@ -241,15 +289,13 @@ $lastSalesID = getLastSalesID($conn);
                 const changeFinalValue = changeValue * -1;
                 const ipdRadio = document.querySelector('[id="ipdRadio"]');
                 const opdRadio = document.querySelector('[id="opdRadio"]');
-                const cashRadio = document.querySelector('[id="cashRadio"]');
-                if (!ipdRadio.checked && !opdRadio.checked && !cashRadio.checked) {
+                if (!ipdRadio.checked && !opdRadio.checked) {
                     event.preventDefault();
                     Swal.fire({
                         icon: 'warning',
                         title: 'Select Patient Type',
                         text: 'Please select either IPD or OPD.',
                     });
-                    cashRadio = true;
                 } else if (changeValue < 0) {
                     if (opdRadio.checked) {
                         event.preventDefault();

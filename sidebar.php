@@ -7,7 +7,6 @@ if (isset($_GET['logout'])) {
     unset($_SESSION);
     header("Location:/Zarate/index.php");
 }
-
 // get icons here -> https://mui.com/material-ui/material-icons/
 $sidebarContent = [
     [
@@ -83,7 +82,7 @@ $sidebarContent = [
         "link" => "/dashboard/index.php", //link of the page
         "navigations" => [
             [
-                "name" => "USER:" . isset($_SESSION['user']) ? $_SESSION['user'] : 'You are Logout', //name of the link
+                "name" =>  isset($_SESSION['user']) ? $_SESSION['user'] : 'You are Logout', //name of the link
                 "icon" => "account_circle", //material icon name
                 "link" => "/dashboard/index.php", //link of the pages
             ],
