@@ -7,8 +7,9 @@ $conn = connect();
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
 $username = isset($_SESSION['user']) ? $_SESSION['user'] : 'You are Logout';
+
+
 
 // Create a function to retrieve the employee reference
 function getEmployeeReference($conn, $username)
@@ -73,13 +74,8 @@ $lastSalesID = getLastSalesID($conn);
                             <label for="chargeSlipNumber">Billing Number</label>
                             <input type="text" class="form-control text-light " name="billingnumber" placeholder="Enter Billing Number" required value="">
                         </div> -->
+                    <?php include('./components/patient-selection.php') ?>
                     <div class="form-group row">
-                        <div class="form-group col-md-6 was-validated ">
-                            <label for="patientAccountName">Patient Account Code</label>
-                            <input type="text" class="form-control" name="patientAccountName" list="patientList" correctData="patientsData" placeholder="Enter Patient Account Name" required>
-                            <?php require_once('../API/datalist/patient-list.php') ?>
-                            <div class="invalid-feedback">Please enter the patient account code.</div>
-                        </div>
                         <div class="col-md-2 d-flex align-items-center justify-content-center">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="opdRadio" name="patientAccountType" value="OPD" required>
