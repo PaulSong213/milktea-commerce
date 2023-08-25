@@ -8,7 +8,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$username = $_SESSION['username'];
+$username = $_SESSION['user'];
 
 // Create a function to retrieve the employee reference
 function getEmployeeReference($conn, $username)
@@ -171,7 +171,7 @@ $lastSalesID = getLastSalesID($conn);
                             <td>
                                 <input autocomplete="off" class="form-control" list="productList" id="product_id_input" name="product_id[]" onchange="updateProductInfo(this)" />
                                 <datalist id="product_id_list">
-                                <?php require_once('../API/datalist/product-list.php') ?>
+                                    <?php require_once('../API/datalist/product-list.php') ?>
                                 </datalist>
                             </td>
                             <td><input type="number" class="form-control text-light bg-secondary" readonly name="inv"></td>

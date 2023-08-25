@@ -1,7 +1,7 @@
 <?php
-if (!isset($_SESSION['username'])) {
-    header("Location:/Zarate/index.php");
-}
+// if (!isset($_SESSION['username'])) {
+//     header("Location:/Zarate/index.php");
+// }
 if (isset($_GET['logout'])) {
     session_destroy();
     unset($_SESSION);
@@ -77,7 +77,7 @@ $sidebarContent = [
         "link" => "/dashboard/index.php", //link of the page
         "navigations" => [
             [
-                "name" => "USER:" . isset($_SESSION['username']) ? $_SESSION['username'] : 'You are Logout', //name of the link
+                "name" => "USER:" . isset($_SESSION['user']) ? $_SESSION['user'] : 'You are Logout', //name of the link
                 "icon" => "account_circle", //material icon name
                 "link" => "/dashboard/index.php", //link of the pages
             ],
@@ -88,7 +88,7 @@ $sidebarContent = [
 
         ] //list of links on dropdown
     ],
-  
+
 
 
 ]
