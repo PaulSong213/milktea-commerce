@@ -72,6 +72,12 @@ $sidebarContent = [
         ] //list of links on dropdown
     ],
     [
+        "name" => "Room", //name of the link
+        "icon" => "king_bed", //material icon name
+        "link" => "/Room/index.php", //link of the page
+        "navigations" => [] //list of links on dropdown
+     ],
+    [
         "name" => "Account Settings", //name of the link
         "icon" => "account_circle", //material icon name
         "link" => "/dashboard/index.php", //link of the page
