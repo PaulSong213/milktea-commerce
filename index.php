@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
-
+<?php 
+if (isset($_SESSION['username'])) {
+	header("Location: ./billing_slip/index.php");
+}
+?>
 <head>
 	<title>Login Page</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -116,7 +120,7 @@
 			if ($result->num_rows === 1) {
 				// Successful login
 				$_SESSION['username'] = $usernameOrEmail; // Store user's username in the session
-				header("Location: ./billing_ipd/index.php");
+				header("Location: ./billing_slip/index.php");
 				exit();
 			} else {
 				// Invalid credentials

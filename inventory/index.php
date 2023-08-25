@@ -1,6 +1,20 @@
-<?php session_start(); ?>
+<?php session_start();
+require_once"../php/connect.php";
+if (!isset($_SESSION['username'])) {
+    header("Location:/Zarate/index.php");
+}
+if (isset($_GET['logout'])) {
+    session_destroy();
+    unset($_SESSION);
+    header("Location:/Zarate/index.php");
+}
+
+
+?>
 <!doctype html>
 <html lang="en">
+
+
 
 <head>
     <!-- Required meta tags -->

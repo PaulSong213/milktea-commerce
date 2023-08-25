@@ -1,4 +1,13 @@
 <?php
+if (!isset($_SESSION['username'])) {
+    header("Location:/Zarate/index.php");
+}
+if (isset($_GET['logout'])) {
+    session_destroy();
+    unset($_SESSION);
+    header("Location:/Zarate/index.php");
+}
+
 // get icons here -> https://mui.com/material-ui/material-icons/
 $sidebarContent = [
     [
@@ -63,20 +72,20 @@ $sidebarContent = [
         ] //list of links on dropdown
     ],
     [
-        "name" => "Room", //name of the link
-        "icon" => "king_bed", //material icon name
-        "link" => "/Room/index.php", //link of the page
-        "navigations" => [] //list of links on dropdown
-    ],
-    [
-        "name" =>isset( $_SESSION['username'])?$_SESSION['username']:'You are Logout', //name of the link
+        "name" => "Account Settings", //name of the link
         "icon" => "account_circle", //material icon name
         "link" => "/dashboard/index.php", //link of the page
         "navigations" => [
             [
-                "name" => "Log Out", //name of the link
-                "link" => "/index.php", //link of the page
+                "name" => "USER:" . isset($_SESSION['username']) ? $_SESSION['username'] : 'You are Logout', //name of the link
+                "icon" => "account_circle", //material icon name
+                "link" => "/dashboard/index.php", //link of the pages
             ],
+            [
+                "name" => "Log Out", //name of the link
+                "link" => "/sidebar.php?logout=true", //link of the page
+            ],
+
         ] //list of links on dropdown
     ],
   
@@ -277,11 +286,11 @@ $sidebarContent = [
         </ul>
 
 
-            <div>
-                <button class="btn btn-primary rounded-circle position-fixed p-3 bottom-0 start-0 m-4 d-flex justify-content-center align-items-center" id="toggleSidebar">
-                    <span class="material-icons" id="sidebar-icon">table_rows</span>
-                </button>
-            </div>
+        <div>
+            <button class="btn btn-primary rounded-circle position-fixed p-3 bottom-0 start-0 m-4 d-flex justify-content-center align-items-center" id="toggleSidebar">
+                <span class="material-icons" id="sidebar-icon">table_rows</span>
+            </button>
+        </div>
 
     </nav>
 

@@ -21,9 +21,9 @@
                         <div class="my-3">
                             <label class="form-label" for="enteredBy">Entered by<span class="text-danger mx-1">*</span></label>
                             <input type="text" id="enteredBy" name="encoderID" class="form-select " placeholder="Enter the encoder" required list="employeeList" correctData="employeesData">
-                            <?php require_once('./datalist/employee-list.php') ?>
+                            <?php require_once('../API/datalist/employee-list.php') ?>
                             <small class="feedback d-none bg-danger p-1 rounded my-1">
-                                Please select a valid Physician.
+                                Please select a valid encoder.
                             </small>
                         </div>
 
@@ -34,14 +34,14 @@
                             <small class="feedback d-none bg-danger p-1 rounded my-1">
                                 Please select a valid patient.
                             </small>
-                            <?php require_once('./datalist/patient-list.php') ?>
+                            <?php require_once('../API/datalist/patient-list.php') ?>
                         </div>
 
                         <!-- Account of -->
                         <div class="my-3">
                             <label class="form-label" for="accountOf">Account of<span class="text-danger mx-1">*</span></label>
                             <input type="text" correctData="patientsData" id="accountOf" name="accountOfID" class="form-select" placeholder="Account of" required list="patientList">
-                            <?php require_once('./datalist/patient-list.php') ?>
+                            <?php require_once('../API/datalist/patient-list.php') ?>
                             <small class="feedback d-none bg-danger p-1 rounded my-1">
                                 Please select a valid account.
                             </small>
@@ -73,7 +73,7 @@
                         <div class="my-3">
                             <label class="form-label" for="attendingPhysician">Attending Physician<span class="text-danger mx-1">*</span></label>
                             <input type="text" id="attendingPhysician" name="attendingPhysicianID" class="form-select" placeholder="Enter the Attending Physician" required list="employeeList" correctData="employeesData">
-                            <?php require_once('./datalist/employee-list.php') ?>
+                            <?php require_once('../API/datalist/employee-list.php') ?>
                             <small class="feedback d-none bg-danger p-1 rounded my-1">
                                 Please select a valid Physician.
                             </small>
@@ -83,7 +83,7 @@
                         <div class="my-3">
                             <label class="form-label" for="admittingPhysician">Admitting Physician<span class="text-danger mx-1">*</span></label>
                             <input type="text" id="admittingPhysician" name="admittingPhysicianID" class="form-select" placeholder="Enter the Attending Physician" required list="employeeList" correctData="employeesData">
-                            <?php require_once('./datalist/employee-list.php') ?>
+                            <?php require_once('../API/datalist/employee-list.php') ?>
                             <small class="feedback d-none bg-danger p-1 rounded my-1">
                                 Please select a valid Physician.
                             </small>
