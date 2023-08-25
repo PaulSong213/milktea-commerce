@@ -48,16 +48,10 @@
                     <div class="mb-3">
                         <label class="form-label" for="marital">Marital Status<span class="text-danger mx-1">*</span></label>
                         <select class="form-select" id="marital" name="marital" required>
-                            <?php
-                            require_once '../php/connect.php';
-                            $connectionType = connect();
-                            $sqlDepartment = "select * from department_tb";
-                            $resultDepartment = $connectionType->query($sqlDepartment);
-                            if (!$resultDepartment) die($connectionType->error);
-                            while ($rowType = $resultDepartment->fetch_assoc()) {
-                                echo '<option value="' . $rowType["departmentID"] . '">' . $rowType["departmentName"] . '</option>';
-                            }
-                            ?>
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                            <option value="Widowed">Widowed</option>
+                            <option value="Separated">Separated</option>
                         </select>
                     </div>
 
@@ -72,13 +66,16 @@
                     <div class="mb-3">
                         <label class="form-label" for="dept">Department<span class="text-danger mx-1">*</span></label>
                         <select class="form-select" id="dept" name="dept" required>
-                            <option value="IT Department">IT Department</option>
-                            <option value="Admin Department">Admin Department</option>
-                            <option value="Information Department">Information Department</option>
-                            <option value="HMO Department">HMO Department</option>
-                            <option value="OR Department">OR Department</option>
-                            <option value="IP Department">IP Department</option>
-                            <option value="Accounting Department">Accounting Department</option>
+                            <?php
+                            require_once '../php/connect.php';
+                            $connectionType = connect();
+                            $sqlDepartment = "select * from department_tb";
+                            $resultDepartment = $connectionType->query($sqlDepartment);
+                            if (!$resultDepartment) die($connectionType->error);
+                            while ($rowType = $resultDepartment->fetch_assoc()) {
+                                echo '<option value="' . $rowType["departmentID"] . '">' . $rowType["departmentName"] . '</option>';
+                            }
+                            ?>
                         </select>
                     </div>
 
