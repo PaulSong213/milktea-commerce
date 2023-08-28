@@ -7,7 +7,7 @@ $conn = connect();
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
- 
+
 //PRINT ALL VALUES
 
 if (isset($_POST['SaveItem'])) {
@@ -28,7 +28,7 @@ if (isset($_POST['SaveItem'])) {
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
 
-    $sql = "INSERT INTO employee_tb (lname, fname, mname, nickName, bDate, maritalStatus, sex, department, title, position, dateStart, userName, password, createDate, modifiedDate)
+    $sql = "INSERT INTO employee_tb (lname, fname, mname, nickName, bDate, maritalStatus, sex, departmentID, title, position, dateStart, userName, password, createDate, modifiedDate)
         VALUES ('$lname', '$fname', '$mname', '$nickname', '$bdate', '$marital', '$sex', '$dept', '$title', '$position', '$startDate', '$username', '$hashedPassword', NOW(), NOW())";
 
     $result = mysqli_query($conn, $sql);

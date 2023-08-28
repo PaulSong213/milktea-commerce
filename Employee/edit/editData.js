@@ -1,10 +1,18 @@
+import { verifyAdmin } from "../../costum-js/verifyAdmin.js";
+
 export function handleEditClick(table) {
-    table.on('click', '.edit-btn', function (e) {
+
+    table.on('click', '.edit-btn', async function (e) {
+        const isConfirmedByAdmin = await verifyAdmin();
+        console.log(isConfirmedByAdmin);
+        if (!isConfirmedByAdmin) return;
+
+        console.log('verify admin done');
         const addModal = $("#addItemModal");
-        addModal.modal('show');
         let data = JSON.parse($(this).attr("data-item"));
         console.log(data);
 
+        addModal.modal('show');
         const toFillUpDatas = [
             {
                 dataKey: "lname",
@@ -53,15 +61,7 @@ export function handleEditClick(table) {
             {
                 dataKey: "userName",
                 inputName: "email"
-            },
-            {
-                dataKey: "password",
-                inputName: "Password"
-            },
-            {
-                dataKey: "password",
-                inputName: "CPassword"
-            },
+            }
         ];
 
         // fill up the fields
@@ -79,6 +79,7 @@ export function handleEditClick(table) {
         headerTitle.text("Edit Employee");
 
         const addItemForm = $("#addItemForm");
+
         addItemForm.attr("action", "./edit/editfunction.php");
         addItemForm.append(`<input type="hidden" name="item_id" value="${data['DatabaseID']}">`);
 

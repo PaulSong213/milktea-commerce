@@ -1,5 +1,12 @@
 <?php
-
+// if (!isset($_SESSION['username'])) {
+//     header("Location:/Zarate/index.php");
+// }
+if (isset($_GET['logout'])) {
+    session_destroy();
+    unset($_SESSION);
+    header("Location:/Zarate/index.php");
+}
 // get icons here -> https://mui.com/material-ui/material-icons/
 $sidebarContent = [
     [
@@ -8,33 +15,17 @@ $sidebarContent = [
         "link" => "/dashboard/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
     ],
-
     [
-        "name" => "Patient Admission", //name of the link
-        "icon" => "local_hospital", //material icon name 
-        "link" => "/patient_admission/index.php", //link of the page
-        "navigations" => [] //list of links on dropdown
-    ],
-    [
-        "name" => "Billing", //name of the link
+        "name" => "Charge Slip", //name of the link
         "icon" => "point_of_sale", //material icon name
-        "link" => "/billing_nyp_opd/index.php", //link of the page
+        "link" => "/billing_slip/index.php", //link of the page
         "navigations" => [
             [
-                "name" => "Charge Billing / NYP / OPD", //name of the link
-                "link" => "/billing_nyp_opd/index.php", //link of the page
-            ],
-            [
-                "name" => "Charge Billing / IPD", //name of the link
-                "link" => "/billing_ipd/index.php", //link of the page
-            ],
-            [
-                "name" => "Billing Statement", //name of the link
-                "link" => "/billingtable/index.php", //link of the page
+                "name" => "ChargeBilling/IPD/OPD", //name of the link
+                "link" => "/billing_slip/index.php", //link of the page
             ],
         ]
     ],
-
     [
         "name" => "Employee", //name of the link
         "icon" => "badge", //material icon name
@@ -42,10 +33,19 @@ $sidebarContent = [
         "navigations" => [] //list of links on dropdown
     ],
     [
-        "name" => "Patient Information", //name of the link
+        "name" => "Patient", //name of the link
         "icon" => "hotel", //material icon name
         "link" => "/Patient/index.php", //link of the page
-        "navigations" => [] //list of links on dropdown
+        "navigations" => [
+            [
+                "name" => "Enter new Patient Record", //name of the link
+                "link" => "/Patient/index.php", //link of the page
+            ],
+            [
+                "name" => "Enter Billing (New Admission)", //name of the link
+                "link" => "/billing-new-admission/index.php", //link of the page
+            ],
+        ] //list of links on dropdown
     ],
 
     [
@@ -70,6 +70,30 @@ $sidebarContent = [
             ],
         ] //list of links on dropdown
     ],
+    [
+        "name" => "Room", //name of the link
+        "icon" => "king_bed", //material icon name
+        "link" => "/Room/index.php", //link of the page
+        "navigations" => [] //list of links on dropdown
+     ],
+    [
+        "name" => "Account Settings", //name of the link
+        "icon" => "account_circle", //material icon name
+        "link" => "/dashboard/index.php", //link of the page
+        "navigations" => [
+            [
+                "name" =>  isset($_SESSION['user']) ? $_SESSION['user'] : 'You are Logout', //name of the link
+                "icon" => "account_circle", //material icon name
+                "link" => "/dashboard/index.php", //link of the pages
+            ],
+            [
+                "name" => "Log Out", //name of the link
+                "link" => "/sidebar.php?logout=true", //link of the page
+            ],
+
+        ] //list of links on dropdown
+    ],
+
 
 
 ]
@@ -103,12 +127,8 @@ $sidebarContent = [
         .session {
             display: flex;
             align-items: center;
-<<<<<<< HEAD
-            margin-top: 80px;
-=======
             margin-top: 100px;
-            bottom:10%;
->>>>>>> 9fa7a40e0cf0e9c127390ccd6700a3bf8a99a366
+            bottom: 10%;
             /* Align items vertically */
         }
 
@@ -269,14 +289,6 @@ $sidebarContent = [
             }
             ?>
         </ul>
-        <div class="session position-absolute">
-            <i class="material-icons icon">account_circle</i>
-            <label class="sessionlabel mt-2">
-                <?php include('session.php'); ?></label>
-        </div>
-
-
-
 
 
         <div>
@@ -287,7 +299,7 @@ $sidebarContent = [
 
     </nav>
 
-    <div class="container-fluid" id="content">
+    <div class="container-fluid bg-danger" id="content">
 
         <!-- Your content here -->
     </div>

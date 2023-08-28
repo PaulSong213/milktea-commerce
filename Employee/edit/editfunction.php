@@ -18,8 +18,12 @@ if (isset($_POST['SaveItem'])) {
     $employeesdate = $_POST['employee_sdate'];
     $depart = $_POST['dept'];
     $email = $_POST['email'];
-    $password = $_POST['Password'];
+
     $item_id = $_POST['item_id'];
+
+
+
+
 
     $sql = "UPDATE employee_tb
     SET
@@ -31,15 +35,26 @@ if (isset($_POST['SaveItem'])) {
         sex = '$sex',
         bDate = '$bdate',
         nickName = '$nickname',
-        department =  '$depart',
+        departmentID =  '$depart',
         dateStart = '$employeesdate',
-        password = '$password', 
+        password = '$hashedPassword', 
         userName = '$email',
         maritalStatus = '$marital',
         modifiedDate = now()
-    WHERE
-        DatabaseID = '$item_id';
+    
     ";
+
+    // check if password is changed
+    if (isset($_POST['Password'])) {
+        $password = $_POST['Password'];
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $sql = $sql . ", password = $hashedPassword";
+    }
+
+    // id condition to edit
+    $sql = $sql . "WHERE
+    DatabaseID = '$item_id';";
+
 
     $result = mysqli_query($conn, $sql);
     if ($result) {

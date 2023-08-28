@@ -1,20 +1,6 @@
-<?php session_start();
-require_once"../php/connect.php";
-if (!isset($_SESSION['username'])) {
-    header("Location:/Zarate/index.php");
-}
-if (isset($_GET['logout'])) {
-    session_destroy();
-    unset($_SESSION);
-    header("Location:/Zarate/index.php");
-}
-
-
-?>
+<?php session_start(); ?>
 <!doctype html>
 <html lang="en">
-
-
 
 <head>
     <!-- Required meta tags -->
@@ -22,10 +8,12 @@ if (isset($_GET['logout'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <title>Inventory</title>
+    <title>Supplier</title>
 </head>
+
 
 <body>
 
@@ -36,7 +24,7 @@ if (isset($_GET['logout'])) {
         </div>
         <div class="d-block w-100">
             <?php include('../php/session-dialog.php') ?>
-            <?php include('./productTable.php') ?>
+            <?php include('./Table.php') ?>
         </div>
     </div>
     <!-- end of main -->

@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html>
+<?php
+if (isset($_SESSION['username'])) {
+	header("Location: ./billing_slip/index.php");
+}
+?>
 
 <head>
 	<title>Login Page</title>
@@ -87,44 +92,42 @@
 		<img src="img/logo.png" alt="Logo" class="logo">
 		<?php
 		session_start(); // Start or resume the session
+		// check if login post is set
 
-		if ($_SERVER["REQUEST_METHOD"] == "POST") {
-			// Database connection parameters
-			$servername = "localhost";
-			$username = "root";
-			$password = "";
-			$dbname = "zaratehospital";
+		if (isset($_POST['login-submit'])) {
+			$mailuid = $_POST['mailuid'];
+			$password = $_POST['pwd'];
 
-			// Create a connection
-			$conn = new mysqli($servername, $username, $password, $dbname);
+			// Include database connection
+			require_once('./php/connect.php'); // Adjust the path if needed
+			$conn = connect(); // Assuming this function establishes the database connection
 
-			// Check connection
-			if ($conn->connect_error) {
-				die("Connection failed: " . $conn->connect_error);
-			}
+			$sql = "SELECT * FROM employee_tb WHERE userName='$mailuid';";
+			$result = mysqli_query($conn, $sql);
 
-			$usernameOrEmail = $_POST['mailuid'];
-			$inputPassword = $_POST['pwd']; // Password entered by the user
+			if ($result) { // Check if query was successful
+				$checkRow = mysqli_num_rows($result);
 
-			// Prepare and execute a SELECT query
-			$sql = "SELECT * FROM employee_tb WHERE userName = ?";
-			$stmt = $conn->prepare($sql);
-			$stmt->bind_param("s", $usernameOrEmail);
-			$stmt->execute();
-			$result = $stmt->get_result();
+				if ($checkRow > 0) {
+					$val = mysqli_fetch_assoc($result);
 
-			if ($result->num_rows === 1) {
-				// Successful login
-				$_SESSION['username'] = $usernameOrEmail; // Store user's username in the session
-				header("Location: ./billing/");
-				exit();
+					if (password_verify($password, $val["password"])) {
+						$_SESSION["user"] = json_encode($val);
+						header("Location: ./billing_slip/index.php");
+						exit(); // Use exit() instead of die() to terminate the script
+					} else {
+						echo "<p style='color:red'>Wrong Password</p>";
+					}
+				} else {
+					echo "<p style='color:red'>User not found</p>";
+				}
 			} else {
-				// Invalid credentials
-				echo '<p class="error">Invalid credentials. Please try again.</p>';
+				echo "<p style='color:red'>Database query error</p>";
 			}
 
-			$conn->close();
+			mysqli_close($conn); // Close the database connection
 		}
+
 		?>
 
 		<form class="" action="" method="post">

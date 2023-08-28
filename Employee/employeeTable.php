@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.css">
     <style>
         .dt-button-collection,
         .dt-button-background {
@@ -35,6 +36,25 @@
             font-size: 10px;
             margin-bottom: 5px;
         }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
     </style>
 </head>
 
@@ -60,7 +80,9 @@
                 <?php
                 require_once '../php/connect.php';
                 $connection = connect();
-                $sql = "select * from employee_tb ";
+                $sql = "select * from employee_tb 
+                    LEFT JOIN department_tb 
+                    ON employee_tb.departmentID = department_tb.departmentID";
                 $result = $connection->query($sql);
 
                 while ($row = $result->fetch_assoc()) {
@@ -68,9 +90,8 @@
                     $statusColor = ($row["Status"]  == "1") ? "alert-success"  : "alert-danger"; //condition for color bg.
                     echo "
                         <tr>
-                           
                             <td>" . $row["lname"] . ", " . $row["fname"] . ", " . $row["mname"] . "</td>
-                            <td>" . $row["department"] . "</td>
+                            <td>" . $row["departmentName"] . "</td>
                             <td>" . $row["position"] . "</td>
                             <td>" . $row["title"] . "</td>
                             <td>" . date("M d, Y h:i", strtotime($row["createDate"])) . "</td>
@@ -87,6 +108,14 @@
                 ?>
             </tbody>
         </table>
+        <div class="modal" id="myModal">
+            <div class="modal-content">
+                <h2>Edit Content</h2>
+                <p>Do you want to edit this content?</p>
+                <button id="confirmEdit">Yes, edit it!</button>
+                <button id="cancelEdit">Cancel</button>
+            </div>
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
@@ -199,8 +228,9 @@
                 ]
             });
             handleArchiveClick(table, 1, "./edit/archive.php", 6);
-            handleEditClick(table);
+            handleEditClick(table, $('#editModal'));
             handleViewClick(table);
+
         });
     </script>
     <script type="text/javascript">
@@ -232,6 +262,46 @@
             $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
         });
     </script>
+
+
+    <div class="modal fade" id="AdminPassModal" tabindex="2" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <form method="Post" action="./edit/validateAdmin.php">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Requires Admin Permission</h5>
+
+                    </div>
+                    <div class="modal-body">
+                        <!-- Your editing content goes here -->
+                        <div class="form-group">
+                            <b><label for="adminPassword">Administrator Password : </label></b>
+                            <input type="password" class="form-control" id="adminPassword" name="adminPassword" placeholder="Enter Admin Password" oninput="checkField()">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Close</button>
+                        <button type="submit" class="btn btn-primary" id="enterPasswordButton" disabled>Enter Admin Password</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <script>
+        function checkField() {
+            var passwordField = document.getElementById('adminPassword');
+            var enterButton = document.getElementById('enterPasswordButton');
+
+            if (passwordField.value.trim() !== '') {
+                enterButton.disabled = false;
+            } else {
+                enterButton.disabled = true;
+            }
+        }
+    </script>
+
 </body>
 
 </html>
