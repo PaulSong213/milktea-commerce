@@ -26,7 +26,7 @@ $sidebarContent = [
             ],
             [
                 "name" => "Closing Report", // name of the link
-                "link" => "/closingReport/reportPopUp.php", // use the modal id as the link
+                "link" => "/closingReport/index.php", // use the modal id as the link
                 "id" => "openModalButton", // add an id to the link
             ],
             

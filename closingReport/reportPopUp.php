@@ -1,61 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Print Closing Report</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        #uiContainer {
+            background-color: #001f3f;
+            padding: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        #dateTimeInfo, .form-label, .btn-primary, .btn-success {
+            color: white;
+        }
+        #text {
+            color: white;
+        }
+    </style>
 </head>
 
 <body>
-    <!-- Button to open the modal -->
-    <button id="openModalButton" type="button" class="btn btn-primary">Open Popup</button>
+    <!-- Separate container for UI elements -->
+    <div id="uiContainer" class="d-block w-100">
+        <div class="py-3">
+            <div class="d-flex justify-content-between">
+                <div style="margin-right: 15px;">
+                    <h3 id="text" class="fw-bold mb-1">CLOSING REPORT</h3>
+                </div>
+                <div class="d-flex flex-column">
+                    <h3 class="mb-1" id="closingReport"></h3>
+                   
+                </div>
+            </div>
+        </div>
+        <div class="mb-2">
+            <label for="inputDate" class="form-label">Select Date</label>
+            <input type="date" class="form-control" id="inputDate">
+        </div>
+        <div class="mb-2">
+            <label for="inputTimeIn" class="form-label">Select Time In</label>
+            <input type="time" class="form-control" id="inputTimeIn">
+        </div>
+        <div class="mb-2">
+            <label for="inputTimeOut" class="form-label">Select Time Out</label>
+            <input type="time" class="form-control" id="inputTimeOut">
+        </div>
+        <div class="d-flex justify-content-end">
+            <button id="printButton" type="button" class="btn btn-success" style="display: none;">Print</button>
+            <button id="confirmButton" type="button" class="btn btn-primary">Confirm</button>
+        </div>
+    </div>
 
-    <!-- Modal -->
-    <div class="modal fade" data-bs-backdrop="static" id="printModal" tabindex="-1"
-        aria-labelledby="printModalLabel" aria-hidden="true">
+    <div class="modal fade" data-bs-backdrop="static" id="printModal" tabindex="-1" aria-labelledby="printModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="printModalLabel">Print Closing Report</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body border p-4 m-4 shadow">
-                    <div id="reportPopUp">
-                        <div class="py-3">
-                            <div class="d-flex">
-                                <div style="margin-right: 15px;">
-                                    <h3 class="fw-bold mb-1">CLOSING REPORT</h3>
-                                </div>
-                                <div class="d-flex flex-column">
-                                <h3 class="mb-1" id="closingReport"></h3>
-                                <p id="dateTimeInfo"></p> <!-- This element will hold the selected date, time in, and time out -->
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Date Input Field -->
-                       <div class="mb-2">
-                        <label for="inputDate" class="form-label">Select Date</label>
-                         <input type="date" class="form-control" id="inputDate">
-                         </div>
-                        <!-- Time In Input Field -->
-                        <div class="mb-2">
-                        <label for="inputTimeIn" class="form-label">Select Time In</label>
-                         <input type="time" class="form-control" id="inputTimeIn">
-                        </div>
-                        <!-- Time Out Input Field -->
-                        <div class="mb-2">
-                        <label for="inputTimeOut" class="form-label">Select Time Out</label>
-                        <input type="time" class="form-control" id="inputTimeOut">
-                        </div>
-                    </div>
+                <div class="modal-body border p-4 m-4 shadow" id="reportPopUp">
+                    <!-- Content from fetch_data.php will be inserted here -->
                 </div>
                 <div class="modal-footer">
-                    <button id="closeButton" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button id="confirmButton" type="button" class="btn btn-primary">Confirm</button>
-                    <button id="printButton" type="button" class="btn btn-success" style="display: none;">Print</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="printModalButton" type="button" class="btn btn-primary">Print</button>
                 </div>
             </div>
         </div>
@@ -65,53 +79,44 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         $(document).ready(function () {
-            // Open the modal when the "Closing Report" button is clicked
-            $("#openModalButton").click(function () {
-                var exampleModalPopup = new bootstrap.Modal($('#printModal'), {});
-                exampleModalPopup.show();
-            });
+            $("#confirmButton").click(function () {
+                var selectedDate = $("#inputDate").val();
+                var selectedTimeIn = $("#inputTimeIn").val();
+                var selectedTimeOut = $("#inputTimeOut").val();
 
-            $("#confirmButton").click(function() {
-        var selectedDate = $("#inputDate").val();
-        var selectedTimeIn = $("#inputTimeIn").val();
-        var selectedTimeOut = $("#inputTimeOut").val();
+                if (selectedDate && selectedTimeIn && selectedTimeOut) {
+                    var dateTimeIn = selectedDate + ' ' + selectedTimeIn;
+                    var dateTimeOut = selectedDate + ' ' + selectedTimeOut;
 
-        if (selectedDate && selectedTimeIn && selectedTimeOut) {
-            var dateTimeIn = selectedDate + ' ' + selectedTimeIn;
-            var dateTimeOut = selectedDate + ' ' + selectedTimeOut;
-            
-            // Fetch data using AJAX
-                $.ajax({
-                url: "fetch_data.php",
-                method: "POST",
-                data: {
-                    dateTimeIn: dateTimeIn,
-                    dateTimeOut: dateTimeOut
-                },
-                success: function (response) {
-                    // Update the modal content with fetched data
-                    $("#reportPopUp").html(response);
+                    $.ajax({
+                        url: "fetch_data.php",
+                        method: "POST",
+                        data: {
+                            dateTimeIn: dateTimeIn,
+                            dateTimeOut: dateTimeOut
+                        },
+                        success: function (response) {
+                            var dateTimeRange = selectedDate + ' ' + selectedTimeIn + ' - ' + selectedTimeOut;
+                            // Update the Closing Report header
+                            $("#closingReport").text("CLOSING REPORT AS OF:");
+                            $("#dateTimeInfo").text(dateTimeRange);
+                            // Show the fetched data in the modal
+                            $("#reportPopUp").html(response);
 
-                    // Update the Closing Report header
-                    $("#closingReport").text(selectedDate + ' ' + selectedTimeIn + ' - ' + selectedTimeOut);
-
-                    // Hide the Confirm button and show the Print button
-                    $("#confirmButton").hide();
-                    $("#printButton").show();
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error fetching data:", error);
+                            // Show the modal
+                            var printModalPopup = new bootstrap.Modal($('#printModal'), {});
+                            printModalPopup.show();
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error fetching data:", error);
+                        }
+                    });
+                } else {
+                    alert("Please select date, time in, and time out.");
                 }
             });
-        } else {
-            alert("Please select date, time in, and time out.");
-        }
-    });
 
-        
-
-            // Handle Print button click
-            $("#printButton").click(function () {
+            $("#printModalButton").click(function () {
                 var printContents = $("#reportPopUp").html();
                 var originalContents = document.body.innerHTML;
 
@@ -122,18 +127,7 @@
                 // Restore original body content
                 document.body.innerHTML = originalContents;
             });
-
-            // Handle Close button click
-            $("#closeButton").click(function () {
-                // Reset modal inputs and hide modal
-                $("#inputDate").val("");
-                $("#inputTimeIn").val("");
-                $("#inputTimeOut").val("");
-                var exampleModalPopup = new bootstrap.Modal($('#printModal'), {});
-                exampleModalPopup.hide();
-            });
         });
     </script>
 </body>
-
 </html>

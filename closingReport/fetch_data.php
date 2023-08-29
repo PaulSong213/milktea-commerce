@@ -57,35 +57,35 @@
 </head>
 
 <body>
+<body>
 <div class="py-3">
-    <div class="d-flex">
+    <div class="d-flex justify-content-between">
         <div style="margin-right: 15px;">
             <h3 class="fw-bold mb-1">CLOSING REPORT AS OF:</h3>
+            <?php
+            if (isset($_POST['dateTimeIn']) && isset($_POST['dateTimeOut'])) {
+                $dateTimeIn = $_POST['dateTimeIn'];
+                $dateTimeOut = $_POST['dateTimeOut'];
+                echo "<p class='mb-0'>$dateTimeIn - $dateTimeOut</p>";
+            }
+            ?>
         </div>
-        
     </div>
-    <div class="d-flex flex-column">
-            <h4 class="mb-1" id="closingReport"></h4>   
-        </div>
 </div>
     
 <div class="table w-100 p-4">
         <table id="example" class="table table-striped" style="width:100%">
-        
             <thead>
                 <tr>
-                    <th>DATE</th>
-                    <th>PRODUCT INFO</th>
-                    <th>SALES</th>
-                    <th>CASH IN</th>
-                    <th>CHECK IN</th>
-                    <th>AMOUNT IN</th>
-                    <th>CASH OUT</th>
-                    <th>AMOUNT ON HAND</th>
+                    <th>Date</th>
+                    <th>Product Info</th>
+                    <th>Net Sale</th>
+                    <th>Net Amount</th>
+                    <th>Amount Tendered</th>
+                    <th>Change Amount</th>
                 </tr>
             </thead>
             <tbody>
-                
                 <?php
                 require_once '../php/connect.php';
                 if (isset($_POST['dateTimeIn']) && isset($_POST['dateTimeOut'])) {
@@ -95,23 +95,48 @@
                     $connection = connect();
                     $sql = "SELECT * FROM sales_tb WHERE createDate >= '$dateTimeIn' AND createDate <= '$dateTimeOut'";
                     $result = $connection->query($sql);
+
+                    $totalNetSale = 0;
+                    $totalNetAmount = 0;
+
                     while ($row = $result->fetch_assoc()) {
+                        // Access the value of ProductInfo
+                        $productInfoJson = $row["ProductInfo"];
+                    
+                        // Convert the JSON string to a PHP array
+                        $productInfoArray = json_decode($productInfoJson, true);
+                    
+                        // Access specific values within the ProductInfo array
+                        $subtotal = $productInfoArray[0]["subtotal"];
+                        $productId = $productInfoArray[0]["product_id"];
+                        $qty = $productInfoArray[0]["qty"];
+                    
                         echo "
                             <tr>
-                                <td>" . $row["createDate"] ."</td>
-                                <td>" . $row["ProductInfo"] . "</td>
+                                <td>" . $row["createDate"] . "</td>
+                                <td>" . $productId . " " . $qty . "</td>
                                 <td>" . $row["NetSale"] . "</td>
                                 <td>" . $row["NetAmt"] . "</td>
                                 <td>" . $row["AmtTendered"] . "</td>
                                 <td>" . $row["ChangeAmt"] . "</td>
-                            </tr>
-                        ";
+                            </tr>";
+                    
+                        $totalNetSale += $row["NetSale"];
+                        $totalNetAmount += $row["NetAmt"];
                     }
+
+                    echo "
+                    <tr>
+                            <th colspan='0'>Total:</th>
+                            <th></th>
+                            <th></th>
+                            <th colspan='5'>$totalNetSale</th>
+                            <th></th>
+                    </tr>";
                 } else {
-                    echo "<tr><td colspan='8'>No data to display.</td></tr>";
+                    echo "<tr><td colspan='6'>No data to display.</td></tr>";
                 }
                 ?>
-
             </tbody>
         </table>
     </div>
