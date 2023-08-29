@@ -20,10 +20,10 @@ if (isset($_POST['SaveItem'])) {
     $result = mysqli_query($conn, $sql);
     if ($result) {
         // success
-        $_SESSION["alert_message"] = "Successfully Added an Item";
+        $_SESSION["alert_message"] = "Successfully Added an Room";
         $_SESSION["alert_message_success"] = true;
     } else {
-        $_SESSION["alert_message"] = "Failed to Added an Item. Error Details: " . mysqli_error($conn);
+        $_SESSION["alert_message"] = "Failed to Added an Room. Error Details: " . mysqli_error($conn);
         $_SESSION["alert_message_error"] = true;
     }
 

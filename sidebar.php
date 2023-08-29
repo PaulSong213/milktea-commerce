@@ -37,8 +37,23 @@ $sidebarContent = [
         "name" => "Employee", //name of the link
         "icon" => "badge", //material icon name
         "link" => "/Employee/index.php", //link of the page
-        "navigations" => [] //list of links on dropdown
+        "navigations" => [
+            [
+                "name" => "Employee", //name of the link
+                "link" => "/Employee/index.php", //link of the page
+            ],
+            [
+                "name" => "Department", //name of the link
+                "link" => "/departmentTable/index.php", //link of the page
+            ],
+            [
+                "name" => "Room", //name of the link
+                "link" => "/Room/index.php", //link of the page
+            ],
+
+        ] //list of links on dropdown
     ],
+     
     [
         "name" => "Patient", //name of the link
         "icon" => "hotel", //material icon name
@@ -56,13 +71,6 @@ $sidebarContent = [
     ],
 
     [
-        "name" => "Supplier", //name of the link
-        "icon" => "local_shipping", //material icon name
-        "link" => "/SupplierTable/index.php", //link of the page
-        "navigations" => [] //list of links on dropdown
-    ],
-
-    [
         "name" => "Inventory", //name of the link
         "icon" => "vaccines", //material icon name
         "link" => "/inventory/index.php", //link of the page
@@ -75,14 +83,15 @@ $sidebarContent = [
                 "name" => "Item Types", //name of the link
                 "link" => "/itemType/index.php", //link of the page
             ],
+            [
+                "name" => "Supplier", //name of the link
+                "icon" => "local_shipping", //material icon name
+                "link" => "/SupplierTable/index.php", //link of the page
+                "navigations" => [] //list of links on dropdown
+            ],
         ] //list of links on dropdown
     ],
-    [
-        "name" => "Room", //name of the link
-        "icon" => "king_bed", //material icon name
-        "link" => "/Room/index.php", //link of the page
-        "navigations" => [] //list of links on dropdown
-    ],
+   
     [
         "name" => "Account Settings", //name of the link
         "icon" => "account_circle", //material icon name
