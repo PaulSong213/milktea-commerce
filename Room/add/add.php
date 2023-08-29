@@ -25,7 +25,7 @@
                         <input type="text" id="room_description" name="room_description" class="form-control" placeholder="Enter Room Description" required>
 
                         <label for="rate_per_day"><b>Rate Per Day</b></label>
-                        <input type="text" id="rate_per_day" name="rate_per_day" class="form-control" placeholder="Enter Rate Per Day" oninput="allowOnlyNumbers(this)" required>
+                        <input type="text" id="rate_per_day" name="rate_per_day" class="form-control" placeholder="Enter Rate Per Day" required>
 
                         <!-- Add more fields as needed -->
                     </div>

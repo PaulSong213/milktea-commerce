@@ -16,7 +16,7 @@ require_once '../../php/connect.php';
 $connection = connect();
 
 // get current status
-$sql = "SELECT status FROM supplier_tb WHERE supplier_code=" . $_POST["rowID"] . ";";
+$sql = "SELECT status FROM room_tb WHERE room_ID=" . $_POST["rowID"] . ";";
 $result = $connection->query($sql);
 
 if (!$result) {
@@ -31,7 +31,7 @@ $previousStatus = $row["status"];
 $newStatus = $previousStatus == 0 ? 1 : 0; // swap 1 and 0
 
 // Update new status
-$sql = "UPDATE supplier_tb SET status=" . $newStatus . " WHERE supplier_code=" . $_POST["rowID"] . ";";
+$sql = "UPDATE room_tb SET status=" . $newStatus . " WHERE room_ID=" . $_POST["rowID"] . ";";
 $result = $connection->query($sql);
 
 if ($result) {

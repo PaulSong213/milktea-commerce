@@ -1,10 +1,20 @@
-<?php require_once '../php/connect.php'; ?>
 <!DOCTYPE html>
 
 <html lang="en">
 
 <head>
-    <title></title>
+                <div class="d-flex justify-content-center align-items-center">
+                    <img style="height: 60px;" src="../img/logo.png" alt="ZARATE LOGO">
+                    <div class="mx-3 d-flex flex-column justify-content-end text-center">
+                        <h5 class="fw-bold mb-1">E. Zarate Hospital</h5>
+                        <h6 class="text-muted">16 J. Aguilar Avenue, Talon, Las Piñas City, <br />Metro Manila, Philippines 1747</h6>
+                    </div>
+                </div>
+                <hr class="my-4">
+
+    <title>
+        
+    </title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
@@ -36,49 +46,72 @@
             font-size: 10px;
             margin-bottom: 5px;
         }
+
+        td:nth-child(2) {
+            max-width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     </style>
 </head>
 
 <body>
-    <div class="table w-100 p-4">
-        <h2 class="mt-4 mb-5">SUPPLIER</h2>
-        <?php include './add/add.php'; ?>
-        <?php include './view/view.php'; ?>
+<div class="py-3">
+    <div class="d-flex">
+        <div style="margin-right: 15px;">
+            <h3 class="fw-bold mb-1">CLOSING REPORT AS OF:</h3>
+        </div>
+        
+    </div>
+    <div class="d-flex flex-column">
+            <h4 class="mb-1" id="closingReport"></h4>   
+        </div>
+</div>
+    
+<div class="table w-100 p-4">
         <table id="example" class="table table-striped" style="width:100%">
+        
             <thead>
                 <tr>
-                    <th>Room Ref</th>
-                    <th>Room Description</th>
-                    <th>Rate Per Day</th>
-                    <th>Status</th>
-                    <th class="action-column">Actions</th>
+                    <th>DATE</th>
+                    <th>PRODUCT INFO</th>
+                    <th>SALES</th>
+                    <th>CASH IN</th>
+                    <th>CHECK IN</th>
+                    <th>AMOUNT IN</th>
+                    <th>CASH OUT</th>
+                    <th>AMOUNT ON HAND</th>
                 </tr>
             </thead>
             <tbody>
+                
                 <?php
-                $connection = connect();
+                require_once '../php/connect.php';
+                if (isset($_POST['dateTimeIn']) && isset($_POST['dateTimeOut'])) {
+                    $dateTimeIn = $_POST['dateTimeIn'];
+                    $dateTimeOut = $_POST['dateTimeOut'];
 
-                $sql = " select * from room_tb ";
-                $result = $connection->query($sql);
-
-                while ($row = $result->fetch_assoc()) {
-                    $activeStatus = ($row["status"]  == "1") ? "Available"  : "Occupied/Under Maintenance"; //condition for status
-                    $statusColor = ($row["status"]  == "1") ? "alert-success"  : "alert-danger"; //condition for color bg.
-                    echo "
-                        <tr>
-                            <td>" . $row["Roomref"] . "</td>
-                            <td>" . $row["roomDescription"] . "</td>
-                            <td>" . $row["rateperDay"] . "</td>
-                            <td>
-                                <div class='d-flex w-100 h-100 d-flex '>
-                                    <h6 style='font-size: 13px' class='p-1 alert m-auto " . $statusColor . "'>" . $activeStatus . "</h6>
-                                </div>
-                            </td>
-                            <td class='invisible'>" . json_encode($row) . "</td>
-                        </tr>
+                    $connection = connect();
+                    $sql = "SELECT * FROM sales_tb WHERE createDate >= '$dateTimeIn' AND createDate <= '$dateTimeOut'";
+                    $result = $connection->query($sql);
+                    while ($row = $result->fetch_assoc()) {
+                        echo "
+                            <tr>
+                                <td>" . $row["createDate"] ."</td>
+                                <td>" . $row["ProductInfo"] . "</td>
+                                <td>" . $row["NetSale"] . "</td>
+                                <td>" . $row["NetAmt"] . "</td>
+                                <td>" . $row["AmtTendered"] . "</td>
+                                <td>" . $row["ChangeAmt"] . "</td>
+                            </tr>
                         ";
+                    }
+                } else {
+                    echo "<tr><td colspan='8'>No data to display.</td></tr>";
                 }
                 ?>
+
             </tbody>
         </table>
     </div>
@@ -94,7 +127,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables-buttons/2.2.0/js/buttons.colVis.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="module">
-        import {
+       import {
             searchColumn,
             handleArchiveClick,
         } from "../costum-js/datatables.js";
@@ -150,7 +183,7 @@
                         className: 'btn border border-info'
                     },
                     {
-                        text: 'Add Room',
+                        text: 'Add Item Type',
                         className: 'btn btn-primary bg-primary text-white',
                         action: function(e, dt, node, config) {
                             $('#addItemModal').modal('show');
@@ -164,7 +197,7 @@
                     targets: -1,
                     render: (d) => {
                         const data = JSON.parse(d);
-                        const id = data.room_ID;
+                        const id = data.InventoryID;
                         return `
                         <div class="dropdown dropstart d-flex">
                             <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
@@ -177,9 +210,6 @@
                                 <li class="mx-2">
                                     <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
                                 </li>
-                                <li class="mx-2">
-                                    <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>
-                                </li>
                             </ul>
                         </div>
                         `
@@ -187,24 +217,18 @@
                     "searchable": false
                 }],
                 order: [
-                    [4, 'asc']
+                    [3, 'asc']
                 ]
             });
-            handleArchiveClick(table, 0, "./edit/archive.php", 3);
             handleEditClick(table);
             handleViewClick(table);
-        });
-    </script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $(".xp-menubar").on('click', function() {
-                $('#sidebar').toggleClass('active');
-                $('#content').toggleClass('active');
-            });
 
-            $(".xp-menubar,.body-overlay").on('click', function() {
-                $('#sidebar,.body-overlay').toggleClass('show-nav');
+            table.on('draw', function() {
+                $('.action-wrapper').each(function(i, e) {
+                    $(this).removeClass('invisible');
+                });
             });
+            table.page(1).draw(true);
         });
     </script>
     <script>
