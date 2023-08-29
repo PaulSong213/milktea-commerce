@@ -42,11 +42,7 @@ function getLastBillingID($conn)
 }
 // Get the last SalesID
 $LastBillingID = getLastBillingID($conn);
-
-
 ?>
-
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
