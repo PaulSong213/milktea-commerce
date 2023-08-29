@@ -7,28 +7,10 @@ $conn = connect();
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-$username = isset($_SESSION['user']) ? $_SESSION['user'] : 'You are Logout';
+$loggedInUser = isset($_SESSION['user']) ? json_decode($_SESSION['user']) : null;
+$currentLoggedInEncoder = $loggedInUser->title . ' ' . $loggedInUser->lname . ',' . $loggedInUser->fname . ' ' . $loggedInUser->mname . ' | ID: ' . $loggedInUser->DatabaseID;
 
-
-
-// Create a function to retrieve the employee reference
-function getEmployeeReference($conn, $username)
-{
-    $escapedUsername = $conn->real_escape_string($username);
-
-    $queryValue = "SELECT title, lname, fname, mname, position AS reference FROM employee_tb WHERE userName = '$escapedUsername'";
-    $result = $conn->query($queryValue);
-
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        return $row['reference'];
-    } else {
-        return 'No Records'; // Return an empty string if no records found
-    }
-}
-
-// Assuming you have a valid database connection in $conn
-$employeeReference = getEmployeeReference($conn, $username);
+echo $currentLoggedInEncoder;
 
 // Function to get the last SalesID
 function getLastSalesID($conn)
@@ -196,9 +178,9 @@ $LastBillingID = getLastBillingID($conn);
                             Please select a valid requested by Name.
                         </small>
                     </div>
-                    <div class="form-group was-validated">
+                    <div class="form-group">
                         <label for="enteredByName">Entered By: </label>
-                        <input type="text" class="form-control is-invalid" name="enteredByName" list="employeeList" correctData="employeesData" placeholder="Enter Entered By Name" value="<?php echo $employeeReference; ?>" required>
+                        <input type="text" class="form-control is-valid text-light bg-secondary" name="enteredByName" list="employeeList" readonly correctData="employeesData" placeholder="Enter Entered By Name" value="<?= $currentLoggedInEncoder; ?>" sql-value="<?= $currentLoggedInEncoder; ?>" required isvalidated="true">
                         <?php require_once('../API/datalist/employee-list.php') ?>
                         <small class="feedback d-none bg-danger p-1 rounded my-1">
                             Please select a valid requested by Name.
