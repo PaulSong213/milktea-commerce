@@ -12,7 +12,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addItemModalLabel">Add New Supplier</h5>
+                        <h5 class="modal-title" id="addItemModalLabel">Add New Room</h5>
                         <button type="button" class="close" id="Closemodal1" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
