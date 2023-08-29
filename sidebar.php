@@ -329,12 +329,11 @@ $sidebarContent = [
             $("#toggleSidebar").on("click", function() {
                 toggleSidebar();
             });
-
             $(".nav-link").on("click", function() {
                 toggleSidebar();
             });
+            
         });
-
         // Initialize sidebar state on page load
         checkSideBarState();
 
@@ -349,6 +348,9 @@ $sidebarContent = [
             $(".sessionlabel").toggleClass("d-none");
             $(".company-title").toggleClass("d-none");
             $(".sub-nav-link").toggleClass("transform-scale-small");
+            
+            // Added animation for smooth sidebar toggle
+            $("#sidebar, #content").addClass("transition");
         }
 
         function checkSideBarState() {
@@ -367,8 +369,13 @@ $sidebarContent = [
                 }
             }
         });
+        
+        // Added event listener for window resize to check sidebar state
+        $(window).resize(function() {
+            checkSideBarState();
+        });
+        
     </script>
-
 </body>
 
 </html>
