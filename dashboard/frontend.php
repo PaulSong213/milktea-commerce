@@ -70,7 +70,7 @@ $dailySalesSummaryResult = $conn->query($dailySalesSummaryQuery);
 $conn->close();
 ?>
 <body>
-<div class="container-fluid">
+<div class="container-fluid mt-5">
     <div class="container">
         <h1 class="text-center">SUMMARY DASHBOARD</h1>
         <div class="row">
