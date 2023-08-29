@@ -25,11 +25,11 @@ $sidebarContent = [
                 "link" => "/billing_slip/index.php", //link of the page
             ],
             [
-                 "name" => "Clossing Report", // include returns the included content
-                 "link" => "/closingReport/reportPopUp.php",
-                 "id" => "openModalButton",
+                "name" => "Clossing Report", // include returns the included content
+                "link" => "/closingReport/reportPopUp.php",
+                "id" => "openModalButton",
             ],
-            
+
 
         ]
     ],
@@ -53,7 +53,7 @@ $sidebarContent = [
 
         ] //list of links on dropdown
     ],
-     
+
     [
         "name" => "Patient", //name of the link
         "icon" => "hotel", //material icon name
@@ -91,7 +91,7 @@ $sidebarContent = [
             ],
         ] //list of links on dropdown
     ],
-   
+
     [
         "name" => "Account Settings", //name of the link
         "icon" => "account_circle", //material icon name
@@ -126,6 +126,11 @@ $sidebarContent = [
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
+        a {
+            text-decoration: none;
+            /* Remove underline from links */
+        }
+
         #sidebar {
             position: fixed;
             width: 260px;
@@ -261,10 +266,11 @@ $sidebarContent = [
 
 <body>
     <nav id="sidebar">
-        <div class="sidebar-header">
-            <h3><img src="/Zarate/img/logo.png" class="img-fluid" alt="Logo" /><span class="fw-bold company-title">E.Zarate Hospital</span></h3>
-
-        </div>
+        <a href="../dashboard/index.php">
+            <div class="sidebar-header">
+                <h3><img src="/Zarate/img/logo.png" class="img-fluid" alt="Logo" /><span class="fw-bold company-title">E.Zarate Hospital</span></h3>
+            </div>
+        </a>
         <ul class="list-unstyled components">
 
             <?php
@@ -325,12 +331,11 @@ $sidebarContent = [
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        
         $(document).ready(function() {
             $("#toggleSidebar").on("click", function() {
                 toggleSidebar();
             });
-            
+
         });
         checkSideBarState();
         window.addEventListener('resize', () => {
@@ -351,7 +356,6 @@ $sidebarContent = [
             if (screen.width <= 768 && !isSideBarOpened) toggleSidebar();
             if (screen.width > 768 && isSideBarOpened) toggleSidebar();
         }
-        
     </script>
 
 
