@@ -75,10 +75,10 @@ $conn->close();
 ?>
 
 <body>
-<div class="container-fluid">
+<div class="container-fluid bg-danger">
     <?php include('../sidebar.php'); ?>
-    <div class="container mt-3">
-        <h1 class="text-center mb-4 mt-5">SUMMARY DASHBOARD</h1>
+    <div class="container">
+        <h1 class="text-center">SUMMARY DASHBOARD</h1>
         <div class="row">
             <?php
             $summarySections = [
@@ -109,7 +109,6 @@ $conn->close();
         </div>
     </div>
 </div>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         var invdailyData = <?php echo json_encode($dailySummaryResult->fetch_all(MYSQLI_ASSOC)); ?>;
