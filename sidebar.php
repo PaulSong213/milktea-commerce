@@ -103,7 +103,7 @@ $sidebarContent = [
         "link" => "/dashboard/index.php", //link of the page
         "navigations" => [
             [
-                "name" =>  isset($_SESSION['user']) ? $_SESSION['user'] : 'You are Logout', //name of the link
+                "name" => isset($_SESSION['user']) ? json_decode($_SESSION['user'], true)['userName'] : 'You are Logout',
                 "icon" => "account_circle", //material icon name
                 "link" => "/dashboard/index.php", //link of the pages
             ],
