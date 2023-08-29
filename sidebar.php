@@ -24,6 +24,14 @@ $sidebarContent = [
                 "name" => "ChargeBilling/IPD/OPD", //name of the link
                 "link" => "/billing_slip/index.php", //link of the page
             ],
+            [
+                "name" => "Closing Report", // name of the link
+                "link" => "/closingReport/reportPopUp.php", // use the modal id as the link
+                "id" => "openModalButton", // add an id to the link
+            ],
+            
+            
+
         ]
     ],
     [
@@ -308,10 +316,12 @@ $sidebarContent = [
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+        
         $(document).ready(function() {
             $("#toggleSidebar").on("click", function() {
                 toggleSidebar();
             });
+            
         });
         checkSideBarState();
         window.addEventListener('resize', () => {
@@ -332,6 +342,7 @@ $sidebarContent = [
             if (screen.width <= 768 && !isSideBarOpened) toggleSidebar();
             if (screen.width > 768 && isSideBarOpened) toggleSidebar();
         }
+        
     </script>
 
 </body>
