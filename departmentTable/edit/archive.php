@@ -16,7 +16,7 @@ require_once '../../php/connect.php';
 $connection = connect();
 
 // get current status
-$sql = "SELECT status FROM supplier_tb WHERE supplier_code=" . $_POST["rowID"] . ";";
+$sql = "SELECT status FROM department_tb WHERE deparmentID=" . $_POST["rowID"] . ";";
 $result = $connection->query($sql);
 
 if (!$result) {

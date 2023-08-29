@@ -7,34 +7,13 @@ export function handleEditClick(table) {
 
         const toFillUpDatas = [
             {
-                dataKey: "supplier_name",
-                inputName: "supplier_name"
+                dataKey: "departmentName",
+                inputName: "departmentName"
             },
             {
-                dataKey: "address",
-                inputName: "address"
-            },
-            {
-                dataKey: "telNum",
-                inputName: "telNum"
-            },
-            {
-                dataKey: "faxNum",
-                inputName: "faxNum"
-            },
-             {
-                 dataKey: "CelNum",
-                 inputName: "CelNum"
-             },
-            {
-                dataKey: "contactNo",
-                inputName: "contactNum"
-            },
-            {
-                dataKey: "Snote",
-                inputName: "Snote"
-            }
-          
+                dataKey: "departmentDescription",
+                inputName: "departmentDescription"
+            }   
         ];
 
         // fill up the fields
@@ -54,7 +33,7 @@ export function handleEditClick(table) {
         const addItemForm = $("#addItemForm");
         const addItemFormAction = addItemForm.attr("action");
         addItemForm.attr("action", "./edit/editfunction.php");
-        addItemForm.append(`<input type="hidden" name="item_id" value="${data['supplier_code']}">`);
+        addItemForm.append(`<input type="hidden" name="item_id" value="${data['departmentID']}">`);
 
         // watch modal close then reset data
         addModal.on("hidden.bs.modal", function () {
