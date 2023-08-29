@@ -78,14 +78,14 @@ $lastSalesID = getLastSalesID($conn);
                     <div class="form-group row">
                         <div class="col-md-2 d-flex align-items-center justify-content-center">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" checked="checked" id="opdRadio" name="patientAccountType" value="OPD" required>
+                                <input class="form-check-input inputTypeRadio" type="radio" checked="checked" id="opdRadio" name="patientAccountType" value="OPD" required>
                                 <label class="form-check-label" for="opdRadio">OPD</label>
                                 <div class="invalid-feedback">Please select a patient type.</div>
                             </div>
                         </div>
                         <div class="col-md-2 d-flex align-items-center justify-content-center">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" id="ipdRadio" name="patientAccountType" value="IPD" required>
+                                <input class="form-check-input inputTypeRadio" type="radio" id="ipdRadio" name="patientAccountType" value="IPD" required>
                                 <label class="form-check-label" for="ipdRadio">IPD</label>
                                 <div class="invalid-feedback">Please select a patient type.</div>
                             </div>
@@ -131,16 +131,21 @@ $lastSalesID = getLastSalesID($conn);
                             </div>
                         </div>
                     </div>
-                    <div class="form-group was-validated">
+                    <div class="form-group">
                         <label for="requestedByName">Requested By: </label>
-                        <input type="text" class="form-control" name="requestedByName" list="patientList" placeholder="Enter Requested By Name" required>
-                        <?php require_once('../API/datalist/patient-list.php') ?>
-                        <div class="invalid-feedback">Please enter the requested by name.</div>
+                        <input type="text" class="form-control is-invalid" name="requestedByName" list="employeeList" correctData="employeesData" placeholder="Enter Requested By Name" required>
+                        <?php require_once('../API/datalist/employee-list.php') ?>
+                        <small class="feedback d-none bg-danger p-1 rounded my-1">
+                            Please select a valid requested by Name.
+                        </small>
                     </div>
                     <div class="form-group was-validated">
                         <label for="enteredByName">Entered By: </label>
-                        <input type="text" class="form-control" name="enteredByName" placeholder="Enter Entered By Name" value="<?php echo $employeeReference; ?>" required>
-                        <div class="invalid-feedback">Please enter the entered by name.</div>
+                        <input type="text" class="form-control is-invalid" name="enteredByName" list="employeeList" correctData="employeesData" placeholder="Enter Entered By Name" value="<?php echo $employeeReference; ?>" required>
+                        <?php require_once('../API/datalist/employee-list.php') ?>
+                        <small class="feedback d-none bg-danger p-1 rounded my-1">
+                            Please select a valid requested by Name.
+                        </small>
                     </div>
                     <h3 class="app-title mt-4 text">PRODUCT CART:</h3>
                 </div>
@@ -169,7 +174,7 @@ $lastSalesID = getLastSalesID($conn);
                 </div>
                 <div class="form-group fw-bold">
                     <label for="change">Change</label>
-                    <input type="text" class="form-control text-light bg-secondary" name="change" readonly value="0.00" min="0">
+                    <input type="number" class="form-control text-light bg-secondary" name="change" id="change" step="0.1" value="0.00" readonly>
                 </div>
                 <button type="submit" class="btn btn-primary add-button" name="SaveItem">Save Transaction</button>
             </div>
@@ -222,15 +227,6 @@ $lastSalesID = getLastSalesID($conn);
     </form>
     <script script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
     <script>
-        import {
-            validateDataList
-        } from "./js/datalist.js";
-
-        validateDataList({
-            patientsData: JSON.parse('<?= $patientsData ?>'),
-            employeesData: JSON.parse('<?= $employeesData ?>')
-        });
-
         document.addEventListener('DOMContentLoaded', function() {
             const radioInput = document.getElementById('ipdRadio');
             const additionalContent = document.getElementById('additionalContent');
@@ -457,6 +453,7 @@ $lastSalesID = getLastSalesID($conn);
             const amountTenderedValue = parseFloat(amountTenderedInput.value) || 0;
             const change = amountTenderedValue - netAmount;
             changeInput.value = change.toFixed(2);
+            $('input[name="change"]').change();
         }
         document.addEventListener("DOMContentLoaded", function() {
             addRow();
@@ -490,6 +487,16 @@ $lastSalesID = getLastSalesID($conn);
                     CalculateValues(document.querySelector("table"));
                 });
             }
+        });
+    </script>
+
+    <script type="module">
+        import {
+            validateDataList
+        } from "./js/datalist.js";
+        validateDataList({
+            patientsData: JSON.parse('<?= $patientsData ?>'),
+            employeesData: JSON.parse('<?= $employeesData ?>')
         });
     </script>
 </body>
