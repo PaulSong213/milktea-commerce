@@ -6,7 +6,7 @@
     <title>Billing Statement</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <style>
@@ -55,16 +55,16 @@
             <thead>
                 <tr>
 
-                    <th>Product Cart</th>
-                    <th>Net Sale</th>
-                    <th>Add Disc</th>
-                    <th>Add Disc Amountt</th>
-                    <th>Net Amount</th>
-                    <th>Amt Tendered</th>
-                    <th>Change Amount</th>
-                    <th>Patient Account</th>
-                    <th>Requested Name</th>
-                    <th>Entered Name</th>
+                    <th>Billing ID</th>
+                    <th>Encoder ID</th>
+                    <th>Patient ID</th>
+                    <th>Account Of</th>
+                    <th>Admission Date:Time</th>
+                    <th>Patient Type</th>
+                    <th>Attending Physician</th>
+                    <th>Admitting Physician</th>
+                    <th>Discharge Date:Time</th>
+
                     <th class="action-column">Actions</th>
                 </tr>
             </thead>
@@ -75,30 +75,65 @@
                 if ($conn->connect_error) {
                     die("Connection failed: " . $conn->connect_error);
                 }
-                $sql = "SELECT * FROM sales_tb";
+                $sql = "SELECT
+                b.billingID,
+                b.dateTimeAdmitted,
+                b.type,
+                b.dateTimeDischarged,
+                e1.DatabaseID AS encoderDatabaseID,
+                e1.lname AS encoderLastName,
+                e1.fname AS encoderFirstName,
+                e1.mname AS encoderMiddleName,
+                e1.title AS encoderTitle,
+                e1.position AS encoderPosition,
+                p.hospistalrecordNo AS patientHospitalRecordNo,
+                p.lname AS patientLastName,
+                p.fname AS patientFirstName,
+                p.mname AS patientMiddleName,
+                e2.DatabaseID AS attendingPhysicianDatabaseID,
+                e2.lname AS attendingPhysicianLastName,
+                e2.fname AS attendingPhysicianFirstName,
+                e2.mname AS attendingPhysicianMiddleName,
+                e2.title AS attendingPhysicianTitle,
+                e2.position AS attendingPhysicianPosition,
+                e3.DatabaseID AS admittingPhysicianDatabaseID,
+                e3.lname AS admittingPhysicianLastName,
+                e3.fname AS admittingPhysicianFirstName,
+                e3.mname AS admittingPhysicianMiddleName,
+                e3.title AS admittingPhysicianTitle,
+                e3.position AS admittingPhysicianPosition
+            FROM
+                billing_tb b
+            JOIN
+                employee_tb e1 ON b.encoderID = e1.DatabaseID
+            JOIN
+                patient_tb p ON b.patientID = p.hospistalrecordNo
+            JOIN
+                employee_tb e2 ON b.attendingPhysicianID = e2.DatabaseID
+            JOIN
+                employee_tb e3 ON b.admittingPhysicianID = e3.DatabaseID";
 
                 $result = $conn->query($sql);
                 while ($row = $result->fetch_assoc()) {
                     echo "
                             <tr>                        
-                                <td>" . $row["ProductInfo"] . "</td>
-                                <td>" . $row["NetSale"] . "</td>
-                                <td>" . $row["AddDisc"] . "</td>
-                                <td>" . $row["AddDiscAmt"] . "</td>
-                                <td>" . $row["NetAmt"] . "</td>
-                                <td>" . $row["AmtTendered"] . "</td>
-                                <td>" . $row["ChangeAmt"] . "</td>
-                                <td>" . $row["PatientAcct"] . "</td>
-                                <td>" . $row["RequestedName"] . "</td>
-                                <td>" . $row["EnteredName"] . "</td>
+                                <td>" . $row["billingID"] . "</td>
+                                <td>" . $row["encoderTitle"] . '. '. $row["encoderFirstName"] . ', ' . $row["encoderMiddleName"] . ' ' . $row["encoderLastName"] .' | ' . $row["encoderPosition"] .  "</td>
+                                <td>" . $row["patientFirstName"] . ', ' . $row["patientMiddleName"] . ' ' . $row["patientLastName"] . "</td>
+                                <td>" . $row["patientFirstName"] . ', ' . $row["patientMiddleName"] . ' ' . $row["patientLastName"] . "</td>
+                                <td>" . $row["dateTimeAdmitted"] . "</td>
+                                <td>" . $row["type"] . "</td>
+                                <td>" . $row["attendingPhysicianTitle"] . '. '. $row["attendingPhysicianFirstName"] . ', ' . $row["attendingPhysicianMiddleName"] . ' ' . $row["attendingPhysicianLastName"] .' | ' . $row["attendingPhysicianPosition"] .  "</td>
+                                <td>" . $row["admittingPhysicianTitle"] . '. '. $row["admittingPhysicianFirstName"] . ', ' . $row["admittingPhysicianMiddleName"] . ' ' . $row["admittingPhysicianLastName"] .' | ' . $row["admittingPhysicianPosition"] .  "</td>
+                                <td>" . $row["dateTimeDischarged"] . "</td>
+
+
                                 <td class='invisible action-wrapper'>" . json_encode($row) . "</td>
                             </tr>
                             ";
                 }
                 $conn->close();
                 ?>
-
-
             </tbody>
         </table>
     </div>
