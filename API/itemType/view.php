@@ -6,7 +6,7 @@ header("Content-Type: application/json");
 require_once '../../php/connect.php';
 $conn = connect();
 
-$baseTable = "itemType_tb";
+$baseTable = "itemtype_tb";
 
 // Define the base query
 $baseQuery = "SELECT * FROM $baseTable 
