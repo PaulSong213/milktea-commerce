@@ -422,6 +422,9 @@ $LastBillingID = getLastBillingID($conn);
             option.innerHTML = productIdInput.value; // Set the innerHTML
             datalist.appendChild(option);
             row.parentNode.removeChild(row);
+
+            CalculateValues(row);
+                
         }
         // Function to add a new row
         function addRow() {
