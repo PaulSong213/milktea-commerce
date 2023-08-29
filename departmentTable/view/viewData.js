@@ -3,46 +3,13 @@ import { formatDate } from "../../costum-js/date.js";
 export function handleViewClick(table) {
     const viewDatas = [
         {
-            dataKey: "supplier_name",
-            label: "Supplier Name"
+            dataKey: "departmentName",
+            label: "Department Name"
         },
         {
-            dataKey: "address",
-            label: "Address"
-        },
-        {
-            dataKey: "telNum",
-            label: "Telephone No"
-        },
-        {
-            dataKey: "faxNum",
-            label: "Fax Number"
-        },
-        {
-            dataKey: "contactNo",
-            label: "Contact No"
-        },
-        {
-            dataKey: "CelNum",
-            label: "Cellphone No"
-        },
-        {
-            dataKey: "Snote",
-            label: "Supplier Note"
-        },
-        {
-            dataKey: "status",
-            label: "Status"
-        },
-        {
-            dataKey: "createDate",
-            label: "Create Date"
-        },
-        {
-            dataKey: "modifiedDate",
-            label: "Modified Date"
-        }
-        
+            dataKey: "departmentDescription",
+            label: "Department Description"
+        },  
     ];
     table.on('click', '.view-btn', function (e) {
         let data = JSON.parse($(this).attr("data-item"));

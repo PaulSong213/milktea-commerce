@@ -364,8 +364,7 @@ $sidebarContent = [
             if (screen.width > 768 && isSideBarOpened) toggleSidebar();
             
         }
-<<<<<<< HEAD
-=======
+
 
         // Close sidebar when clicking outside of it
         $(document).on("click", function(event) {

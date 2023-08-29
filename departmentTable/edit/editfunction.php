@@ -5,35 +5,25 @@ $conn = connect();
 
 if (isset($_POST['SaveItem'])) {
     $itemTypeID = $_POST['item_id'];
-    $Sname = $_POST['supplier_name'];
-    $address = $_POST['address'];
-    $telNumber = $_POST['telNum'];
-    $faxNumber = $_POST['faxNum'];
-    $celNumber = $_POST['CelNum'];
-    $contactNumber = $_POST['contactNum'];
-    $Snote = $_POST['Snote'];
+    $departmentName = $_POST['departmentName'];
+    $departmentDescription = $_POST['departmentDescription'];
 
-    $sql = "UPDATE supplier_tb
+    $sql = "UPDATE department_tb
     SET
-        supplier_name = '$Sname',
-        address = '$address',
-        telNum = '$telNumber',
-        faxNum = '$faxNumber',
-        CelNum ='$celNumber', 
-        contactNo ='$contactNumber', 
-        Snote ='$Snote',
-        modifiedDate = now()
+        departmentName = '$departmentName',
+        departmentDescription = '$departmentDescription',
+      
     WHERE
-        supplier_code = '$itemTypeID';
+        departmentID = '$itemTypeID';
     ";
 
     $result = mysqli_query($conn, $sql);
     if ($result) {
         // success
-        $_SESSION["alert_message"] = "Successfully Edited an Item";
+        $_SESSION["alert_message"] = "Successfully Edited an Department";
         $_SESSION["alert_message_success"] = true;
     } else {
-        $_SESSION["alert_message"] = "Failed to Edit an Item. Error Details: " . mysqli_error($conn);
+        $_SESSION["alert_message"] = "Failed to Edit an Department. Error Details: " . mysqli_error($conn);
         $_SESSION["alert_message_error"] = true;
     }
 

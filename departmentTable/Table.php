@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <style>
+        #Archive {
+            display: none;
+        }
+
         .dt-button-collection,
         .dt-button-background {
             position: absolute;
@@ -47,7 +51,7 @@
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                   
+
                     <th>Department Name</th>
                     <th>Department Description</th>
                     <th class="action-column">Actions</th>
@@ -170,7 +174,7 @@
                                     <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
                                 </li>
                                 <li class="mx-2">
-                                    <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>
+                                    <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="Archive">Archive</button>
                                 </li>
                             </ul>
                         </div>
@@ -216,6 +220,9 @@
             $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
         });
     </script>
+
+  
+    
 </body>
 
 </html>

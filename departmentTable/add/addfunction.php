@@ -9,24 +9,20 @@ if ($conn->connect_error) {
 }
 
 if (isset($_POST['SaveItem'])) {
-    $Sname = $_POST['supplier_name'];
-    $address = $_POST['address'];
-    $telNumber = $_POST['telNum'];
-    $faxNumber = $_POST['faxNum'];
-    $celNumber = $_POST['CelNum'];
-    $contactNumber = $_POST['contactNum'];
-    $Snote = $_POST['Snote'];
+    $departmentName = $_POST['departmentName'];
+    $departmentDescription = $_POST['departmentDescription'];
+    
 
-    $sql = "INSERT INTO supplier_tb (supplier_name, address, telNum, faxNum, CelNum, contactNo, Snote, createDate, modifiedDate)
-    VALUES ('$Sname', '$address', '$telNumber', '$faxNumber','$celNumber', '$contactNumber', '$Snote', NOW(), NOW())";
+    $sql = "INSERT INTO department_tb (departmentName, departmentDescription)
+    VALUES ( '$departmentName', '$departmentDescription')";
 
     $result = mysqli_query($conn, $sql);
     if ($result) {
         // success
-        $_SESSION["alert_message"] = "Successfully Added an Item";
+        $_SESSION["alert_message"] = "Successfully Added an Department";
         $_SESSION["alert_message_success"] = true;
     } else {
-        $_SESSION["alert_message"] = "Failed to Added an Item. Error Details: " . mysqli_error($conn);
+        $_SESSION["alert_message"] = "Failed to Added an Department. Error Details: " . mysqli_error($conn);
         $_SESSION["alert_message_error"] = true;
     }
 
