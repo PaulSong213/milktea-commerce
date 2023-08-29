@@ -78,11 +78,10 @@
             <thead>
                 <tr>
                     <th>Date</th>
-                    <th>Product Info</th>
-                    <th>Net Sale</th>
-                    <th>Net Amount</th>
-                    <th>Amount Tendered</th>
-                    <th>Change Amount</th>
+                    <th>Sales ID</th>
+                    <th>Product ID</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
                 </tr>
             </thead>
             <tbody>
@@ -97,7 +96,7 @@
                     $result = $connection->query($sql);
 
                     $totalNetSale = 0;
-                    $totalNetAmount = 0;
+                  
 
                     while ($row = $result->fetch_assoc()) {
                         // Access the value of ProductInfo
@@ -114,15 +113,15 @@
                         echo "
                             <tr>
                                 <td>" . $row["createDate"] . "</td>
-                                <td>" . $productId . " " . $qty . "</td>
-                                <td>" . $row["NetSale"] . "</td>
-                                <td>" . $row["NetAmt"] . "</td>
-                                <td>" . $row["AmtTendered"] . "</td>
-                                <td>" . $row["ChangeAmt"] . "</td>
+                                <td>" . $row["SalesID"] . "</td>
+                                <td>" . $productId . "</td>
+                                <td>" . $qty . "</td>
+                                <td>" . $subtotal . "</td>
+                                
                             </tr>";
                     
-                        $totalNetSale += $row["NetSale"];
-                        $totalNetAmount += $row["NetAmt"];
+                        $totalNetSale += $subtotal;
+                     
                     }
 
                     echo "
@@ -130,8 +129,8 @@
                             <th colspan='0'>Total:</th>
                             <th></th>
                             <th></th>
-                            <th colspan='5'>$totalNetSale</th>
                             <th></th>
+                            <th colspan='5'>$totalNetSale</th>
                     </tr>";
                 } else {
                     echo "<tr><td colspan='6'>No data to display.</td></tr>";
@@ -151,128 +150,6 @@
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables-buttons/2.2.0/js/buttons.colVis.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script type="module">
-       import {
-            searchColumn,
-            handleArchiveClick,
-        } from "../costum-js/datatables.js";
-
-        import {
-            handleEditClick
-        } from "./edit/editData.js";
-        import {
-            handleViewClick
-        } from './view/viewData.js'
-
-        $(document).ready(function() {
-
-            // clone header to add search by columns
-            $('#example thead tr')
-                .clone(true)
-                .addClass('filters')
-                .appendTo('#example thead');
-
-            const table = $('#example').DataTable({
-                orderCellsTop: true,
-                fixedHeader: true,
-                responsive: true,
-                autoFill: true,
-                dom: 'Bfrtip',
-                buttons: [{
-                        extend: 'excelHtml5',
-                        className: 'btn border border-info',
-                        exportOptions: {
-                            columns: ':not(.action-column)'
-                        }
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        className: 'btn border border-info',
-                        exportOptions: {
-                            columns: ':not(.action-column)'
-                        }
-                    },
-                    {
-                        extend: 'print',
-                        className: 'btn border border-info',
-                        exportOptions: {
-                            columns: ':not(.action-column)'
-                        }
-                    },
-                    {
-                        extend: 'colvis',
-                        className: 'btn border border-info'
-                    },
-                    {
-                        extend: 'pageLength',
-                        className: 'btn border border-info'
-                    },
-                    {
-                        text: 'Add Item Type',
-                        className: 'btn btn-primary bg-primary text-white',
-                        action: function(e, dt, node, config) {
-                            $('#addItemModal').modal('show');
-                        }
-                    }
-                ],
-                initComplete: function() {
-                    searchColumn(this.api());
-                },
-                columnDefs: [{
-                    targets: -1,
-                    render: (d) => {
-                        const data = JSON.parse(d);
-                        const id = data.InventoryID;
-                        return `
-                        <div class="dropdown dropstart d-flex">
-                            <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
-                                <img class="mb-1" src="../img/icons/ellipsis-horizontal.svg">
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li class="mx-2">
-                                    <button class=" btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
-                                </li>
-                                <li class="mx-2">
-                                    <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
-                                </li>
-                            </ul>
-                        </div>
-                        `
-                    },
-                    "searchable": false
-                }],
-                order: [
-                    [3, 'asc']
-                ]
-            });
-            handleEditClick(table);
-            handleViewClick(table);
-
-            table.on('draw', function() {
-                $('.action-wrapper').each(function(i, e) {
-                    $(this).removeClass('invisible');
-                });
-            });
-            table.page(1).draw(true);
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('#saveItemButton').click(function() {
-                var itemCode = $('#itemCode').val();
-                var unit = $('#Unit').val();
-                var description = $('#description').val();
-                if (itemCode.trim() === "" || unit.trim() === "" || description.trim() === "") {
-                    return false; // Prevent closing modal and form submission
-                } else {
-                    $('#addItemModal').modal('hide'); // Close the modal after saving
-                }
-            });
-        });
-        $('#Closemodal1, #Closemodal2').click(function() {
-            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
-        });
-    </script>
 </body>
 
 </html>
