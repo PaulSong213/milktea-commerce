@@ -7,28 +7,10 @@ $conn = connect();
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-$username = isset($_SESSION['user']) ? $_SESSION['user'] : 'You are Logout';
+$loggedInUser = isset($_SESSION['user']) ? json_decode($_SESSION['user']) : null;
+$currentLoggedInEncoder = $loggedInUser->title . ' ' . $loggedInUser->lname . ',' . $loggedInUser->fname . ' ' . $loggedInUser->mname . ' | ID: ' . $loggedInUser->DatabaseID;
 
-
-
-// Create a function to retrieve the employee reference
-function getEmployeeReference($conn, $username)
-{
-    $escapedUsername = $conn->real_escape_string($username);
-
-    $queryValue = "SELECT title, lname, fname, mname, position AS reference FROM employee_tb WHERE userName = '$escapedUsername'";
-    $result = $conn->query($queryValue);
-
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        return $row['reference'];
-    } else {
-        return 'No Records'; // Return an empty string if no records found
-    }
-}
-
-// Assuming you have a valid database connection in $conn
-$employeeReference = getEmployeeReference($conn, $username);
+echo $currentLoggedInEncoder;
 
 // Function to get the last SalesID
 function getLastSalesID($conn)
@@ -84,14 +66,14 @@ $LastBillingID = getLastBillingID($conn);
                     <div class="form-group row">
                         <div class="col-md-2 d-flex align-items-center justify-content-center">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" id="opdRadio" name="patientAccountType" value="OPD" required>
+                                <input class="form-check-input inputTypeRadio" type="radio" checked="checked" id="opdRadio" name="patientAccountType" value="OPD" required>
                                 <label class="form-check-label" for="opdRadio">OPD</label>
                                 <div class="invalid-feedback">Please select a patient type.</div>
                             </div>
                         </div>
                         <div class="col-md-2 d-flex align-items-center justify-content-center">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" id="ipdRadio" name="patientAccountType" value="IPD" required>
+                                <input class="form-check-input inputTypeRadio" type="radio" id="ipdRadio" name="patientAccountType" value="IPD" required>
                                 <label class="form-check-label" for="ipdRadio">IPD</label>
                                 <div class="invalid-feedback">Please select a patient type.</div>
                             </div>
@@ -109,21 +91,24 @@ $LastBillingID = getLastBillingID($conn);
                         <div class="tab-content mt-3">
                             <div id="activeTab" class="tab-pane fade show active">
                                 <div class="row">
-                                    <div class="col-md-5 ">
-                                        <label for="name">Billing Number:</label>
-                                        <input type="text" class="form-control" id="name" placeholder="Enter Billing Number" list="billingList" autocomplete="off">
+                                    <div>
+                                        <label for="billingID">Billing Number:</label>
+                                        <input type="text" class="form-control" id="billingID" name="billingID" placeholder="Enter Billing Number" list="billingList" correctData="billingsData" autocomplete="off">
                                         <?php require_once('../API/datalist/billing-list.php') ?>
+                                        <small class="feedback d-none bg-danger p-1 rounded my-1">
+                                            Please select a valid Billing
+                                        </small>
                                     </div>
                                 </div>
                             </div>
 
                             <div id="nameTab" class="tab-pane fade">
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-12">
                                         <label for="name">Billing Number:</label>
                                         <input type="text" class="form-control text-light bg-secondary" id="name" placeholder="Enter Billing Number" readonly value="<?php echo "00" . ($LastBillingID + 1); ?>" autocomplete="off" value="">
                                     </div>
-                                    <div class="col-md-7">
+                                    <div class="col-12">
                                         <label class="form-label" for="accountOf">Account of<span class="text-danger mx-1">*</span></label>
                                         <input type="text" correctData="patientsData" id="accountOf" name="accountOfID" class="form-select" placeholder="Account of" list="patientList">
                                         <?php require_once('../API/datalist/patient-list.php') ?>
@@ -181,17 +166,21 @@ $LastBillingID = getLastBillingID($conn);
 
                         </div>
                     </div>
-                    <div class="form-group was-validated">
+                    <div class="form-group">
                         <label for="requestedByName">Requested By: </label>
-                        <input type="text" class="form-control" name="requestedByName" list="patientList" placeholder="Enter Requested By Name" required>
-                        <?php require_once('../API/datalist/patient-list.php') ?>
-                        <div class="invalid-feedback">Please enter the requested by name.</div>
-
+                        <input type="text" class="form-control is-invalid" name="requestedByName" list="employeeList" correctData="employeesData" placeholder="Enter Requested By Name" required>
+                        <?php require_once('../API/datalist/employee-list.php') ?>
+                        <small class="feedback d-none bg-danger p-1 rounded my-1">
+                            Please select a valid requested by Name.
+                        </small>
                     </div>
-                    <div class="form-group was-validated">
+                    <div class="form-group">
                         <label for="enteredByName">Entered By: </label>
-                        <input type="text" class="form-control" name="enteredByName" placeholder="Enter Entered By Name" value="<?php echo $employeeReference; ?>" required>
-                        <div class="invalid-feedback">Please enter the entered by name.</div>
+                        <input type="text" class="form-control is-valid text-light bg-secondary" name="enteredByName" list="employeeList" readonly correctData="employeesData" placeholder="Enter Entered By Name" value="<?= $currentLoggedInEncoder; ?>" sql-value="<?= $currentLoggedInEncoder; ?>" required isvalidated="true">
+                        <?php require_once('../API/datalist/employee-list.php') ?>
+                        <small class="feedback d-none bg-danger p-1 rounded my-1">
+                            Please select a valid requested by Name.
+                        </small>
                     </div>
                     <h3 class="app-title mt-4 text">PRODUCT CART:</h3>
                 </div>
@@ -220,7 +209,7 @@ $LastBillingID = getLastBillingID($conn);
                 </div>
                 <div class="form-group fw-bold">
                     <label for="change">Change</label>
-                    <input type="text" class="form-control text-light bg-secondary" name="change" readonly value="0.00" min="0">
+                    <input type="number" class="form-control text-light bg-secondary" name="change" id="change" step="0.1" value="0.00" readonly>
                 </div>
                 <button type="submit" class="btn btn-primary add-button" name="SaveItem">Save Transaction</button>
             </div>
@@ -501,6 +490,7 @@ $LastBillingID = getLastBillingID($conn);
             const amountTenderedValue = parseFloat(amountTenderedInput.value) || 0;
             const change = amountTenderedValue - netAmount;
             changeInput.value = change.toFixed(2);
+            $('input[name="change"]').change();
         }
         document.addEventListener("DOMContentLoaded", function() {
             addRow();
@@ -534,6 +524,28 @@ $LastBillingID = getLastBillingID($conn);
                     CalculateValues(document.querySelector("table"));
                 });
             }
+        });
+
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = String(now.getMonth() + 1).padStart(2, '0');
+        var day = String(now.getDate()).padStart(2, '0');
+        var formattedDate = year + '-' + month + '-' + day;
+        var hours = String(now.getHours()).padStart(2, '0');
+        var minutes = String(now.getMinutes()).padStart(2, '0');
+        var formattedTime = hours + ':' + minutes;
+        $("#dateAdmitted").val(formattedDate);
+        $("#timeAdmitted").val(formattedTime);
+    </script>
+
+    <script type="module">
+        import {
+            validateDataList
+        } from "./js/datalist.js";
+        validateDataList({
+            patientsData: JSON.parse('<?= $patientsData ?>'),
+            employeesData: JSON.parse('<?= $employeesData ?>'),
+            billingsData: JSON.parse('<?= $billingsData ?>'),
         });
     </script>
 </body>

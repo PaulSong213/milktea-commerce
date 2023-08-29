@@ -64,8 +64,8 @@
                         <div class="my-3">
                             <label class="form-label" for="type">Type<span class="text-danger mx-1">*</span></label>
                             <select class="form-select" id="type" name="type">
-                                <option value="Out Patient Dept.">In Patient Dept.</option>
-                                <option value="Out Patient Dept.">Out Patient Dept.</option>
+                                <option value="IPD">In Patient Dept.</option>
+                                <option value="OPD">Out Patient Dept.</option>
                             </select>
                         </div>
 
@@ -135,105 +135,6 @@
             patientsData: JSON.parse('<?= $patientsData ?>'),
             employeesData: JSON.parse('<?= $employeesData ?>')
         }
-
-        // on submit form validate
-        $("#createBillingForm").submit(function(e) {
-            let isAllValidated = true;
-            $('input[correctData]').each(function() {
-                var isValidated = $(this).attr('isValidated');
-                if (isValidated !== "true") {
-                    console.log($(this));
-                    e.preventDefault();
-                    Swal.fire(
-                        'Please correct the errors before submitting the form.',
-                        '',
-                        'error'
-                    );
-                    e.preventDefault();
-                    isAllValidated = false;
-                }
-            });
-            if (!isAllValidated) return;
-            $('input[correctData]').each(function() {
-                $(this).val($(this).attr('sql-value'));
-            });
-        });
-
-        // patient on change event
-        $('#patient').change(function() {
-            const patientInfo = $(this).val();
-            if ($("#accountOf").val() === "") {
-                $("#accountOf").val(patientInfo).trigger("change");;
-            }
-
-            // console.log(correctDataReference.patientsData);
-        });
-
-        // attendingPhysician on change event
-        $('#attendingPhysician').change(function() {
-            const attendingPhysicianInfo = $(this).val();
-            if ($("#admittingPhysician").val() === "") {
-                $("#admittingPhysician").val(attendingPhysicianInfo).trigger("change");
-            }
-        });
-
-        // correct data of input
-        $('input[correctData]').change(function() {
-            var correctDataValue = $(this).attr('correctData'); // Get the correctData attribute value
-            var inputValue = $(this).val(); // Get the input value
-            var id = extractID(inputValue);
-            const correctDataObject = correctDataReference[correctDataValue]; // Get the correct data object
-            if (!correctDataObject[id]) {
-                $(this).addClass('border-danger');
-                $(this).siblings('.feedback').removeClass("d-none");
-                $(this).attr('sql-value', "");
-                $(this).attr('isValidated', "false");
-                return;
-            } else {
-                $(this).removeClass('border-danger');
-                $(this).siblings('.feedback').addClass("d-none");
-                $(this).attr('sql-value', id);
-                $(this).attr('isValidated', "true");
-            }
-
-            if ($(this).attr('id') === "patient") {
-                $("#viewPatientContainer").html(""); // Clear the patient information preview
-                $("#viewPatientContainer").removeClass("d-none"); // Show the patient information preview
-                const patientData = correctDataObject[id].data; // Get the patient data
-                const viewDatas = [{
-                    dataKey: "fname",
-                    label: "First Name"
-                }, {
-                    dataKey: "mname",
-                    label: "Middle Name"
-                }, {
-                    dataKey: "lname",
-                    label: "Last Name"
-                }, {
-                    dataKey: "age",
-                    label: "Age"
-                }, {
-                    dataKey: "maritalStatus",
-                    label: "Marital Status"
-                }, {
-                    dataKey: "bDate",
-                    label: "Birth Date"
-                }, {
-                    dataKey: "address",
-                    label: "Address"
-                }, ];
-                console.log(patientData);
-                for (let i = 0; i < viewDatas.length; i++) {
-                    const data = viewDatas[i];
-                    $("#viewPatientContainer").append(
-                        `<div class="d-flex" id="accountInformation">
-                            <p class="fw-bold" style="width: 200px;">${data.label}</p>
-                            <p>${patientData[data.dataKey]}</p>
-                        </div>`
-                    );
-                }
-            }
-        });
 
         // set default value of date and time admitted
         var now = new Date();
