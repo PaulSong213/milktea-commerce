@@ -113,23 +113,26 @@ $LastBillingID = getLastBillingID($conn);
                         <div class="tab-content mt-3">
                             <div id="activeTab" class="tab-pane fade show active">
                                 <div class="row">
-                                    <div class="col-md-5 ">
-                                        <label for="name">Billing Number:</label>
-                                        <input type="text" class="form-control" id="name" placeholder="Enter Billing Number" list="billingList" autocomplete="off">
+                                    <div>
+                                        <label for="billingID">Billing Number:</label>
+                                        <input type="text" class="form-control" id="billingID" name="billingID" placeholder="Enter Billing Number" list="billingList" correctData="billingsData" autocomplete="off">
                                         <?php require_once('../API/datalist/billing-list.php') ?>
+                                        <small class="feedback d-none bg-danger p-1 rounded my-1">
+                                            Please select a valid Billing
+                                        </small>
                                     </div>
                                 </div>
                             </div>
 
                             <div id="nameTab" class="tab-pane fade">
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-12">
                                         <label for="name">Billing Number:</label>
                                         <input type="text" class="form-control text-light bg-secondary" id="name" placeholder="Enter Billing Number" readonly value="<?php echo "00" . ($LastBillingID + 1); ?>" autocomplete="off" value="">
                                     </div>
-                                    <div class="col-md-7">
+                                    <div class="col-12">
                                         <label class="form-label" for="accountOf">Account of<span class="text-danger mx-1">*</span></label>
-                                        <input type="text" correctData="patientsData" id="accountOf" name="accountOfID" class="form-select" placeholder="Account of"  list="patientList">
+                                        <input type="text" correctData="patientsData" id="accountOf" name="accountOfID" class="form-select" placeholder="Account of" list="patientList">
                                         <?php require_once('../API/datalist/patient-list.php') ?>
                                         <small class="feedback d-none bg-danger p-1 rounded my-1">
                                             Please select a valid account.
@@ -140,19 +143,19 @@ $LastBillingID = getLastBillingID($conn);
                                     <!-- Date Admitted -->
                                     <div class="col">
                                         <label class="form-label" for="dateAdmitted">Date Admitted<span class="text-danger mx-1">*</span></label>
-                                        <input class="form-control" type="date" id="dateAdmitted" name="dateAdmitted" >
+                                        <input class="form-control" type="date" id="dateAdmitted" name="dateAdmitted">
                                     </div>
                                     <!-- Time Admitted -->
                                     <div class="col">
                                         <label class="form-label" for="timeAdmitted">Time Admitted<span class="text-danger mx-1">*</span></label>
-                                        <input class="form-control" type="time" id="timeAdmitted" name="timeAdmitted" >
+                                        <input class="form-control" type="time" id="timeAdmitted" name="timeAdmitted">
                                     </div>
                                 </div>
 
                                 <!-- Attending Physician -->
                                 <div class="my-3">
                                     <label class="form-label" for="attendingPhysician">Attending Physician<span class="text-danger mx-1">*</span></label>
-                                    <input type="text" id="attendingPhysician" name="attendingPhysicianID" class="form-select" placeholder="Enter the Attending Physician"  list="employeeList" correctData="employeesData">
+                                    <input type="text" id="attendingPhysician" name="attendingPhysicianID" class="form-select" placeholder="Enter the Attending Physician" list="employeeList" correctData="employeesData">
                                     <?php require_once('../API/datalist/employee-list.php') ?>
                                     <small class="feedback d-none bg-danger p-1 rounded my-1">
                                         Please select a valid Physician.
@@ -162,7 +165,7 @@ $LastBillingID = getLastBillingID($conn);
                                 <!-- Admitting Physician -->
                                 <div class="my-3">
                                     <label class="form-label" for="admittingPhysician">Admitting Physician<span class="text-danger mx-1">*</span></label>
-                                    <input type="text" id="admittingPhysician" name="admittingPhysicianID" class="form-select" placeholder="Enter the Attending Physician"  list="employeeList" correctData="employeesData">
+                                    <input type="text" id="admittingPhysician" name="admittingPhysicianID" class="form-select" placeholder="Enter the Attending Physician" list="employeeList" correctData="employeesData">
                                     <?php require_once('../API/datalist/employee-list.php') ?>
                                     <small class="feedback d-none bg-danger p-1 rounded my-1">
                                         Please select a valid Physician.
@@ -428,7 +431,7 @@ $LastBillingID = getLastBillingID($conn);
             row.parentNode.removeChild(row);
 
             CalculateValues(row);
-                
+
         }
         // Function to add a new row
         function addRow() {
@@ -544,6 +547,17 @@ $LastBillingID = getLastBillingID($conn);
                 });
             }
         });
+
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = String(now.getMonth() + 1).padStart(2, '0');
+        var day = String(now.getDate()).padStart(2, '0');
+        var formattedDate = year + '-' + month + '-' + day;
+        var hours = String(now.getHours()).padStart(2, '0');
+        var minutes = String(now.getMinutes()).padStart(2, '0');
+        var formattedTime = hours + ':' + minutes;
+        $("#dateAdmitted").val(formattedDate);
+        $("#timeAdmitted").val(formattedTime);
     </script>
 
     <script type="module">
@@ -552,7 +566,8 @@ $LastBillingID = getLastBillingID($conn);
         } from "./js/datalist.js";
         validateDataList({
             patientsData: JSON.parse('<?= $patientsData ?>'),
-            employeesData: JSON.parse('<?= $employeesData ?>')
+            employeesData: JSON.parse('<?= $employeesData ?>'),
+            billingsData: JSON.parse('<?= $billingsData ?>'),
         });
     </script>
 </body>

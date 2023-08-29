@@ -2,7 +2,7 @@ export function validateDataList(correctDataReference) {
     // on submit form validate
     $("#addItemForm").submit(function (e) {
         let isAllValidated = true;
-        $('input[correctData]').each(function () {
+        $('input[correctData]:visible').each(function () {
             var isValidated = $(this).attr('isValidated');
             if (isValidated !== "true") {
                 console.log($(this));
@@ -28,6 +28,8 @@ export function validateDataList(correctDataReference) {
         var inputValue = $(this).val(); // Get the input value
         var id = extractID(inputValue);
         const correctDataObject = correctDataReference[correctDataValue]; // Get the correct data object
+        console.log(correctDataReference);
+
 
 
         if (!correctDataObject[id] || !inputValue) {
