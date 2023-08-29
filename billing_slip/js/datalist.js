@@ -1,26 +1,26 @@
 export function validateDataList(correctDataReference) {
     // on submit form validate
-    // $("#createBillingForm").submit(function (e) {
-    //     let isAllValidated = true;
-    //     $('input[correctData]').each(function () {
-    //         var isValidated = $(this).attr('isValidated');
-    //         if (isValidated !== "true") {
-    //             console.log($(this));
-    //             e.preventDefault();
-    //             Swal.fire(
-    //                 'Please correct the errors before submitting the form.',
-    //                 '',
-    //                 'error'
-    //             );
-    //             e.preventDefault();
-    //             isAllValidated = false;
-    //         }
-    //     });
-    //     if (!isAllValidated) return;
-    //     $('input[correctData]').each(function () {
-    //         $(this).val($(this).attr('sql-value'));
-    //     });
-    // });
+    $("#addItemForm").submit(function (e) {
+        let isAllValidated = true;
+        $('input[correctData]').each(function () {
+            var isValidated = $(this).attr('isValidated');
+            if (isValidated !== "true") {
+                console.log($(this));
+                e.preventDefault();
+                Swal.fire(
+                    'Please correct the errors before submitting the form.',
+                    '',
+                    'error'
+                );
+                e.preventDefault();
+                isAllValidated = false;
+            }
+        });
+        if (!isAllValidated) return;
+        $('input[correctData]').each(function () {
+            $(this).val($(this).attr('sql-value'));
+        });
+    });
 
     // correct data of input
     $('input[correctData]').change(function () {
