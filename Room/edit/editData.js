@@ -38,7 +38,7 @@ export function handleEditClick(table) {
         const addItemForm = $("#addItemForm");
         const addItemFormAction = addItemForm.attr("action");
         addItemForm.attr("action", "./edit/editfunction.php");
-        addItemForm.append(`<input type="hidden" name="item_id" value="${data['supplier_code']}">`);
+        addItemForm.append(`<input type="hidden" name="item_id" value="${data['room_ID']}">`);
 
         // watch modal close then reset data
         addModal.on("hidden.bs.modal", function () {

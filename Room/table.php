@@ -62,8 +62,8 @@
                 $result = $connection->query($sql);
 
                 while ($row = $result->fetch_assoc()) {
-                   $activeStatus = ($row["status"]  == "Available") ? "Available"  : "Occupied/Under Maintenance"; //condition for status
-                    $statusColor = ($row["status"]  == "Available") ? "alert-success"  : "alert-danger"; //condition for color bg.
+                    $activeStatus = ($row["status"]  == "1") ? "Active"  : "Inactive"; //condition for status
+                    $statusColor = ($row["status"]  == "1") ? "alert-success"  : "alert-danger"; //condition for color bg.
                     echo "
                         <tr>
                             <td>" . $row["Roomref"] . "</td>
@@ -150,7 +150,7 @@
                         className: 'btn border border-info'
                     },
                     {
-                        text: 'Add Supplier',
+                        text: 'Add Room',
                         className: 'btn btn-primary bg-primary text-white',
                         action: function(e, dt, node, config) {
                             $('#addItemModal').modal('show');
@@ -164,7 +164,7 @@
                     targets: -1,
                     render: (d) => {
                         const data = JSON.parse(d);
-                        const id = data.supplier_code;
+                        const id = data.room_ID;
                         return `
                         <div class="dropdown dropstart d-flex">
                             <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >

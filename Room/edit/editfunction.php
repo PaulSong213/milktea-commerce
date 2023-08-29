@@ -5,22 +5,18 @@ $conn = connect();
 
 if (isset($_POST['SaveItem'])) {
     $itemTypeID = $_POST['item_id'];
-    $Sname = $_POST['room_ref'];
-    $address = $_POST['room_description'];
-    $telNumber = $_POST['rate_per_day'];
+    $roomref = $_POST['room_ref'];
+    $roomdesc = $_POST['room_description'];
+    $rateperday = $_POST['rate_per_day'];
    
     $sql = "UPDATE room_tb
     SET
-        Roomref = '$Sname',
-        room_ref = '$address',
-        telNum = '$telNumber',
-        faxNum = '$faxNumber',
-        CelNum ='$celNumber', 
-        contactNo ='$contactNumber', 
-        Snote ='$Snote',
-        modifiedDate = now()
+        Roomref = '$roomref',
+        roomDescription = '$roomdesc',
+        rateperDay = '$rateperday'
+        
     WHERE
-        supplier_code = '$itemTypeID';
+        room_ID = '$itemTypeID';
     ";
 
     $result = mysqli_query($conn, $sql);
