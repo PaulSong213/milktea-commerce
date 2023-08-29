@@ -9,6 +9,7 @@ if ($conn->connect_error) {
 }
 $loggedInUser = isset($_SESSION['user']) ? json_decode($_SESSION['user']) : null;
 $currentLoggedInEncoder = $loggedInUser->title . ' ' . $loggedInUser->lname . ',' . $loggedInUser->fname . ' ' . $loggedInUser->mname . ' | ID: ' . $loggedInUser->DatabaseID;
+$currentLoggedInEncoderID = $loggedInUser->DatabaseID;
 
 echo $currentLoggedInEncoder;
 
@@ -43,6 +44,7 @@ function getLastBillingID($conn)
 // Get the last SalesID
 $LastBillingID = getLastBillingID($conn);
 ?>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -176,7 +178,7 @@ $LastBillingID = getLastBillingID($conn);
                     </div>
                     <div class="form-group">
                         <label for="enteredByName">Entered By: </label>
-                        <input type="text" class="form-control is-valid text-light bg-secondary" name="enteredByName" list="employeeList" readonly correctData="employeesData" placeholder="Enter Entered By Name" value="<?= $currentLoggedInEncoder; ?>" sql-value="<?= $currentLoggedInEncoder; ?>" required isvalidated="true">
+                        <input type="text" class="form-control is-valid text-light bg-secondary" name="enteredByName" list="employeeList" readonly correctData="employeesData" placeholder="Enter Entered By Name" value="<?= $currentLoggedInEncoder; ?>" sql-value="<?= $currentLoggedInEncoderID; ?>" required isvalidated="true">
                         <?php require_once('../API/datalist/employee-list.php') ?>
                         <small class="feedback d-none bg-danger p-1 rounded my-1">
                             Please select a valid requested by Name.
