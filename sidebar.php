@@ -25,6 +25,10 @@ $sidebarContent = [
                 "link" => "/billing_slip/index.php", //link of the page
             ],
             [
+                "name" => "Billing List", //name of the link
+                "link" => "/billingtable/index.php", //link of the page
+            ],
+            [
                 "name" => "Clossing Report", // include returns the included content
                 "link" => "/closingReport/reportPopUp.php",
                 "id" => "openModalButton",
@@ -353,7 +357,7 @@ $sidebarContent = [
             $(".sessionlabel").toggleClass("d-none");
             $(".company-title").toggleClass("d-none");
             $(".sub-nav-link").toggleClass("transform-scale-small");
-            
+
             // Added animation for smooth sidebar toggle
             $("#sidebar, #content").addClass("transition");
         }
@@ -362,7 +366,7 @@ $sidebarContent = [
             var isSideBarOpened = $("#sidebar").hasClass("active");
             if (screen.width <= 768 && !isSideBarOpened) toggleSidebar();
             if (screen.width > 768 && isSideBarOpened) toggleSidebar();
-            
+
         }
 
 
