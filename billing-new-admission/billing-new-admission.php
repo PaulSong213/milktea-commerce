@@ -64,8 +64,8 @@
                         <div class="my-3">
                             <label class="form-label" for="type">Type<span class="text-danger mx-1">*</span></label>
                             <select class="form-select" id="type" name="type">
-                                <option value="Out Patient Dept.">In Patient Dept.</option>
-                                <option value="Out Patient Dept.">Out Patient Dept.</option>
+                                <option value="IPD">In Patient Dept.</option>
+                                <option value="OPD">Out Patient Dept.</option>
                             </select>
                         </div>
 

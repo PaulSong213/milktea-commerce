@@ -77,7 +77,7 @@ $lastSalesID = getLastSalesID($conn);
                     <div class="form-group row">
                         <div class="col-md-2 d-flex align-items-center justify-content-center">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" id="opdRadio" name="patientAccountType" value="OPD" required>
+                                <input class="form-check-input" type="radio" checked="checked" id="opdRadio" name="patientAccountType" value="OPD" required>
                                 <label class="form-check-label" for="opdRadio">OPD</label>
                                 <div class="invalid-feedback">Please select a patient type.</div>
                             </div>
@@ -102,7 +102,6 @@ $lastSalesID = getLastSalesID($conn);
                         <input type="text" class="form-control" name="requestedByName" list="patientList" placeholder="Enter Requested By Name" required>
                         <?php require_once('../API/datalist/patient-list.php') ?>
                         <div class="invalid-feedback">Please enter the requested by name.</div>
-
                     </div>
                     <div class="form-group was-validated">
                         <label for="enteredByName">Entered By: </label>
