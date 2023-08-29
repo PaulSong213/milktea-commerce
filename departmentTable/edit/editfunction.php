@@ -11,7 +11,7 @@ if (isset($_POST['SaveItem'])) {
     $sql = "UPDATE department_tb
     SET
         departmentName = '$departmentName',
-        departmentDescription = '$departmentDescription',
+        departmentDescription = '$departmentDescription'
       
     WHERE
         departmentID = '$itemTypeID';
