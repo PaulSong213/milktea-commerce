@@ -53,7 +53,7 @@ $sidebarContent = [
 
         ] //list of links on dropdown
     ],
-     
+
     [
         "name" => "Patient", //name of the link
         "icon" => "hotel", //material icon name
@@ -91,7 +91,7 @@ $sidebarContent = [
             ],
         ] //list of links on dropdown
     ],
-   
+
     [
         "name" => "Account Settings", //name of the link
         "icon" => "account_circle", //material icon name
@@ -332,7 +332,7 @@ $sidebarContent = [
             $(".nav-link").on("click", function() {
                 toggleSidebar();
             });
-            
+
         });
         // Initialize sidebar state on page load
         checkSideBarState();
@@ -348,7 +348,7 @@ $sidebarContent = [
             $(".sessionlabel").toggleClass("d-none");
             $(".company-title").toggleClass("d-none");
             $(".sub-nav-link").toggleClass("transform-scale-small");
-            
+
             // Added animation for smooth sidebar toggle
             $("#sidebar, #content").addClass("transition");
         }
@@ -357,7 +357,7 @@ $sidebarContent = [
             var isSideBarOpened = $("#sidebar").hasClass("active");
             if (screen.width <= 768 && !isSideBarOpened) toggleSidebar();
             if (screen.width > 768 && isSideBarOpened) toggleSidebar();
-            
+
         }
 
         // Close sidebar when clicking outside of it
@@ -369,12 +369,11 @@ $sidebarContent = [
                 }
             }
         });
-        
+
         // Added event listener for window resize to check sidebar state
         $(window).resize(function() {
             checkSideBarState();
         });
-        
     </script>
 </body>
 
