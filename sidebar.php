@@ -29,8 +29,7 @@ $sidebarContent = [
                 "link" => "/closingReport/index.php", // use the modal id as the link
                 "id" => "openModalButton", // add an id to the link
             ],
-            
-            
+
 
         ]
     ],
@@ -38,8 +37,23 @@ $sidebarContent = [
         "name" => "Employee", //name of the link
         "icon" => "badge", //material icon name
         "link" => "/Employee/index.php", //link of the page
-        "navigations" => [] //list of links on dropdown
+        "navigations" => [
+            [
+                "name" => "Employee", //name of the link
+                "link" => "/Employee/index.php", //link of the page
+            ],
+            [
+                "name" => "Department", //name of the link
+                "link" => "/departmentTable/index.php", //link of the page
+            ],
+            [
+                "name" => "Room", //name of the link
+                "link" => "/Room/index.php", //link of the page
+            ],
+
+        ] //list of links on dropdown
     ],
+
     [
         "name" => "Patient", //name of the link
         "icon" => "hotel", //material icon name
@@ -57,13 +71,6 @@ $sidebarContent = [
     ],
 
     [
-        "name" => "Supplier", //name of the link
-        "icon" => "local_shipping", //material icon name
-        "link" => "/SupplierTable/index.php", //link of the page
-        "navigations" => [] //list of links on dropdown
-    ],
-
-    [
         "name" => "Inventory", //name of the link
         "icon" => "vaccines", //material icon name
         "link" => "/inventory/index.php", //link of the page
@@ -76,14 +83,15 @@ $sidebarContent = [
                 "name" => "Item Types", //name of the link
                 "link" => "/itemType/index.php", //link of the page
             ],
+            [
+                "name" => "Supplier", //name of the link
+                "icon" => "local_shipping", //material icon name
+                "link" => "/SupplierTable/index.php", //link of the page
+                "navigations" => [] //list of links on dropdown
+            ],
         ] //list of links on dropdown
     ],
-    [
-        "name" => "Room", //name of the link
-        "icon" => "king_bed", //material icon name
-        "link" => "/Room/index.php", //link of the page
-        "navigations" => [] //list of links on dropdown
-     ],
+
     [
         "name" => "Account Settings", //name of the link
         "icon" => "account_circle", //material icon name
@@ -118,6 +126,11 @@ $sidebarContent = [
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
+        a {
+            text-decoration: none;
+            /* Remove underline from links */
+        }
+
         #sidebar {
             position: fixed;
             width: 260px;
@@ -253,10 +266,11 @@ $sidebarContent = [
 
 <body>
     <nav id="sidebar">
-        <div class="sidebar-header">
-            <h3><img src="/Zarate/img/logo.png" class="img-fluid" alt="Logo" /><span class="fw-bold company-title">E.Zarate Hospital</span></h3>
-
-        </div>
+        <a href="../dashboard/index.php">
+            <div class="sidebar-header">
+                <h3><img src="/Zarate/img/logo.png" class="img-fluid" alt="Logo" /><span class="fw-bold company-title">E.Zarate Hospital</span></h3>
+            </div>
+        </a>
         <ul class="list-unstyled components">
 
             <?php
@@ -296,6 +310,7 @@ $sidebarContent = [
                 ';
             }
             ?>
+
         </ul>
 
 
@@ -316,14 +331,17 @@ $sidebarContent = [
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        
         $(document).ready(function() {
             $("#toggleSidebar").on("click", function() {
                 toggleSidebar();
             });
-            
+            $(".nav-link").on("click", function() {
+                toggleSidebar();
+            });
         });
+        // Initialize sidebar state on page load
         checkSideBarState();
+
         window.addEventListener('resize', () => {
             checkSideBarState();
         }, true);
@@ -335,16 +353,29 @@ $sidebarContent = [
             $(".sessionlabel").toggleClass("d-none");
             $(".company-title").toggleClass("d-none");
             $(".sub-nav-link").toggleClass("transform-scale-small");
+            
+            // Added animation for smooth sidebar toggle
+            $("#sidebar, #content").addClass("transition");
         }
 
         function checkSideBarState() {
             var isSideBarOpened = $("#sidebar").hasClass("active");
             if (screen.width <= 768 && !isSideBarOpened) toggleSidebar();
             if (screen.width > 768 && isSideBarOpened) toggleSidebar();
+            
         }
-        
-    </script>
 
+
+        // Close sidebar when clicking outside of it
+        $(document).on("click", function(event) {
+            if (!$(event.target).closest('#sidebar').length &&
+                !$(event.target).is('#toggleSidebar')) {
+                if ($("#sidebar").hasClass("active")) {
+                    toggleSidebar();
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>

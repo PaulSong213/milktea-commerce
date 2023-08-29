@@ -25,13 +25,13 @@
                         <input type="text" id="room_description" name="room_description" class="form-control" placeholder="Enter Room Description" required>
 
                         <label for="rate_per_day"><b>Rate Per Day</b></label>
-                        <input type="text" id="rate_per_day" name="rate_per_day" class="form-control" placeholder="Enter Rate Per Day" required>
+                        <input type="number" id="rate_per_day" name="rate_per_day" class="form-control" placeholder="Enter Rate Per Day" required>
 
                         <!-- Add more fields as needed -->
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" id="Closemodal2" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" id="saveItemButton" name="SaveItem">Save Supplier</button>
+                        <button type="submit" class="btn btn-primary" id="saveItemButton" name="SaveItem">Save Room</button>
                     </div>
                 </div>
             </div>

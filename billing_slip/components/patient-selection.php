@@ -1,8 +1,8 @@
 <html>
-<div class="form-group was-validated ">
+<div class="form-group">
     <label for="patientAccountName">Patient Account Code</label>
     <div class="input-group">
-        <input type="text" class="form-control" name="patientAccountName" list="patientList" correctData="patientsData" placeholder="Enter Patient Account Name" required id="patientAccountName">
+        <input type="text" class="form-control is-invalid" name="patientAccountName" list="patientList" correctData="patientsData" placeholder="Enter Patient Account Name" required id="patientAccountName">
         <?php require_once('../API/datalist/patient-list.php') ?>
         <div class="input-group-append ">
             <span class="input-group-text" role="button" id="refresh-patient-list">
@@ -11,7 +11,9 @@
         </div>
     </div>
     <small class="text-success" id="refresh-message">Patient List has been refreshed</small>
-    <div class="invalid-feedback">Please enter the patient account code.</div>
+    <small class="feedback d-none bg-danger p-1 rounded my-1">
+        Please select a valid patient.
+    </small>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>

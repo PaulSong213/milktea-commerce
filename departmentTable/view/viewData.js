@@ -3,22 +3,13 @@ import { formatDate } from "../../costum-js/date.js";
 export function handleViewClick(table) {
     const viewDatas = [
         {
-            dataKey: "Roomref",
-            label: "Room Reference"
+            dataKey: "departmentName",
+            label: "Department Name"
         },
         {
-            dataKey: "roomDescription",
-            label: "Room Description"
-        },
-        {
-            dataKey: "rateperDay",
-            label: "Rate Per Day"
-        },
-        {
-            dataKey: "status",
-            label: "Status"
-        }
-           
+            dataKey: "departmentDescription",
+            label: "Department Description"
+        },  
     ];
     table.on('click', '.view-btn', function (e) {
         let data = JSON.parse($(this).attr("data-item"));
@@ -29,7 +20,7 @@ export function handleViewClick(table) {
             if (viewData.label.includes("Date")) data[viewData.dataKey] = formatDate(new Date(data[viewData.dataKey]));
             if (viewData.dataKey === "status") {
                 console.log(data[viewData.dataKey]);
-                const status = data[viewData.dataKey] == 1 ? "Available" : "Occupied/Under Maintenance";
+                const status = data[viewData.dataKey] == 1 ? "Active" : "Inactive";
                 data[viewData.dataKey] = status;
             }
             $("#viewModalBody").append(`

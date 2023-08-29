@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <style>
+        #Archive {
+            display: none;
+        }
+
         .dt-button-collection,
         .dt-button-background {
             position: absolute;
@@ -41,16 +45,15 @@
 
 <body>
     <div class="table w-100 p-4">
-        <h2 class="mt-4 mb-5">Room</h2>
+        <h2 class="mt-4 mb-5">Department</h2>
         <?php include './add/add.php'; ?>
         <?php include './view/view.php'; ?>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>Room Ref</th>
-                    <th>Room Description</th>
-                    <th>Rate Per Day</th>
-                    <th>Status</th>
+
+                    <th>Department Name</th>
+                    <th>Department Description</th>
                     <th class="action-column">Actions</th>
                 </tr>
             </thead>
@@ -58,22 +61,15 @@
                 <?php
                 $connection = connect();
 
-                $sql = " select * from room_tb ";
+                $sql = " select * from department_tb ";
                 $result = $connection->query($sql);
 
                 while ($row = $result->fetch_assoc()) {
-                    $activeStatus = ($row["status"]  == "1") ? "Available"  : "Occupied/Under Maintenance"; //condition for status
-                    $statusColor = ($row["status"]  == "1") ? "alert-success"  : "alert-danger"; //condition for color bg.
                     echo "
                         <tr>
-                            <td>" . $row["Roomref"] . "</td>
-                            <td>" . $row["roomDescription"] . "</td>
-                            <td>" . $row["rateperDay"] . "</td>
-                            <td>
-                                <div class='d-flex w-100 h-100 d-flex '>
-                                    <h6 style='font-size: 13px' class='p-1 alert m-auto " . $statusColor . "'>" . $activeStatus . "</h6>
-                                </div>
-                            </td>
+                            
+                            <td>" . $row["departmentName"] . "</td>
+                            <td>" . $row["departmentDescription"] . "</td>
                             <td class='invisible'>" . json_encode($row) . "</td>
                         </tr>
                         ";
@@ -150,7 +146,7 @@
                         className: 'btn border border-info'
                     },
                     {
-                        text: 'Add Room',
+                        text: 'Add Department',
                         className: 'btn btn-primary bg-primary text-white',
                         action: function(e, dt, node, config) {
                             $('#addItemModal').modal('show');
@@ -164,7 +160,7 @@
                     targets: -1,
                     render: (d) => {
                         const data = JSON.parse(d);
-                        const id = data.room_ID;
+                        const id = data.departmentID;
                         return `
                         <div class="dropdown dropstart d-flex">
                             <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
@@ -178,7 +174,7 @@
                                     <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
                                 </li>
                                 <li class="mx-2">
-                                    <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>
+                                    <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="Archive">Archive</button>
                                 </li>
                             </ul>
                         </div>
@@ -187,10 +183,10 @@
                     "searchable": false
                 }],
                 order: [
-                    [4, 'asc']
+                    [2, 'asc']
                 ]
             });
-            handleArchiveClick(table, 0, "./edit/archive.php", 3);
+            handleArchiveClick(table, 0, "./edit/archive.php", 2);
             handleEditClick(table);
             handleViewClick(table);
         });
@@ -224,6 +220,9 @@
             $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
         });
     </script>
+
+  
+    
 </body>
 
 </html>

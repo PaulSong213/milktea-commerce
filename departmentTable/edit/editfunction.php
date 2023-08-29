@@ -5,27 +5,25 @@ $conn = connect();
 
 if (isset($_POST['SaveItem'])) {
     $itemTypeID = $_POST['item_id'];
-    $roomref = $_POST['room_ref'];
-    $roomdesc = $_POST['room_description'];
-    $rateperday = $_POST['rate_per_day'];
-   
-    $sql = "UPDATE room_tb
+    $departmentName = $_POST['departmentName'];
+    $departmentDescription = $_POST['departmentDescription'];
+
+    $sql = "UPDATE department_tb
     SET
-        Roomref = '$roomref',
-        roomDescription = '$roomdesc',
-        rateperDay = '$rateperday'
-        
+        departmentName = '$departmentName',
+        departmentDescription = '$departmentDescription'
+      
     WHERE
-        room_ID = '$itemTypeID';
+        departmentID = '$itemTypeID';
     ";
 
     $result = mysqli_query($conn, $sql);
     if ($result) {
         // success
-        $_SESSION["alert_message"] = "Successfully Edited an Room";
+        $_SESSION["alert_message"] = "Successfully Edited an Department";
         $_SESSION["alert_message_success"] = true;
     } else {
-        $_SESSION["alert_message"] = "Failed to Edit an Room. Error Details: " . mysqli_error($conn);
+        $_SESSION["alert_message"] = "Failed to Edit an Department. Error Details: " . mysqli_error($conn);
         $_SESSION["alert_message_error"] = true;
     }
 
