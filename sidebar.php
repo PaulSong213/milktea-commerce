@@ -336,8 +336,17 @@ $sidebarContent = [
                 toggleSidebar();
             });
 
+<<<<<<< HEAD
+=======
+            $(".nav-link").on("click", function() {
+                toggleSidebar();
+            });
+>>>>>>> 4c6f2180297c66767ef296bf02896205c2b9c68f
         });
+
+        // Initialize sidebar state on page load
         checkSideBarState();
+
         window.addEventListener('resize', () => {
             checkSideBarState();
         }, true);
@@ -355,10 +364,22 @@ $sidebarContent = [
             var isSideBarOpened = $("#sidebar").hasClass("active");
             if (screen.width <= 768 && !isSideBarOpened) toggleSidebar();
             if (screen.width > 768 && isSideBarOpened) toggleSidebar();
+            
         }
+<<<<<<< HEAD
+=======
+
+        // Close sidebar when clicking outside of it
+        $(document).on("click", function(event) {
+            if (!$(event.target).closest('#sidebar').length &&
+                !$(event.target).is('#toggleSidebar')) {
+                if ($("#sidebar").hasClass("active")) {
+                    toggleSidebar();
+                }
+            }
+        });
+>>>>>>> 4c6f2180297c66767ef296bf02896205c2b9c68f
     </script>
-
-
 
 </body>
 
