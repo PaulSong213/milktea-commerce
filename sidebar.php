@@ -25,11 +25,11 @@ $sidebarContent = [
                 "link" => "/billing_slip/index.php", //link of the page
             ],
             [
-                 "name" => "Clossing Report", // include returns the included content
-                 "link" => "/closingReport/reportPopUp.php",
-                 "id" => "openModalButton",
+                "name" => "Clossing Report", // include returns the included content
+                "link" => "/closingReport/reportPopUp.php",
+                "id" => "openModalButton",
             ],
-            
+
 
         ]
     ],
@@ -325,14 +325,19 @@ $sidebarContent = [
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        
         $(document).ready(function() {
             $("#toggleSidebar").on("click", function() {
                 toggleSidebar();
             });
-            
+
+            $(".nav-link").on("click", function() {
+                toggleSidebar();
+            });
         });
+
+        // Initialize sidebar state on page load
         checkSideBarState();
+
         window.addEventListener('resize', () => {
             checkSideBarState();
         }, true);
@@ -350,11 +355,19 @@ $sidebarContent = [
             var isSideBarOpened = $("#sidebar").hasClass("active");
             if (screen.width <= 768 && !isSideBarOpened) toggleSidebar();
             if (screen.width > 768 && isSideBarOpened) toggleSidebar();
+            
         }
-        
+
+        // Close sidebar when clicking outside of it
+        $(document).on("click", function(event) {
+            if (!$(event.target).closest('#sidebar').length &&
+                !$(event.target).is('#toggleSidebar')) {
+                if ($("#sidebar").hasClass("active")) {
+                    toggleSidebar();
+                }
+            }
+        });
     </script>
-
-
 
 </body>
 
