@@ -25,6 +25,10 @@ $sidebarContent = [
                 "link" => "/billing_slip/index.php", //link of the page
             ],
             [
+                "name" => "Billing List", //name of the link
+                "link" => "/billingtable/index.php", //link of the page
+            ],
+            [
                 "name" => "Clossing Report", // include returns the included content
                 "link" => "/closingReport/reportPopUp.php",
                 "id" => "openModalButton",
@@ -53,7 +57,7 @@ $sidebarContent = [
 
         ] //list of links on dropdown
     ],
-     
+
     [
         "name" => "Patient", //name of the link
         "icon" => "hotel", //material icon name
@@ -91,7 +95,7 @@ $sidebarContent = [
             ],
         ] //list of links on dropdown
     ],
-   
+
     [
         "name" => "Account Settings", //name of the link
         "icon" => "account_circle", //material icon name
@@ -349,13 +353,16 @@ $sidebarContent = [
             $(".sessionlabel").toggleClass("d-none");
             $(".company-title").toggleClass("d-none");
             $(".sub-nav-link").toggleClass("transform-scale-small");
+
+            // Added animation for smooth sidebar toggle
+            $("#sidebar, #content").addClass("transition");
         }
 
         function checkSideBarState() {
             var isSideBarOpened = $("#sidebar").hasClass("active");
             if (screen.width <= 768 && !isSideBarOpened) toggleSidebar();
             if (screen.width > 768 && isSideBarOpened) toggleSidebar();
-            
+
         }
 
         // Close sidebar when clicking outside of it
