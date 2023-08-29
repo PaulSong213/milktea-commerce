@@ -7,18 +7,34 @@ export function handleEditClick(table) {
 
         const toFillUpDatas = [
             {
-                dataKey: "Roomref",
-                inputName: "room_ref"
+                dataKey: "supplier_name",
+                inputName: "supplier_name"
             },
             {
-                dataKey: "roomDescription",
-                inputName: "room_description"
+                dataKey: "address",
+                inputName: "address"
             },
             {
-                dataKey: "rateperDay",
-                inputName: "rate_per_day"
+                dataKey: "telNum",
+                inputName: "telNum"
             },
-      
+            {
+                dataKey: "faxNum",
+                inputName: "faxNum"
+            },
+             {
+                 dataKey: "CelNum",
+                 inputName: "CelNum"
+             },
+            {
+                dataKey: "contactNo",
+                inputName: "contactNum"
+            },
+            {
+                dataKey: "Snote",
+                inputName: "Snote"
+            }
+          
         ];
 
         // fill up the fields
@@ -29,16 +45,16 @@ export function handleEditClick(table) {
 
         // edit the save button
         const saveButton = $("[name='SaveItem']");
-        saveButton.text("Edit Room Information");
+        saveButton.text("Edit Item");
 
         // edit header title
         const headerTitle = $("#addItemModalLabel");
-        headerTitle.text("Edit Room Information");
+        headerTitle.text("Edit Item");
 
         const addItemForm = $("#addItemForm");
         const addItemFormAction = addItemForm.attr("action");
         addItemForm.attr("action", "./edit/editfunction.php");
-        addItemForm.append(`<input type="hidden" name="item_id" value="${data['room_ID']}">`);
+        addItemForm.append(`<input type="hidden" name="item_id" value="${data['supplier_code']}">`);
 
         // watch modal close then reset data
         addModal.on("hidden.bs.modal", function () {
