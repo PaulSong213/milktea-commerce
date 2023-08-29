@@ -35,7 +35,7 @@
                 </div>
                 <div class="d-flex flex-column">
                     <h3 class="mb-1" id="closingReport"></h3>
-                   
+                    <p id="dateTimeInfo"></p>
                 </div>
             </div>
         </div>
@@ -99,7 +99,7 @@
                             var dateTimeRange = selectedDate + ' ' + selectedTimeIn + ' - ' + selectedTimeOut;
                             // Update the Closing Report header
                             $("#closingReport").text("CLOSING REPORT AS OF:");
-                            $("#dateTimeInfo").text(dateTimeRange);
+                        $("#dateTimeInfo").text(dateTimeRange);;
                             // Show the fetched data in the modal
                             $("#reportPopUp").html(response);
 
@@ -118,15 +118,24 @@
 
             $("#printModalButton").click(function () {
                 var printContents = $("#reportPopUp").html();
-                var originalContents = document.body.innerHTML;
-
-                // Set body content to the modal content for printing
-                document.body.innerHTML = printContents;
-                window.print();
-
-                // Restore original body content
-                document.body.innerHTML = originalContents;
+                printChargeSlip();
             });
+
+            function printChargeSlip() {
+            var divToPrint = document.getElementById('reportPopUp').outerHTML;
+            var newWin = window.open('', '_blank');
+
+            newWin.document.write('<html><head><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"></head><body>');
+            newWin.document.write(divToPrint);
+            newWin.document.write('</body></html>');
+
+            newWin.document.close();
+
+            newWin.onload = function() {
+                newWin.print();
+                newWin.close();
+            };
+        }
         });
     </script>
 </body>
