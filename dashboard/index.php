@@ -24,7 +24,6 @@
         <div class="d-block w-100">
             <?php include('./frontend.php') ?>
             <?php include('../php/session-dialog.php') ?>
-            <?php include('./templates/charge-slip.php') ?>
         </div>
     </div>
 
