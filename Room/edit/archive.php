@@ -16,7 +16,7 @@ require_once '../../php/connect.php';
 $connection = connect();
 
 // get current status
-$sql = "SELECT status FROM supplier_tb WHERE supplier_code=" . $_POST["rowID"] . ";";
+$sql = "SELECT status FROM room_tb WHERE room_ID= ". $_POST["rowID"] . ";";
 $result = $connection->query($sql);
 
 if (!$result) {
@@ -28,15 +28,15 @@ if (!$result) {
 
 $row = $result->fetch_assoc();
 $previousStatus = $row["status"];
-$newStatus = $previousStatus == 0 ? 1 : 0; // swap 1 and 0
+$newStatus = $previousStatus == 'Not Available' ? 'Available' : 0; // swap 1 and 0
 
 // Update new status
-$sql = "UPDATE supplier_tb SET status=" . $newStatus . " WHERE supplier_code=" . $_POST["rowID"] . ";";
+$sql = "UPDATE room_tb SET status=" . $newStatus . " WHERE room_ID=" . $_POST["rowID"] . ";";
 $result = $connection->query($sql);
 
 if ($result) {
     // set session variable
-    $newStatus == 0 ? $action = "Archived" : $action = "Unarchived";
+    $newStatus == 'Available' ? $action = "Archived" : $action = "Unarchived";
     $_SESSION["alert_message"] = "Successfully " . $action . " Item";
     $_SESSION["alert_message_success"] = true;
 } else {
