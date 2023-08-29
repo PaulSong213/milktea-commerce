@@ -335,15 +335,10 @@ $sidebarContent = [
             $("#toggleSidebar").on("click", function() {
                 toggleSidebar();
             });
-
-<<<<<<< HEAD
-=======
             $(".nav-link").on("click", function() {
                 toggleSidebar();
             });
->>>>>>> 4c6f2180297c66767ef296bf02896205c2b9c68f
         });
-
         // Initialize sidebar state on page load
         checkSideBarState();
 
@@ -358,6 +353,9 @@ $sidebarContent = [
             $(".sessionlabel").toggleClass("d-none");
             $(".company-title").toggleClass("d-none");
             $(".sub-nav-link").toggleClass("transform-scale-small");
+            
+            // Added animation for smooth sidebar toggle
+            $("#sidebar, #content").addClass("transition");
         }
 
         function checkSideBarState() {
@@ -378,9 +376,7 @@ $sidebarContent = [
                 }
             }
         });
->>>>>>> 4c6f2180297c66767ef296bf02896205c2b9c68f
     </script>
-
 </body>
 
 </html>

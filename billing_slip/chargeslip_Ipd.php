@@ -129,7 +129,7 @@ $LastBillingID = getLastBillingID($conn);
                                     </div>
                                     <div class="col-md-7">
                                         <label class="form-label" for="accountOf">Account of<span class="text-danger mx-1">*</span></label>
-                                        <input type="text" correctData="patientsData" id="accountOf" name="accountOfID" class="form-select" placeholder="Account of" required list="patientList">
+                                        <input type="text" correctData="patientsData" id="accountOf" name="accountOfID" class="form-select" placeholder="Account of"  list="patientList">
                                         <?php require_once('../API/datalist/patient-list.php') ?>
                                         <small class="feedback d-none bg-danger p-1 rounded my-1">
                                             Please select a valid account.
@@ -140,19 +140,19 @@ $LastBillingID = getLastBillingID($conn);
                                     <!-- Date Admitted -->
                                     <div class="col">
                                         <label class="form-label" for="dateAdmitted">Date Admitted<span class="text-danger mx-1">*</span></label>
-                                        <input class="form-control" type="date" id="dateAdmitted" name="dateAdmitted" required>
+                                        <input class="form-control" type="date" id="dateAdmitted" name="dateAdmitted" >
                                     </div>
                                     <!-- Time Admitted -->
                                     <div class="col">
                                         <label class="form-label" for="timeAdmitted">Time Admitted<span class="text-danger mx-1">*</span></label>
-                                        <input class="form-control" type="time" id="timeAdmitted" name="timeAdmitted" required>
+                                        <input class="form-control" type="time" id="timeAdmitted" name="timeAdmitted" >
                                     </div>
                                 </div>
 
                                 <!-- Attending Physician -->
                                 <div class="my-3">
                                     <label class="form-label" for="attendingPhysician">Attending Physician<span class="text-danger mx-1">*</span></label>
-                                    <input type="text" id="attendingPhysician" name="attendingPhysicianID" class="form-select" placeholder="Enter the Attending Physician" required list="employeeList" correctData="employeesData">
+                                    <input type="text" id="attendingPhysician" name="attendingPhysicianID" class="form-select" placeholder="Enter the Attending Physician"  list="employeeList" correctData="employeesData">
                                     <?php require_once('../API/datalist/employee-list.php') ?>
                                     <small class="feedback d-none bg-danger p-1 rounded my-1">
                                         Please select a valid Physician.
@@ -162,7 +162,7 @@ $LastBillingID = getLastBillingID($conn);
                                 <!-- Admitting Physician -->
                                 <div class="my-3">
                                     <label class="form-label" for="admittingPhysician">Admitting Physician<span class="text-danger mx-1">*</span></label>
-                                    <input type="text" id="admittingPhysician" name="admittingPhysicianID" class="form-select" placeholder="Enter the Attending Physician" required list="employeeList" correctData="employeesData">
+                                    <input type="text" id="admittingPhysician" name="admittingPhysicianID" class="form-select" placeholder="Enter the Attending Physician"  list="employeeList" correctData="employeesData">
                                     <?php require_once('../API/datalist/employee-list.php') ?>
                                     <small class="feedback d-none bg-danger p-1 rounded my-1">
                                         Please select a valid Physician.
