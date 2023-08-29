@@ -53,7 +53,7 @@ $sidebarContent = [
 
         ] //list of links on dropdown
     ],
-     
+
     [
         "name" => "Patient", //name of the link
         "icon" => "hotel", //material icon name
@@ -91,7 +91,7 @@ $sidebarContent = [
             ],
         ] //list of links on dropdown
     ],
-   
+
     [
         "name" => "Account Settings", //name of the link
         "icon" => "account_circle", //material icon name
@@ -126,6 +126,11 @@ $sidebarContent = [
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
+        a {
+            text-decoration: none;
+            /* Remove underline from links */
+        }
+
         #sidebar {
             position: fixed;
             width: 260px;
@@ -261,10 +266,11 @@ $sidebarContent = [
 
 <body>
     <nav id="sidebar">
-        <div class="sidebar-header">
-            <h3><img src="/Zarate/img/logo.png" class="img-fluid" alt="Logo" /><span class="fw-bold company-title">E.Zarate Hospital</span></h3>
-
-        </div>
+        <a href="../dashboard/index.php">
+            <div class="sidebar-header">
+                <h3><img src="/Zarate/img/logo.png" class="img-fluid" alt="Logo" /><span class="fw-bold company-title">E.Zarate Hospital</span></h3>
+            </div>
+        </a>
         <ul class="list-unstyled components">
 
             <?php
@@ -332,7 +338,6 @@ $sidebarContent = [
             $(".nav-link").on("click", function() {
                 toggleSidebar();
             });
-            
         });
         // Initialize sidebar state on page load
         checkSideBarState();
@@ -360,6 +365,7 @@ $sidebarContent = [
             
         }
 
+
         // Close sidebar when clicking outside of it
         $(document).on("click", function(event) {
             if (!$(event.target).closest('#sidebar').length &&
@@ -369,12 +375,6 @@ $sidebarContent = [
                 }
             }
         });
-        
-        // Added event listener for window resize to check sidebar state
-        $(window).resize(function() {
-            checkSideBarState();
-        });
-        
     </script>
 </body>
 
