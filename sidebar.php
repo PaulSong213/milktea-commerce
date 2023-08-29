@@ -25,11 +25,10 @@ $sidebarContent = [
                 "link" => "/billing_slip/index.php", //link of the page
             ],
             [
-                "name" => "Closing Report", // name of the link
-                "link" => "/closingReport/reportPopUp.php", // use the modal id as the link
-                "id" => "openModalButton", // add an id to the link
+                 "name" => "Clossing Report", // include returns the included content
+                 "link" => "/closingReport/reportPopUp.php",
+                 "id" => "openModalButton",
             ],
-            
             
 
         ]
@@ -296,6 +295,7 @@ $sidebarContent = [
                 ';
             }
             ?>
+
         </ul>
 
 
@@ -344,6 +344,8 @@ $sidebarContent = [
         }
         
     </script>
+
+
 
 </body>
 

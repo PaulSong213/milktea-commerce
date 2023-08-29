@@ -62,7 +62,7 @@
                 $result = $connection->query($sql);
 
                 while ($row = $result->fetch_assoc()) {
-                    $activeStatus = ($row["status"]  == "1") ? "Available"  : "Occupied / Under Maintenance"; //condition for status
+                    $activeStatus = ($row["status"]  == "1") ? "Available"  : "Occupied/Under Maintenance"; //condition for status
                     $statusColor = ($row["status"]  == "1") ? "alert-success"  : "alert-danger"; //condition for color bg.
                     echo "
                         <tr>
