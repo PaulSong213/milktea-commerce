@@ -25,9 +25,19 @@ $sidebarContent = [
                 "link" => "/billing_slip/index.php", //link of the page
             ],
             [
+<<<<<<< HEAD
                 "name" => "Closing Report", // name of the link
                 "link" => "/closingReport/index.php", // use the modal id as the link
                 "id" => "openModalButton", // add an id to the link
+=======
+                "name" => "Billing List", //name of the link
+                "link" => "/billingtable/index.php", //link of the page
+            ],
+            [
+                "name" => "Clossing Report", // include returns the included content
+                "link" => "/closingReport/reportPopUp.php",
+                "id" => "openModalButton",
+>>>>>>> 318d02eb6f084391cf88428ca1d94dad00facecf
             ],
 
 
@@ -53,6 +63,7 @@ $sidebarContent = [
 
         ] //list of links on dropdown
     ],
+
 
     [
         "name" => "Patient", //name of the link
@@ -98,7 +109,7 @@ $sidebarContent = [
         "link" => "/dashboard/index.php", //link of the page
         "navigations" => [
             [
-                "name" =>  isset($_SESSION['user']) ? $_SESSION['user'] : 'You are Logout', //name of the link
+                "name" => isset($_SESSION['user']) ? json_decode($_SESSION['user'], true)['userName'] : 'You are Logout',
                 "icon" => "account_circle", //material icon name
                 "link" => "/dashboard/index.php", //link of the pages
             ],
@@ -338,6 +349,7 @@ $sidebarContent = [
             $(".nav-link").on("click", function() {
                 toggleSidebar();
             });
+            
         });
         // Initialize sidebar state on page load
         checkSideBarState();
@@ -353,7 +365,7 @@ $sidebarContent = [
             $(".sessionlabel").toggleClass("d-none");
             $(".company-title").toggleClass("d-none");
             $(".sub-nav-link").toggleClass("transform-scale-small");
-            
+
             // Added animation for smooth sidebar toggle
             $("#sidebar, #content").addClass("transition");
         }
@@ -362,7 +374,7 @@ $sidebarContent = [
             var isSideBarOpened = $("#sidebar").hasClass("active");
             if (screen.width <= 768 && !isSideBarOpened) toggleSidebar();
             if (screen.width > 768 && isSideBarOpened) toggleSidebar();
-            
+
         }
 
 
@@ -375,6 +387,12 @@ $sidebarContent = [
                 }
             }
         });
+        
+        // Added event listener for window resize to check sidebar state
+        $(window).resize(function() {
+            checkSideBarState();
+        });
+        
     </script>
 </body>
 
