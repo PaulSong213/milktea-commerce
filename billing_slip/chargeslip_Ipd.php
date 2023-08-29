@@ -46,7 +46,24 @@ function getLastSalesID($conn)
 // Get the last SalesID
 $lastSalesID = getLastSalesID($conn);
 
+function getLastBillingID($conn)
+{
+    $querySalesID = "SELECT MAX(billingID) AS LastBillingID FROM billing_tb";
+    $result = $conn->query($querySalesID);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row['LastBillingID'];
+    } else {
+        return 0; // If no records found
+    }
+}
+// Get the last SalesID
+$LastBillingID = getLastBillingID($conn);
+
+
 ?>
+
 
 <head>
     <meta charset="UTF-8">
@@ -55,9 +72,6 @@ $lastSalesID = getLastSalesID($conn);
     <!-- Add this to your HTML <head> section -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-    </style>
-
 </head>
 
 <body class="fluid bg-dark" style="background-color: black;">
@@ -70,10 +84,6 @@ $lastSalesID = getLastSalesID($conn);
                         <label for="chargeSlipNumber">Charge Slip Number</label>
                         <input type="text" class="form-control text-light bg-secondary" name="chargeSlipNumber" placeholder="Enter Charge Slip Number" required value="<?php echo "00" . ($lastSalesID + 1); ?>" readonly>
                     </div>
-                    <!-- <div class="form-group fw-bold">
-                            <label for="chargeSlipNumber">Billing Number</label>
-                            <input type="text" class="form-control text-light " name="billingnumber" placeholder="Enter Billing Number" required value="">
-                        </div> -->
                     <?php include('./components/patient-selection.php') ?>
                     <div class="form-group row">
                         <div class="col-md-2 d-flex align-items-center justify-content-center">
@@ -94,41 +104,85 @@ $lastSalesID = getLastSalesID($conn);
                     <div class="container-fluid mb-3 p-3 rounded" id="additionalContent" style="display: none;background-color: #444465;">
                         <ul class="nav nav-tabs ">
                             <li class="nav-item">
-                                <a class="nav-link active text-secondary" data-toggle="tab" href="#activeTab">Select Billing</a>
+                                <a class="nav-link active " data-toggle="tab" href="#activeTab">Select Billing</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-secondary" data-toggle="tab" href="#nameTab">New Billing</a>
+                                <a class="nav-link  " data-toggle="tab" href="#nameTab">New Billing</a>
                             </li>
                         </ul>
                         <div class="tab-content mt-3">
                             <div id="activeTab" class="tab-pane fade show active">
                                 <div class="row">
-                                    <div class="col-md-3 ">
+                                    <div class="col-md-5 ">
                                         <label for="name">Billing Number:</label>
-                                        <input type="text" class="form-control" id="name" placeholder="Enter Billing NumberD" list="billingList" autocomplete="off">
+                                        <input type="text" class="form-control" id="name" placeholder="Enter Billing Number" list="billingList" autocomplete="off">
                                         <?php require_once('../API/datalist/billing-list.php') ?>
-                                    </div>
-                                    <div class="col-md-3 ">
-                                        <label for="Date">Admission Date:</label>
-                                        <input type="text" class="form-control" id="Date" placeholder="" autocomplete="off" readonly>
-                                    </div>
-                                    <div class="col-md-3 ">
-                                        <label for="Date">Admission Date:</label>
-                                        <input type="text" class="form-control" id="Date" placeholder="" autocomplete="off" readonly>
-                                    </div>
-                                    <div class="col-md-3 ">
-                                        <label for="Date">Admission Date:</label>
-                                        <input type="text" class="form-control" id="Date" placeholder="" autocomplete="off" readonly>
                                     </div>
                                 </div>
                             </div>
 
                             <div id="nameTab" class="tab-pane fade">
-                                <div class="form-group">
-                                    <label for="name">Name:</label>
-                                    <input type="text" class="form-control" id="name" placeholder="Enter Name">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="name">Billing Number:</label>
+                                        <input type="text" class="form-control text-light bg-secondary" id="name" placeholder="Enter Billing Number" readonly value="<?php echo "00" . ($LastBillingID + 1); ?>" autocomplete="off" value="">
+                                    </div>
+                                    <div class="col-md-7">
+                                        <label class="form-label" for="accountOf">Account of<span class="text-danger mx-1">*</span></label>
+                                        <input type="text" correctData="patientsData" id="accountOf" name="accountOfID" class="form-select" placeholder="Account of" required list="patientList">
+                                        <?php require_once('../API/datalist/patient-list.php') ?>
+                                        <small class="feedback d-none bg-danger p-1 rounded my-1">
+                                            Please select a valid account.
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="row my-3">
+                                    <!-- Date Admitted -->
+                                    <div class="col">
+                                        <label class="form-label" for="dateAdmitted">Date Admitted<span class="text-danger mx-1">*</span></label>
+                                        <input class="form-control" type="date" id="dateAdmitted" name="dateAdmitted" required>
+                                    </div>
+                                    <!-- Time Admitted -->
+                                    <div class="col">
+                                        <label class="form-label" for="timeAdmitted">Time Admitted<span class="text-danger mx-1">*</span></label>
+                                        <input class="form-control" type="time" id="timeAdmitted" name="timeAdmitted" required>
+                                    </div>
+                                </div>
+
+                                <!-- Attending Physician -->
+                                <div class="my-3">
+                                    <label class="form-label" for="attendingPhysician">Attending Physician<span class="text-danger mx-1">*</span></label>
+                                    <input type="text" id="attendingPhysician" name="attendingPhysicianID" class="form-select" placeholder="Enter the Attending Physician" required list="employeeList" correctData="employeesData">
+                                    <?php require_once('../API/datalist/employee-list.php') ?>
+                                    <small class="feedback d-none bg-danger p-1 rounded my-1">
+                                        Please select a valid Physician.
+                                    </small>
+                                </div>
+
+                                <!-- Admitting Physician -->
+                                <div class="my-3">
+                                    <label class="form-label" for="admittingPhysician">Admitting Physician<span class="text-danger mx-1">*</span></label>
+                                    <input type="text" id="admittingPhysician" name="admittingPhysicianID" class="form-select" placeholder="Enter the Attending Physician" required list="employeeList" correctData="employeesData">
+                                    <?php require_once('../API/datalist/employee-list.php') ?>
+                                    <small class="feedback d-none bg-danger p-1 rounded my-1">
+                                        Please select a valid Physician.
+                                    </small>
+                                </div>
+
+                                <div class="row my-3">
+                                    <!-- Date Discharged -->
+                                    <div class="col">
+                                        <label class="form-label" for="dateDischarged">Date Discharged</label>
+                                        <input class="form-control" type="date" id="dateDischarged" name="dateDischarged">
+                                    </div>
+                                    <!-- Time Discharged -->
+                                    <div class="col">
+                                        <label class="form-label" for="timeDischarged">Time Discharged</label>
+                                        <input class="form-control" type="time" id="timeDischarged" name="timeDischarged">
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                     <div class="form-group">
@@ -227,17 +281,16 @@ $lastSalesID = getLastSalesID($conn);
     </form>
     <script script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', () => {
             const radioInput = document.getElementById('ipdRadio');
+            const radioInput2 = document.getElementById('opdRadio');
             const additionalContent = document.getElementById('additionalContent');
 
-            radioInput.addEventListener('change', function() {
-                if (radioInput.checked) {
-                    additionalContent.style.display = 'block';
-                } else {
-                    additionalContent.style.display = 'none';
-                }
-            });
+            const toggleAdditionalContent = () => {
+                additionalContent.style.display = radioInput.checked ? 'block' : 'none';
+            };
+            radioInput.addEventListener('change', toggleAdditionalContent);
+            radioInput2.addEventListener('change', toggleAdditionalContent);
         });
 
 
@@ -373,6 +426,9 @@ $lastSalesID = getLastSalesID($conn);
             option.innerHTML = productIdInput.value; // Set the innerHTML
             datalist.appendChild(option);
             row.parentNode.removeChild(row);
+
+            CalculateValues(row);
+                
         }
         // Function to add a new row
         function addRow() {

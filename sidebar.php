@@ -25,12 +25,11 @@ $sidebarContent = [
                 "link" => "/billing_slip/index.php", //link of the page
             ],
             [
-                "name" => "Closing Report", // name of the link
-                "link" => "/closingReport/reportPopUp.php", // use the modal id as the link
-                "id" => "openModalButton", // add an id to the link
+                "name" => "Clossing Report", // include returns the included content
+                "link" => "/closingReport/reportPopUp.php",
+                "id" => "openModalButton",
             ],
-            
-            
+
 
         ]
     ],
@@ -38,8 +37,23 @@ $sidebarContent = [
         "name" => "Employee", //name of the link
         "icon" => "badge", //material icon name
         "link" => "/Employee/index.php", //link of the page
-        "navigations" => [] //list of links on dropdown
+        "navigations" => [
+            [
+                "name" => "Employee", //name of the link
+                "link" => "/Employee/index.php", //link of the page
+            ],
+            [
+                "name" => "Department", //name of the link
+                "link" => "/departmentTable/index.php", //link of the page
+            ],
+            [
+                "name" => "Room", //name of the link
+                "link" => "/Room/index.php", //link of the page
+            ],
+
+        ] //list of links on dropdown
     ],
+     
     [
         "name" => "Patient", //name of the link
         "icon" => "hotel", //material icon name
@@ -57,13 +71,6 @@ $sidebarContent = [
     ],
 
     [
-        "name" => "Supplier", //name of the link
-        "icon" => "local_shipping", //material icon name
-        "link" => "/SupplierTable/index.php", //link of the page
-        "navigations" => [] //list of links on dropdown
-    ],
-
-    [
         "name" => "Inventory", //name of the link
         "icon" => "vaccines", //material icon name
         "link" => "/inventory/index.php", //link of the page
@@ -76,14 +83,15 @@ $sidebarContent = [
                 "name" => "Item Types", //name of the link
                 "link" => "/itemType/index.php", //link of the page
             ],
+            [
+                "name" => "Supplier", //name of the link
+                "icon" => "local_shipping", //material icon name
+                "link" => "/SupplierTable/index.php", //link of the page
+                "navigations" => [] //list of links on dropdown
+            ],
         ] //list of links on dropdown
     ],
-    [
-        "name" => "Room", //name of the link
-        "icon" => "king_bed", //material icon name
-        "link" => "/Room/index.php", //link of the page
-        "navigations" => [] //list of links on dropdown
-     ],
+   
     [
         "name" => "Account Settings", //name of the link
         "icon" => "account_circle", //material icon name
@@ -296,6 +304,7 @@ $sidebarContent = [
                 ';
             }
             ?>
+
         </ul>
 
 
@@ -316,14 +325,19 @@ $sidebarContent = [
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        
         $(document).ready(function() {
             $("#toggleSidebar").on("click", function() {
                 toggleSidebar();
             });
-            
+
+            $(".nav-link").on("click", function() {
+                toggleSidebar();
+            });
         });
+
+        // Initialize sidebar state on page load
         checkSideBarState();
+
         window.addEventListener('resize', () => {
             checkSideBarState();
         }, true);
@@ -341,8 +355,18 @@ $sidebarContent = [
             var isSideBarOpened = $("#sidebar").hasClass("active");
             if (screen.width <= 768 && !isSideBarOpened) toggleSidebar();
             if (screen.width > 768 && isSideBarOpened) toggleSidebar();
+            
         }
-        
+
+        // Close sidebar when clicking outside of it
+        $(document).on("click", function(event) {
+            if (!$(event.target).closest('#sidebar').length &&
+                !$(event.target).is('#toggleSidebar')) {
+                if ($("#sidebar").hasClass("active")) {
+                    toggleSidebar();
+                }
+            }
+        });
     </script>
 
 </body>
