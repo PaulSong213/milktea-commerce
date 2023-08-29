@@ -9,20 +9,21 @@ if ($conn->connect_error) {
 }
 
 if (isset($_POST['SaveItem'])) {
-    $roomRef = $_POST['roomRef'];//1 lname
-    $roomDescription= $_POST['roomDescription'];//1 lname
-    $rateperDay = $_POST['rateperDay'];//1 lname
+    $romRef = $_POST['room_ref'];
+    $roomDescrip = $_POST['room_description'];
+    $ratedateDay = $_POST['rate_per_day'];
+  
 
     $sql = "INSERT INTO room_tb (Roomref, roomDescription, rateperDay)
-    VALUES ('$roomRef','$roomDescription', '$rateperDay')";
+    VALUES ('$romRef', '$roomDescrip', '$ratedateDay')";
 
     $result = mysqli_query($conn, $sql);
     if ($result) {
-        //success
-        $_SESSION["alert_message"] = "Successfully Added an Patient";
+        // success
+        $_SESSION["alert_message"] = "Successfully Added an Item";
         $_SESSION["alert_message_success"] = true;
     } else {
-        $_SESSION["alert_message"] = "Failed to Added an Patient. Error Details: " . mysqli_error($conn);
+        $_SESSION["alert_message"] = "Failed to Added an Item. Error Details: " . mysqli_error($conn);
         $_SESSION["alert_message_error"] = true;
     }
 
