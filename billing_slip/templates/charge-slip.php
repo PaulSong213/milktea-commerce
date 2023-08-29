@@ -93,29 +93,47 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
     <script>
-        function showChargeSlip(slipNumber, attachedTo, accountOf, patientName, date, enteredBy, totalAmount, productInfoStr) {
+        function showChargeSlip(salesID) {
+            console.log(salesID);
 
-            // fill up the charge slip information
-            $('#slipNumber').text(slipNumber);
-            $('#attachedTo').text(attachedTo);
-            $('#accountOf').text(accountOf);
-            $('#patientName').text(patientName);
-            $('#date').text(date);
-            $('#enteredBy').text(enteredBy);
-            $('#totalAmount').text(totalAmount);
-            // render product rows to productInfoContainer
-            var productInfo = JSON.parse(productInfoStr);
-            var productInfoContainer = $("#productInfoContainer");
-            var itemTypeContainers = {};
-            for (let i = 0; i < productInfo.length; i++) {
-                const info = productInfo[i];
-                if (!info.product_id) continue; // skip if product id is empty
+            // fetch data from api 
+            $.ajax({
+                url: `/Zarate/API/sales/search.php?SalesID=${salesID}`,
+                type: 'GET',
+                success: function(data) {
+                    const chargeSlip = JSON.parse(data);
+                    const slipNumber = chargeSlip.SalesID;
+                    const attachedTo = `${chargeSlip.PatientFirstName} ${chargeSlip.PatientMiddleName} ${chargeSlip.PatientLastName}`;
+                    const accountOf = "N/A";
+                    const patientName = `${chargeSlip.PatientFirstName} ${chargeSlip.PatientMiddleName} ${chargeSlip.PatientLastName}`;
+                    const date = chargeSlip.createDate;
+                    const productInfoStr = chargeSlip.ProductInfo;
+                    const enteredBy = `${chargeSlip.EnteredEmployeeFirstName} ${chargeSlip.EnteredEmployeeMiddleName} ${chargeSlip.EnteredEmployeeLastName}`;
+                    const totalAmount = chargeSlip.NetAmt;
 
-                var itemTypeID = info.itemTypeID;
 
-                // if item type id does not exist, create a new item type container
-                if (!itemTypeContainers[itemTypeID]) {
-                    const containerElement = $(`
+                    console.log(chargeSlip);
+                    // fill up the charge slip information
+                    $('#slipNumber').text(slipNumber);
+                    $('#attachedTo').text(attachedTo);
+                    $('#accountOf').text(accountOf);
+                    $('#patientName').text(patientName);
+                    $('#date').text(date);
+                    $('#enteredBy').text(enteredBy);
+                    $('#totalAmount').text(totalAmount);
+                    //render product rows to productInfoContainer
+                    var productInfo = JSON.parse(productInfoStr);
+                    var productInfoContainer = $("#productInfoContainer");
+                    var itemTypeContainers = {};
+                    for (let i = 0; i < productInfo.length; i++) {
+                        const info = productInfo[i];
+                        if (!info.product_id) continue; // skip if product id is empty
+
+                        var itemTypeID = info.itemTypeID;
+
+                        // if item type id does not exist, create a new item type container
+                        if (!itemTypeContainers[itemTypeID]) {
+                            const containerElement = $(`
                     <div id="${itemTypeID}" class="mt-3">
                         <div class="border border-3 d-flex  justify-content-between p-2 border-secondary w-100 align-items-center mb-2">
                             <h6 class="fw-bold my-auto">${info.itemType}</h6>
@@ -126,15 +144,15 @@
                         </div>
                     </div>`);
 
-                    itemTypeContainers[itemTypeID] = {
-                        "total": 0,
-                        "element": containerElement
-                    };
-                }
+                            itemTypeContainers[itemTypeID] = {
+                                "total": 0,
+                                "element": containerElement
+                            };
+                        }
 
-                itemTypeContainer = itemTypeContainers[itemTypeID]["element"]
-                itemTypeContainers[itemTypeID]["total"] += Number(info.subtotal); // add subtotal to item type total
-                var newProductInfo = $(`
+                        itemTypeContainer = itemTypeContainers[itemTypeID]["element"]
+                        itemTypeContainers[itemTypeID]["total"] += Number(info.subtotal); // add subtotal to item type total
+                        var newProductInfo = $(`
                     <div class="d-flex justify-content-end px-3">
                         <div class="row w-100">
                             <h6 class="col-6">${info.product_id}</h6>
@@ -145,22 +163,27 @@
                         </div>
                     </div>
                     `);
-                itemTypeContainer.append(newProductInfo);
-            }
+                        itemTypeContainer.append(newProductInfo);
+                    }
 
-            // append item type containers to product info container
-            for (const itemTypeID in itemTypeContainers) {
-                if (Object.hasOwnProperty.call(itemTypeContainers, itemTypeID)) {
-                    const itemTypeContainer = itemTypeContainers[itemTypeID]["element"];
-                    productInfoContainer.append(itemTypeContainer);
-                    $(`#itemTypeTotal${itemTypeID}`).text("₱" + itemTypeContainers[itemTypeID]["total"].toFixed(2));
+                    // append item type containers to product info container
+                    for (const itemTypeID in itemTypeContainers) {
+                        if (Object.hasOwnProperty.call(itemTypeContainers, itemTypeID)) {
+                            const itemTypeContainer = itemTypeContainers[itemTypeID]["element"];
+                            productInfoContainer.append(itemTypeContainer);
+                            $(`#itemTypeTotal${itemTypeID}`).text("₱" + itemTypeContainers[itemTypeID]["total"].toFixed(2));
+                        }
+                    }
+
+                    var exampleModalPopup = new bootstrap.Modal($('#printModal'), {});
+                    exampleModalPopup.show();
+                    $("#print-charge-slip").click(function() {
+                        printChargeSlip();
+                    });
+                },
+                error: function(error) {
+                    console.log(error);
                 }
-            }
-
-            var exampleModalPopup = new bootstrap.Modal($('#printModal'), {});
-            exampleModalPopup.show();
-            $("#print-charge-slip").click(function() {
-                printChargeSlip();
             });
         }
 
@@ -168,7 +191,7 @@
         <?php
         if (isset($_SESSION['printData'])) {
             $printData = $_SESSION['printData'];
-            echo "showChargeSlip(`" . $printData['SalesID'] . "`, `" . $printData['PatientAcct'] . "`, `" . $printData['PatientAcct'] . "`, `" . $printData['PatientAcct'] . "`, `" . $printData['createDate'] . "`, `" . $printData['EnteredName'] . "`, `" . $printData['NetAmt'] . "`, `" . $printData['ProductInfo'] . "`);";
+            echo "showChargeSlip(`" . $printData["SalesID"] . "`)";
             unset($_SESSION['printData']);
         }
         ?>

@@ -30,7 +30,7 @@ $sidebarContent = [
             ],
             [
                 "name" => "Clossing Report", // include returns the included content
-                "link" => "/closingReport/reportPopUp.php",
+                "link" => "/closingReport/index.php",
                 "id" => "openModalButton",
             ],
 
