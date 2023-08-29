@@ -24,11 +24,11 @@ export function handleEditClick(table) {
 
         // edit the save button
         const saveButton = $("[name='SaveItem']");
-        saveButton.text("Edit Item");
+        saveButton.text("Edit Department Information");
 
         // edit header title
         const headerTitle = $("#addItemModalLabel");
-        headerTitle.text("Edit Item");
+        headerTitle.text("Edit Department Information");
 
         const addItemForm = $("#addItemForm");
         const addItemFormAction = addItemForm.attr("action");

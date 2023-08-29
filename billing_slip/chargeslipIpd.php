@@ -369,7 +369,7 @@ $LastBillingID = getLastBillingID($conn);
             var datalist = document.getElementById('product_id_list');
 
             var xhr = new XMLHttpRequest();
-            xhr.open("GET", "get_product_details.php?itemCode=" + selectedValue, true);
+            xhr.open("GET", "getproductdetails.php?itemCode=" + selectedValue, true);
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (xhr.status === 200) {
@@ -551,5 +551,4 @@ $LastBillingID = getLastBillingID($conn);
         });
     </script>
 </body>
-
 </html>

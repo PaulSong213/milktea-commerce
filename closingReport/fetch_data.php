@@ -57,35 +57,34 @@
 </head>
 
 <body>
+<body>
 <div class="py-3">
-    <div class="d-flex">
+    <div class="d-flex justify-content-between">
         <div style="margin-right: 15px;">
             <h3 class="fw-bold mb-1">CLOSING REPORT AS OF:</h3>
+            <?php
+            if (isset($_POST['dateTimeIn']) && isset($_POST['dateTimeOut'])) {
+                $dateTimeIn = $_POST['dateTimeIn'];
+                $dateTimeOut = $_POST['dateTimeOut'];
+                echo "<p class='mb-0'>$dateTimeIn - $dateTimeOut</p>";
+            }
+            ?>
         </div>
-        
     </div>
-    <div class="d-flex flex-column">
-            <h4 class="mb-1" id="closingReport"></h4>   
-        </div>
 </div>
     
 <div class="table w-100 p-4">
         <table id="example" class="table table-striped" style="width:100%">
-        
             <thead>
                 <tr>
-                    <th>DATE</th>
-                    <th>PRODUCT INFO</th>
-                    <th>SALES</th>
-                    <th>CASH IN</th>
-                    <th>CHECK IN</th>
-                    <th>AMOUNT IN</th>
-                    <th>CASH OUT</th>
-                    <th>AMOUNT ON HAND</th>
+                    <th>Date</th>
+                    <th>Sales ID</th>
+                    <th>Product ID</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
                 </tr>
             </thead>
             <tbody>
-                
                 <?php
                 require_once '../php/connect.php';
                 if (isset($_POST['dateTimeIn']) && isset($_POST['dateTimeOut'])) {
@@ -95,23 +94,48 @@
                     $connection = connect();
                     $sql = "SELECT * FROM sales_tb WHERE createDate >= '$dateTimeIn' AND createDate <= '$dateTimeOut'";
                     $result = $connection->query($sql);
+
+                    $totalNetSale = 0;
+                  
+
                     while ($row = $result->fetch_assoc()) {
+                        // Access the value of ProductInfo
+                        $productInfoJson = $row["ProductInfo"];
+                    
+                        // Convert the JSON string to a PHP array
+                        $productInfoArray = json_decode($productInfoJson, true);
+                    
+                        // Access specific values within the ProductInfo array
+                        $subtotal = $productInfoArray[0]["subtotal"];
+                        $productId = $productInfoArray[0]["product_id"];
+                        $qty = $productInfoArray[0]["qty"];
+                    
                         echo "
                             <tr>
-                                <td>" . $row["createDate"] ."</td>
-                                <td>" . $row["ProductInfo"] . "</td>
-                                <td>" . $row["NetSale"] . "</td>
-                                <td>" . $row["NetAmt"] . "</td>
-                                <td>" . $row["AmtTendered"] . "</td>
-                                <td>" . $row["ChangeAmt"] . "</td>
-                            </tr>
-                        ";
+                                <td>" . $row["createDate"] . "</td>
+                                <td>" . $row["SalesID"] . "</td>
+                                <td>" . $productId . "</td>
+                                <td>" . $qty . "</td>
+                                <td>" . $subtotal . "</td>
+                                
+                            </tr>";
+                    
+                        $totalNetSale += $subtotal;
+                     
                     }
+
+                    echo "
+                    <tr>
+                            <th colspan='0'>Total:</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th colspan='5'>$totalNetSale</th>
+                    </tr>";
                 } else {
-                    echo "<tr><td colspan='8'>No data to display.</td></tr>";
+                    echo "<tr><td colspan='6'>No data to display.</td></tr>";
                 }
                 ?>
-
             </tbody>
         </table>
     </div>
@@ -126,128 +150,6 @@
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables-buttons/2.2.0/js/buttons.colVis.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script type="module">
-       import {
-            searchColumn,
-            handleArchiveClick,
-        } from "../costum-js/datatables.js";
-
-        import {
-            handleEditClick
-        } from "./edit/editData.js";
-        import {
-            handleViewClick
-        } from './view/viewData.js'
-
-        $(document).ready(function() {
-
-            // clone header to add search by columns
-            $('#example thead tr')
-                .clone(true)
-                .addClass('filters')
-                .appendTo('#example thead');
-
-            const table = $('#example').DataTable({
-                orderCellsTop: true,
-                fixedHeader: true,
-                responsive: true,
-                autoFill: true,
-                dom: 'Bfrtip',
-                buttons: [{
-                        extend: 'excelHtml5',
-                        className: 'btn border border-info',
-                        exportOptions: {
-                            columns: ':not(.action-column)'
-                        }
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        className: 'btn border border-info',
-                        exportOptions: {
-                            columns: ':not(.action-column)'
-                        }
-                    },
-                    {
-                        extend: 'print',
-                        className: 'btn border border-info',
-                        exportOptions: {
-                            columns: ':not(.action-column)'
-                        }
-                    },
-                    {
-                        extend: 'colvis',
-                        className: 'btn border border-info'
-                    },
-                    {
-                        extend: 'pageLength',
-                        className: 'btn border border-info'
-                    },
-                    {
-                        text: 'Add Item Type',
-                        className: 'btn btn-primary bg-primary text-white',
-                        action: function(e, dt, node, config) {
-                            $('#addItemModal').modal('show');
-                        }
-                    }
-                ],
-                initComplete: function() {
-                    searchColumn(this.api());
-                },
-                columnDefs: [{
-                    targets: -1,
-                    render: (d) => {
-                        const data = JSON.parse(d);
-                        const id = data.InventoryID;
-                        return `
-                        <div class="dropdown dropstart d-flex">
-                            <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
-                                <img class="mb-1" src="../img/icons/ellipsis-horizontal.svg">
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li class="mx-2">
-                                    <button class=" btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
-                                </li>
-                                <li class="mx-2">
-                                    <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
-                                </li>
-                            </ul>
-                        </div>
-                        `
-                    },
-                    "searchable": false
-                }],
-                order: [
-                    [3, 'asc']
-                ]
-            });
-            handleEditClick(table);
-            handleViewClick(table);
-
-            table.on('draw', function() {
-                $('.action-wrapper').each(function(i, e) {
-                    $(this).removeClass('invisible');
-                });
-            });
-            table.page(1).draw(true);
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('#saveItemButton').click(function() {
-                var itemCode = $('#itemCode').val();
-                var unit = $('#Unit').val();
-                var description = $('#description').val();
-                if (itemCode.trim() === "" || unit.trim() === "" || description.trim() === "") {
-                    return false; // Prevent closing modal and form submission
-                } else {
-                    $('#addItemModal').modal('hide'); // Close the modal after saving
-                }
-            });
-        });
-        $('#Closemodal1, #Closemodal2').click(function() {
-            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
-        });
-    </script>
 </body>
 
 </html>
