@@ -21,6 +21,54 @@ if (isset($_POST['SaveItem'])) {
 
     $patientType = $_POST['patientAccountType'];
 
+    $billingID = null;
+    if ($patientType == "IPD") {
+        if (isset($_POST['billingID']) && !empty($_POST['billingID'])) {
+            // There is existing billing ID
+            $billingID = $_POST['billingID'];
+        } else {
+            // Create new billing
+            $encoderID = $enteredByName;
+            $patientID = $patientAccountName;
+            $accountOfID = $_POST['accountOfID'];
+            $type = $patientType;
+
+
+            $dateAdmitted = $_POST['dateAdmitted'];
+            $timeAdmitted = $_POST['timeAdmitted'];
+            $formattedDatetimeAdmitted = null;
+            if (!empty($dateDischarged) && !empty($timeDischarged)) {
+                $datetimeAdmitted = new DateTime($dateAdmitted . ' ' . $timeAdmitted);
+                $formattedDatetimeAdmitted = $datetimeAdmitted->format('Y-m-d H:i:s');
+            }
+
+            $attendingPhysicianID = $_POST['attendingPhysicianID'];
+            $admittingPhysicianID = $_POST['admittingPhysicianID'];
+
+            $dateDischarged = $_POST['dateDischarged'];
+            $timeDischarged = $_POST['timeDischarged'];
+            $formattedDatetimeDischarged = null;
+            if (!empty($dateDischarged) && !empty($timeDischarged)) {
+                $datetimeDischarged = new DateTime($dateDischarged . ' ' . $timeDischarged);
+                $formattedDatetimeDischarged = $datetimeDischarged->format('Y-m-d H:i:s');
+            }
+
+
+            $queryCreateBilling = "INSERT INTO `billing_tb` 
+                (`encoderID`, `patientID`, `accountOfID`, `dateTimeAdmitted`, `type`, `attendingPhysicianID`, `admittingPhysicianID`, `dateTimeDischarged`) 
+                VALUES ('$encoderID', '$patientID', '$accountOfID', '$formattedDatetimeAdmitted', '$type', '$attendingPhysicianID', '$admittingPhysicianID', '$formattedDatetimeDischarged');";
+
+            $resultCreateBilling = mysqli_query($conn, $queryCreateBilling);
+            $billingID = mysqli_insert_id($conn);
+            if (!$resultCreateBilling) {
+                $_SESSION["alert_message"] = "Failed to Add a Billing Statement. Error Details: " . mysqli_error($conn);
+                $_SESSION["alert_message_error"] = true;
+                header("Location: ../billing_slip/index.php");
+                die();
+            }
+        }
+    }
+
     // Create the array for ProductInfo column
     $productInfoArray = [];
     $unit = $_POST['unit'];
@@ -59,8 +107,8 @@ if (isset($_POST['SaveItem'])) {
     $addDiscAmt = $netSale * ($additionalDiscount / 100);
 
     // Prepare the INSERT query
-    $insertQuery = "INSERT INTO sales_tb (ProductInfo, NetSale, AddDisc, AddDiscAmt, NetAmt, AmtTendered, ChangeAmt, PatientAcct, RequestedName, EnteredName, PatientType, createDate)
-                    VALUES ('$productInfoJSON', '$netSale', '$additionalDiscount', '$addDiscAmt', '$netAmount', '$amountTendered', '$change', '$patientAccountName', '$requestedByName', '$enteredByName', '$patientType', NOW())";
+    $insertQuery = "INSERT INTO sales_tb (ProductInfo, NetSale, AddDisc, AddDiscAmt, NetAmt, AmtTendered, ChangeAmt, PatientAcct, RequestedName, EnteredName, PatientType, createDate, billingID)
+                    VALUES ('$productInfoJSON', '$netSale', '$additionalDiscount', '$addDiscAmt', '$netAmount', '$amountTendered', '$change', '$patientAccountName', '$requestedByName', '$enteredByName', '$patientType', NOW(), '$billingID')";
 
 
 
