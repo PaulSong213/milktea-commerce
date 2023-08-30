@@ -138,31 +138,43 @@
                     ?>
                 </tbody>
             </table>
-        </div>
-        <div class="container-fluid mt-4 w-100 p-3">
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="row mb-2">
-                        <div class="col-md-6 font-weight-bold">Label 1:</div>
-                        <div class="col-md-6">Value 1</div>
+            <div class="container-fluid mt-4 p-3 bg-primary">
+                <div class="row">
+                    <div class="col-md-6 bg-danger">
+                        <div class="row mb-2">
+                            <div class="col-md-6 font-weight-bold bg-info">
+                                <h5> Total Sale:</h5>
+                                <div style="margin-left: 5%;">
+                                <p>Cash Transactions:</p>
+                                <p>Bill Transactions:</h7> 
+                                <p>NYP Transactions:</p> 
+                                <p>Employee Transactions:</p> 
+                                </div>
+                            </div>
+                            <div class="col-md-8">Value 1</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 font-weight-bold">
+                                <h5> Total Net Sale:</h5>
+                            </div>
+                            <div class="col-md-8">Value 2</div>
+                        </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6 font-weight-bold">Label 2:</div>
-                        <div class="col-md-6">Value 2</div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="row mb-2">
-                        <div class="col-md-6 font-weight-bold">Label 3:</div>
-                        <div class="col-md-6">Value 3</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 font-weight-bold">Label 4:</div>
-                        <div class="col-md-6">Value 4</div>
+                    <div class="col-md-6 bg-info">
+                        <div class="row mb-2">
+                            <div class="col-md-4 font-weight-bold">Label 3:</div>
+                            <div class="col-md-8">Value 3</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 font-weight-bold">Label 4:</div>
+                            <div class="col-md-8">Value 4</div>
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
+
 
 
         <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
