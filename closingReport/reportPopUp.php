@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Print Closing Report</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
         #uiContainer {
             background-color: #001f3f;
@@ -16,9 +16,14 @@
             justify-content: center;
             height: 100vh;
         }
-        #dateTimeInfo, .form-label, .btn-primary, .btn-success {
+
+        #dateTimeInfo,
+        .form-label,
+        .btn-primary,
+        .btn-success {
             color: white;
         }
+
         #text {
             color: white;
         }
@@ -74,8 +79,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $("#confirmButton").click(function () {
+        $(document).ready(function() {
+            $("#confirmButton").click(function() {
                 var selectedDate = $("#inputDate").val();
                 var selectedTimeIn = $("#inputTimeIn").val();
                 var selectedTimeOut = $("#inputTimeOut").val();
@@ -91,11 +96,11 @@
                             dateTimeIn: dateTimeIn,
                             dateTimeOut: dateTimeOut
                         },
-                        success: function (response) {
+                        success: function(response) {
                             var dateTimeRange = selectedDate + ' ' + selectedTimeIn + ' - ' + selectedTimeOut;
                             // Update the Closing Report header
                             $("#closingReport").text("CLOSING REPORT AS OF:");
-                        $("#dateTimeInfo").text(dateTimeRange);;
+                            $("#dateTimeInfo").text(dateTimeRange);;
                             // Show the fetched data in the modal
                             $("#reportPopUp").html(response);
 
@@ -103,7 +108,7 @@
                             var printModalPopup = new bootstrap.Modal($('#printModal'), {});
                             printModalPopup.show();
                         },
-                        error: function (xhr, status, error) {
+                        error: function(xhr, status, error) {
                             console.error("Error fetching data:", error);
                         }
                     });
@@ -112,26 +117,44 @@
                 }
             });
 
-            $("#printModalButton").click(function () {
-                var printContents = $("#reportPopUp").html();
+            $("#printModalButton").click(function() {
                 printChargeSlip();
             });
 
             function printChargeSlip() {
-            var divToPrint = document.getElementById('reportPopUp').outerHTML;
-            var newWin = window.open('', '_blank');
+                var divToPrint = document.getElementById('reportPopUp').outerHTML;
 
-            newWin.document.write('<html><head><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"></head><body>');
-            newWin.document.write(divToPrint);
-            newWin.document.write('</body></html>');
-            newWin.document.close();
+                var newWin = window.open('', '_blank', 'width=1200, height=1100');
 
-            newWin.onload = function() {
-                newWin.print();
-                newWin.close();
-            };
-        }
+                newWin.document.write(`
+        <html>
+        <head>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+            <style>
+                @media print {
+                    body {
+                        display: block;
+                        width: 100%;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            ${divToPrint}
+        </body>
+        </html>`);
+
+                newWin.document.close();
+
+                newWin.onload = function() {
+                    newWin.print();
+                    newWin.close();
+                };
+            }
+
+
         });
     </script>
 </body>
+
 </html>

@@ -343,7 +343,7 @@ $sidebarContent = [
             $(".nav-link").on("click", function() {
                 toggleSidebar();
             });
-            
+
         });
         // Initialize sidebar state on page load
         checkSideBarState();
@@ -381,12 +381,11 @@ $sidebarContent = [
                 }
             }
         });
-        
+
         // Added event listener for window resize to check sidebar state
         $(window).resize(function() {
             checkSideBarState();
         });
-        
     </script>
 </body>
 
