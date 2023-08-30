@@ -138,36 +138,92 @@
                     ?>
                 </tbody>
             </table>
-            <div class="container-fluid mt-4 p-3 bg-primary">
+            <div class="fluid mt-4 p-3 border border-dark">
                 <div class="row">
-                    <div class="col-md-6 bg-danger">
+                    <div class="col-md-6 ">
                         <div class="row mb-2">
-                            <div class="col-md-6 font-weight-bold bg-info">
-                                <h5> Total Sale:</h5>
-                                <div style="margin-left: 5%;">
-                                <p>Cash Transactions:</p>
-                                <p>Bill Transactions:</h7> 
-                                <p>NYP Transactions:</p> 
-                                <p>Employee Transactions:</p> 
+                            <div class="col-md-6 fw-bold text-left mx-1">
+                                <h8> TOTAL SALE:</h8> <br>
+                                <div class="font-weight-normal " style="margin-left:20%;">
+                                    <p>Cash Transactions:</p>
+                                    <p>Bill Transactions:</h7>
+                                    <p>NYP Transactions:</p>
+                                    <p>Employee Transactions:</p>
                                 </div>
+                                <h8> TOTAL CLINIC USE:</h8><br>
+                                <h8> TOTAL PERSONAL USE:</h8><br>
+                                <h8> TOTAL BILL DISCOUNTS:</h8><br>
+
+                                <h8> BEGINNING BALANCE: CASH:</h8>
+                                <h8 style="margin-left:75%;"> CHECK:</h8>
+                                <h8> TOTAL CASH IN:</h8><br>
+                                <h8> TOTAL CASH OUT:</h8><br>
+                                <h8> TOTAL AMOUNT IN:</h8><br>
+                                <h8> PREVIOUS SHIFTEE:</h8><br>
+
                             </div>
-                            <div class="col-md-8">Value 1</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 font-weight-bold">
-                                <h5> Total Net Sale:</h5>
+                            <div class="col-md-5 text-right">
+                                <h8> P 00.00</h8> <br>
+                                <div class="font-weight-normal " style="margin-left:20%;">
+                                    <p>P 00.00</p>
+                                    <p>P 00.00</P>
+                                    <p>P 00.00</p>
+                                    <p>P 00.00</p>
+                                </div>
+                                <h8> P 00.00</h8><br>
+                                <h8> P 00.00</h8><br>
+                                <h8> P 00.00</h8><br>
+
+                                <h8> P 00.00</h8><br>
+                                <h8>P 00.00</h8><br>
+                                <h8>P 00.00</h8><br>
+                                <h8> P 00.00</h8><br>
+                                <h8> P 00.00</h8><br>
+                                <h8> P 00.00</h8><br>
                             </div>
-                            <div class="col-md-8">Value 2</div>
                         </div>
                     </div>
-                    <div class="col-md-6 bg-info">
+                    <div class="col-md-6">
                         <div class="row mb-2">
-                            <div class="col-md-4 font-weight-bold">Label 3:</div>
-                            <div class="col-md-8">Value 3</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 font-weight-bold">Label 4:</div>
-                            <div class="col-md-8">Value 4</div>
+                            <div class="col-md-6 fw-bold  text-right mx-1">
+                                <h8> TOTAL SALE:</h8> <br>
+                                <div class="font-weight-normal " style="margin-left:20%;">
+                                    <p>Cash Transactions:</p>
+                                    <p>Bill Transactions:</h7>
+                                    <p>NYP Transactions:</p>
+                                    <p>Employee Transactions:</p>
+                                </div>
+                                <h8> TOTAL CLINIC USE:</h8><br>
+                                <h8> TOTAL PERSONAL USE:</h8><br>
+                                <h8> TOTAL BILL DISCOUNTS:</h8><br>
+
+                                <h8> BEGINNING BALANCE: CASH:</h8>
+                                <h8 style="margin-left:75%;"> CHECK:</h8>
+                                <h8> TOTAL CASH IN:</h8><br>
+                                <h8> TOTAL CASH OUT:</h8><br>
+                                <h8> TOTAL AMOUNT IN:</h8><br>
+                                <h8> PREVIOUS SHIFTEE:</h8><br>
+
+                            </div>
+                            <div class="col-md-5 s text-left">
+                                <h8> P 00.00</h8> <br>
+                                <div class="font-weight-normal " style="margin-left:20%;">
+                                    <p>P 00.00</p>
+                                    <p>P 00.00</P>
+                                    <p>P 00.00</p>
+                                    <p>P 00.00</p>
+                                </div>
+                                <h8> P 00.00</h8><br>
+                                <h8> P 00.00</h8><br>
+                                <h8> P 00.00</h8><br>
+
+                                <h8> P 00.00</h8><br>
+                                <h8>P 00.00</h8><br>
+                                <h8>P 00.00</h8><br>
+                                <h8> P 00.00</h8><br>
+                                <h8> P 00.00</h8><br>
+                                <h8> P 00.00</h8><br>
+                            </div>
                         </div>
                     </div>
                 </div>
