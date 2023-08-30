@@ -29,7 +29,7 @@ $sidebarContent = [
                 "link" => "/billingtable/index.php", //link of the page
             ],
             [
-                "name" => "Clossing Report", // include returns the included content
+                "name" => "Closing Report", // include returns the included content
                 "link" => "/closingReport/index.php",
                 "id" => "openModalButton",
             ],
