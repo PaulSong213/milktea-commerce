@@ -22,50 +22,57 @@ if (isset($_POST['SaveItem'])) {
     $patientType = $_POST['patientAccountType'];
 
     $billingID = null;
-    if ($patientType == "IPD") {
-        if (isset($_POST['billingID']) && !empty($_POST['billingID'])) {
-            // There is existing billing ID
-            $billingID = $_POST['billingID'];
-        } else {
-            // Create new billing
-            $encoderID = $enteredByName;
-            $patientID = $patientAccountName;
+    if (isset($_POST['billingID']) && !empty($_POST['billingID']) && $patientType == "IPD") {
+        // There is existing billing ID
+        $billingID = $_POST['billingID'];
+    } else if ($change < 0) {
+        // OPT with remaining balance
+        // Create new billing
+        $encoderID = $enteredByName;
+        $patientID = $patientAccountName;
+        $type = $patientType;
+        $formattedDatetimeAdmitted = null;
+        $formattedDatetimeDischarged = null;
+        if ($type == "IPD") {
             $accountOfID = $_POST['accountOfID'];
-            $type = $patientType;
-
-
             $dateAdmitted = $_POST['dateAdmitted'];
             $timeAdmitted = $_POST['timeAdmitted'];
-            $formattedDatetimeAdmitted = null;
+            $attendingPhysicianID = $_POST['attendingPhysicianID'];
+            $admittingPhysicianID = $_POST['admittingPhysicianID'];
+            $dateDischarged = $_POST['dateDischarged'];
+            $timeDischarged = $_POST['timeDischarged'];
             if (!empty($dateDischarged) && !empty($timeDischarged)) {
                 $datetimeAdmitted = new DateTime($dateAdmitted . ' ' . $timeAdmitted);
                 $formattedDatetimeAdmitted = $datetimeAdmitted->format('Y-m-d H:i:s');
             }
-
-            $attendingPhysicianID = $_POST['attendingPhysicianID'];
-            $admittingPhysicianID = $_POST['admittingPhysicianID'];
-
-            $dateDischarged = $_POST['dateDischarged'];
-            $timeDischarged = $_POST['timeDischarged'];
-            $formattedDatetimeDischarged = null;
             if (!empty($dateDischarged) && !empty($timeDischarged)) {
                 $datetimeDischarged = new DateTime($dateDischarged . ' ' . $timeDischarged);
                 $formattedDatetimeDischarged = $datetimeDischarged->format('Y-m-d H:i:s');
             }
+        } else {
+            // create billing for IPD with remaining balance
+            $accountOfID = $patientID;
+            // set formattedDatetimeAdmitted to current datetime
+            $datetimeAdmitted = new DateTime();
+            $formattedDatetimeAdmitted = $datetimeAdmitted->format('Y-m-d H:i:s');
+            // set formattedDatetimeDischarged to current datetime
+            $datetimeDischarged = new DateTime();
+            $formattedDatetimeDischarged = $datetimeDischarged->format('Y-m-d H:i:s');
+            $attendingPhysicianID = $requestedByName;
+            $admittingPhysicianID = $requestedByName;
+        }
 
-
-            $queryCreateBilling = "INSERT INTO `billing_tb` 
+        $queryCreateBilling = "INSERT INTO `billing_tb` 
                 (`encoderID`, `patientID`, `accountOfID`, `dateTimeAdmitted`, `type`, `attendingPhysicianID`, `admittingPhysicianID`, `dateTimeDischarged`) 
                 VALUES ('$encoderID', '$patientID', '$accountOfID', '$formattedDatetimeAdmitted', '$type', '$attendingPhysicianID', '$admittingPhysicianID', '$formattedDatetimeDischarged');";
 
-            $resultCreateBilling = mysqli_query($conn, $queryCreateBilling);
-            $billingID = mysqli_insert_id($conn);
-            if (!$resultCreateBilling) {
-                $_SESSION["alert_message"] = "Failed to Add a Billing Statement. Error Details: " . mysqli_error($conn);
-                $_SESSION["alert_message_error"] = true;
-                header("Location: ../billing_slip/index.php");
-                die();
-            }
+        $resultCreateBilling = mysqli_query($conn, $queryCreateBilling);
+        $billingID = mysqli_insert_id($conn);
+        if (!$resultCreateBilling) {
+            $_SESSION["alert_message"] = "Failed to Add a Billing Statement. Error Details: " . mysqli_error($conn);
+            $_SESSION["alert_message_error"] = true;
+            header("Location: ../billing_slip/index.php");
+            die();
         }
     }
 
@@ -106,16 +113,12 @@ if (isset($_POST['SaveItem'])) {
     // Calculate additional discount amount
     $addDiscAmt = $netSale * ($additionalDiscount / 100);
 
+    // check if billing is null
+    $intBillingID = $billingID != null ? "'$billingID'" : "NULL";
+
     // Prepare the INSERT query
     $insertQuery = "INSERT INTO sales_tb (ProductInfo, NetSale, AddDisc, AddDiscAmt, NetAmt, AmtTendered, ChangeAmt, PatientAcct, RequestedName, EnteredName, PatientType, createDate, billingID)
-                    VALUES ('$productInfoJSON', '$netSale', '$additionalDiscount', '$addDiscAmt', '$netAmount', '$amountTendered', '$change', '$patientAccountName', '$requestedByName', '$enteredByName', '$patientType', NOW(), '$billingID')";
-
-
-
-    for ($i = 0; $i < count($product_id); $i++) {
-        if (empty($product_id[$i])) continue;
-        // ... (populate productInfoArray)
-    }
+                    VALUES ('$productInfoJSON', '$netSale', '$additionalDiscount', '$addDiscAmt', '$netAmount', '$amountTendered', '$change', '$patientAccountName', '$requestedByName', '$enteredByName', '$patientType', NOW(), $intBillingID)";
 
     // Validate the productInfoArray
     if (empty($productInfoArray)) {
@@ -123,13 +126,7 @@ if (isset($_POST['SaveItem'])) {
         $_SESSION["alert_message_error"] = true;
         header("Location: ../billing_slip/index.php");
         die();
-    } elseif ($change < 0) {
-        $_SESSION["alert_message"] = "Please enter the right Tendered Amount.";
-        $_SESSION["alert_message_error"] = true;
-        header("Location: ../billing_slip/index.php");
-        die();
     }
-
     $result = mysqli_query($conn, $insertQuery);
 
     // Inserting to the sales_tb failed
