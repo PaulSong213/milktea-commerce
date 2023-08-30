@@ -82,16 +82,14 @@
                                     <span id="NetAmt">Net Ammount: ₱</span>
                                     <span id="NetSale">Net Sale: ₱</span>
                                     <span id="AddDisc">Additional Discount(%): </span>
+                                    <span id="billRef">Bill Reference: </span>
+                                    <span id="patientType">Patient Type: </span>
                                     <h5 id="paidIndicator" class="fs-6 fw-bold">
                                         PAID
                                     </h5>
                                 </div>
                             </div>
-
                         </div>
-
-
-
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -123,22 +121,30 @@
                     const productInfoStr = chargeSlip.ProductInfo;
                     const enteredBy = `${chargeSlip.EnteredEmployeeFirstName} ${chargeSlip.EnteredEmployeeMiddleName} ${chargeSlip.EnteredEmployeeLastName}`;
                     const totalAmount = chargeSlip.NetAmt;
-
-
-
                     const ChangeAmt = chargeSlip.ChangeAmt;
                     var remainingBalance = 0;
                     if (parseFloat(ChangeAmt) < 0) {
                         remainingBalance = parseFloat(ChangeAmt) * -1;
-                        $("#paidIndicator").text(`**Remaining Balance: ${remainingBalance}`);
+                        $("#paidIndicator").text(`**Remaining Balance: ₱${remainingBalance}`);
                         $("#paidIndicator").addClass("text-danger");
                     }
 
+                    console.log(chargeSlip);
+
+                    if (!chargeSlip.billingID) {
+                        $("#billRef").remove();
+                    } else {
+                        $("#billRef").text(`Bill Reference: ${chargeSlip.billingID}`);
+                    }
+
+                    $("#patientType").text(`Patient Type: ${chargeSlip.PatientType}`);
                     $("#AmtTendered").text(`Amount Tendered: ₱${chargeSlip.AmtTendered}`);
                     $("#ChangeAmt").text(`Change: ₱${ chargeSlip.ChangeAmt >= 0  ? chargeSlip.ChangeAmt : 0}`);
                     $("#NetAmt").text(`Net Amount: ₱${chargeSlip.NetAmt}`);
                     $("#NetSale").text(`Net Sale: ₱${chargeSlip.NetSale}`);
                     $("#AddDisc").text(`Additional Discount(%): ${chargeSlip.AddDisc}`);
+
+
 
                     console.log(chargeSlip);
                     // fill up the charge slip information

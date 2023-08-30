@@ -22,10 +22,11 @@ if (isset($_POST['SaveItem'])) {
     $patientType = $_POST['patientAccountType'];
 
     $billingID = null;
-    if (isset($_POST['billingID']) && !empty($_POST['billingID'])) {
+    if (isset($_POST['billingID']) && !empty($_POST['billingID']) && $patientType == "IPD") {
         // There is existing billing ID
         $billingID = $_POST['billingID'];
-    } else {
+    } else if ($change < 0) {
+        // OPT with remaining balance
         // Create new billing
         $encoderID = $enteredByName;
         $patientID = $patientAccountName;
@@ -49,6 +50,7 @@ if (isset($_POST['SaveItem'])) {
                 $formattedDatetimeDischarged = $datetimeDischarged->format('Y-m-d H:i:s');
             }
         } else {
+            // create billing for IPD with remaining balance
             $accountOfID = $patientID;
             // set formattedDatetimeAdmitted to current datetime
             $datetimeAdmitted = new DateTime();
@@ -111,16 +113,12 @@ if (isset($_POST['SaveItem'])) {
     // Calculate additional discount amount
     $addDiscAmt = $netSale * ($additionalDiscount / 100);
 
+    // check if billing is null
+    $intBillingID = $billingID != null ? "'$billingID'" : "NULL";
+
     // Prepare the INSERT query
     $insertQuery = "INSERT INTO sales_tb (ProductInfo, NetSale, AddDisc, AddDiscAmt, NetAmt, AmtTendered, ChangeAmt, PatientAcct, RequestedName, EnteredName, PatientType, createDate, billingID)
-                    VALUES ('$productInfoJSON', '$netSale', '$additionalDiscount', '$addDiscAmt', '$netAmount', '$amountTendered', '$change', '$patientAccountName', '$requestedByName', '$enteredByName', '$patientType', NOW(), '$billingID')";
-
-
-
-    for ($i = 0; $i < count($product_id); $i++) {
-        if (empty($product_id[$i])) continue;
-        // ... (populate productInfoArray)
-    }
+                    VALUES ('$productInfoJSON', '$netSale', '$additionalDiscount', '$addDiscAmt', '$netAmount', '$amountTendered', '$change', '$patientAccountName', '$requestedByName', '$enteredByName', '$patientType', NOW(), $intBillingID)";
 
     // Validate the productInfoArray
     if (empty($productInfoArray)) {
