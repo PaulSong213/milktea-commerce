@@ -234,7 +234,7 @@
         if (isset($_SESSION['printSalesInsertedId'])) {
             $printSalesInsertedId = $_SESSION['printSalesInsertedId'];
             echo "showChargeSlip(`" . $printSalesInsertedId . "`)";
-            // unset($_SESSION['printSalesInsertedId']);
+            unset($_SESSION['printSalesInsertedId']);
         }
         ?>
 
