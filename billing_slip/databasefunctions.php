@@ -11,6 +11,7 @@ if (isset($_POST['SaveItem'])) {
     // Retrieve form inputs
     $chargeSlipNumber = $_POST['chargeSlipNumber'];
     $patientAccountName = $_POST['patientAccountName'];
+    $UnpaidPatientName = "";
     $requestedByName = $_POST['requestedByName'];
     $enteredByName = $_POST['enteredByName'];
     $netSale = $_POST['netSale'];
@@ -61,6 +62,8 @@ if (isset($_POST['SaveItem'])) {
             $attendingPhysicianID = $requestedByName;
             $admittingPhysicianID = $requestedByName;
         }
+
+
 
         $queryCreateBilling = "INSERT INTO `billing_tb` 
                 (`encoderID`, `patientID`, `accountOfID`, `dateTimeAdmitted`, `type`, `attendingPhysicianID`, `admittingPhysicianID`, `dateTimeDischarged`) 
@@ -116,9 +119,14 @@ if (isset($_POST['SaveItem'])) {
     // check if billing is null
     $intBillingID = $billingID != null ? "'$billingID'" : "NULL";
 
+    // check if there is existing patient record
+    if ($patientType == "OPD" && !is_int($patientAccountName)) {
+        $UnpaidPatientName = $patientAccountName;
+    }
+
     // Prepare the INSERT query
-    $insertQuery = "INSERT INTO sales_tb (ProductInfo, NetSale, AddDisc, AddDiscAmt, NetAmt, AmtTendered, ChangeAmt, PatientAcct, RequestedName, EnteredName, PatientType, createDate, billingID)
-                    VALUES ('$productInfoJSON', '$netSale', '$additionalDiscount', '$addDiscAmt', '$netAmount', '$amountTendered', '$change', '$patientAccountName', '$requestedByName', '$enteredByName', '$patientType', NOW(), $intBillingID)";
+    $insertQuery = "INSERT INTO sales_tb (ProductInfo, NetSale, AddDisc, AddDiscAmt, NetAmt, AmtTendered, ChangeAmt, PatientAcct, RequestedName, EnteredName, PatientType, createDate, billingID, UnpaidPatientName)
+                    VALUES ('$productInfoJSON', '$netSale', '$additionalDiscount', '$addDiscAmt', '$netAmount', '$amountTendered', '$change', '$patientAccountName', '$requestedByName', '$enteredByName', '$patientType', NOW(), $intBillingID, '$UnpaidPatientName')";
 
     // Validate the productInfoArray
     if (empty($productInfoArray)) {
@@ -164,21 +172,10 @@ if (isset($_POST['SaveItem'])) {
     }
 
 
-    $salesSelectQuery =  "SELECT * FROM sales_tb WHERE SalesID=$salesInsertedId";
-    $salesSelectQueryResult = $conn->query($salesSelectQuery);
-
-    if (!$salesSelectQueryResult) {
-        $_SESSION["alert_message"] = "Failed to Add a Billing Statement. Error Details: " . mysqli_error($conn);
-        $_SESSION["alert_message_error"] = true;
-        header("Location: ../billing_slip/index.php");
-        die();
-    }
-    $printData = $salesSelectQueryResult->fetch_assoc();
-
     // Success
     $_SESSION["alert_message"] = "Successfully Added an Billing Statement.";
     $_SESSION["alert_message_success"] = true;
-    $_SESSION['printData'] = $printData;
+    $_SESSION['printSalesInsertedId'] = $salesInsertedId;
 
     // Redirect after processing
     header("Location: ../billing_slip/index.php");

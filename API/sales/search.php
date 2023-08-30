@@ -14,6 +14,7 @@ SELECT
     s.AmtTendered,
     s.ChangeAmt,
     s.PatientAcct,
+    s.UnpaidPatientName,
     p.hospistalrecordNo,
     p.lname AS PatientLastName,
     p.fname AS PatientFirstName,
@@ -34,7 +35,13 @@ SELECT
     ee.position AS EnteredEmployeePosition,
     s.billingID,
     s.PatientType,
-    s.createDate
+    s.createDate,
+    b.billingID AS BillingID,
+    b.accountOfID,
+    acc.hospistalrecordNo AS AccountOfHospitalRecordNo,
+    acc.lname AS AccountOfLastName,
+    acc.fname AS AccountOfFirstName,
+    acc.mname AS AccountOfMiddleName
 FROM
     sales_tb s
 LEFT JOIN
@@ -43,6 +50,10 @@ LEFT JOIN
     employee_tb er ON s.RequestedName = er.DatabaseID
 LEFT JOIN
     employee_tb ee ON s.EnteredName = ee.DatabaseID
+LEFT JOIN
+    billing_tb b ON s.billingID = b.billingID
+LEFT JOIN
+    patient_tb acc ON b.accountOfID = acc.hospistalrecordNo 
 WHERE s.SalesID = '$SalesID';
 ";
 
