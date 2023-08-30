@@ -178,7 +178,7 @@
                                     <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
                                 </li>
                                 <li class="mx-2">
-                                    <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>
+                                    <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Change Status</button>
                                 </li>
                             </ul>
                         </div>
