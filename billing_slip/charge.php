@@ -321,35 +321,6 @@ $LastBillingID = getLastBillingID($conn);
                     title: 'Validation Error',
                     text: 'Please fill in all required fields.',
                 });
-            } else {
-                const changeInput = document.querySelector('[name="change"]');
-                const changeValue = parseFloat(changeInput.value);
-                const changeFinalValue = changeValue * -1;
-                const ipdRadio = document.querySelector('[id="ipdRadio"]');
-                const opdRadio = document.querySelector('[id="opdRadio"]');
-                if (!ipdRadio.checked && !opdRadio.checked) {
-                    event.preventDefault();
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Select Patient Type',
-                        text: 'Please select either IPD or OPD.',
-                    });
-                } else if (changeValue < 0 ) {
-                    if (opdRadio.checked) {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Insufficient Tendered Amount For OPD patient',
-                            html: `Proceed First to the OPD and Register Patient to make <span style="color: red;">${changeFinalValue}</span> as balance.`,
-                        });
-                    } else if (ipdRadio.checked) {
-                        event.preventDefault();
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Insufficient Tendered Amount For IPD patient',
-                            html: `Proceed First to the OPD and Register Patient to make <span style="color: red;">${changeFinalValue}</span> as balance.`,
-                        });
-                    }
-                }
             }
         });
 
