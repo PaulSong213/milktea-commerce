@@ -334,9 +334,8 @@ $LastBillingID = getLastBillingID($conn);
                         title: 'Select Patient Type',
                         text: 'Please select either IPD or OPD.',
                     });
-                } else if (changeValue < 0) {
+                } else if (changeValue < 0 ) {
                     if (opdRadio.checked) {
-                        event.preventDefault();
                         Swal.fire({
                             icon: 'warning',
                             title: 'Insufficient Tendered Amount For OPD patient',
