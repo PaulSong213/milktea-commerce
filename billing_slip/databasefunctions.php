@@ -128,13 +128,7 @@ if (isset($_POST['SaveItem'])) {
         $_SESSION["alert_message_error"] = true;
         header("Location: ../billing_slip/index.php");
         die();
-    } elseif ($change < 0) {
-        $_SESSION["alert_message"] = "Please enter the right Tendered Amount.";
-        $_SESSION["alert_message_error"] = true;
-        header("Location: ../billing_slip/index.php");
-        die();
     }
-
     $result = mysqli_query($conn, $insertQuery);
 
     // Inserting to the sales_tb failed
