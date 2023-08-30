@@ -25,7 +25,7 @@
         </div>
         <div class="d-block w-100">
             <?php include('../php/session-dialog.php') ?>
-            <?php include('./Table.php') ?>
+            <?php include('./table.php') ?>
         </div>
     </div>
     <!-- end of main -->

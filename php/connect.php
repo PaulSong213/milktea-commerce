@@ -9,7 +9,7 @@ function connect()
     $database = "if0_34844081_zaratehostpital";
 
     // local setup
-    $isDevelopment = true;
+    $isDevelopment = false;
     if ($isDevelopment) {
         $servername = "localhost";
         $username = "root";

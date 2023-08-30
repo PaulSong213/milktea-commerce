@@ -11,8 +11,6 @@ $loggedInUser = isset($_SESSION['user']) ? json_decode($_SESSION['user']) : null
 $currentLoggedInEncoder = $loggedInUser->title . ' ' . $loggedInUser->lname . ',' . $loggedInUser->fname . ' ' . $loggedInUser->mname . ' | ID: ' . $loggedInUser->DatabaseID;
 $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
 
-echo $currentLoggedInEncoder;
-
 // Function to get the last SalesID
 function getLastSalesID($conn)
 {
@@ -551,4 +549,5 @@ $LastBillingID = getLastBillingID($conn);
         });
     </script>
 </body>
+
 </html>
