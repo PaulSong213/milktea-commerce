@@ -48,7 +48,7 @@ if (isset($_POST['SaveItem'])) {
     if (isset($_POST['Password'])) {
         $password = $_POST['Password'];
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $sql = $sql . ", password = $hashedPassword";
+        $sql = $sql . ", password = '$hashedPassword' ";
     }
 
     // id condition to edit
