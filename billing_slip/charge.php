@@ -511,7 +511,7 @@ $LastBillingID = getLastBillingID($conn);
     <script type="module">
         import {
             validateDataList
-        } from "./js/datalist.js";
+        } from "../costum-js/datalist.js";
         validateDataList({
             patientsData: JSON.parse('<?= $patientsData ?>'),
             employeesData: JSON.parse('<?= $employeesData ?>'),
