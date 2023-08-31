@@ -20,9 +20,9 @@
                     <div class="modal-body">
                         <!-- Your modal content goes here -->
                         <b><label for="departmentName">Department Name</label></b>
-                        <input type="text" id="departmentName" name="departmentName" class="form-control" placeholder="Enter Supplier name" required>
+                        <input type="text" id="departmentName" name="departmentName" class="form-control" placeholder="Enter Department Name" required>
                         <b><label for="address">Department Description: </label></b>
-                        <input type="text" id="departmentDescription" name="departmentDescription" class="form-control" placeholder="Enter Address" required>
+                        <input type="text" id="departmentDescription" name="departmentDescription" class="form-control" placeholder="Enter Department Description" required>
                         <!-- Add more fields as needed -->
                     </div>
                     <div class="modal-footer">

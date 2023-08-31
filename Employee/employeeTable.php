@@ -77,45 +77,8 @@
                 </tr>
             </thead>
             <tbody>
-                <?php
-                require_once '../php/connect.php';
-                $connection = connect();
-                $sql = "select * from employee_tb 
-                    LEFT JOIN department_tb 
-                    ON employee_tb.departmentID = department_tb.departmentID";
-                $result = $connection->query($sql);
-
-                while ($row = $result->fetch_assoc()) {
-                    $activeStatus = ($row["Status"]  == "1") ? "Active"  : "Inactive"; //condition for status
-                    $statusColor = ($row["Status"]  == "1") ? "alert-success"  : "alert-danger"; //condition for color bg.
-                    echo "
-                        <tr>
-                            <td>" . $row["lname"] . ", " . $row["fname"] . ", " . $row["mname"] . "</td>
-                            <td>" . $row["departmentName"] . "</td>
-                            <td>" . $row["position"] . "</td>
-                            <td>" . $row["title"] . "</td>
-                            <td>" . date("M d, Y h:i", strtotime($row["createDate"])) . "</td>
-                            <td>" . date("M d, Y h:i", strtotime($row["modifiedDate"])) . "</td>
-                            <td>
-                                <div class='d-flex w-100 h-100 d-flex '>
-                                    <h6 style='font-size: 13px' class='p-1 alert m-auto " . $statusColor . "'>" . $activeStatus . "</h6>
-                                </div>
-                            </td>
-                            <td class='invisible'>" . json_encode($row) . "</td>
-                        </tr>
-                        ";
-                }
-                ?>
             </tbody>
         </table>
-        <div class="modal" id="myModal">
-            <div class="modal-content">
-                <h2>Edit Content</h2>
-                <p>Do you want to edit this content?</p>
-                <button id="confirmEdit">Yes, edit it!</button>
-                <button id="cancelEdit">Cancel</button>
-            </div>
-        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
@@ -132,6 +95,7 @@
         import {
             searchColumn,
             handleArchiveClick,
+            toFormattedDate
         } from "../costum-js/datatables.js";
 
         import {
@@ -150,6 +114,83 @@
                 .appendTo('#example thead');
 
             const table = $('#example').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '/Zarate/API/employee/view.php',
+                    dataType: 'JSON',
+                    type: 'POST',
+                    data: function(d) {
+                        d.draw = d.draw || 1;
+                    }
+                },
+                columns: [{
+                        data: null,
+                        render: (data, type, row) => {
+                            return data.fname + " " + data.mname + ", " + data.lname;
+                        }
+                    },
+                    {
+                        data: 'departmentName',
+                    },
+                    {
+                        data: 'position'
+                    },
+                    {
+                        data: 'title'
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            return toFormattedDate(data.createDate);
+                        }
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            return toFormattedDate(data.modifiedDate);
+                        }
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            const activeStatus = (data.Status == "1") ? "Active" : "Inactive"; //condition for status
+                            const statusColor = (data.Status == "1") ? "alert-success" : "alert-danger"; //condition for color bg.
+                            return `
+                            <td>
+                                <div class='d-flex w-100 h-100 d-flex '>
+                                    <h6 style='font-size: 13px' class='p-1 alert m-auto ${statusColor}'>${activeStatus} </h6>
+                                </div>
+                            </td>
+                            `
+                        }
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            const id = data.DatabaseID;
+                            return `
+                            <div class="dropdown dropstart d-flex">
+                                <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
+                                    <img class="mb-1" src="../img/icons/ellipsis-horizontal.svg">
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="mx-2">
+                                        <button class=" btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
+                                    </li>
+                                    <li class="mx-2">
+                                        <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
+                                    </li>
+                                    <li class="mx-2">
+                                        <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>
+                                    </li>
+                                </ul>
+                            </div>
+                            `
+                        },
+                        "searchable": false
+                    }
+                ],
                 orderCellsTop: true,
                 fixedHeader: true,
                 responsive: true,
@@ -195,39 +236,11 @@
                 initComplete: function() {
                     searchColumn(this.api());
                 },
-                columnDefs: [{
-                    targets: -1,
-
-                    render: (d) => {
-                        const data = JSON.parse(d);
-                        const id = data.DatabaseID;
-                        return `
-                        <div class="dropdown dropstart d-flex">
-                            <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
-                                <img class="mb-1" src="../img/icons/ellipsis-horizontal.svg">
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li class="mx-2">
-                                    <button class=" btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
-                                </li>
-                                <li class="mx-2">
-                                    <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
-                                </li>
-                                <li class="mx-2">
-                                    <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>
-                                </li>
-                            </ul>
-                        </div>
-                        `
-                    },
-                    "searchable": false,
-                    width: 30,
-                }],
                 order: [
                     [5, 'asc']
                 ]
             });
-            handleArchiveClick(table, 1, "./edit/archive.php", 6);
+            handleArchiveClick(table, "userName", "./edit/archive.php", "Status");
             handleEditClick(table, $('#editModal'));
             handleViewClick(table);
 

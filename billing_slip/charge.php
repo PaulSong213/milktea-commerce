@@ -11,8 +11,6 @@ $loggedInUser = isset($_SESSION['user']) ? json_decode($_SESSION['user']) : null
 $currentLoggedInEncoder = $loggedInUser->title . ' ' . $loggedInUser->lname . ',' . $loggedInUser->fname . ' ' . $loggedInUser->mname . ' | ID: ' . $loggedInUser->DatabaseID;
 $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
 
-echo $currentLoggedInEncoder;
-
 // Function to get the last SalesID
 function getLastSalesID($conn)
 {
@@ -136,7 +134,7 @@ $LastBillingID = getLastBillingID($conn);
                                 <div class="my-3">
                                     <label class="form-label" for="attendingPhysician">Attending Physician<span class="text-danger mx-1">*</span></label>
                                     <input type="text" id="attendingPhysician" name="attendingPhysicianID" class="form-select" placeholder="Enter the Attending Physician" list="employeeList" correctData="employeesData">
-                                    <?php require_once('../API/datalist/employee-list.php') ?>
+                                    <?php require_once('../API/datalist/employee.php') ?>
                                     <small class="feedback d-none bg-danger p-1 rounded my-1">
                                         Please select a valid Physician.
                                     </small>
@@ -146,7 +144,7 @@ $LastBillingID = getLastBillingID($conn);
                                 <div class="my-3">
                                     <label class="form-label" for="admittingPhysician">Admitting Physician<span class="text-danger mx-1">*</span></label>
                                     <input type="text" id="admittingPhysician" name="admittingPhysicianID" class="form-select" placeholder="Enter the Attending Physician" list="employeeList" correctData="employeesData">
-                                    <?php require_once('../API/datalist/employee-list.php') ?>
+                                    <?php require_once('../API/datalist/employee.php') ?>
                                     <small class="feedback d-none bg-danger p-1 rounded my-1">
                                         Please select a valid Physician.
                                     </small>
@@ -171,7 +169,7 @@ $LastBillingID = getLastBillingID($conn);
                     <div class="form-group">
                         <label for="requestedByName">Requested By: </label>
                         <input type="text" class="form-control is-invalid" name="requestedByName" list="employeeList" correctData="employeesData" placeholder="Enter Requested By Name" required>
-                        <?php require_once('../API/datalist/employee-list.php') ?>
+                        <?php require_once('../API/datalist/employee.php') ?>
                         <small class="feedback d-none bg-danger p-1 rounded my-1">
                             Please select a valid requested by Name.
                         </small>
@@ -179,7 +177,7 @@ $LastBillingID = getLastBillingID($conn);
                     <div class="form-group">
                         <label for="enteredByName">Entered By: </label>
                         <input type="text" class="form-control is-valid text-light bg-secondary" name="enteredByName" list="employeeList" readonly correctData="employeesData" placeholder="Enter Entered By Name" value="<?= $currentLoggedInEncoder; ?>" sql-value="<?= $currentLoggedInEncoderID; ?>" required isvalidated="true">
-                        <?php require_once('../API/datalist/employee-list.php') ?>
+                        <?php require_once('../API/datalist/employee.php') ?>
                         <small class="feedback d-none bg-danger p-1 rounded my-1">
                             Please select a valid requested by Name.
                         </small>
@@ -323,36 +321,6 @@ $LastBillingID = getLastBillingID($conn);
                     title: 'Validation Error',
                     text: 'Please fill in all required fields.',
                 });
-            } else {
-                const changeInput = document.querySelector('[name="change"]');
-                const changeValue = parseFloat(changeInput.value);
-                const changeFinalValue = changeValue * -1;
-                const ipdRadio = document.querySelector('[id="ipdRadio"]');
-                const opdRadio = document.querySelector('[id="opdRadio"]');
-                if (!ipdRadio.checked && !opdRadio.checked) {
-                    event.preventDefault();
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Select Patient Type',
-                        text: 'Please select either IPD or OPD.',
-                    });
-                } else if (changeValue < 0) {
-                    if (opdRadio.checked) {
-                        event.preventDefault();
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Insufficient Tendered Amount For OPD patient',
-                            html: `Proceed First to the OPD and Register Patient to make <span style="color: red;">${changeFinalValue}</span> as balance.`,
-                        });
-                    } else if (ipdRadio.checked) {
-                        event.preventDefault();
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Insufficient Tendered Amount For IPD patient',
-                            html: `Proceed First to the OPD and Register Patient to make <span style="color: red;">${changeFinalValue}</span> as balance.`,
-                        });
-                    }
-                }
             }
         });
 
@@ -551,4 +519,5 @@ $LastBillingID = getLastBillingID($conn);
         });
     </script>
 </body>
+
 </html>

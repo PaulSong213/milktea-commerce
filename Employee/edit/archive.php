@@ -18,6 +18,10 @@ $connection = connect();
 // get current status
 $sql = "SELECT Status FROM employee_tb WHERE DatabaseID=" . $_POST["rowID"] . ";";
 $result = $connection->query($sql);
+if (!$result) {
+    echo "Error: " . $sql . "<br>" . $connection->error;
+    die();
+}
 $row = $result->fetch_assoc();
 $previousStatus = $row["Status"];
 $newStatus = $previousStatus == 0 ? 1 : 0; // swap 1 and 0
