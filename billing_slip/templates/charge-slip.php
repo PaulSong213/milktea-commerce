@@ -161,7 +161,6 @@
                     $("#NetSale").text(`Net Sale: ₱${chargeSlip.NetSale}`);
                     $("#AddDisc").text(`Additional Discount(%): ${chargeSlip.AddDisc}`);
 
-
                     // fill up the charge slip information
                     $('#slipNumber').text(slipNumber);
                     $('#attachedTo').text(attachedTo);
@@ -242,7 +241,6 @@
                 }
             });
         }
-
 
         <?php
         if (isset($_SESSION['printSalesInsertedId'])) {

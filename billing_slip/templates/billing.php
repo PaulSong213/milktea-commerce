@@ -25,30 +25,38 @@
                                 </div>
                             </div>
                             <div class="mx-2 d-flex flex-column">
-                                <h5 class="fw-bold mb-1">Charge Slip # <span id="slipNumber"></span> </h5>
+                                <h5 class="fw-bold mb-1">Bill # <span id="slipNumber"></span> </h5>
                                 <h6 class="text-muted mb-0"><span id="date"></span></h6>
                                 <h6 class="text-muted">Entered by: <span id="enteredBy"></span></h6>
                             </div>
                         </div>
 
                         <!-- INFORMATION -->
-                        <div class="py-3 ">
-                            <div class="d-flex">
+                        <div class="py-3 row">
+                            <div class="d-flex col">
                                 <div style="margin-right: 12px;">
                                     <h6 class="mb-1">PATIENT NAME:</h6>
                                     <h6 class="mb-1">ACCOUNT OF:</h6>
-                                    <h6 class="mb-1">ATTACHED TO:</h6>
                                 </div>
                                 <div>
                                     <h6 class="fw-bold mb-1"><span id="patientName"></span></h6>
                                     <h6 class="fw-bold mb-1"><span id="accountOfPrint"></span></h6>
-                                    <h6 class="fw-bold mb-1"><span id="attachedTo"></span></h6>
+                                </div>
+                            </div>
+                            <div class="d-flex col">
+                                <div style="margin-right: 12px;">
+                                    <h6 class="mb-1">Admitting Physician:</h6>
+                                    <h6 class="mb-1">Attending Physician:</h6>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold mb-1"><span id="admittingPhysician"></span></h6>
+                                    <h6 class="fw-bold mb-1"><span id="attendingPhysician"></span></h6>
                                 </div>
                             </div>
                         </div>
 
                         <!-- ITEM LIST -->
-                        <div id="productInfoContainer">
+                        <div id="chargeInfoContainer">
                             <!-- <div id="itemTypeID">
                                 <div class="border border-3 d-flex  justify-content-between p-2 border-secondary w-100 align-items-center mb-2">
                                     <h6 class="fw-bold my-auto">LABORATORY</h6>
@@ -67,23 +75,6 @@
                                     </div>
                                 </div>
                             </div> -->
-                        </div>
-                        <div class="d-flex justify-content-end">
-                            <div class="border-top border-3 my-3 py-1 px-2 border-secondary w-max" style="min-width: 25%;">
-                                <h5 class="fw-bold">Total Amount: ₱<span id="totalAmount">0</span></h5>
-                                <div class="d-flex flex-column">
-                                    <span id="AmtTendered">Ammount Tendered: ₱</span>
-                                    <span id="ChangeAmt">Change: ₱</span>
-                                    <span id="NetAmt">Net Ammount: ₱</span>
-                                    <span id="NetSale">Net Sale: ₱</span>
-                                    <span id="AddDisc">Additional Discount(%): </span>
-                                    <span id="billRef">Bill Reference: </span>
-                                    <span id="patientType">Patient Type: </span>
-                                    <h5 id="paidIndicator" class="fs-6 fw-bold">
-                                        PAID
-                                    </h5>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -111,117 +102,26 @@
                     swal.close();
                     const bill = JSON.parse(data);
                     console.log(bill);
-                    return;
 
-                    const slipNumber = bill.billingID;
+                    $("#slipNumber").text(bill.billingID);
+                    $("#enteredBy").text(`${bill.encoderFirstName} ${bill.encoderMiddleName} ${bill.encoderLastName}`);
+                    $("#patientName").text(`${bill.patientFirstName} ${bill.patientMiddleName} ${bill.patientLastName}`);
+                    $("#accountOfPrint").text(`${bill.accountOfFirstName} ${bill.accountOfMiddleName} ${bill.accountOfLastName}`);
+                    $("#admittingPhysician").text(`${bill.admittingPhysicianFirstName} ${bill.admittingPhysicianMiddleName} ${bill.admittingPhysicianLastName}`);
+                    $("#attendingPhysician").text(`${bill.attendingPhysicianFirstName} ${bill.attendingPhysicianMiddleName} ${bill.attendingPhysicianLastName}`);
 
-                    const attachedTo = `${bill.RequestedEmployeeFirstName} ${bill.RequestedEmployeeMiddleName} ${bill.RequestedEmployeeLastName}`;
+                    // clear charge slip
+                    $("#chargeInfoContainer").html("");
 
-                    var patientName = `${bill.PatientFirstName} ${bill.PatientMiddleName} ${bill.PatientLastName}`;
-
-                    // if patient is not registered, use unpaid patient name
-                    if (!bill.hospistalrecordNo) {
-                        patientName = bill.UnpaidPatientName;
-                    }
-
-                    var accountOf = patientName;
-                    if (bill.billingID) {
-                        accountOf = `${bill.AccountOfFirstName} ${bill.AccountOfMiddleName} ${bill.AccountOfLastName}`;
-                    }
-
-                    const date = bill.createDate;
-                    const productInfoStr = bill.ProductInfo;
-                    const enteredBy = `${bill.EnteredEmployeeFirstName} ${bill.EnteredEmployeeMiddleName} ${bill.EnteredEmployeeLastName}`;
-                    const totalAmount = bill.NetAmt;
-                    const ChangeAmt = bill.ChangeAmt;
-                    var remainingBalance = 0;
-                    if (parseFloat(ChangeAmt) < 0) {
-                        remainingBalance = parseFloat(ChangeAmt) * -1;
-                        $("#paidIndicator").text(`**Remaining Balance: ₱${remainingBalance}`);
-                        $("#paidIndicator").addClass("text-danger");
-                    }
-
-                    console.log(bill);
-
-                    if (!bill.billingID) {
-                        $("#billRef").remove();
-                    } else {
-                        $("#billRef").text(`Bill Reference: ${bill.billingID}`);
-                    }
-
-                    $("#patientType").text(`Patient Type: ${bill.PatientType}`);
-                    $("#AmtTendered").text(`Amount Tendered: ₱${bill.AmtTendered}`);
-                    $("#ChangeAmt").text(`Change: ₱${ bill.ChangeAmt >= 0  ? bill.ChangeAmt : 0}`);
-                    $("#NetAmt").text(`Net Amount: ₱${bill.NetAmt}`);
-                    $("#NetSale").text(`Net Sale: ₱${bill.NetSale}`);
-                    $("#AddDisc").text(`Additional Discount(%): ${bill.AddDisc}`);
-
-
-                    // fill up the charge slip information
-                    $('#slipNumber').text(slipNumber);
-                    $('#attachedTo').text(attachedTo);
-                    $('#accountOfPrint').text(accountOf);
-                    $('#patientName').text(patientName);
-                    $('#date').text(date);
-                    $('#enteredBy').text(enteredBy);
-                    $('#totalAmount').text(totalAmount);
-                    //render product rows to productInfoContainer
-                    var productInfo = JSON.parse(productInfoStr);
-                    var productInfoContainer = $("#productInfoContainer");
-                    productInfoContainer.html("");
-                    var itemTypeContainers = {};
-                    for (let i = 0; i < productInfo.length; i++) {
-                        const info = productInfo[i];
-                        if (!info.product_id) continue; // skip if product id is empty
-
-                        var itemTypeID = info.itemTypeID;
-
-                        // if item type id does not exist, create a new item type container
-                        if (!itemTypeContainers[itemTypeID]) {
-                            const containerElement = $(`
-                                <div id="${itemTypeID}" class="mt-3">
-                                    <div class="border border-3 d-flex  justify-content-between p-2 border-secondary w-100 align-items-center mb-2">
-                                        <h6 class="fw-bold my-auto">${info.itemType}</h6>
-                                        <div class="col-3 d-flex align-items-center justify-content-between">
-                                            <h6 class="my-auto">TOTAL:</h6>
-                                            <h6 class="my-auto" id="itemTypeTotal${itemTypeID}">0</h6>
-                                        </div>
-                                    </div>
-                                </div>`);
-
-                            itemTypeContainers[itemTypeID] = {
-                                "total": 0,
-                                "element": containerElement
-                            };
-                        }
-
-                        itemTypeContainer = itemTypeContainers[itemTypeID]["element"]
-                        itemTypeContainers[itemTypeID]["total"] += Number(info.subtotal); // add subtotal to item type total
-                        var newProductInfo = $(`
-                        <div class="d-flex justify-content-end px-3">
-                            <div class="row w-100">
-                                <h6 class="col-6">${info.product_id}</h6>
-                                <h6 class="col-2">₱${info.price}</h6>
-                                <h6 class="col-1">${info.qty}</h6>
-                                <h6 class="col-1">${info.unit}</h6>
-                                <h6 class="col-2 text-end">₱${info.subtotal}</h6>
-                            </div>
-                        </div>
-                        `);
-                        itemTypeContainer.append(newProductInfo);
-                    }
-
-                    // append item type containers to product info container
-                    for (const itemTypeID in itemTypeContainers) {
-                        if (Object.hasOwnProperty.call(itemTypeContainers, itemTypeID)) {
-                            const itemTypeContainer = itemTypeContainers[itemTypeID]["element"];
-                            productInfoContainer.append(itemTypeContainer);
-                            $(`#itemTypeTotal${itemTypeID}`).text("₱" + itemTypeContainers[itemTypeID]["total"].toFixed(2));
-                        }
+                    // CHARGE SLIP
+                    for (let i = 0; i < bill.charges.length; i++) {
+                        const chargeSlip = bill.charges[i];
+                        renderChargeSlip(chargeSlip);
                     }
 
                     var exampleModalPopup = new bootstrap.Modal($('#printModal'), {});
                     exampleModalPopup.show();
+
                     $("#print-charge-slip, #print-charge-slip-header")
                         .click(function() {
                             printChargeSlip();
@@ -239,6 +139,107 @@
             });
         }
 
+        function renderChargeSlip(chargeSlip) {
+            const slipNumber = chargeSlip.SalesID;
+            const productInfoStr = chargeSlip.ProductInfo;
+            $("#patientType").text(`Patient Type: ${chargeSlip.PatientType}`);
+            $("#AmtTendered").text(`Amount Tendered: ₱${chargeSlip.AmtTendered}`);
+            $("#ChangeAmt").text(`Change: ₱${ chargeSlip.ChangeAmt >= 0  ? chargeSlip.ChangeAmt : 0}`);
+            $("#NetAmt").text(`Net Amount: ₱${chargeSlip.NetAmt}`);
+            $("#NetSale").text(`Net Sale: ₱${chargeSlip.NetSale}`);
+            $("#AddDisc").text(`Additional Discount(%): ${chargeSlip.AddDisc}`);
+
+            //render product rows to chargeInfoContainer
+            var productInfo = JSON.parse(productInfoStr);
+            var chargeInfoContainer = $("#chargeInfoContainer");
+
+            const chargeInfoElement = $(`
+                <div class="mb-3 row border border-dark border-3 p-2">
+                    <div class="p-2 row">
+                        <div class="d-flex col">
+                            <div style="margin-right: 12px;">
+                                <h6 class="mb-1">Charge Slip #:</h6>
+                                <h6 class="mb-1">Date:</h6>
+                                <h6 class="mb-1">Entered by:</h6>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold mb-1"><span id="chargeSlip_${slipNumber}">${slipNumber}</span></h6>
+                                <h6 class="fw-bold mb-1"><span id="date_${slipNumber}">${chargeSlip.createDate}</span></h6>
+                                <h6 class="fw-bold mb-1"><span id="enteredBy_${slipNumber}">${chargeSlip.EnteredEmployeeFirstName} ${chargeSlip.EnteredEmployeeMiddleName} ${chargeSlip.EnteredEmployeeLastName}</span></h6>
+                            </div>
+                        </div>
+                        <div class="d-flex col">
+                            <div style="margin-right: 12px;">
+                                <h6 class="mb-1">TOTAL:</h6>
+                                <h6 class="mb-1">AMOUNT TENDERED:</h6>
+                                <h6 class="mb-1">REMAINING BALANCE:</h6>
+                                <small class="mb-1">Change:</small>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">₱${chargeSlip.NetAmt}</h6>
+                                <h6 class="mb-1">₱${chargeSlip.AmtTendered}</h6>
+                                <h6 class="fw-bold mb-1">₱${chargeSlip.remainingBalance}</h6>
+                                <small class="mb-1">₱${chargeSlip.ChangeAmt}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `);
+            var itemTypeContainers = {};
+            for (let i = 0; i < productInfo.length; i++) {
+                const info = productInfo[i];
+                if (!info.product_id) continue; // skip if product id is empty
+
+                var itemTypeID = info.itemTypeID;
+
+                // if item type id does not exist, create a new item type container
+                if (!itemTypeContainers[itemTypeID]) {
+
+                    const containerElement = $(`
+                        <div id="${itemTypeID}" class="ps-5">
+                            <div class="border border-3 d-flex  justify-content-between p-2 border-secondary w-100 align-items-center mb-2">
+                                <h6 class="fw-bold my-auto">${info.itemType}</h6>
+                                <div class="col-3 d-flex align-items-center justify-content-between">
+                                    <h6 class="my-auto">TOTAL:</h6>
+                                    <h6 class="my-auto" id="itemTypeTotal${itemTypeID}">0</h6>
+                                </div>
+                            </div>
+                        </div>`);
+
+                    itemTypeContainers[itemTypeID] = {
+                        "total": 0,
+                        "element": containerElement
+                    };
+                }
+
+                itemTypeContainer = itemTypeContainers[itemTypeID]["element"]
+                itemTypeContainers[itemTypeID]["total"] += Number(info.subtotal); // add subtotal to item type total
+                var newProductInfo = $(`
+                        <div class="d-flex justify-content-end px-3 ms-3">
+                            <div class="row w-100">
+                                <h6 class="col-6">${info.product_id}</h6>
+                                <h6 class="col-2">₱${info.price}</h6>
+                                <h6 class="col-1">${info.qty}</h6>
+                                <h6 class="col-1">${info.unit}</h6>
+                                <h6 class="col-2 text-end">₱${info.subtotal}</h6>
+                            </div>
+                        </div>
+                        `);
+                itemTypeContainer.append(newProductInfo);
+            }
+
+            // append the charge info element
+            chargeInfoContainer.append(chargeInfoElement);
+
+            // append item type containers to product info container
+            for (const itemTypeID in itemTypeContainers) {
+                if (Object.hasOwnProperty.call(itemTypeContainers, itemTypeID)) {
+                    const itemTypeContainer = itemTypeContainers[itemTypeID]["element"];
+                    chargeInfoElement.append(itemTypeContainer);
+                    $(`#itemTypeTotal${itemTypeID}`).text("₱" + itemTypeContainers[itemTypeID]["total"].toFixed(2));
+                }
+            }
+        }
 
         <?php
         if (isset($_SESSION['printSalesInsertedId'])) {

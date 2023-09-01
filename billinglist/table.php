@@ -218,8 +218,8 @@
             });
             table.page(1).draw(true);
             table.on('click', '.view-bill', function(e) {
-                let data = JSON.parse($(this).attr("data-item"));
-                showBill('166');
+                let bill = JSON.parse($(this).attr("data-item"));
+                showBill(bill.billingID);
             });
         });
     </script>

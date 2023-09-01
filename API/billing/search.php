@@ -19,6 +19,10 @@ p.hospistalrecordNo AS patientHospitalRecordNo,
 p.lname AS patientLastName,
 p.fname AS patientFirstName,
 p.mname AS patientMiddleName,
+acc.hospistalrecordNo AS accountOfHospitalRecordNo,
+acc.lname AS accountOfLastName,
+acc.fname AS accountOfFirstName,
+acc.mname AS accountOfMiddleName,
 e2.DatabaseID AS attendingPhysicianDatabaseID,
 e2.lname AS attendingPhysicianLastName,
 e2.fname AS attendingPhysicianFirstName,
@@ -38,6 +42,8 @@ employee_tb e1 ON b.encoderID = e1.DatabaseID
 JOIN
 patient_tb p ON b.patientID = p.hospistalrecordNo
 JOIN
+patient_tb acc ON b.accountOfID = acc.hospistalrecordNo
+JOIN
 employee_tb e2 ON b.attendingPhysicianID = e2.DatabaseID
 JOIN
 employee_tb e3 ON b.admittingPhysicianID = e3.DatabaseID
@@ -54,12 +60,44 @@ if ($result) {
 }
 
 $queryCharge = "
-SELECT * FROM sales_tb WHERE billingID = '$billingID';
-";
+SELECT
+    s.SalesID,
+    s.ProductInfo,
+    s.NetSale,
+    s.AddDisc,
+    s.AddDiscAmt,
+    s.NetAmt,
+    s.AmtTendered,
+    s.ChangeAmt,
+    s.PatientAcct,
+    s.UnpaidPatientName,
+    s.RequestedName,
+    s.EnteredName,
+    ee.DatabaseID AS EnteredEmployeeID,
+    ee.lname AS EnteredEmployeeLastName,
+    ee.fname AS EnteredEmployeeFirstName,
+    ee.mname AS EnteredEmployeeMiddleName,
+    ee.title AS EnteredEmployeeTitle,
+    ee.position AS EnteredEmployeePosition,
+    s.billingID,
+    s.ChangeAmt,
+    s.PatientType,
+    s.createDate
+FROM
+    sales_tb s
+LEFT JOIN
+    employee_tb ee ON s.EnteredName = ee.DatabaseID
+
+WHERE billingID = '$billingID'
+ORDER BY SalesID
+;";
 
 $resultCharge = $conn->query($queryCharge);
 
 while ($row = $resultCharge->fetch_assoc()) {
+    $row['remainingBalance'] = $row['NetAmt'] - $row['AmtTendered'];
+    if ($row['remainingBalance'] < 0) $row['remainingBalance'] = 0;
+    if ($row['ChangeAmt'] < 0) $row['ChangeAmt'] = 0;
     $billingData['charges'][] = $row;
 }
 
