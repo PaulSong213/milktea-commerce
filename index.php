@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
 <?php
-if (isset($_SESSION['username'])) {
+
+
+require_once('./php/connect.php');
+session_start();
+if (isset($_SESSION['user'])) {
 	header("Location: ./billing_slip/index.php");
 }
 ?>
@@ -92,13 +96,11 @@ if (isset($_SESSION['username'])) {
 	<div class="login-container">
 		<img src="img/logo.png" alt="Logo" class="logo">
 		<?php
-		session_start();
-
 		if (isset($_POST['login-submit'])) {
 			$mailuid = $_POST['mailuid'];
 			$password = $_POST['pwd'];
 
-			require_once('./php/connect.php');
+
 			$conn = connect();
 
 			$sql = "SELECT * FROM employee_tb WHERE userName = ?";
@@ -111,7 +113,7 @@ if (isset($_SESSION['username'])) {
 				$val = mysqli_fetch_assoc($result);
 
 				if ($val) {
-					if (password_verify($password, $val["password"])) {
+					if (password_verify($password, $val["password"]) && $val["Status"] == 1) {
 						if ($val["isPassSet"] == 1) {
 							$_SESSION["user"] = json_encode($val);
 							header("Location: ./billing_slip/index.php");
@@ -121,6 +123,7 @@ if (isset($_SESSION['username'])) {
 							header("Location: ./isSetPassword.php");
 							exit();
 						}
+						
 					} else {
 						echo "<p style='color:red'>Invalid username or password</p>";
 					}

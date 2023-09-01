@@ -9,7 +9,7 @@ if (isset($_SESSION['user'])) {
     $userName = $userData['DatabaseID'];
 } else {
     // Redirect back to the login page or handle the user not being logged in
-    header("Location: ./login.php");
+    header("Location: ./index.php");
     exit();
 }
 
@@ -99,9 +99,9 @@ if (isset($_SESSION['user'])) {
     <div class="login-container">
 
         <form class="" action="" method="post">
-            <h3>NEW PASSWORD</h3>
+            <h3>SET NEW PASSWORD</h3>
             <label for="exampleInputEmail1">New Password</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="New password..." required>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Set New password..." required>
             <label for="exampleInputPassword1">Confirm Password</label>
             <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm New Password..." required>
             <input type="hidden" name="DatabaseID" class="form-control" id="DatabaseID" value="<?php echo isset($_SESSION['user']) ? json_decode($_SESSION['user'], true)['DatabaseID'] : 'You are Logout'; ?>">
