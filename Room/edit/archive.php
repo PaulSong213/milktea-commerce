@@ -36,7 +36,7 @@ $result = $connection->query($sql);
 
 if ($result) {
     // set session variable
-    $newStatus == 0 ? $action = "Archived" : $action = "Unarchived";
+    $newStatus == 1 ? $action = "Available" : $action = "Not Available";
     $_SESSION["alert_message"] = "Successfully " . $action . " Item";
     $_SESSION["alert_message_success"] = true;
 } else {

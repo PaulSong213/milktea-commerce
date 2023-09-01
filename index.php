@@ -8,6 +8,7 @@ if (isset($_SESSION['username'])) {
 
 <head>
 	<title>Login Page</title>
+	<link rel="icon" href="./img/logo.png" type="image/png">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 	<style type="text/css">
 		body {
@@ -110,12 +111,24 @@ if (isset($_SESSION['username'])) {
 
 				if ($checkRow > 0) {
 					$val = mysqli_fetch_assoc($result);
+					
 
-					if (password_verify($password, $val["password"])) {
+					if (password_verify($password, $val["password"]) && $val["isPasswordSet"] == 1) {
 						$_SESSION["user"] = json_encode($val);
 						header("Location: ./billing_slip/index.php");
-						exit(); // Use exit() instead of die() to terminate the script
-					} else {
+						exit();
+					} else if (password_verify($password, $val["password"])) {
+						$_SESSION["user"] = json_encode($val);
+						header("Location: ./isSetPassword.php");
+						exit();
+					} else if (password_verify($password, $val["password"]) &&  $val["isPasswordSet"] == " ") {
+						$_SESSION["user"] = json_encode($val);
+
+						header("Location: ./isSetPassword.php");
+						exit();
+					}
+
+					else {
 						echo "<p style='color:red'>Wrong Password</p>";
 					}
 				} else {
