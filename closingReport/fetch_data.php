@@ -7,7 +7,7 @@
         <img style="height: 60px;" src="../img/logo.png" alt="ZARATE LOGO">
         <div class="mx-3 d-flex flex-column justify-content-end text-center">
             <h5 class="fw-bold mb-1">E. Zarate Hospital</h5>
-            <h6 class="text-muted">16 J. Aguilar Avenue, Talon, Las Piñas City, <br />Metro Manila, Philippines 1747</h6>
+            <p class="text-muted">16 J. Aguilar Avenue, Talon, Las Piñas City, <br />Metro Manila, Philippines 1747</p>
         </div>
     </div>
     <title>
@@ -161,90 +161,146 @@
     $queryTotalNet = "SELECT SUM(NetAmt) AS total_net_amount FROM sales_tb";
     $totalNetAmount = executeQuery($conn, $queryTotalNet);
     ?>
-
-    <div class="container-fluid mt-4 p-3 border border-dark">
+    <div class="container-fluid border border-dark">
         <div class="row">
-            <div class="col-5">
-                <div class="d-flex justify-content-between border-bottom">
-                    <h6>TOTAL SALE:</h6>
-                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+            <div class="col-5 d-flex flex-column">
+                <!-- Total Sale -->
+                <div class="d-flex justify-content-between fw-bold">
+                    <span>TOTAL SALE:</span>
+                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
                 </div>
-                <!-- INDENT DIV -->
-                <div class="d-flex justify-content-between border-bottom">
-                    <p>Cash Transactions:</p>
-                    <p><?php echo '₱ ' . number_format($totalCashAmount['total_Cash'] ?? 0, 2); ?></p>
+                <!-- Transactions -->
+                <div class="d-flex justify-content-between">
+                    <span>Cash Transactions:</span>
+                    <span>₱ <?= number_format($totalCashAmount['total_Cash'] ?? 0, 2); ?></span>
                 </div>
-                <div class="d-flex justify-content-between border-bottom ">
-                    <p>Bill Transactions:</p>
-                    <p><?php echo '₱ ' . number_format($totalCashAmount['total_Cash'] ?? 0, 2); ?></p>
+                <div class="d-flex justify-content-between">
+                    <span>Bill Transactions:</span>
+                    <span>₱ <?= number_format($totalCashAmount['total_Cash'] ?? 0, 2); ?></span>
                 </div>
-                <div class="d-flex justify-content-between border-bottom">
-                    <p>NYP Transactions:</p>
-                    <p><?php echo '₱ ' . number_format($totalCashAmount['total_Cash'] ?? 0, 2); ?></p>
-                </div>
-                <div class="d-flex justify-content-between border-bottom ">
-                    <p>Employee Transactions:</p>
-                    <p><?php echo '₱ ' . number_format($totalCashAmount['total_Cash'] ?? 0, 2); ?></p>
-                </div>
-                <!-- INDENT END -->
-                <div class="d-flex justify-content-between border-bottom">
-                    <h6>TOTAL CLINIC USE:</h6>
-                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+                <div class="d-flex justify-content-between">
+                    <span>NYP Transactions:</span>
+                    <span>₱ <?= number_format($totalCashAmount['total_Cash'] ?? 0, 2); ?></span>
                 </div>
                 <div class="d-flex justify-content-between border-bottom">
-                    <h6>TOTAL PERSONAL USE:</h6>
-                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+                    <span>Employee Transactions:</span>
+                    <span>₱ <?= number_format($totalCashAmount['total_Cash'] ?? 0, 2); ?></span>
+                </div>
+
+                <!-- Clinic Use -->
+                <div class="d-flex justify-content-between fw-bold">
+                    <span>TOTAL CLINIC USE:</span>
+                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
+                </div>
+
+                <!-- Personal Use -->
+                <div class="d-flex justify-content-between fw-bold">
+                    <span>TOTAL PERSONAL USE:</span>
+                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
+                </div>
+
+                <!-- Bill Discount -->
+                <div class="d-flex justify-content-between fw-bold border-bottom">
+                    <span>TOTAL BILL DISCOUNT:</span>
+                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
+                </div>
+
+                <!-- More elements as needed -->
+
+                <!-- Beginning Balance -->
+                <div class="d-flex justify-content-between fw-bold">
+                    <span>BEGINNING BALANCE</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span>CASH:</span>
+                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
                 </div>
                 <div class="d-flex justify-content-between border-bottom">
-                    <h6>TOTAL BILL DISCOUNT:</h6>
-                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+                    <span>CHECK:</span>
+                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
                 </div>
-                <div class="d-flex justify-content-between border-bottom">
-                    <h6>TOTAL CLINIC USE:</h6>
-                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+
+                <!-- Total Cash In -->
+                <div class="d-flex justify-content-between fw-bold">
+                    <span>TOTAL CASH IN:</span>
+                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
                 </div>
-                <div class="d-flex justify-content-between border-bottom">
-                    <h6>TOTAL CLINIC USE:</h6>
-                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+
+                <!-- Total Check In -->
+                <div class="d-flex justify-content-between fw-bold">
+                    <span>TOTAL CHECK IN:</span>
+                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
                 </div>
-                <div class="d-flex justify-content-between border-bottom">
-                    <h6>BEGGINING BALANCE</h6>
+
+                <!-- Total Amount In -->
+                <div class="d-flex justify-content-between fw-bold">
+                    <span>TOTAL AMOUNT IN:</span>
+                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
                 </div>
-                <div class="d-flex justify-content-between border-bottom">
-                    <p>CASH:</p>
-                    <p><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></p>
+
+                <!-- Previous Shiftee -->
+                <div class="d-flex justify-content-between fw-bold">
+                    <span>PREVIOUS SHIFTEE:</span>
+                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
                 </div>
-                <div class="d-flex justify-content-between border-bottom">
-                    <p>CHECK:</p>
-                    <p><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></p>
-                </div>
-                <div class="d-flex justify-content-between border-bottom">
-                    <h6>TOTAL CASH IN:</h6>
-                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
-                </div>
-                <div class="d-flex justify-content-between border-bottom">
-                    <h6>TOTAL CHECK IN:</h6>
-                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
-                </div>
-                <div class="d-flex justify-content-between border-bottom">
-                    <h6>TOTAL AMOUNT IN:</h6>
-                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
-                </div>
-                <div class="d-flex justify-content-between border-bottom">
-                    <h6>PREVIOUS SHIFTEE:</h6>
-                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
-                </div>
+
                 <!-- Rest of your content for the left column -->
             </div>
-            <div class="col-6">
-                <div class="d-flex justify-content-between border-bottom">
-                    <h6>CASH TRANSACTION FOR THIS SHIFT:</h6>
-                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+
+            <div class="col-7">
+                <!-- Cash Transaction for This Shift -->
+                <div class="d-flex justify-content-between fw-bold">
+                    <span>CASH TRANSACTION FOR THIS SHIFT:</span>
+                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
                 </div>
+                <div class="d-flex justify-content-between ">
+                    <span>+ CASH TRANSACTIONS:</span>
+                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
+                </div>
+                <div class="d-flex justify-content-between ">
+                    <span>+ BILL CASH PAYMENTS:</span>
+                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
+                </div>
+                <div class="d-flex justify-content-between ">
+                    <span>+ NYP CASH PAYMENTS::</span>
+                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
+                </div>
+                <div class="d-flex justify-content-between  border-bottom">
+                    <span>= SHIFT CASH BALANCE:</span>
+                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
+                </div>
+                <div class="d-flex justify-content-between fw-bold">
+                    <span>CHECK TRANSACTIONS FOR THIS SHIFT:</span>
+                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
+                </div>
+                <div class="d-flex justify-content-between ">
+                    <span>+ BILL CHECK PAYMENTS:</span>
+                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
+                </div>
+                <div class="d-flex justify-content-between border-bottom ">
+                    <span>+ NYP CHECK PAYMENTS:</span>
+                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
+                </div>
+                <div class="d-flex justify-content-between fw-bold ">
+                    <span>ENDING CASH BALANCE:</span>
+                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
+                </div>
+                <div class="d-flex justify-content-between fw-bold">
+                    <span>ENDING CHECK BALANCE:</span>
+                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
+                </div>
+                <div class="d-flex justify-content-between fw-bold">
+                    <span>TOTAL AMOUNT ON HAND:</span>
+                    <span class="border border-2 px-2">
+                        ₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?>
+                    </span>
+                </div>
+
                 <!-- Rest of your content for the right column -->
             </div>
         </div>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
