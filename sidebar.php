@@ -94,6 +94,11 @@ $sidebarContent = [
                 "link" => "/SupplierTable/index.php", //link of the page
                 "navigations" => [] //list of links on dropdown
             ],
+            [
+                "name" => "Expenses", //name of the link
+                "link" => "/Expenses/index.php", //link of the page
+                "navigations" => [] //list of links on dropdown
+            ],
         ] //list of links on dropdown
     ],
 
