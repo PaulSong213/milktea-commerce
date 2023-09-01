@@ -30,14 +30,14 @@
 
                     <!--Middle Name -->
                     <div class="mb-3">
-                        <label class="form-label" for="employee_mname">Middle Name<span class="text-danger mx-1">*</span></label>
-                        <input type="text" id="employee_mname" name="employee_mname" class="form-control" placeholder="Enter employee middle name" autocomplete="on" required>
+                        <label class="form-label" for="employee_mname">Middle Name</label>
+                        <input type="text" id="employee_mname" name="employee_mname" class="form-control" placeholder="Enter employee middle name" autocomplete="on">
                     </div>
 
                     <!--Nickname -->
                     <div class="mb-3">
-                        <label class="form-label" for="employee_nickname">Nickname<span class="text-danger mx-1">*</span></label>
-                        <input type="text" id="employee_nickname" name="employee_nickname" class="form-control" placeholder="Enter employee Nickname" autocomplete="on" required>
+                        <label class="form-label" for="employee_nickname">Nickname</label>
+                        <input type="text" id="employee_nickname" name="employee_nickname" class="form-control" placeholder="Enter employee Nickname" autocomplete="on">
                     </div>
 
                     <div class="mb-3">

@@ -3,13 +3,13 @@
 <?php
 require_once '../php/connect.php';
 $conn = connect();
+$loggedInUser = isset($_SESSION['user']) ? json_decode($_SESSION['user']) : null;
+$currentLoggedInEncoder = $loggedInUser->title . ' ' . $loggedInUser->lname . ',' . $loggedInUser->fname . ' ' . $loggedInUser->mname . ' | ID: ' . $loggedInUser->DatabaseID;
+$currentLoggedInEncoderID = $loggedInUser->DatabaseID;
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-    $loggedInUser = isset($_SESSION['user']) ? json_decode($_SESSION['user']) : null;
-    $currentLoggedInEncoder = $loggedInUser->title . ' ' . $loggedInUser->lname . ',' . $loggedInUser->fname . ' ' . $loggedInUser->mname . ' | ID: ' . $loggedInUser->DatabaseID;
-    $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
 // Function to get the last SalesID
 function getLastSalesID($conn)
 {
@@ -62,13 +62,22 @@ $LastBillingID = getLastBillingID($conn);
                         <input type="text" class="form-control text-light bg-secondary" name="chargeSlipNumber" placeholder="Enter Charge Slip Number" required value="<?php echo "00" . ($lastSalesID + 1); ?>" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="department">Clinic Department</label>
-                        <input type="text" class="form-control" name="department" list="employeeList" correctData="employeesData" placeholder="Enter Requested By Name" required>
-                        <?php require_once('../API/department/department.php') ?>
-                        <small class="feedback d-none bg-danger p-1 rounded my-1">
-                            Please select Department.
-                        </small>
-                    </div>
+                    <label for="department">Clinic Department</label>
+                    <select class="form-control" name="department" required>
+                        <option value="" disabled selected>Select a Department</option>
+                        <?php
+                        require_once
+                        ('../API/department/department.php');
+                        // Assuming 'employeesData' is an array of department names
+                        foreach ($employeesData as $department) {
+                            echo '<option value="' . $department . '">' . $department . '</option>';
+                        }
+                        ?>
+                    </select>
+                    <small class="feedback d-none bg-danger p-1 rounded my-1">
+                        Please select a Department.
+                    </small>
+                </div>
                     <div class="form-group">
                         <label for="requestedByName">Requested By: </label>
                         <input type="text" class="form-control is-invalid" name="requestedByName" list="employeeList" correctData="employeesData" placeholder="Enter Requested By Name" required>
@@ -134,6 +143,7 @@ $LastBillingID = getLastBillingID($conn);
                                 <input autocomplete="off" class="form-control" list="productList" id="product_id_input" name="product_id[]" onchange="updateProductInfo(this)" />
                                 <datalist id="product_id_list">
                                     <?php require_once('../API/datalist/product-list.php') ?>
+                                    
                                 </datalist>
                             </td>
                             <td><input type="number" class="form-control text-light bg-secondary" readonly name="inv"></td>
@@ -288,17 +298,12 @@ $LastBillingID = getLastBillingID($conn);
         function CalculateValues(row) {
             const price = parseFloat(row.querySelector('[name="price[]"]').value) || 0;
             const qty = parseFloat(row.querySelector('[name="qty[]"]').value) || 1;
-            const discPercent = parseFloat(row.querySelector('[name="disc_percent[]"]').value) || 0;
+            // Remove the discount calculation lines
             const inventory = parseFloat(row.querySelector('[name="inv"]').value) || 0;
             const subtotal = qty * price;
-            const discount = subtotal * (discPercent / 100);
-            const totalWithDiscount = subtotal - discount;
 
             const subtotalInput = row.querySelector('[name="subtotal[]"]');
-            subtotalInput.value = totalWithDiscount.toFixed(2);
-
-            const DiscInput = row.querySelector('[name="disc_amt[]"]');
-            DiscInput.value = discount.toFixed(2);
+            subtotalInput.value = subtotal.toFixed(2);
 
             // Recalculate net sale
             const allSubtotalInputs = document.querySelectorAll('[name="subtotal[]"]');
@@ -308,28 +313,26 @@ $LastBillingID = getLastBillingID($conn);
                 if (!isNaN(subtotalValue)) {
                     netSale += subtotalValue;
                 }
-            });
-            // Calculate and update net amount based on additional discount
-            const additionalDiscountInput = document.querySelector('[name="additionalDiscount"]');
-            const additionalDiscountValue = parseFloat(additionalDiscountInput.value) || 0;
+    });
 
-            const netAmount = netSale - (netSale * (additionalDiscountValue / 100));
+    // Calculate and update net amount based on additional discount
+    const netAmount = netSale;
 
-            const netSaleInput = document.querySelector('[name="netSale"]');
-            const netAmountInput = document.querySelector('[name="netAmount"]');
-            const changeInput = document.querySelector('[name="change"]');
+    const netSaleInput = document.querySelector('[name="netSale"]');
+    const netAmountInput = document.querySelector('[name="netAmount"]');
+    const changeInput = document.querySelector('[name="change"]');
 
-            netSaleInput.value = netSale.toFixed(2);
-            netAmountInput.value = netAmount.toFixed(2);
+    netSaleInput.value = netSale.toFixed(2);
+    netAmountInput.value = netAmount.toFixed(2);
 
-            // Calculate and update change amount
+    // Calculate and update change amount
+    const amountTenderedInput = document.querySelector('[name="amountTendered"]');
+    const amountTenderedValue = parseFloat(amountTenderedInput.value) || 0;
+    const change = amountTenderedValue - netAmount;
+    changeInput.value = change.toFixed(2);
+    $('input[name="change"]').change();
+}
 
-            const amountTenderedInput = document.querySelector('[name="amountTendered"]');
-            const amountTenderedValue = parseFloat(amountTenderedInput.value) || 0;
-            const change = amountTenderedValue - netAmount;
-            changeInput.value = change.toFixed(2);
-            $('input[name="change"]').change();
-        }
         document.addEventListener("DOMContentLoaded", function() {
             addRow();
 

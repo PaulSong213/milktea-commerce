@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Print Closing Report</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+
     <style>
         #uiContainer {
             background-color: #001f3f;
@@ -26,6 +28,11 @@
 
         #text {
             color: white;
+        }
+
+        .body {
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
@@ -50,7 +57,7 @@
         </div>
         <div class="mb-2">
             <label for="inputTimeOut" class="form-label">Select Time Out</label>
-            <input type="time" class="form-control" id="inputTimeOut">
+            <input type="time" class="form-control" id="inputTimeOut" value="<?php echo date('H:i'); ?>">
         </div>
         <div class="d-flex justify-content-end">
             <button id="printButton" type="button" class="btn btn-success" style="display: none;">Print</button>
@@ -79,6 +86,24 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // Get the current date
+        const currentDate = new Date();
+
+        // Format the current date as YYYY-MM-DD
+        const formattedDate = currentDate.toISOString().split('T')[0];
+
+        // Set the formatted date as the default value for the input
+        document.getElementById('inputDate').value = formattedDate;
+
+        // Get the input element for time by its ID
+        var inputTimeOut = document.getElementById('inputTimeOut');
+
+        // Format the current time as 'HH:mm'
+        var formattedTime = currentDate.getHours().toString().padStart(2, '0') + ':' + currentDate.getMinutes().toString().padStart(2, '0');
+
+        // Set the formatted time as the default value for the input field
+        inputTimeOut.value = formattedTime;
+
         $(document).ready(function() {
             $("#confirmButton").click(function() {
                 var selectedDate = $("#inputDate").val();
@@ -113,40 +138,37 @@
                         }
                     });
                 } else {
-                    alert("Please select date, time in, and time out.");
+                alert("Please fill all the fields");
                 }
             });
 
             $("#printModalButton").click(function() {
-                printChargeSlip();
+                openChargeSlip();
             });
 
-            function printChargeSlip() {
-                var divToPrint = document.getElementById('reportPopUp').outerHTML;
+            function openChargeSlip() {
+                var divToPrint = document.getElementById('reportPopUp').innerHTML;
 
-                var newWin = window.open('', '_blank', 'width=1200, height=1100');
+                var newTab = window.open('', '_blank');
 
-                newWin.document.write(`
+                newTab.document.write(`
         <html>
         <head>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         </head>
-        <body>
+        <body style="width: 100%; height: 100%; margin:0;">
             <div class="print-content">
                 ${divToPrint}
             </div>
         </body>
         </html>`);
 
-                newWin.document.close();
-
-                newWin.onload = function() {
-                    newWin.print();
-                    newWin.close();
+                newTab.document.close();
+                newTab.onload = function() {
+                    newTab.print();
+                    newTab.close();
                 };
             }
-
-
         });
     </script>
 </body>

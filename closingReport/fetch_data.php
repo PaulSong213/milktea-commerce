@@ -10,10 +10,7 @@
             <h6 class="text-muted">16 J. Aguilar Avenue, Talon, Las Piñas City, <br />Metro Manila, Philippines 1747</h6>
         </div>
     </div>
-    <hr class="my-4">
-
     <title>
-
     </title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -56,62 +53,60 @@
     </style>
 </head>
 
-<body>
-
-    <body>
-        <div class="py-3">
-            <div class="d-flex justify-content-between">
-                <div style="margin-right: 15px;">
-                    <h3 class="fw-bold mb-1">CLOSING REPORT AS OF:</h3>
-                    <?php
-                    if (isset($_POST['dateTimeIn']) && isset($_POST['dateTimeOut'])) {
-                        $dateTimeIn = $_POST['dateTimeIn'];
-                        $dateTimeOut = $_POST['dateTimeOut'];
-                        echo "<p class='mb-0'>$dateTimeIn - $dateTimeOut</p>";
-                    }
-                    ?>
-                </div>
+<body class="container-fluid" style="max-width: 100%;">
+    <div class="py-3">
+        <div class="d-flex justify-content-between">
+            <div style="margin-right: 15px;">
+                <h3 class="fw-bold mb-1">CLOSING REPORT AS OF:</h3>
+                <?php
+                if (isset($_POST['dateTimeIn']) && isset($_POST['dateTimeOut'])) {
+                    $dateTimeIn = $_POST['dateTimeIn'];
+                    $dateTimeOut = $_POST['dateTimeOut'];
+                    echo "<p class='mb-0'>$dateTimeIn - $dateTimeOut</p>";
+                }
+                ?>
             </div>
         </div>
+    </div>
 
-        <div class="table w-100 p-4">
-            <table id="example" class="table table-striped" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Sales ID</th>
-                        <th>Product ID</th>
-                        <th>Quantity</th>
-                        <th>Subtotal</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    require_once '../php/connect.php';
-                    if (isset($_POST['dateTimeIn']) && isset($_POST['dateTimeOut'])) {
-                        $dateTimeIn = $_POST['dateTimeIn'];
-                        $dateTimeOut = $_POST['dateTimeOut'];
+    <div class="table-fluid p-4">
+        <table id="example" class="table table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Sales ID</th>
+                    <th>Product ID</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                require_once '../php/connect.php';
+                if (isset($_POST['dateTimeIn']) && isset($_POST['dateTimeOut'])) {
+                    $dateTimeIn = $_POST['dateTimeIn'];
+                    $dateTimeOut = $_POST['dateTimeOut'];
 
-                        $connection = connect();
-                        $sql = "SELECT * FROM sales_tb WHERE createDate >= '$dateTimeIn' AND createDate <= '$dateTimeOut'";
-                        $result = $connection->query($sql);
+                    $connection = connect();
+                    $sql = "SELECT * FROM sales_tb WHERE createDate >= '$dateTimeIn' AND createDate <= '$dateTimeOut'";
+                    $result = $connection->query($sql);
 
-                        $totalNetSale = 0;
+                    $totalNetSale = 0;
 
 
-                        while ($row = $result->fetch_assoc()) {
-                            // Access the value of ProductInfo
-                            $productInfoJson = $row["ProductInfo"];
+                    while ($row = $result->fetch_assoc()) {
+                        // Access the value of ProductInfo
+                        $productInfoJson = $row["ProductInfo"];
 
-                            // Convert the JSON string to a PHP array
-                            $productInfoArray = json_decode($productInfoJson, true);
+                        // Convert the JSON string to a PHP array
+                        $productInfoArray = json_decode($productInfoJson, true);
 
-                            // Access specific values within the ProductInfo array
-                            $subtotal = $productInfoArray[0]["subtotal"];
-                            $productId = $productInfoArray[0]["product_id"];
-                            $qty = $productInfoArray[0]["qty"];
+                        // Access specific values within the ProductInfo array
+                        $subtotal = $productInfoArray[0]["subtotal"];
+                        $productId = $productInfoArray[0]["product_id"];
+                        $qty = $productInfoArray[0]["qty"];
 
-                            echo "
+                        echo "
                             <tr>
                                 <td>" . $row["createDate"] . "</td>
                                 <td>" . $row["SalesID"] . "</td>
@@ -121,10 +116,10 @@
                                 
                             </tr>";
 
-                            $totalNetSale += $subtotal;
-                        }
+                        $totalNetSale += $subtotal;
+                    }
 
-                        echo "
+                    echo "
                     <tr>
                             <th colspan='0'>Total:</th>
                             <th></th>
@@ -132,118 +127,135 @@
                             <th></th>
                             <th colspan='5'>$totalNetSale</th>
                     </tr>";
-                    } else {
-                        echo "<tr><td colspan='6'>No data to display.</td></tr>";
-                    }
-                    ?>
-                </tbody>
-            </table>
-            <div class="fluid mt-4 p-3 border border-dark">
-                <div class="row">
-                    <div class="col-md-6 ">
-                        <div class="row mb-2">
-                            <div class="col-md-6 fw-bold text-left mx-1">
-                                <h8> TOTAL SALE:</h8> <br>
-                                <div class="font-weight-normal " style="margin-left:20%;">
-                                    <p>Cash Transactions:</p>
-                                    <p>Bill Transactions:</h7>
-                                    <p>NYP Transactions:</p>
-                                    <p>Employee Transactions:</p>
-                                </div>
-                                <h8> TOTAL CLINIC USE:</h8><br>
-                                <h8> TOTAL PERSONAL USE:</h8><br>
-                                <h8> TOTAL BILL DISCOUNTS:</h8><br>
+                } else {
+                    echo "<tr><td colspan='6'>No data to display.</td></tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
+    <?php
+    require_once '../php/connect.php';
+    // Function to execute a query and return the result or 0 if no result
+    function executeQuery($conn, $query)
+    {
+        $result = $conn->query($query);
+        return $result->num_rows > 0 ? $result->fetch_assoc() : 0;
+    }
 
-                                <h8> BEGINNING BALANCE: CASH:</h8>
-                                <h8 style="margin-left:75%;"> CHECK:</h8>
-                                <h8> TOTAL CASH IN:</h8><br>
-                                <h8> TOTAL CASH OUT:</h8><br>
-                                <h8> TOTAL AMOUNT IN:</h8><br>
-                                <h8> PREVIOUS SHIFTEE:</h8><br>
+    $conn = connect();
 
-                            </div>
-                            <div class="col-md-5 text-right">
-                                <h8> P 00.00</h8> <br>
-                                <div class="font-weight-normal " style="margin-left:20%;">
-                                    <p>P 00.00</p>
-                                    <p>P 00.00</P>
-                                    <p>P 00.00</p>
-                                    <p>P 00.00</p>
-                                </div>
-                                <h8> P 00.00</h8><br>
-                                <h8> P 00.00</h8><br>
-                                <h8> P 00.00</h8><br>
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
 
-                                <h8> P 00.00</h8><br>
-                                <h8>P 00.00</h8><br>
-                                <h8>P 00.00</h8><br>
-                                <h8> P 00.00</h8><br>
-                                <h8> P 00.00</h8><br>
-                                <h8> P 00.00</h8><br>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="row mb-2">
-                            <div class="col-md-6 fw-bold  text-right mx-1">
-                                <h8> TOTAL SALE:</h8> <br>
-                                <div class="font-weight-normal " style="margin-left:20%;">
-                                    <p>Cash Transactions:</p>
-                                    <p>Bill Transactions:</h7>
-                                    <p>NYP Transactions:</p>
-                                    <p>Employee Transactions:</p>
-                                </div>
-                                <h8> TOTAL CLINIC USE:</h8><br>
-                                <h8> TOTAL PERSONAL USE:</h8><br>
-                                <h8> TOTAL BILL DISCOUNTS:</h8><br>
+    // Get total net amount
+    $queryTotalNet = "SELECT SUM(NetAmt) AS total_net_amount FROM sales_tb";
+    $totalNetAmount = executeQuery($conn, $queryTotalNet);
 
-                                <h8> BEGINNING BALANCE: CASH:</h8>
-                                <h8 style="margin-left:75%;"> CHECK:</h8>
-                                <h8> TOTAL CASH IN:</h8><br>
-                                <h8> TOTAL CASH OUT:</h8><br>
-                                <h8> TOTAL AMOUNT IN:</h8><br>
-                                <h8> PREVIOUS SHIFTEE:</h8><br>
+    // Calculate total cash amount
+    $queryTotalCash = "SELECT SUM(NetAmt) - SUM(CASE WHEN ChangeAmt < 0 THEN ChangeAmt ELSE 0 END) AS total_Cash FROM sales_tb";
+    $totalCashAmount = executeQuery($conn, $queryTotalCash);
 
-                            </div>
-                            <div class="col-md-5 s text-left">
-                                <h8> P 00.00</h8> <br>
-                                <div class="font-weight-normal " style="margin-left:20%;">
-                                    <p>P 00.00</p>
-                                    <p>P 00.00</P>
-                                    <p>P 00.00</p>
-                                    <p>P 00.00</p>
-                                </div>
-                                <h8> P 00.00</h8><br>
-                                <h8> P 00.00</h8><br>
-                                <h8> P 00.00</h8><br>
+    $queryTotalNet = "SELECT SUM(NetAmt) AS total_net_amount FROM sales_tb";
+    $totalNetAmount = executeQuery($conn, $queryTotalNet);
+    ?>
 
-                                <h8> P 00.00</h8><br>
-                                <h8>P 00.00</h8><br>
-                                <h8>P 00.00</h8><br>
-                                <h8> P 00.00</h8><br>
-                                <h8> P 00.00</h8><br>
-                                <h8> P 00.00</h8><br>
-                            </div>
-                        </div>
-                    </div>
+    <div class="container-fluid mt-4 p-3 border border-dark">
+        <div class="row">
+            <div class="col-5">
+                <div class="d-flex justify-content-between border-bottom">
+                    <h6>TOTAL SALE:</h6>
+                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
                 </div>
+                <!-- INDENT DIV -->
+                <div class="d-flex justify-content-between border-bottom">
+                    <p>Cash Transactions:</p>
+                    <p><?php echo '₱ ' . number_format($totalCashAmount['total_Cash'] ?? 0, 2); ?></p>
+                </div>
+                <div class="d-flex justify-content-between border-bottom ">
+                    <p>Bill Transactions:</p>
+                    <p><?php echo '₱ ' . number_format($totalCashAmount['total_Cash'] ?? 0, 2); ?></p>
+                </div>
+                <div class="d-flex justify-content-between border-bottom">
+                    <p>NYP Transactions:</p>
+                    <p><?php echo '₱ ' . number_format($totalCashAmount['total_Cash'] ?? 0, 2); ?></p>
+                </div>
+                <div class="d-flex justify-content-between border-bottom ">
+                    <p>Employee Transactions:</p>
+                    <p><?php echo '₱ ' . number_format($totalCashAmount['total_Cash'] ?? 0, 2); ?></p>
+                </div>
+                <!-- INDENT END -->
+                <div class="d-flex justify-content-between border-bottom">
+                    <h6>TOTAL CLINIC USE:</h6>
+                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+                </div>
+                <div class="d-flex justify-content-between border-bottom">
+                    <h6>TOTAL PERSONAL USE:</h6>
+                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+                </div>
+                <div class="d-flex justify-content-between border-bottom">
+                    <h6>TOTAL BILL DISCOUNT:</h6>
+                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+                </div>
+                <div class="d-flex justify-content-between border-bottom">
+                    <h6>TOTAL CLINIC USE:</h6>
+                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+                </div>
+                <div class="d-flex justify-content-between border-bottom">
+                    <h6>TOTAL CLINIC USE:</h6>
+                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+                </div>
+                <div class="d-flex justify-content-between border-bottom">
+                    <h6>BEGGINING BALANCE</h6>
+                </div>
+                <div class="d-flex justify-content-between border-bottom">
+                    <p>CASH:</p>
+                    <p><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></p>
+                </div>
+                <div class="d-flex justify-content-between border-bottom">
+                    <p>CHECK:</p>
+                    <p><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></p>
+                </div>
+                <div class="d-flex justify-content-between border-bottom">
+                    <h6>TOTAL CASH IN:</h6>
+                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+                </div>
+                <div class="d-flex justify-content-between border-bottom">
+                    <h6>TOTAL CHECK IN:</h6>
+                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+                </div>
+                <div class="d-flex justify-content-between border-bottom">
+                    <h6>TOTAL AMOUNT IN:</h6>
+                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+                </div>
+                <div class="d-flex justify-content-between border-bottom">
+                    <h6>PREVIOUS SHIFTEE:</h6>
+                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+                </div>
+                <!-- Rest of your content for the left column -->
             </div>
-
+            <div class="col-6">
+                <div class="d-flex justify-content-between border-bottom">
+                    <h6>CASH TRANSACTION FOR THIS SHIFT:</h6>
+                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+                </div>
+                <!-- Rest of your content for the right column -->
+            </div>
         </div>
-
-
-
-        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-        <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-        <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-        <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables-buttons/2.2.0/js/buttons.colVis.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    </body>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables-buttons/2.2.0/js/buttons.colVis.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
 
 </html>

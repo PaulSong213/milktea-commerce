@@ -1,6 +1,9 @@
 export function handleViewClick() {
     const viewDatas = [
-       
+        {
+            dataKey: "hospistalrecordNo",
+            label: "Hospital Record No"
+        },
         {
             dataKey: "lname",
             label: "Last Name"
