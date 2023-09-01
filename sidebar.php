@@ -41,6 +41,10 @@ $sidebarContent = [
                 "link" => "/billingtable/index.php", //link of the page
             ],
             [
+                "name" => "Clinic Use", //name of the link
+                "link" => "/clinicUse/index.php", //link of the page
+            ],
+            [
                 "name" => "Closing Report", // include returns the included content
                 "link" => "/closingReport/index.php",
                 "id" => "openModalButton",
@@ -48,21 +52,6 @@ $sidebarContent = [
 
 
         ]
-    ],
-    [
-        "name" => "Enter Payment", //name of the link
-        "icon" => "local_atm", //material icon name
-        "link" => "/enterPayment/index.php?type=NYP", //link of the page
-        "navigations" => [
-            [
-                "name" => "NYP Payment", //name of the link
-                "link" => "/enterPayment/index.php?type=NYP", //link of the page
-            ],
-            [
-                "name" => "Bill Payment", //name of the link
-                "link" => "/enterPayment/index.php?type=bill", //link of the page
-            ],
-        ] //list of links on dropdown
     ],
     [
         "name" => "Employee", //name of the link
