@@ -111,12 +111,24 @@ if (isset($_SESSION['username'])) {
 
 				if ($checkRow > 0) {
 					$val = mysqli_fetch_assoc($result);
+					
 
-					if (password_verify($password, $val["password"])) {
+					if (password_verify($password, $val["password"]) && $val["isPasswordSet"] == 1) {
 						$_SESSION["user"] = json_encode($val);
 						header("Location: ./billing_slip/index.php");
-						exit(); // Use exit() instead of die() to terminate the script
-					} else {
+						exit();
+					} else if (password_verify($password, $val["password"])) {
+						$_SESSION["user"] = json_encode($val);
+						header("Location: ./isSetPassword.php");
+						exit();
+					} else if (password_verify($password, $val["password"]) &&  $val["isPasswordSet"] == " ") {
+						$_SESSION["user"] = json_encode($val);
+
+						header("Location: ./isSetPassword.php");
+						exit();
+					}
+
+					else {
 						echo "<p style='color:red'>Wrong Password</p>";
 					}
 				} else {

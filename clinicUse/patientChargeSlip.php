@@ -7,6 +7,9 @@ $conn = connect();
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+    $loggedInUser = isset($_SESSION['user']) ? json_decode($_SESSION['user']) : null;
+    $currentLoggedInEncoder = $loggedInUser->title . ' ' . $loggedInUser->lname . ',' . $loggedInUser->fname . ' ' . $loggedInUser->mname . ' | ID: ' . $loggedInUser->DatabaseID;
+    $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
 // Function to get the last SalesID
 function getLastSalesID($conn)
 {
@@ -59,9 +62,9 @@ $LastBillingID = getLastBillingID($conn);
                         <input type="text" class="form-control text-light bg-secondary" name="chargeSlipNumber" placeholder="Enter Charge Slip Number" required value="<?php echo "00" . ($lastSalesID + 1); ?>" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="requestedByName">Clinic Department</label>
-                        <input type="text" class="form-control is-invalid" name="requestedByName" list="employeeList" correctData="employeesData" placeholder="Enter Requested By Name" required>
-                        <?php require_once('../API/datalist/employee-list.php') ?>
+                        <label for="department">Clinic Department</label>
+                        <input type="text" class="form-control" name="department" list="employeeList" correctData="employeesData" placeholder="Enter Requested By Name" required>
+                        <?php require_once('../API/department/department.php') ?>
                         <small class="feedback d-none bg-danger p-1 rounded my-1">
                             Please select Department.
                         </small>
@@ -69,7 +72,7 @@ $LastBillingID = getLastBillingID($conn);
                     <div class="form-group">
                         <label for="requestedByName">Requested By: </label>
                         <input type="text" class="form-control is-invalid" name="requestedByName" list="employeeList" correctData="employeesData" placeholder="Enter Requested By Name" required>
-                        <?php require_once('../API/datalist/employee-list.php') ?>
+                        <?php require_once('../API/datalist/employee.php') ?>
                         <small class="feedback d-none bg-danger p-1 rounded my-1">
                             Please select a valid requested by Name.
                         </small>
@@ -77,7 +80,7 @@ $LastBillingID = getLastBillingID($conn);
                     <div class="form-group">
                         <label for="enteredByName">Entered By: </label>
                         <input type="text" class="form-control is-valid text-light bg-secondary" name="enteredByName" list="employeeList" readonly correctData="employeesData" placeholder="Enter Entered By Name" value="<?= $currentLoggedInEncoder; ?>" sql-value="<?= $currentLoggedInEncoderID; ?>" required isvalidated="true">
-                        <?php require_once('../API/datalist/employee-list.php') ?>
+                        <?php require_once('../API/datalist/employee.php') ?>
                         <small class="feedback d-none bg-danger p-1 rounded my-1">
                             Please select a valid requested by Name.
                         </small>
@@ -101,10 +104,10 @@ $LastBillingID = getLastBillingID($conn);
                     <input type="number" class="form-control" name="amountTendered" min="0" required>
                     <div class="invalid-feedback">Please enter a valid amount tendered.</div>
                 </div>
-                    <div class="form-group fw-bold">
-                        <label for="change">Change</label>
-                        <input type="number" class="form-control text-light bg-secondary" name="change" id="change" step="0.1" value="0.00" readonly>
-                    </div>
+                <div class="form-group fw-bold">
+                    <label for="change">Change</label>
+                    <input type="number" class="form-control text-light bg-secondary" name="change" id="change" step="0.1" value="0.00" readonly>
+                </div>
                 <button type="submit" class="btn btn-primary add-button" name="SaveItem">Save Transaction</button>
             </div>
         </div>
@@ -189,6 +192,7 @@ $LastBillingID = getLastBillingID($conn);
                 }
             });
         });
+
         function updateProductInfo(input) {
             var selectedValue = input.value;
             var row = input.closest("tr");
@@ -383,4 +387,5 @@ $LastBillingID = getLastBillingID($conn);
         });
     </script>
 </body>
+
 </html>
