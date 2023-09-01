@@ -53,6 +53,7 @@
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
+                    <th>Hospital Record No</th>
                     <th>Patient Name</th>
                     <th>Age</th>
                     <th>Gender</th>
@@ -70,6 +71,7 @@
                 while ($row = $result->fetch_assoc()) {
                     echo "
                         <tr>
+                             <td>" . $row["hospistalrecordNo"] . "</td>
                             <td>" . $row["lname"] . " " . $row["fname"] . " " . $row["mname"] . "</td>
                             <td>" . $row["age"] . "</td>
                             <td>" . $row["gender"] . "</td>

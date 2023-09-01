@@ -29,8 +29,8 @@
                             <input type="text" id="fname" name="fname" class="form-control" placeholder="Enter First Name" autocomplete="on" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="mname">Middle Name<span class="text-danger mx-1">*</span></label>
-                            <input type="text" id="mname" name="mname" class="form-control" placeholder="Enter Middle Name" autocomplete="on" required>
+                            <label class="form-label" for="mname">Middle Name</label>
+                            <input type="text" id="mname" name="mname" class="form-control" placeholder="Enter Middle Name" autocomplete="on">
                         </div>
 
                         <div class="mb-3">
@@ -57,11 +57,11 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="phoneHome">Phone No.(Home)</label>
-                            <input type="number" id="phoneHome" name="phoneHome" placeholder="Enter Phone No. (Home)" class="form-control" autocomplete="on" required>
+                            <input type="number" id="phoneHome" name="phoneHome" placeholder="Enter Phone No. (Home)" class="form-control" autocomplete="on">
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="phoneWork">Phone No.(Work)</label>
-                            <input type="number" id="phoneWork" name="phoneWork" placeholder="Enter Phone No. (Work)" class=" form-control" autocomplete="on" required>
+                            <input type="number" id="phoneWork" name="phoneWork" placeholder="Enter Phone No. (Work)" class=" form-control" autocomplete="on">
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="phoneCell">Cellphone</label>
@@ -69,23 +69,23 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="email">Email Address</label>
-                            <input type="email" id="email" name="email" class="form-control" placeholder="Enter Email Address" autocomplete=" on" required>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="Enter Email Address" autocomplete=" on">
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="occupation">Occupation</label>
-                            <input type="text" id="occupation" name="occupation" placeholder="Enter Occupation" class=" form-control" autocomplete="on" required>
+                            <input type="text" id="occupation" name="occupation" placeholder="Enter Occupation" class=" form-control" autocomplete="on">
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="employerName">Employer's Name</label>
-                            <input type="text" id="employerName" name="employerName" placeholder="Enter Employer Name" class=" form-control" autocomplete="on" required>
+                            <input type="text" id="employerName" name="employerName" placeholder="Enter Employer Name" class=" form-control" autocomplete="on">
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="employerNo">Employer's Contact No.</label>
-                            <input type="text" id="employerNo" name="employerNo" placeholder="Enter Contact No." class=" form-control" autocomplete="on" required>
+                            <input type="text" id="employerNo" name="employerNo" placeholder="Enter Contact No." class=" form-control" autocomplete="on">
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="workAddress">Work Address</label>
-                            <textarea type="text" id="workAddress" name="workAddress" placeholder="Enter Work Address" class="form-control" autocomplete="on" required></textarea>
+                            <textarea type="text" id="workAddress" name="workAddress" placeholder="Enter Work Address" class="form-control" autocomplete="on"></textarea>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="nationality">Nationality<span class="text-danger mx-1">*</span></label>
@@ -93,7 +93,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="religion">Religion<span class="text-danger mx-1">*</span></label>
-                            <input type="text" id="religion" name="religion" placeholder="Religion" class=" form-control" autocomplete="on" required>
+                            <input type="text" id="religion" name="religion" placeholder="Religion" class=" form-control" autocomplete="on">
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="SpouseName">Name of Spouse(if Applicable)</label>
@@ -158,7 +158,7 @@
                             <label class="form-label" for="certNo">Cert No.</label>
                             <input type="text" id="certNo" name="certNo" class="form-control" autocomplete="on">
                         </div>
-                        <b><label class="form-label">Emergency Contact Person<span class="text-danger mx-1"></span></label></b>
+                        <b><label class="form-label">Emergency Contact Person</label></b>
                         <div class="mb-3">
                             <label class="form-label" for="emergencyName">Name</label>
                             <input type="text" id="emergencyname" name="emergencyname" placeholder="Enter Name of Emergency Contact Person" class=" form-control" autocomplete="on">

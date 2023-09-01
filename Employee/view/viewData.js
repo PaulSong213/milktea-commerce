@@ -52,10 +52,7 @@ export function handleViewClick(table) {
             dataKey: "dateStart",
             label: "Date Start"
         },
-        {
-            dataKey: "modifiedDate",
-            label: "Modified Date"
-        },
+      
         {
             dataKey: "userName",
             label: "Email"
