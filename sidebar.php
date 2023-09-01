@@ -38,7 +38,7 @@ $sidebarContent = [
             ],
             [
                 "name" => "Billing List", //name of the link
-                "link" => "/billingtable/index.php", //link of the page
+                "link" => "/billinglist/index.php", //link of the page
             ],
             [
                 "name" => "Clinic Use", //name of the link
