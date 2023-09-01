@@ -74,7 +74,7 @@ $LastBillingID = getLastBillingID($conn);
                         <div class="col-md-5 d-flex align-items-center justify-content-center">
                             <div class="form-check">
                                 <input class="form-check-input inputTypeRadio" type="radio" id="ipdRadio" name="patientAccountType" value="IPD" required>
-                                <label class="form-check-label" for="ipdRadio">IN PATIEN DEPT. (ADDMISION)</label>
+                                <label class="form-check-label" for="ipdRadio">IN PATIENT DEPT. (ADDMISION)</label>
                                 <div class="invalid-feedback">Please select a patient type.</div>
                             </div>
                         </div>
