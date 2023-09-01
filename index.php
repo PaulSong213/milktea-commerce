@@ -92,44 +92,37 @@ if (isset($_SESSION['username'])) {
 	<div class="login-container">
 		<img src="img/logo.png" alt="Logo" class="logo">
 		<?php
-		session_start(); // Start or resume the session
-		// check if login post is set
+		session_start();
 
 		if (isset($_POST['login-submit'])) {
 			$mailuid = $_POST['mailuid'];
 			$password = $_POST['pwd'];
 
-			// Include database connection
-			require_once('./php/connect.php'); // Adjust the path if needed
-			$conn = connect(); // Assuming this function establishes the database connection
+			require_once('./php/connect.php');
+			$conn = connect();
 
-			$sql = "SELECT * FROM employee_tb WHERE userName='$mailuid';";
-			$result = mysqli_query($conn, $sql);
+			$sql = "SELECT * FROM employee_tb WHERE userName = ?";
+			$stmt = mysqli_prepare($conn, $sql);
+			mysqli_stmt_bind_param($stmt, "s", $mailuid);
+			mysqli_stmt_execute($stmt);
+			$result = mysqli_stmt_get_result($stmt);
 
-			if ($result) { // Check if query was successful
-				$checkRow = mysqli_num_rows($result);
+			if ($result) {
+				$val = mysqli_fetch_assoc($result);
 
-				if ($checkRow > 0) {
-					$val = mysqli_fetch_assoc($result);
-					
-
-					if (password_verify($password, $val["password"]) && $val["isPasswordSet"] == 1) {
-						$_SESSION["user"] = json_encode($val);
-						header("Location: ./billing_slip/index.php");
-						exit();
-					} else if (password_verify($password, $val["password"])) {
-						$_SESSION["user"] = json_encode($val);
-						header("Location: ./isSetPassword.php");
-						exit();
-					} else if (password_verify($password, $val["password"]) &&  $val["isPasswordSet"] == " ") {
-						$_SESSION["user"] = json_encode($val);
-
-						header("Location: ./isSetPassword.php");
-						exit();
-					}
-
-					else {
-						echo "<p style='color:red'>Wrong Password</p>";
+				if ($val) {
+					if (password_verify($password, $val["password"])) {
+						if ($val["isPassSet"] == 1) {
+							$_SESSION["user"] = json_encode($val);
+							header("Location: ./billing_slip/index.php");
+							exit();
+						} else {
+							$_SESSION["user"] = json_encode($val);
+							header("Location: ./isSetPassword.php");
+							exit();
+						}
+					} else {
+						echo "<p style='color:red'>Invalid username or password</p>";
 					}
 				} else {
 					echo "<p style='color:red'>User not found</p>";
@@ -138,11 +131,10 @@ if (isset($_SESSION['username'])) {
 				echo "<p style='color:red'>Database query error</p>";
 			}
 
-			mysqli_close($conn); // Close the database connection
+			mysqli_stmt_close($stmt);
+			mysqli_close($conn);
 		}
-
 		?>
-
 		<form class="" action="" method="post">
 			<h2>LOGIN FORM</h2>
 			<label for="exampleInputEmail1">Email address</label>
