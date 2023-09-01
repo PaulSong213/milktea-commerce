@@ -64,17 +64,17 @@ $LastBillingID = getLastBillingID($conn);
                     </div>
                     <?php include('./components/patient-selection.php') ?>
                     <div class="form-group row">
-                        <div class="col-md-2 d-flex align-items-center justify-content-center">
+                        <div class="col-md-5 d-flex align-items-center justify-content-center">
                             <div class="form-check">
                                 <input class="form-check-input inputTypeRadio" type="radio" checked="checked" id="opdRadio" name="patientAccountType" value="OPD" required>
-                                <label class="form-check-label" for="opdRadio">OPD</label>
+                                <label class="form-check-label" for="opdRadio">OUT PATIENT DEPT. (WALKIN/CASH)</label>
                                 <div class="invalid-feedback">Please select a patient type.</div>
                             </div>
                         </div>
-                        <div class="col-md-2 d-flex align-items-center justify-content-center">
+                        <div class="col-md-5 d-flex align-items-center justify-content-center">
                             <div class="form-check">
                                 <input class="form-check-input inputTypeRadio" type="radio" id="ipdRadio" name="patientAccountType" value="IPD" required>
-                                <label class="form-check-label" for="ipdRadio">IPD</label>
+                                <label class="form-check-label" for="ipdRadio">IN PATIEN DEPT. (ADDMISION)</label>
                                 <div class="invalid-feedback">Please select a patient type.</div>
                             </div>
                         </div>
@@ -129,7 +129,6 @@ $LastBillingID = getLastBillingID($conn);
                                         <input class="form-control" type="time" id="timeAdmitted" name="timeAdmitted">
                                     </div>
                                 </div>
-
                                 <!-- Attending Physician -->
                                 <div class="my-3">
                                     <label class="form-label" for="attendingPhysician">Attending Physician<span class="text-danger mx-1">*</span></label>
@@ -139,7 +138,6 @@ $LastBillingID = getLastBillingID($conn);
                                         Please select a valid Physician.
                                     </small>
                                 </div>
-
                                 <!-- Admitting Physician -->
                                 <div class="my-3">
                                     <label class="form-label" for="admittingPhysician">Admitting Physician<span class="text-danger mx-1">*</span></label>
@@ -149,7 +147,6 @@ $LastBillingID = getLastBillingID($conn);
                                         Please select a valid Physician.
                                     </small>
                                 </div>
-
                                 <div class="row my-3">
                                     <!-- Date Discharged -->
                                     <div class="col">
@@ -163,7 +160,6 @@ $LastBillingID = getLastBillingID($conn);
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     <div class="form-group">
