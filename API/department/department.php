@@ -1,0 +1,33 @@
+<html>
+<datalist id="employeeList">
+    <?php
+    require_once '../php/connect.php';
+    $conn = connect();
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $query = "SELECT * from department_tb;
+    ";
+    $result = $conn->query($query);
+    $departmentData = (object)array(); // Create an empty object
+
+    while ($row = $result->fetch_assoc()) {
+        $departmentID = $row['departmentID'];
+        $departmentName = $row['departmentName'];
+        $fullName = $departmentName . ' | ID: ' . $departmentID;
+
+        $department = (object)array(
+            "id" => $departmentID,
+            "data" => $row
+        );
+        $departmentData->$departmentID = $department; // Assign the employee object to the object property
+
+        echo "<option value='$fullName'>$departmentName</option>";
+    }
+    $departmentData = json_encode($departmentData);
+
+    $conn->close();
+    ?>
+</datalist>
+
+</html>

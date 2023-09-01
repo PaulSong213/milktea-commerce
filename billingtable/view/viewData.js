@@ -12,7 +12,10 @@ export function handleViewClick(table) {
         { dataKey: "admittingPhysicianPosition", label: "Admitting Physician Position" },
         { dataKey: "dateTimeAdmitted", label: "Admission Date:Time" },
         { dataKey: "type", label: "Patient Type" },
-        { dataKey: "dateTimeDischarged", label: "Discharge Date:Time" }
+        { dataKey: "dateTimeDischarged", label: "Discharge Date:Time" },
+        { dataKey: "dateTimeDischarged", label: "Discharge Date:Time" },
+         { dataKey: "productInfo", label: "Product Info" },
+
         // Add more viewDatas for other columns as needed
     ];
 
