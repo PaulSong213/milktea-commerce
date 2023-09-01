@@ -65,7 +65,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="phoneCell">Cellphone</label>
-                            <input type="number" id="phoneCell" name="phoneCell" placeholder="Enter Phone No. (Cellphone)" class=" form-control" autocomplete="on">
+                            <input type="number" id="phoneCell" name="phoneCell" placeholder="Enter Phone No. (Cellphone)" class=" form-control" autocomplete="on" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="email">Email Address</label>
