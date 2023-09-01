@@ -1,12 +1,24 @@
 <?php
-// if (!isset($_SESSION['username'])) {
-//     header("Location:/Zarate/index.php");
-// }
-if (isset($_GET['logout'])) {
+ if (isset($_SESSION['user'])) {
+   $userData = json_decode($_SESSION['user'], true);
+   $userName = $userData['DatabaseID'];
+} else {
+        // Redirect back to the login page or handle the user not being logged in
+   header("Location: /Zarate/index.php");
+   exit();
+ }
+
+if (isset($_GET['logout']) && $_GET['logout'] === "true") {
+    // Destroy the session
     session_destroy();
-    unset($_SESSION);
-    header("Location:/Zarate/index.php");
+
+    // Redirect to the login page or any other desired page after logout
+    header("Location: ./index.php"); // Change 'login.php' to the appropriate URL
+    exit;
 }
+
+// Rest of your code...
+
 // get icons here -> https://mui.com/material-ui/material-icons/
 $sidebarContent = [
     [
@@ -129,7 +141,7 @@ $sidebarContent = [
             ],
             [
                 "name" => "Log Out", //name of the link
-                "link" => "/sidebar.php?logout=true", //link of the page
+                "link" => "./?logout=true", //link of the page
             ],
 
         ] //list of links on dropdown
