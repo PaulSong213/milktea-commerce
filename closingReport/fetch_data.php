@@ -136,7 +136,6 @@
     </div>
     <?php
     require_once '../php/connect.php';
-
     // Function to execute a query and return the result or 0 if no result
     function executeQuery($conn, $query)
     {
@@ -151,78 +150,101 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // Define queries and labels
-    $queries = [
-        "total_net_amount" => "SELECT SUM(NetAmt) AS total_net_amount FROM sales_tb",
-        "total_cash" => "SELECT SUM(NetAmt) - SUM(CASE WHEN ChangeAmt < 0 THEN ChangeAmt ELSE 0 END) AS total_Cash FROM sales_tb",
-    
-        // Add more queries and labels as needed
-    ];
+    // Get total net amount
+    $queryTotalNet = "SELECT SUM(NetAmt) AS total_net_amount FROM sales_tb";
+    $totalNetAmount = executeQuery($conn, $queryTotalNet);
 
-    // Retrieve and store results
-    $results = [];
-    foreach ($queries as $label => $query) {
-        $results[$label] = executeQuery($conn, $query);
-    }
+    // Calculate total cash amount
+    $queryTotalCash = "SELECT SUM(NetAmt) - SUM(CASE WHEN ChangeAmt < 0 THEN ChangeAmt ELSE 0 END) AS total_Cash FROM sales_tb";
+    $totalCashAmount = executeQuery($conn, $queryTotalCash);
+
+    $queryTotalNet = "SELECT SUM(NetAmt) AS total_net_amount FROM sales_tb";
+    $totalNetAmount = executeQuery($conn, $queryTotalNet);
     ?>
 
     <div class="container-fluid mt-4 p-3 border border-dark">
         <div class="row">
             <div class="col-5">
-                <?php
-                // Define labels for left column
-                $leftLabels = [
-                    "TOTAL SALE",
-                    "Cash Transactions",
-                    "Bill Transactions",
-                    "NYP Transactions",
-                    "Employee Transactions",
-                    "TOTAL CLINIC USE",
-                    "TOTAL PERSONAL USE",
-                    "TOTAL BILL DISCOUNT",
-                    "BEGINNING BALANCE: Cash",
-                    "                   Check",
-                    "TOTAL CASH IN",
-                    "TOTAL CHECK IN",
-                    "TOTAL AMOUNT IN",
-                    "PREVIOUS SHIFTEE",
-                ];
-
-                // Loop through labels and display values
-                foreach ($leftLabels as $index => $label) {
-                    echo '<div class="d-flex justify-content-between border-bottom">';
-                    echo '<h6>' . $label . ':</h6>';
-                    $value = isset($results["total_net_amount"]["total_net_amount"]) ? $results["total_net_amount"]["total_net_amount"] : 0;
-                    echo '<h6>₱ ' . number_format($value, 2) . '</h6>';
-                    echo '</div>';
-                }
-                ?>
+                <div class="d-flex justify-content-between border-bottom">
+                    <h6>TOTAL SALE:</h6>
+                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+                </div>
+                <!-- INDENT DIV -->
+                <div class="d-flex justify-content-between border-bottom">
+                    <p>Cash Transactions:</p>
+                    <p><?php echo '₱ ' . number_format($totalCashAmount['total_Cash'] ?? 0, 2); ?></p>
+                </div>
+                <div class="d-flex justify-content-between border-bottom ">
+                    <p>Bill Transactions:</p>
+                    <p><?php echo '₱ ' . number_format($totalCashAmount['total_Cash'] ?? 0, 2); ?></p>
+                </div>
+                <div class="d-flex justify-content-between border-bottom">
+                    <p>NYP Transactions:</p>
+                    <p><?php echo '₱ ' . number_format($totalCashAmount['total_Cash'] ?? 0, 2); ?></p>
+                </div>
+                <div class="d-flex justify-content-between border-bottom ">
+                    <p>Employee Transactions:</p>
+                    <p><?php echo '₱ ' . number_format($totalCashAmount['total_Cash'] ?? 0, 2); ?></p>
+                </div>
+                <!-- INDENT END -->
+                <div class="d-flex justify-content-between border-bottom">
+                    <h6>TOTAL CLINIC USE:</h6>
+                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+                </div>
+                <div class="d-flex justify-content-between border-bottom">
+                    <h6>TOTAL PERSONAL USE:</h6>
+                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+                </div>
+                <div class="d-flex justify-content-between border-bottom">
+                    <h6>TOTAL BILL DISCOUNT:</h6>
+                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+                </div>
+                <div class="d-flex justify-content-between border-bottom">
+                    <h6>TOTAL CLINIC USE:</h6>
+                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+                </div>
+                <div class="d-flex justify-content-between border-bottom">
+                    <h6>TOTAL CLINIC USE:</h6>
+                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+                </div>
+                <div class="d-flex justify-content-between border-bottom">
+                    <h6>BEGGINING BALANCE</h6>
+                </div>
+                <div class="d-flex justify-content-between border-bottom">
+                    <p>CASH:</p>
+                    <p><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></p>
+                </div>
+                <div class="d-flex justify-content-between border-bottom">
+                    <p>CHECK:</p>
+                    <p><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></p>
+                </div>
+                <div class="d-flex justify-content-between border-bottom">
+                    <h6>TOTAL CASH IN:</h6>
+                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+                </div>
+                <div class="d-flex justify-content-between border-bottom">
+                    <h6>TOTAL CHECK IN:</h6>
+                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+                </div>
+                <div class="d-flex justify-content-between border-bottom">
+                    <h6>TOTAL AMOUNT IN:</h6>
+                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+                </div>
+                <div class="d-flex justify-content-between border-bottom">
+                    <h6>PREVIOUS SHIFTEE:</h6>
+                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+                </div>
+                <!-- Rest of your content for the left column -->
             </div>
             <div class="col-6">
-                <?php
-                // Define labels for right column
-                $rightLabels = [
-                    "CASH TRANSACTION FOR THIS SHIFT",
-                    "  +  CASH TRANSACTIONS",
-                    "  +  BILL CASH PAYMENTS",
-                    "  +  BILL  NYP PAYMENTS",
-                    // Add more labels as needed
-                ];
-
-                // Loop through labels and display values
-                foreach ($rightLabels as $label) {
-                    echo '<div class="d-flex justify-content-between border-bottom">';
-                    echo '<h6>' . $label . ':</h6>';
-                    $value = isset($results["total_net_amount"]["total_net_amount"]) ? $results["total_net_amount"]["total_net_amount"] : 0;
-                    echo '<h6>₱ ' . number_format($value, 2) . '</h6>';
-                    echo '</div>';
-                }
-                ?>
+                <div class="d-flex justify-content-between border-bottom">
+                    <h6>CASH TRANSACTION FOR THIS SHIFT:</h6>
+                    <h6><?php echo '₱ ' . number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></h6>
+                </div>
                 <!-- Rest of your content for the right column -->
             </div>
         </div>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
