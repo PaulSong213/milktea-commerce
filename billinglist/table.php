@@ -3,10 +3,9 @@
 <html lang="en">
 
 <head>
-    <title>Billing Statement</title>
+    <title></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <style>
@@ -48,16 +47,16 @@
 
 <body>
     <div class="table w-100 p-4">
-        <h2 class="mt-4 mb-5">Billing Statement Table</h2>
-        <?php include './add/add.php'; ?>
-        <?php include './view/view.php'; ?>
+        <h2 class="mt-4 mb-5">BILLING LIST</h2>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>Billing #</th>
+                    <th>Bill #</th>
                     <th>Patient</th>
-                    <th>Admission Date & Time</th>
-                    <th>Patient Type</th>
+                    <th>Type</th>
+                    <th>Date Time Admitted</th>
+                    <th>Create Date</th>
+                    <th>Modified Date</th>
                     <th class="action-column">Actions</th>
                 </tr>
             </thead>
@@ -65,6 +64,8 @@
             </tbody>
         </table>
     </div>
+    <?php include '../billing_slip/templates/billing.php'; ?>
+
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
@@ -80,14 +81,12 @@
         import {
             searchColumn,
             handleArchiveClick,
+            toFormattedDate
         } from "../costum-js/datatables.js";
 
         import {
             handleEditClick
         } from "./edit/editData.js";
-        import {
-            handleViewClick
-        } from './view/viewData.js'
 
         $(document).ready(function() {
 
@@ -101,7 +100,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '/Zarate/API/itemType/view.php',
+                    url: '/Zarate/API/billing/view.php',
                     dataType: 'JSON',
                     type: 'POST',
                     data: function(d) {
@@ -109,13 +108,22 @@
                     }
                 },
                 columns: [{
-                        data: 'itemTypeCode',
+                        data: 'billingID',
                     },
                     {
-                        data: 'departmentName',
+                        data: null,
+                        render: (data, type, row) => {
+                            return `${data.patientFirstName} ${data.patientMiddleName} ${data.patientLastName}`;
+                        }
                     },
                     {
-                        data: 'description'
+                        data: 'type',
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            return toFormattedDate(data.dateTimeAdmitted);
+                        }
                     },
                     {
                         data: null,
@@ -132,7 +140,7 @@
                     {
                         data: null,
                         render: (data, type, row) => {
-                            const id = data.InventoryID;
+                            const id = data.billingID;
                             return `
                             <div class="dropdown dropstart d-flex">
                                 <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
@@ -140,7 +148,7 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li class="mx-2">
-                                        <button class=" btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
+                                        <button class=" btn action-btn btn-primary w-100 mx-auto view-btn view-bill"  data-item='${JSON.stringify(data)}' >View</button>
                                     </li>
                                     <li class="mx-2">
                                         <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
@@ -187,42 +195,21 @@
                         className: 'btn border border-info'
                     },
                     {
-                        text: 'Add Item Type',
+                        text: 'Create Billing',
                         className: 'btn btn-primary bg-primary text-white',
                         action: function(e, dt, node, config) {
-                            $('#addItemModal').modal('show');
+                            window.location.href = '/Zarate/billing-new-admission/index.php';
                         }
                     }
                 ],
                 initComplete: function() {
                     searchColumn(this.api());
                 },
-                columnDefs: [{
-                    targets: -1,
-                    render: (d) => {
-                        const data = JSON.parse(d);
-                        const id = data.InventoryID;
-                        return `
-                        <div class="dropdown dropstart d-flex">
-                            <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
-                                <img class="mb-1" src="../img/icons/ellipsis-horizontal.svg">
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li class="mx-2">
-                                    <button class=" btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
-                                </li>
-                            </ul>
-                        </div>
-                        `
-                    },
-                    "searchable": false
-                }],
                 order: [
-                    [3, 'asc']
+                    ['0', 'desc']
                 ]
             });
             handleEditClick(table);
-            handleViewClick(table);
 
             table.on('draw', function() {
                 $('.action-wrapper').each(function(i, e) {
@@ -230,6 +217,10 @@
                 });
             });
             table.page(1).draw(true);
+            table.on('click', '.view-bill', function(e) {
+                let data = JSON.parse($(this).attr("data-item"));
+                showBill('166');
+            });
         });
     </script>
     <script>

@@ -1,21 +1,16 @@
 <!doctype html>
 <html lang="en">
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-</head>
-
 <body>
     <div class="modal fade" data-bs-backdrop="static" id="printModal" tabindex="-1" aria-labelledby="printModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="printModalLabel">Print Charge Slip</h5>
+                    <div class="d-flex align-center">
+                        <h5 class="modal-title" id="printModalLabel">Print Billing</h5>
+                        <button class="mx-2 btn btn-primary" id="print-charge-slip-header" type="button">Print</button>
+                    </div>
+
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body border p-4 m-4 shadow">
@@ -100,11 +95,8 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
     <script>
-        function showChargeSlip(salesID) {
+        function showBill(billingID) {
             Swal.fire({
                 title: 'Generating Print Report',
                 html: 'Please Wait!', // add html attribute if you want or remove
@@ -113,32 +105,35 @@
             swal.showLoading();
             // fetch data from api 
             $.ajax({
-                url: `/Zarate/API/sales/search.php?SalesID=${salesID}`,
+                url: `/Zarate/API/billing/search.php?billingID=${billingID}`,
                 type: 'GET',
                 success: function(data) {
                     swal.close();
-                    const chargeSlip = JSON.parse(data);
-                    const slipNumber = chargeSlip.SalesID;
+                    const bill = JSON.parse(data);
+                    console.log(bill);
+                    return;
 
-                    const attachedTo = `${chargeSlip.RequestedEmployeeFirstName} ${chargeSlip.RequestedEmployeeMiddleName} ${chargeSlip.RequestedEmployeeLastName}`;
+                    const slipNumber = bill.billingID;
 
-                    var patientName = `${chargeSlip.PatientFirstName} ${chargeSlip.PatientMiddleName} ${chargeSlip.PatientLastName}`;
+                    const attachedTo = `${bill.RequestedEmployeeFirstName} ${bill.RequestedEmployeeMiddleName} ${bill.RequestedEmployeeLastName}`;
+
+                    var patientName = `${bill.PatientFirstName} ${bill.PatientMiddleName} ${bill.PatientLastName}`;
 
                     // if patient is not registered, use unpaid patient name
-                    if (!chargeSlip.hospistalrecordNo) {
-                        patientName = chargeSlip.UnpaidPatientName;
+                    if (!bill.hospistalrecordNo) {
+                        patientName = bill.UnpaidPatientName;
                     }
 
                     var accountOf = patientName;
-                    if (chargeSlip.billingID) {
-                        accountOf = `${chargeSlip.AccountOfFirstName} ${chargeSlip.AccountOfMiddleName} ${chargeSlip.AccountOfLastName}`;
+                    if (bill.billingID) {
+                        accountOf = `${bill.AccountOfFirstName} ${bill.AccountOfMiddleName} ${bill.AccountOfLastName}`;
                     }
 
-                    const date = chargeSlip.createDate;
-                    const productInfoStr = chargeSlip.ProductInfo;
-                    const enteredBy = `${chargeSlip.EnteredEmployeeFirstName} ${chargeSlip.EnteredEmployeeMiddleName} ${chargeSlip.EnteredEmployeeLastName}`;
-                    const totalAmount = chargeSlip.NetAmt;
-                    const ChangeAmt = chargeSlip.ChangeAmt;
+                    const date = bill.createDate;
+                    const productInfoStr = bill.ProductInfo;
+                    const enteredBy = `${bill.EnteredEmployeeFirstName} ${bill.EnteredEmployeeMiddleName} ${bill.EnteredEmployeeLastName}`;
+                    const totalAmount = bill.NetAmt;
+                    const ChangeAmt = bill.ChangeAmt;
                     var remainingBalance = 0;
                     if (parseFloat(ChangeAmt) < 0) {
                         remainingBalance = parseFloat(ChangeAmt) * -1;
@@ -146,20 +141,20 @@
                         $("#paidIndicator").addClass("text-danger");
                     }
 
-                    console.log(chargeSlip);
+                    console.log(bill);
 
-                    if (!chargeSlip.billingID) {
+                    if (!bill.billingID) {
                         $("#billRef").remove();
                     } else {
-                        $("#billRef").text(`Bill Reference: ${chargeSlip.billingID}`);
+                        $("#billRef").text(`Bill Reference: ${bill.billingID}`);
                     }
 
-                    $("#patientType").text(`Patient Type: ${chargeSlip.PatientType}`);
-                    $("#AmtTendered").text(`Amount Tendered: ₱${chargeSlip.AmtTendered}`);
-                    $("#ChangeAmt").text(`Change: ₱${ chargeSlip.ChangeAmt >= 0  ? chargeSlip.ChangeAmt : 0}`);
-                    $("#NetAmt").text(`Net Amount: ₱${chargeSlip.NetAmt}`);
-                    $("#NetSale").text(`Net Sale: ₱${chargeSlip.NetSale}`);
-                    $("#AddDisc").text(`Additional Discount(%): ${chargeSlip.AddDisc}`);
+                    $("#patientType").text(`Patient Type: ${bill.PatientType}`);
+                    $("#AmtTendered").text(`Amount Tendered: ₱${bill.AmtTendered}`);
+                    $("#ChangeAmt").text(`Change: ₱${ bill.ChangeAmt >= 0  ? bill.ChangeAmt : 0}`);
+                    $("#NetAmt").text(`Net Amount: ₱${bill.NetAmt}`);
+                    $("#NetSale").text(`Net Sale: ₱${bill.NetSale}`);
+                    $("#AddDisc").text(`Additional Discount(%): ${bill.AddDisc}`);
 
 
                     // fill up the charge slip information
@@ -173,6 +168,7 @@
                     //render product rows to productInfoContainer
                     var productInfo = JSON.parse(productInfoStr);
                     var productInfoContainer = $("#productInfoContainer");
+                    productInfoContainer.html("");
                     var itemTypeContainers = {};
                     for (let i = 0; i < productInfo.length; i++) {
                         const info = productInfo[i];
@@ -226,12 +222,12 @@
 
                     var exampleModalPopup = new bootstrap.Modal($('#printModal'), {});
                     exampleModalPopup.show();
-                    $("#print-charge-slip").click(function() {
-                        printChargeSlip();
-                    });
+                    $("#print-charge-slip, #print-charge-slip-header")
+                        .click(function() {
+                            printChargeSlip();
+                        });
                 },
                 error: function(error) {
-                    console.log(error);
                     console.log(error);
                     swal.close();
                     Swal.fire({
@@ -247,12 +243,10 @@
         <?php
         if (isset($_SESSION['printSalesInsertedId'])) {
             $printSalesInsertedId = $_SESSION['printSalesInsertedId'];
-            echo "showChargeSlip(`" . $printSalesInsertedId . "`)";
+            echo "showBill(`" . $printSalesInsertedId . "`)";
             unset($_SESSION['printSalesInsertedId']);
         }
         ?>
-
-
 
         function printChargeSlip() {
             var divToPrint = document.getElementById('charge-slip').outerHTML;
