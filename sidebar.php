@@ -54,6 +54,12 @@ $sidebarContent = [
         ]
     ],
     [
+        "name" => "Enter Payment", //name of the link
+        "icon" => "paid", //material icon name
+        "link" => "/enterPayment/index.php?type=cash", //link of the page
+        "navigations" => []
+    ],
+    [
         "name" => "Employee", //name of the link
         "icon" => "badge", //material icon name
         "link" => "/Employee/index.php", //link of the page
@@ -73,8 +79,6 @@ $sidebarContent = [
 
         ] //list of links on dropdown
     ],
-
-
     [
         "name" => "Patient", //name of the link
         "icon" => "hotel", //material icon name
@@ -90,7 +94,6 @@ $sidebarContent = [
             ],
         ] //list of links on dropdown
     ],
-
     [
         "name" => "Inventory", //name of the link
         "icon" => "vaccines", //material icon name

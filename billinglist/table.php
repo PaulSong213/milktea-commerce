@@ -221,6 +221,7 @@
                 let bill = JSON.parse($(this).attr("data-item"));
                 showBill(bill.billingID);
             });
+            showBill('32');
         });
     </script>
     <script>

@@ -35,8 +35,8 @@
                         <div class="py-3 row">
                             <div class="d-flex col">
                                 <div style="margin-right: 12px;">
-                                    <h6 class="mb-1">PATIENT NAME:</h6>
-                                    <h6 class="mb-1">ACCOUNT OF:</h6>
+                                    <h6 class="mb-1">Patient:</h6>
+                                    <h6 class="mb-1">Account of:</h6>
                                 </div>
                                 <div>
                                     <h6 class="fw-bold mb-1"><span id="patientName"></span></h6>
@@ -55,27 +55,9 @@
                             </div>
                         </div>
 
-                        <!-- ITEM LIST -->
-                        <div id="chargeInfoContainer">
-                            <!-- <div id="itemTypeID">
-                                <div class="border border-3 d-flex  justify-content-between p-2 border-secondary w-100 align-items-center mb-2">
-                                    <h6 class="fw-bold my-auto">LABORATORY</h6>
-                                    <div class="col-3 d-flex align-items-center justify-content-between">
-                                        <h6 class="my-auto">TOTAL:</h6>
-                                        <h6 class="my-auto">₱9999</h6>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-end px-3">
-                                    <div class="row w-100">
-                                        <h6 class="col-6">test</h6>
-                                        <h6 class="col-2">999</h6>
-                                        <h6 class="col-1">1</h6>
-                                        <h6 class="col-1">Box</h6>
-                                        <h6 class="col-2 text-end">999</h6>
-                                    </div>
-                                </div>
-                            </div> -->
-                        </div>
+                        <!-- chargeInfoContainer -->
+                        <div id="chargeInfoContainer" ></div>
+                        
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -111,7 +93,7 @@
                     $("#attendingPhysician").text(`${bill.attendingPhysicianFirstName} ${bill.attendingPhysicianMiddleName} ${bill.attendingPhysicianLastName}`);
 
                     // clear charge slip
-                    $("#chargeInfoContainer").html("");
+                    $("#chargeInfoContainer").html("<h6 class='fw-bold mt-3 mb-2 text-uppercase'>Charge Slips Summary</h6>");
 
                     // CHARGE SLIP
                     for (let i = 0; i < bill.charges.length; i++) {
@@ -154,7 +136,7 @@
             var chargeInfoContainer = $("#chargeInfoContainer");
 
             const chargeInfoElement = $(`
-                <div class="mb-3 row border border-dark border-3 p-2">
+                <div class="mb-1  border border-dark border-3 p-2">
                     <div class="p-2 row">
                         <div class="d-flex col">
                             <div style="margin-right: 12px;">
@@ -163,16 +145,16 @@
                                 <h6 class="mb-1">Entered by:</h6>
                             </div>
                             <div>
-                                <h6 class="fw-bold mb-1"><span id="chargeSlip_${slipNumber}">${slipNumber}</span></h6>
-                                <h6 class="fw-bold mb-1"><span id="date_${slipNumber}">${chargeSlip.createDate}</span></h6>
-                                <h6 class="fw-bold mb-1"><span id="enteredBy_${slipNumber}">${chargeSlip.EnteredEmployeeFirstName} ${chargeSlip.EnteredEmployeeMiddleName} ${chargeSlip.EnteredEmployeeLastName}</span></h6>
+                                <h6 class="mb-1"><span id="chargeSlip_${slipNumber}">${slipNumber}</span></h6>
+                                <h6 class="mb-1"><span id="date_${slipNumber}">${chargeSlip.createDate}</span></h6>
+                                <h6 class="mb-1"><span id="enteredBy_${slipNumber}">${chargeSlip.EnteredEmployeeFirstName} ${chargeSlip.EnteredEmployeeMiddleName} ${chargeSlip.EnteredEmployeeLastName}</span></h6>
                             </div>
                         </div>
                         <div class="d-flex col">
                             <div style="margin-right: 12px;">
-                                <h6 class="mb-1">TOTAL:</h6>
-                                <h6 class="mb-1">AMOUNT TENDERED:</h6>
-                                <h6 class="mb-1">REMAINING BALANCE:</h6>
+                                <h6 class="mb-1">Total:</h6>
+                                <h6 class="mb-1">Amount Tendered:</h6>
+                                <h6 class="mb-1 fw-bold">Remaining Balance:</h6>
                                 <small class="mb-1">Change:</small>
                             </div>
                             <div>
