@@ -118,7 +118,10 @@ if (isset($_SESSION['user'])) {
 							$_SESSION["user"] = json_encode($val);
 							header("Location: ./billing_slip/index.php");
 							exit();
-						} else {
+						} else if (password_verify($password, $val["password"]) && $val["Status"] == 0) {
+							echo "<p style='color:red'>Account currently disable</p>";
+							header("Location: ./index.php");
+						}else {
 							$_SESSION["user"] = json_encode($val);
 							header("Location: ./isSetPassword.php");
 							exit();
