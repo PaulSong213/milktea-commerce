@@ -16,12 +16,13 @@ if (isset($_SESSION['user'])) {
 ?>
 
 <head>
-    <title>Login Page</title>
+    <title>Set New Password</title>
     <link rel="icon" href="./img/logo.png" type="image/png">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <style type="text/css">
         body {
             margin: 0;
+            background-color: #291231;
             padding: 0;
             display: flex;
             justify-content: center;
@@ -34,6 +35,7 @@ if (isset($_SESSION['user'])) {
 
         .login-container {
             position: relative;
+
             width: 380px;
             padding: 40px;
             border-radius: 15px;
@@ -99,27 +101,27 @@ if (isset($_SESSION['user'])) {
     <div class="login-container">
 
         <form class="" action="" method="post">
-            <h3>SET NEW PASSWORD</h3>
+            <h3>Welcome, Set Your New Password</h3>
             <label for="exampleInputEmail1">New Password</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="Set New password..." required>
             <label for="exampleInputPassword1">Confirm Password</label>
             <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm New Password..." required>
-            <input type="hidden" name="DatabaseID" class="form-control" id="DatabaseID" value="<?php echo isset($_SESSION['user']) ? json_decode($_SESSION['user'], true)['DatabaseID'] : 'You are Logout'; ?>">
+            <input type="text" name="DatabaseID" class="form-control" id="DatabaseID" value="<?php echo isset($_SESSION['user']) ? json_decode($_SESSION['user'], true)['DatabaseID'] : 'You are Logout'; ?>">
             <button type="submit" class="btn btn-primary" name="login-submit">Set New Password</button>
         </form>
-         
+
         <?php
-require_once './php/connect.php';
-$conn = connect();
+        require_once './php/connect.php';
+        $conn = connect();
 
-if (isset($_POST['login-submit'])) {
-    $password = $_POST['password'];
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-    $DatabaseID = $_POST['DatabaseID'];
-    $isPasswordSet = 1;
+        if (isset($_POST['login-submit'])) {
+            $password = $_POST['password'];
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $DatabaseID = $_POST['DatabaseID'];
+            $isPasswordSet = 1;
 
 
-    $sql = "UPDATE employee_tb
+            $sql = "UPDATE employee_tb
     SET
         password = '$hashedPassword',
         isPassSet = '$isPasswordSet'
@@ -129,24 +131,24 @@ if (isset($_POST['login-submit'])) {
         DatabaseID = '$DatabaseID';
     ";
 
-    $result = mysqli_query($conn, $sql);
-    if ($result) {
-        // success
-        $_SESSION["alert_message"] = "Successfully Change Password";
-        $_SESSION["alert_message_success"] = true;
-    } else {
-        $_SESSION["alert_message"] = "Failed to Edit an Room. Error Details: " . mysqli_error($conn);
-        $_SESSION["alert_message_error"] = true;
-    }
+            $result = mysqli_query($conn, $sql);
+            if ($result) {
+                // success
+                $_SESSION["alert_message"] = "Successfully Change Password";
+                $_SESSION["alert_message_success"] = true;
+            } else {
+                $_SESSION["alert_message"] = "Failed to Edit an Room. Error Details: " . mysqli_error($conn);
+                $_SESSION["alert_message_error"] = true;
+            }
 
-    header("Location: ./index.php");
-    die();
-}
+            header("Location: ./index.php");
+            die();
+        }
 
-// Close the database connection
-$conn->close();
+        // Close the database connection
+        $conn->close();
 
-?>
+        ?>
 
     </div>
 

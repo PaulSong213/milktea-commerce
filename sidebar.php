@@ -1,20 +1,16 @@
 <?php
- if (isset($_SESSION['user'])) {
-   $userData = json_decode($_SESSION['user'], true);
-   $userName = $userData['DatabaseID'];
+if (isset($_SESSION['user'])) {
+    $userData = json_decode($_SESSION['user'], true);
+    $userName = $userData['DatabaseID'];
 } else {
-        // Redirect back to the login page or handle the user not being logged in
-   header("Location: /Zarate/index.php");
-   exit();
- }
-
-if (isset($_GET['logout']) && $_GET['logout'] === "true") {
-    // Destroy the session
+    // Redirect back to the login page or handle the user not being logged in
+    header("Location: /Zarate/index.php");
+    exit();
+}
+if (isset($_GET['logout'])) {
     session_destroy();
-
-    // Redirect to the login page or any other desired page after logout
-    header("Location: ./index.php"); // Change 'login.php' to the appropriate URL
-    exit;
+    unset($_SESSION['user']);
+    header('location: ./index.php');
 }
 
 // Rest of your code...
@@ -133,7 +129,7 @@ $sidebarContent = [
             ],
             [
                 "name" => "Log Out", //name of the link
-                "link" => "./?logout=true", //link of the page
+                "link" => "./logout.php", //link of the page
             ],
 
         ] //list of links on dropdown
@@ -341,8 +337,6 @@ $sidebarContent = [
             ?>
 
         </ul>
-
-
         <div>
             <button class="btn btn-primary rounded-circle position-fixed p-3 bottom-0 start-0 m-4 d-flex justify-content-center align-items-center" id="toggleSidebar">
                 <span class="material-icons" id="sidebar-icon">table_rows</span>

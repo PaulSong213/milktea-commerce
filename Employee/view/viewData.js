@@ -45,7 +45,7 @@ export function handleViewClick(table) {
             label: "Sex"
         },
         {
-            dataKey: "department",
+            dataKey: "departmentID",
             label: "Department"
         },
         {
