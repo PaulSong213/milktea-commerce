@@ -1,17 +1,82 @@
 <!DOCTYPE html>
-
 <html lang="en">
+<?php
+session_start();
+require_once '../php/connect.php';
+$conn = connect();
+//RAW DATES
+$dateTimeIn = $_POST['dateTimeIn'];
+$dateTimeOut = $_POST['dateTimeOut'];
+//FORMATTTED DATE FOR SQL
+$dateTimeInFormatted = date("Y-m-d H:i:s", strtotime($dateTimeIn));
+$dateTimeOutFormatted = date("Y-m-d H:i:s", strtotime($dateTimeOut));
+
+$loggedInUser = isset($_SESSION['user']) ? json_decode($_SESSION['user']) : null;
+
+if ($loggedInUser && isset($loggedInUser->title, $loggedInUser->lname, $loggedInUser->fname, $loggedInUser->mname, $loggedInUser->DatabaseID)) {
+    $title = $loggedInUser->title;
+    $lname = $loggedInUser->lname;
+    $fname = $loggedInUser->fname;
+    $mname = $loggedInUser->mname;
+    $DatabaseID = $loggedInUser->DatabaseID;
+
+    $currentLoggedInEncoder = "$title $lname, $fname $mname | ID: $DatabaseID";
+    $currentLoggedInEncoderID = $DatabaseID;
+} else {
+    // Handle the case when $loggedInUser is null or missing properties
+    $currentLoggedInEncoder = "Guest"; // Provide a default value or handle as needed
+    $currentLoggedInEncoderID = null; // Provide a default value or handle as needed
+}
+function executeQuery($conn, $query)
+{
+    $result = $conn->query($query);
+    return $result->num_rows > 0 ? $result->fetch_assoc() : 0;
+}
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+// -----------------------------------------------------------
+// Get total net amount
+$queryTotalNet = "SELECT SUM(NetAmt) AS total_net_amount FROM sales_tb WHERE createDate >= '$dateTimeInFormatted' AND createDate <= '$dateTimeOutFormatted'";
+$totalNetAmount = executeQuery($conn, $queryTotalNet);
+// Calculate total cash amount
+$queryTotalCash = "SELECT SUM(NetAmt) - SUM(CASE WHEN ChangeAmt < 0 THEN ChangeAmt ELSE 0 END) AS total_Cash FROM sales_tb";
+$totalCashAmount = executeQuery($conn, $queryTotalCash);
+
+?>
 
 <head>
-    <div class="d-flex justify-content-center align-items-center">
-        <img style="height: 60px;" src="../img/logo.png" alt="ZARATE LOGO">
-        <div class="mx-3 d-flex flex-column justify-content-end text-center">
-            <h5 class="fw-bold mb-1">E. Zarate Hospital</h5>
-            <p class="text-muted">16 J. Aguilar Avenue, Talon, Las Piñas City, <br />Metro Manila, Philippines 1747</p>
+    <div class="d-flex justify-content-between  py-2 mb-3  w-100">
+        <!-- Left Column -->
+        <div class="d-flex align-items-center">
+            <img style="height: 60px;" src="../img/logo.png" alt="ZARATE LOGO">
+            <div class="mx-3 d-flex flex-column justify-content-end">
+                <h5 class="fw-bold mb-1">E. Zarate Hospital</h5>
+                <h6 class="text-muted">16 J. Aguilar Avenue, Talon, Las Piñas City,<br />Metro Manila, Philippines 1747</h6>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="d-flex flex-column align-items-end">
+            <div style="margin-right: 15px;">
+                <h6 class="fw-bold mb-1">CLOSING REPORT AS OF: <?php echo date("D, M d Y"); ?></h6>
+
+                <?php
+                // Convert $dateTimeIn to day name and AM/PM time format
+                $dateTimeIn =  date("l, h:i A", strtotime($dateTimeIn));
+                // Convert $dateTimeOut to day name and AM/PM time format
+                $dateTimeOut = date("l, h:i A", strtotime($dateTimeOut));
+                ?>
+                <h6 class='text-muted'>Shift Starts: <?php echo $dateTimeIn; ?></h6>
+                <h6 class='text-muted'>Shift Ends: <?php echo $dateTimeOut; ?></h6>
+                <h6 class='text-muted'>Shift Of: <?php echo $currentLoggedInEncoder ?></h6>
+            </div>
+            <!-- You can add more content to the right column here -->
         </div>
     </div>
-    <title>
-    </title>
+
+    <title>Closing Report</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
@@ -54,104 +119,69 @@
 </head>
 
 <body class="container-fluid" style="max-width: 100%;">
-    <div class="py-3">
-        <div class="d-flex justify-content-between">
-            <div style="margin-right: 15px;">
-                <h3 class="fw-bold mb-1">CLOSING REPORT AS OF:</h3>
-                <?php
-                if (isset($_POST['dateTimeIn']) && isset($_POST['dateTimeOut'])) {
-                    $dateTimeIn = $_POST['dateTimeIn'];
-                    $dateTimeOut = $_POST['dateTimeOut'];
-                    echo "<p class='mb-0'>$dateTimeIn - $dateTimeOut</p>";
-                }
-                ?>
+    <div class="table-fluid">
+        <div class="border-bottom border-2 border-secondary">
+            <div class="row">
+                <!-- Left Column -->
+                <div class="col">
+                    <span>CASH TRANSACTION:</span>
+                </div>
+                <!-- Right Column -->
+                <div class="col text-end fw-bold">
+                    <h6>NET TOTAL: ₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?> </h6>
+                </div>
             </div>
         </div>
-    </div>
-
-    <div class="table-fluid p-4">
-        <table id="example" class="table table-striped" style="width:100%">
+        <table id="example" class="table" style="width:100%">
             <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>Sales ID</th>
-                    <th>Product ID</th>
-                    <th>Quantity</th>
-                    <th>Subtotal</th>
+                    <th>Charge Slip Number</th>
+                    <th>Time</th>
+                    <th>Payment Type</th>
+                    <th>Patient Type</th>
+                    <th>Account Name</th>
+                    <th>Net Amount</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                require_once '../php/connect.php';
-                if (isset($_POST['dateTimeIn']) && isset($_POST['dateTimeOut'])) {
-                    $dateTimeIn = $_POST['dateTimeIn'];
-                    $dateTimeOut = $_POST['dateTimeOut'];
+                $query = "SELECT *, DATE_FORMAT(sales_tb.createDate, '%h:%i %p') AS createTime,
+                patient_tb.lname AS patientLastName ,
+                patient_tb.fname AS patientFirstName ,
+                patient_tb.mname AS patienMiddleName 
+                FROM sales_tb
+                LEFT JOIN patient_tb ON sales_tb.PatientAcct = patient_tb.hospistalrecordNo  
+                WHERE sales_tb.createDate BETWEEN '$dateTimeInFormatted' AND '$dateTimeOutFormatted'";
+                $result = mysqli_query($conn, $query);
 
-                    $connection = connect();
-                    $sql = "SELECT * FROM sales_tb WHERE createDate >= '$dateTimeIn' AND createDate <= '$dateTimeOut'";
-                    $result = $connection->query($sql);
-                    $totalNetSale = 0;
-                    while ($row = $result->fetch_assoc()) {
-                        // Access the value of ProductInfo
-                        $productInfoJson = $row["ProductInfo"];
-                        // Convert the JSON string to a PHP array
-                        $productInfoArray = json_decode($productInfoJson, true);
-                        // Access specific values within the ProductInfo array
-                        $subtotal = $productInfoArray[0]["subtotal"];
-                        $productId = $productInfoArray[0]["product_id"];
-                        $qty = $productInfoArray[0]["qty"];
-
-                        echo "
-                            <tr>
-                                <td>" . $row["createDate"] . "</td>
-                                <td>" . $row["SalesID"] . "</td>
-                                <td>" . $productId . "</td>
-                                <td>" . $qty . "</td>
-                                <td>" . $subtotal . "</td>
-                                
-                            </tr>";
-
-                        $totalNetSale += $subtotal;
+                if ($result && mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo "<tr>";
+                        echo "<td>" . $row['SalesID'] . "</td>";
+                        echo "<td>" . $row['createTime'] . "</td>";
+                        echo "<td>" . (($row['billingID'] == 0 || $row['billingID'] === null) ? "Cash" : $row['UnpaidPatientName']) . "</td>";
+                        echo "<td>" . $row['PatientType'] . "</td>";
+                        echo "<td>" . (($row['billingID'] != 0 && $row['billingID'] !== null)? $row['patientLastName'] . ' . ' . $row['patienMiddleName'] . ' ' . $row['patientFirstName']: $row['UnpaidPatientName']) . "</td>";"</td>";
+                        echo "<td>₱ " . number_format($row['NetAmt'], 2) . "</td>";
+                        // Add more columns here if needed
+                        echo "</tr>";
                     }
-
-                    echo "
-                    <tr>
-                            <th colspan='0'>Total:</th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th colspan='5'>$totalNetSale</th>
-                    </tr>";
+                    mysqli_free_result($result); // Free the result set
                 } else {
-                    echo "<tr><td colspan='6'>No data to display.</td></tr>";
+                    echo "No records found."; // Handle no records case
+                    echo $dateTimeIn . '.' . $dateTimeOut;
                 }
+
+                // Close the database connection
+                mysqli_close($conn);
                 ?>
+
+
             </tbody>
         </table>
+
     </div>
-    <?php
-    require_once '../php/connect.php';
-    // Function to execute a query and return the result or 0 if no result
-    function executeQuery($conn, $query)
-    {
-        $result = $conn->query($query);
-        return $result->num_rows > 0 ? $result->fetch_assoc() : 0;
-    }
-    $conn = connect();
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-    // Get total net amount
-    $queryTotalNet = "SELECT SUM(NetAmt) AS total_net_amount FROM sales_tb";
-    $totalNetAmount = executeQuery($conn, $queryTotalNet);
-    // Calculate total cash amount
-    $queryTotalCash = "SELECT SUM(NetAmt) - SUM(CASE WHEN ChangeAmt < 0 THEN ChangeAmt ELSE 0 END) AS total_Cash FROM sales_tb";
-    $totalCashAmount = executeQuery($conn, $queryTotalCash);
-    $queryTotalNet = "SELECT SUM(NetAmt) AS total_net_amount FROM sales_tb";
-    $totalNetAmount = executeQuery($conn, $queryTotalNet);
-    ?>
-    <div class="container-fluid border border-dark">
+    <div class="container-fluid border border-dark py-1">
         <div class="row">
             <div class="col-5 d-flex flex-column">
                 <!-- Total Sale -->
