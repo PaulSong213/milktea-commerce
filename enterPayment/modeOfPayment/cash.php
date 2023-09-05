@@ -2,8 +2,8 @@
 <div class="p-3 rounded mb-3 cash-form" style="background-color: #002240;">
     <!-- Amount Tendered -->
     <div class="mb-3">
-        <label class="form-label" for="ammountTendered">Amount Tendered</label>
-        <input type="number" id="ammountTendered" name="ammountTendered" class="form-control fw-bold fs-5  rounded px-2" placeholder="Enter Amount Tendered" required min="1">
+        <label class="form-label" for="amountTendered">Amount Tendered</label>
+        <input type="number" id="amountTendered" name="amountTendered" class="form-control fw-bold fs-5  rounded px-2" placeholder="Enter Amount Tendered" required min="1">
     </div>
 
     <!-- Change Amount -->
@@ -15,20 +15,20 @@
 
 <script>
     $(document).ready(function() {
-        $("#ammountTendered").on('change input', function() {
+        $("#amountTendered").on('change input', function() {
             console.log('triggered');
             const remainingBalanceInput = $("#remainingBalance");
-            var ammountTendered = parseFloat($(this).val());
-            if (!ammountTendered) ammountTendered = 0;
+            var amountTendered = parseFloat($(this).val());
+            if (!amountTendered) amountTendered = 0;
             if (!remainingBalanceInput.is(':visible')) return;
             var remainingBalance = parseFloat(remainingBalanceInput.val());
-            var change = ammountTendered - remainingBalance;
+            var change = amountTendered - remainingBalance;
             $("#changeAmt").val(change);
             console.log(change);
         });
 
         $("#chargeID").change(function() {
-            $("#ammountTendered").trigger('change');
+            $("#amountTendered").trigger('change');
         });
     });
 </script>
