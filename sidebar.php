@@ -167,7 +167,7 @@ $sidebarContent = [
 
         #sidebar {
             position: fixed;
-            width: 260px;
+            width: 200px;
             height: 100vh;
             transition: ease-in 0.1s;
             background-color: #fff;
@@ -188,12 +188,10 @@ $sidebarContent = [
         }
 
         #content {
-            width: calc(100% - 260px);
-            margin-left: 260px;
+            width: calc(100% - 200px);
+            margin-left: 200px;
             transition: all 0.3s;
         }
-
-
 
         #content.active {
             margin-left: 40px;

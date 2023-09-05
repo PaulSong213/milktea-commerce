@@ -89,7 +89,7 @@ LEFT JOIN
     employee_tb ee ON s.EnteredName = ee.DatabaseID
 
 WHERE billingID = '$billingID'
-ORDER BY SalesID
+ORDER BY s.SalesID DESC
 ;";
 
 $resultCharge = $conn->query($queryCharge);
