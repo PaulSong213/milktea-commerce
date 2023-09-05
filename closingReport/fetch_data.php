@@ -90,17 +90,12 @@
                     $connection = connect();
                     $sql = "SELECT * FROM sales_tb WHERE createDate >= '$dateTimeIn' AND createDate <= '$dateTimeOut'";
                     $result = $connection->query($sql);
-
                     $totalNetSale = 0;
-
-
                     while ($row = $result->fetch_assoc()) {
                         // Access the value of ProductInfo
                         $productInfoJson = $row["ProductInfo"];
-
                         // Convert the JSON string to a PHP array
                         $productInfoArray = json_decode($productInfoJson, true);
-
                         // Access specific values within the ProductInfo array
                         $subtotal = $productInfoArray[0]["subtotal"];
                         $productId = $productInfoArray[0]["product_id"];
@@ -142,22 +137,17 @@
         $result = $conn->query($query);
         return $result->num_rows > 0 ? $result->fetch_assoc() : 0;
     }
-
     $conn = connect();
-
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-
     // Get total net amount
     $queryTotalNet = "SELECT SUM(NetAmt) AS total_net_amount FROM sales_tb";
     $totalNetAmount = executeQuery($conn, $queryTotalNet);
-
     // Calculate total cash amount
     $queryTotalCash = "SELECT SUM(NetAmt) - SUM(CASE WHEN ChangeAmt < 0 THEN ChangeAmt ELSE 0 END) AS total_Cash FROM sales_tb";
     $totalCashAmount = executeQuery($conn, $queryTotalCash);
-
     $queryTotalNet = "SELECT SUM(NetAmt) AS total_net_amount FROM sales_tb";
     $totalNetAmount = executeQuery($conn, $queryTotalNet);
     ?>
