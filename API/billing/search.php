@@ -93,12 +93,18 @@ ORDER BY SalesID
 ;";
 
 $resultCharge = $conn->query($queryCharge);
-
+$billingData['grandTotal'] = 0;
+$billingData['AmtTendered'] = 0;
+$billingData['totalRemainingBalance'] = 0;
+$billingData['summaryByType'] = [];
 while ($row = $resultCharge->fetch_assoc()) {
     $row['remainingBalance'] = $row['NetAmt'] - $row['AmtTendered'];
+    $billingData['AmtTendered'] += $row['AmtTendered'];
     if ($row['remainingBalance'] < 0) $row['remainingBalance'] = 0;
     if ($row['ChangeAmt'] < 0) $row['ChangeAmt'] = 0;
     $billingData['charges'][] = $row;
+    $billingData['grandTotal'] += $row['NetAmt'];
+    $billingData['totalRemainingBalance'] += $row['remainingBalance'];
 }
 
 echo json_encode($billingData);

@@ -13,7 +13,7 @@ if ($conn->connect_error) {
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     $_SESSION["alert_message"] = "POST request is required";
     $_SESSION["alert_message_error"] = true;
-    header("Location: .s/index.php");
+    header('Location: ' . $_SERVER['HTTP_REFERER']);
     die();
 }
 
@@ -33,7 +33,7 @@ if (!empty($datePaid) && !empty($timePaid)) {
 }
 
 // CASH
-$cashAmmountTendered = $_POST['cashAmmountTendered'];
+$cashAmountTendered = $_POST['amountTendered'];
 $changeAmt = $_POST['changeAmt'];
 
 // CHEQUE
@@ -42,18 +42,20 @@ $checkNo = $_POST['checkNo'];
 $checkDate = $_POST['checkDate'];
 $checkAmount = $_POST['checkAmount'];
 
-$insertPaymentQuery = "INSERT INTO `payment_tb` (`billID`, `chargeID`, `receivedID`, `dateTimePaid`, `modifiedDate`, `paymentType`, `type`, `cashAmmountTendered`, `changeAmt`, `bankName`, `checkNo`, `checkDate`, `checkAmount`) 
-VALUES ('$billID', '$chargeID', '$receivedByID', '$formattedDatetimePaid', current_timestamp(), '$modeOfPayment', '$type', '$cashAmmountTendered', '$changeAmt', '$bankName', '$checkNo', '$checkDate', '$checkAmount');";
+$insertPaymentQuery = "INSERT INTO `payment_tb` (`billID`, `chargeID`, `receivedID`, `dateTimePaid`, `modifiedDate`, `paymentType`, `type`, `cashAmountTendered`, `changeAmt`, `bankName`, `checkNo`, `checkDate`, `checkAmount`) 
+VALUES ('$billID', '$chargeID', '$receivedByID', '$formattedDatetimePaid', current_timestamp(), '$modeOfPayment', '$type', '$cashAmountTendered', '$changeAmt', '$bankName', '$checkNo', '$checkDate', '$checkAmount');";
 
 $result = mysqli_query($conn, $insertPaymentQuery);
 if ($result) {
 
+    // TODO: Handle check payment
+    $amountTendered = $cashAmountTendered;
+    if ($modeOfPayment == 'check') $amountTendered = $checkAmount;
+
     if ($type == 'charge') {
-        // TODO: Handle check payment
-        $chargeChange =
-            $updateChargeQuery = "UPDATE `sales_tb` 
-        SET `AmtTendered` = (AmtTendered + '$cashAmmountTendered'), 
-        `ChangeAmt` = (ChangeAmt - ('$cashAmmountTendered')), 
+        $updateChargeQuery = "UPDATE `sales_tb` 
+        SET `AmtTendered` = (AmtTendered + $amountTendered), 
+        `ChangeAmt` = (ChangeAmt + '$amountTendered'), 
         `modifiedDate` = current_timestamp()
         WHERE `sales_tb`.`SalesID` = '$chargeID';";
         $result = mysqli_query($conn, $updateChargeQuery);
@@ -64,31 +66,41 @@ if ($result) {
             die();
         }
     } else {
+        $toPayBalance = $amountTendered;
         //bill
-        $getChargeFromBillQuery = "SELECT * FROM `sales_tb` WHERE `billID` = '$billID' AND (`ChangeAmt` < 0);";
-
-        $toPayBalance = $cashAmmountTendered;
-        if ($modeOfPayment == 'check') $toPayBalance = $checkAmount;
-        $result = mysqli_query($conn, $getChargeFromBillQuery);
+        $getChargeFromBillQuery = "SELECT * FROM `sales_tb` WHERE `billingID` = '$billID' AND (`ChangeAmt` < 0);";
+        $resultChargeFromBill = mysqli_query($conn, $getChargeFromBillQuery);
+        if (!$resultChargeFromBill) {
+            $_SESSION["alert_message"] = "Failed to Enter Payment. Error Details: " . mysqli_error($conn);
+            $_SESSION["alert_message_error"] = true;
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            die();
+        }
         $lastInsertedChargeID = null;
-        while ($row = $fetch_assoc($result)) {
-            $lastInsertedChargeID = $row['chargeID'];
-            $remainingBalance = $row['ChangeAmt'];
-            $changeAmt = 0;
+        // fetch all charge slips
+        while ($row = $resultChargeFromBill->fetch_assoc()) {
+            $lastInsertedChargeID = $row['SalesID'];
+            $remainingBalance = $row['ChangeAmt'] * -1; // Make it positive
+            $AmtTendered = $toPayBalance;
 
-            $remainingBalance = $toPayBalance - $remainingBalance;
-            $toPayBalance -= $remainingBalance;
-
-            if ($remainingBalance > 0) $remainingBalance = 0; // payment is greater than charge
+            if ($remainingBalance >= $toPayBalance) {
+                $remainingBalance = $remainingBalance - $toPayBalance;
+                $remainingBalance *= -1;
+                $toPayBalance = 0;
+            } else {
+                $AmtTendered = $remainingBalance;
+                $toPayBalance = $toPayBalance - $remainingBalance;
+                $remainingBalance = 0;
+            }
 
             $updateChargeQuery = "UPDATE `sales_tb` 
-            SET `AmtTendered` = '$remainingBalance', 
-            `ChangeAmt` = 0, 
+            SET `AmtTendered` = '$AmtTendered', 
+            `ChangeAmt` = '$remainingBalance', 
             `modifiedDate` = current_timestamp()
             WHERE `sales_tb`.`SalesID` = '$lastInsertedChargeID';";
 
-            $result = mysqli_query($conn, $updateChargeQuery);
-            if (!$result) {
+            $resultChargeQuery = mysqli_query($conn, $updateChargeQuery);
+            if (!$resultChargeQuery) {
                 $_SESSION["alert_message"] = "Failed to Enter Payment. Error Details: " . mysqli_error($conn);
                 $_SESSION["alert_message_error"] = true;
                 header('Location: ' . $_SERVER['HTTP_REFERER']);

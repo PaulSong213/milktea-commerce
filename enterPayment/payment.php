@@ -66,7 +66,7 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
                     <!-- Bill Slip -->
                     <div class="mb-3 bill-slip-container d-none">
                         <label class="form-label" for="billID">Bill #</label>
-                        <input type="text" class="form-select" name="billID" id="billID" list="billingList" correctData="chargeData" placeholder="Enter Bill Slip" required>
+                        <input type="text" class="form-select" name="billID" id="billID" list="billingList" correctData="billingsData" placeholder="Enter Bill Slip" required>
                         <?php require_once('../API/datalist/billing-list.php') ?>
                         <small class="feedback d-none bg-danger p-1 rounded my-1">
                             Please select a valid Bill No.
@@ -127,7 +127,7 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
                     require_once('./modeOfPayment/cash.php');
                     ?>
 
-                    <div id="chargeInfoParent" class="p-3 rounded d-none" style="background-color: #002240;">
+                    <div id="chargeInfoParent" class="p-3 rounded d-none mb-3" style="background-color: #002240;">
 
                         <!-- Charge to -->
                         <div class="mb-3">
@@ -155,11 +155,14 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
 
                     </div>
 
+                    <div id="billInfoParent" class="bg-white text-dark p-4 rounded shadow d-none" style="zoom: 0.7;"></div>
+
                 </div>
             </div>
         </div>
 
     </form>
+    <?php require_once('../billing_slip/templates/billing.php') ?>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -170,6 +173,7 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
     validateDataList({
         employeesData: JSON.parse('<?= $employeesData ?>'),
         chargeData: JSON.parse('<?= $chargeData ?>'),
+        billingsData: JSON.parse('<?= $billingsData ?>')
     });
 </script>
 <script>
@@ -200,8 +204,8 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
 
         $("#chargeID").change(function() {
             const chargeID = $(this).attr('sql-value');
-            if (!chargeID) {
-                $("#chargeInfoParent").addClass("d-none");
+            if (!chargeID || !$(this).is(':visible')) {
+                $("#billInfoParent, #chargeInfoParent").addClass("d-none");
                 return;
             };
             const chargeData = JSON.parse('<?= $chargeData ?>');
@@ -212,8 +216,25 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
             $("#remainingBalance").val(`${charge.remainingBalance}`);
             $("#amountPaid").val(charge.AmtTendered);
             $("#chargeInfoParent").removeClass("d-none");
+            $("#amountTendered").trigger("change");
+        });
 
-            $("#ammountTendered").trigger("change");
+        $("#billID").change(async function() {
+            const billID = $(this).attr('sql-value');
+            if (!billID || !$(this).is(':visible')) {
+                $("#billInfoParent, #chargeInfoParent").addClass("d-none");
+                return;
+            }
+            console.log('BILL ID', billID);
+            $("#billInfoParent").html("");
+            const billData = await showBill(billID, $("#billInfoParent"));
+            $("#billInfoParent, #chargeInfoParent").removeClass("d-none");
+            console.log(billData);
+            $("#chargedTo").val(`${billData.accountOfFirstName} ${billData.accountOfMiddleName} ${billData.accountOfLastName}`);
+            $("#billTotal").val(`${billData.grandTotal}`);
+            $("#remainingBalance").val(`${billData.totalRemainingBalance}`);
+            $("#amountPaid").val(billData.AmtTendered);
+            $("#amountTendered").trigger("change");
         });
 
         $("#submitPayment").click(function(event) {
@@ -231,6 +252,9 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
         });
 
         $(".billTypeRadio").change(function() {
+            $("#chargeID, #billID")
+                .val("")
+                .trigger("change");
             if ($(this).val() === "bill") {
                 $(".bill-slip-container").removeClass("d-none");
                 $(".charge-slip-container").addClass("d-none");

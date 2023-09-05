@@ -13,7 +13,7 @@
 
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body border p-4 m-4 shadow">
+                <div id="charge-slip-container" class="modal-body border p-4 m-4 shadow">
                     <div id="charge-slip">
                         <!-- HEADER -->
                         <div class="d-flex justify-content-between border-bottom border-5 border-secondary py-3 w-100 m-0">
@@ -56,8 +56,8 @@
                         </div>
 
                         <!-- chargeInfoContainer -->
-                        <div id="chargeInfoContainer" ></div>
-                        
+                        <div id="chargeInfoContainer"></div>
+
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -69,57 +69,60 @@
     </div>
 
     <script>
-        function showBill(billingID) {
-            Swal.fire({
-                title: 'Generating Print Report',
-                html: 'Please Wait!', // add html attribute if you want or remove
-                allowOutsideClick: false,
-            });
-            swal.showLoading();
-            // fetch data from api 
-            $.ajax({
-                url: `/Zarate/API/billing/search.php?billingID=${billingID}`,
-                type: 'GET',
-                success: function(data) {
-                    swal.close();
-                    const bill = JSON.parse(data);
-                    console.log(bill);
+        async function showBill(billingID, appendToElement = null) {
+            try {
+                Swal.fire({
+                    title: 'Generating Print Report',
+                    html: 'Please Wait!',
+                    allowOutsideClick: false,
+                });
+                swal.showLoading();
 
-                    $("#slipNumber").text(bill.billingID);
-                    $("#enteredBy").text(`${bill.encoderFirstName} ${bill.encoderMiddleName} ${bill.encoderLastName}`);
-                    $("#patientName").text(`${bill.patientFirstName} ${bill.patientMiddleName} ${bill.patientLastName}`);
-                    $("#accountOfPrint").text(`${bill.accountOfFirstName} ${bill.accountOfMiddleName} ${bill.accountOfLastName}`);
-                    $("#admittingPhysician").text(`${bill.admittingPhysicianFirstName} ${bill.admittingPhysicianMiddleName} ${bill.admittingPhysicianLastName}`);
-                    $("#attendingPhysician").text(`${bill.attendingPhysicianFirstName} ${bill.attendingPhysicianMiddleName} ${bill.attendingPhysicianLastName}`);
+                const response = await $.ajax({
+                    url: `/Zarate/API/billing/search.php?billingID=${billingID}`,
+                    type: 'GET',
+                });
 
-                    // clear charge slip
-                    $("#chargeInfoContainer").html("<h6 class='fw-bold mt-3 mb-2 text-uppercase'>Charge Slips Summary</h6>");
+                swal.close();
+                const bill = JSON.parse(response);
 
-                    // CHARGE SLIP
-                    for (let i = 0; i < bill.charges.length; i++) {
-                        const chargeSlip = bill.charges[i];
-                        renderChargeSlip(chargeSlip);
-                    }
+                $("#slipNumber").text(bill.billingID);
+                $("#enteredBy").text(`${bill.encoderFirstName} ${bill.encoderMiddleName} ${bill.encoderLastName}`);
+                $("#patientName").text(`${bill.patientFirstName} ${bill.patientMiddleName} ${bill.patientLastName}`);
+                $("#accountOfPrint").text(`${bill.accountOfFirstName} ${bill.accountOfMiddleName} ${bill.accountOfLastName}`);
+                $("#admittingPhysician").text(`${bill.admittingPhysicianFirstName} ${bill.admittingPhysicianMiddleName} ${bill.admittingPhysicianLastName}`);
+                $("#attendingPhysician").text(`${bill.attendingPhysicianFirstName} ${bill.attendingPhysicianMiddleName} ${bill.attendingPhysicianLastName}`);
 
+                $("#chargeInfoContainer").html("<h6 class='fw-bold mt-3 mb-2 text-uppercase'>Charge Slips Summary</h6>");
+
+                for (let i = 0; i < bill.charges.length; i++) {
+                    const chargeSlip = bill.charges[i];
+                    renderChargeSlip(chargeSlip);
+                }
+
+                if (appendToElement) {
+                    $(appendToElement).html("");
+                    $(appendToElement).append($("#charge-slip-container").html());
+                } else {
                     var exampleModalPopup = new bootstrap.Modal($('#printModal'), {});
                     exampleModalPopup.show();
-
-                    $("#print-charge-slip, #print-charge-slip-header")
-                        .click(function() {
-                            printChargeSlip();
-                        });
-                },
-                error: function(error) {
-                    console.log(error);
-                    swal.close();
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'There was something wrong printing the report.',
-                        text: error,
-                    });
                 }
-            });
+
+                $("#print-charge-slip, #print-charge-slip-header").click(function() {
+                    printChargeSlip();
+                });
+                return bill;
+            } catch (error) {
+                console.error(error);
+                swal.close();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'There was something wrong printing the report.',
+                    text: error,
+                });
+            }
         }
+
 
         function renderChargeSlip(chargeSlip) {
             const slipNumber = chargeSlip.SalesID;
