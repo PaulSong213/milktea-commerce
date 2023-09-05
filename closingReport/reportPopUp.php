@@ -54,10 +54,11 @@
         <div class="mb-2">
             <label for="inputTimeIn" class="form-label">Select Time In</label>
             <input type="time" class="form-control" id="inputTimeIn">
+
         </div>
         <div class="mb-2">
             <label for="inputTimeOut" class="form-label">Select Time Out</label>
-            <input type="time" class="form-control" id="inputTimeOut" value="<?php echo date('H:i'); ?>">
+            <input type="time" class="form-control" id="inputTimeOut">
         </div>
         <div class="d-flex justify-content-end">
             <button id="printButton" type="button" class="btn btn-success" style="display: none;">Print</button>
@@ -94,16 +95,26 @@
 
         // Set the formatted date as the default value for the input
         document.getElementById('inputDate').value = formattedDate;
+        // Calculate the time 8 hours ago
+        const eightHoursAgo = new Date(currentDate.getTime() - 8 * 60 * 60 * 1000);
 
-        // Get the input element for time by its ID
-        var inputTimeOut = document.getElementById('inputTimeOut');
+        // Format the time 8 hours ago as 'HH:mm'
+        const currentHours = eightHoursAgo.getHours().toString().padStart(2, '0');
+        const currentMinutes = eightHoursAgo.getMinutes().toString().padStart(2, '0');
+        const ShiftIn = currentHours + ':' + currentMinutes;
 
-        // Format the current time as 'HH:mm'
-        var formattedTime = currentDate.getHours().toString().padStart(2, '0') + ':' + currentDate.getMinutes().toString().padStart(2, '0');
 
-        // Set the formatted time as the default value for the input field
-        inputTimeOut.value = formattedTime;
+        var ShiftOut = currentDate.getHours().toString().padStart(2, '0') + ':' + currentDate.getMinutes().toString().padStart(2, '0');
 
+        // Get the input element for time in and out by their IDs
+        const inputTimeIn = document.getElementById('inputTimeIn');
+        const inputTimeOut = document.getElementById('inputTimeOut');
+
+        // Set the formatted time as the default value for the input fields
+        inputTimeIn.value = ShiftIn;
+        inputTimeOut.value = ShiftOut;
+
+        
         $(document).ready(function() {
             $("#confirmButton").click(function() {
                 var selectedDate = $("#inputDate").val();
@@ -138,7 +149,7 @@
                         }
                     });
                 } else {
-                alert("Please fill all the fields");
+                    alert("Please fill all the fields");
                 }
             });
 
@@ -152,16 +163,19 @@
                 var newTab = window.open('', '_blank');
 
                 newTab.document.write(`
-        <html>
-        <head>
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        </head>
-        <body style="width: 100%; height: 100%; margin:0;">
-            <div class="print-content">
-                ${divToPrint}
-            </div>
-        </body>
-        </html>`);
+    <html>
+
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    </head>
+
+    <body style="width: 100%; height: 100%; margin:0;">
+        <div class="print-content">
+            ${divToPrint}
+        </div>
+    </body>
+
+    </html>`);
 
                 newTab.document.close();
                 newTab.onload = function() {
