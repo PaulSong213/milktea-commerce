@@ -28,11 +28,32 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
     <form method="POST" action="databasefunctions.php" id="addItemForm" class="container-fluid p-3" autocomplete="off">
         <div class="row text-white mb-4">
             <h3 class="text-uppercase my-4 text">
-                ENTER PAYMENT | <?= $_GET['type'] ?>
+                ENTER PAYMENT | <?= $_GET['type'] ?? 'CASH' ?>
             </h3>
 
             <div class="row">
                 <div class="col-12 col-lg-6">
+
+                    <!-- Type -->
+                    <div class="form-group row mt-3 pe-3">
+                        <label class="form-label">Type</label>
+                        <div class="col radio-btn btn btn-dark ms-3">
+                            <div class="form-check d-flex">
+                                <input class="form-check-input" type="radio" checked="checked" id="chargeRadio" name="type" value="charge" required />
+                                <label class="form-check-label h-full d-flex align-items-center" for="chargeRadio">
+                                    <i class="material-icons d-inline mx-2">attach_money</i>NYP (Charge)</label>
+                            </div>
+                        </div>
+                        <div class="col radio-btn btn text-white border border-secondary ms-3">
+                            <div class="form-check d-flex">
+                                <input class="form-check-input" type="radio" id="billRadio" name="type" value="bill" required />
+                                <label class="form-check-label h-full d-flex align-items-center" for="billRadio">
+                                    <i class="material-icons d-inline mx-2">credit_card</i>Bill</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Received by -->
                     <div class="mb-3">
                         <label class="form-label" for="receivedByID">Received By</label>
                         <input type="text" class="form-control is-valid" name="receivedByID" id="receivedByID" list="employeeList" readonly correctData="employeesData" placeholder="Enter Entered By Name" value="<?= $currentLoggedInEncoder; ?>" sql-value="<?= $currentLoggedInEncoderID; ?>" required isvalidated="true">
@@ -42,6 +63,7 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
                         </small>
                     </div>
 
+                    <!-- MODE OF PAYMENT  -->
                     <div class="form-group row mt-3 pe-3">
                         <label class="form-label">Mode of Payment</label>
                         <div class="col radio-btn btn btn-dark ms-3">
@@ -149,16 +171,18 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
         $("#timePaid").val(formattedTime);
 
         $(".radio-btn").click(function() {
-            $(".radio-btn").removeClass("btn-dark").addClass("border border-secondary text-white");
+            $(this).parent().find(".radio-btn").removeClass("btn-dark").addClass("border border-secondary text-white");
             $(this).removeClass("border border-secondary text-white").addClass("btn-dark");
             const radioInput = $(this).find("input");
             radioInput.prop("checked", true);
-            if (radioInput.val() === "cash") {
-                $(".check-form").addClass("d-none");
-                $(".cash-form").removeClass("d-none");
-            } else {
-                $(".cash-form").addClass("d-none");
-                $(".check-form").removeClass("d-none");
+            if(radioInput.attr('name') === 'modeOfPayment') {
+                if (radioInput.val() === "cash") {
+                    $(".check-form").addClass("d-none");
+                    $(".cash-form").removeClass("d-none");
+                } else {
+                    $(".cash-form").addClass("d-none");
+                    $(".check-form").removeClass("d-none");
+                }
             }
         });
 

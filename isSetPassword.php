@@ -1,13 +1,28 @@
 <!DOCTYPE html>
 <html>
 
+<?php
+session_start();
+
+if (isset($_SESSION['user'])) {
+    $userData = json_decode($_SESSION['user'], true);
+    $userName = $userData['DatabaseID'];
+} else {
+    // Redirect back to the login page or handle the user not being logged in
+    header("Location: ./index.php");
+    exit();
+}
+
+?>
+
 <head>
-    <title>Login Page</title>
+    <title>Set New Password</title>
     <link rel="icon" href="./img/logo.png" type="image/png">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <style type="text/css">
         body {
             margin: 0;
+            background-color: #291231;
             padding: 0;
             display: flex;
             justify-content: center;
@@ -20,6 +35,7 @@
 
         .login-container {
             position: relative;
+
             width: 380px;
             padding: 40px;
             border-radius: 15px;
@@ -85,67 +101,84 @@
     <div class="login-container">
 
         <form class="" action="" method="post">
-            <h3>NEW PASSWORD</h3>
-
+            <h3>Welcome, Set Your New Password</h3>
             <label for="exampleInputEmail1">New Password</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="New password..." required>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Set New password..." required>
             <label for="exampleInputPassword1">Confirm Password</label>
-            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="confirm New Password..." required>
-            <input type="hidden" name="depart" class="form-control" id="department"></input>
+            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm New Password..." required>
+            <input type="text" name="DatabaseID" class="form-control" id="DatabaseID" value="<?php echo isset($_SESSION['user']) ? json_decode($_SESSION['user'], true)['DatabaseID'] : 'You are Logout'; ?>">
             <button type="submit" class="btn btn-primary" name="login-submit">Set New Password</button>
         </form>
-    </div>
-</body>
+
+        <?php
+        require_once './php/connect.php';
+        $conn = connect();
+
+        if (isset($_POST['login-submit'])) {
+            $password = $_POST['password'];
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $DatabaseID = $_POST['DatabaseID'];
+            $isPasswordSet = 1;
 
 
-<?php
- // Start or resume the session
-// check if login post is set
+            $sql = "UPDATE employee_tb
+    SET
+        password = '$hashedPassword',
+        isPassSet = '$isPasswordSet'
+        
+        
+    WHERE
+        DatabaseID = '$DatabaseID';
+    ";
 
-if (isset($_POST['login-submit'])) {
-    $mailuid = $_POST['mailuid'];
-    $password = $_POST['pwd'];
-
-    // Include database connection
-    require_once('./php/connect.php'); // Adjust the path if needed
-    $conn = connect(); // Assuming this function establishes the database connection
-
-    $sql = "SELECT * FROM employee_tb WHERE userName='$mailuid';";
-    $result = mysqli_query($conn, $sql);
-
-    if ($result) { // Check if query was successful
-        $checkRow = mysqli_num_rows($result);
-
-        if ($checkRow > 0) {
-            $val = mysqli_fetch_assoc($result);
-
-
-            if (password_verify($password, $val["password"]) && $val["isPasswordSet"] == 1) {
-                $_SESSION["user"] = json_encode($val);
-                header("Location: ./billing_slip/index.php");
-                exit();
-            } else if (password_verify($password, $val["password"])) {
-                $_SESSION["user"] = json_encode($val);
-                header("Location: ./isSetPassword.php");
-                exit();
-            } else if (password_verify($password, $val["password"]) &&  $val["isPasswordSet"] == " ") {
-                $_SESSION["user"] = json_encode($val);
-
-                header("Location: ./isSetPassword.php");
-                exit();
+            $result = mysqli_query($conn, $sql);
+            if ($result) {
+                // success
+                $_SESSION["alert_message"] = "Successfully Change Password";
+                $_SESSION["alert_message_success"] = true;
             } else {
-                echo "<p style='color:red'>Wrong Password</p>";
+                $_SESSION["alert_message"] = "Failed to Edit an Room. Error Details: " . mysqli_error($conn);
+                $_SESSION["alert_message_error"] = true;
             }
-        } else {
-            echo "<p style='color:red'>User not found</p>";
+
+            header("Location: ./index.php");
+            die();
         }
-    } else {
-        echo "<p style='color:red'>Database query error</p>";
-    }
 
-    mysqli_close($conn); // Close the database connection
-}
+        // Close the database connection
+        $conn->close();
 
-?>
+        ?>
+
+    </div>
+
+
+    <script>
+        function validatePassword() {
+            var password = document.getElementById("password").value;
+            var cPassword = document.getElementById("confirmPassword").value;
+
+            if (password !== cPassword) {
+                alert("Passwords do not match. Please re-enter.");
+                return false;
+            }
+
+            return true;
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const passwordInput = document.getElementById("password");
+            const cPasswordInput = document.getElementById("confirmPassword");
+
+            cPasswordInput.addEventListener("input", function() {
+                if (passwordInput.value !== cPasswordInput.value) {
+                    cPasswordInput.setCustomValidity("Passwords do not match.");
+                } else {
+                    cPasswordInput.setCustomValidity("");
+                }
+            });
+        });
+    </script>
+</body>
 
 </html>

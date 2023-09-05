@@ -1,12 +1,20 @@
 <?php
-// if (!isset($_SESSION['username'])) {
-//     header("Location:/Zarate/index.php");
-// }
+if (isset($_SESSION['user'])) {
+    $userData = json_decode($_SESSION['user'], true);
+    $userName = $userData['DatabaseID'];
+} else {
+    // Redirect back to the login page or handle the user not being logged in
+    header("Location: /Zarate/index.php");
+    exit();
+}
 if (isset($_GET['logout'])) {
     session_destroy();
-    unset($_SESSION);
-    header("Location:/Zarate/index.php");
+    unset($_SESSION['user']);
+    header('location: ./index.php');
 }
+
+// Rest of your code...
+
 // get icons here -> https://mui.com/material-ui/material-icons/
 $sidebarContent = [
     [
@@ -26,7 +34,11 @@ $sidebarContent = [
             ],
             [
                 "name" => "Billing List", //name of the link
-                "link" => "/billingtable/index.php", //link of the page
+                "link" => "/billinglist/index.php", //link of the page
+            ],
+            [
+                "name" => "Clinic Use", //name of the link
+                "link" => "/clinicUse/index.php", //link of the page
             ],
             [
                 "name" => "Closing Report", // include returns the included content
@@ -39,18 +51,9 @@ $sidebarContent = [
     ],
     [
         "name" => "Enter Payment", //name of the link
-        "icon" => "local_atm", //material icon name
-        "link" => "/enterPayment/index.php?type=NYP", //link of the page
-        "navigations" => [
-            [
-                "name" => "NYP Payment", //name of the link
-                "link" => "/enterPayment/index.php?type=NYP", //link of the page
-            ],
-            [
-                "name" => "Bill Payment", //name of the link
-                "link" => "/enterPayment/index.php?type=bill", //link of the page
-            ],
-        ] //list of links on dropdown
+        "icon" => "paid", //material icon name
+        "link" => "/enterPayment/index.php?type=cash", //link of the page
+        "navigations" => []
     ],
     [
         "name" => "Employee", //name of the link
@@ -72,8 +75,6 @@ $sidebarContent = [
 
         ] //list of links on dropdown
     ],
-
-
     [
         "name" => "Patient", //name of the link
         "icon" => "hotel", //material icon name
@@ -89,7 +90,6 @@ $sidebarContent = [
             ],
         ] //list of links on dropdown
     ],
-
     [
         "name" => "Inventory", //name of the link
         "icon" => "vaccines", //material icon name
@@ -109,6 +109,11 @@ $sidebarContent = [
                 "link" => "/SupplierTable/index.php", //link of the page
                 "navigations" => [] //list of links on dropdown
             ],
+            [
+                "name" => "Expenses", //name of the link
+                "link" => "/Expenses/index.php", //link of the page
+                "navigations" => [] //list of links on dropdown
+            ],
         ] //list of links on dropdown
     ],
 
@@ -124,7 +129,7 @@ $sidebarContent = [
             ],
             [
                 "name" => "Log Out", //name of the link
-                "link" => "/sidebar.php?logout=true", //link of the page
+                "link" => "./logout.php", //link of the page
             ],
 
         ] //list of links on dropdown
@@ -332,8 +337,6 @@ $sidebarContent = [
             ?>
 
         </ul>
-
-
         <div>
             <button class="btn btn-primary rounded-circle position-fixed p-3 bottom-0 start-0 m-4 d-flex justify-content-center align-items-center" id="toggleSidebar">
                 <span class="material-icons" id="sidebar-icon">table_rows</span>

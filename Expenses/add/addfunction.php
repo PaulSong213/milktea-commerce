@@ -9,11 +9,19 @@ if ($conn->connect_error) {
 }
 
 if (isset($_POST['SaveItem'])) {
-    $itemTypeCode = $_POST['itemTypeCode'];
-    $description = $_POST['description'];
 
-    $sql = "INSERT INTO itemtype_tb (itemTypeCode, description)
-    VALUES ('$itemTypeCode', '$description')";
+    $expenseType = $_POST['expenseType'];
+    $department = $_POST['department'];
+    $amount = $_POST['amount'];
+    $payable = $_POST['payable'];
+    $docRef = $_POST['docRef'];
+    $reason = $_POST['reason'];
+    $Note = $_POST['Note'];
+    $enteredBy = $_POST['enteredBy'];
+    $requestedBy = $_POST['requestedBy'];
+
+    $sql = "INSERT INTO expense_tb (expenseType, department,amount,payable,docRef,reason,Note,enteredBy,requestedBy,createDate,modifiedDate)
+    VALUES ('$expenseType', '$department','$amount','$payable','$docRef','$reason','$Note','$enteredBy','$requestedBy',NOW(),NOW())";
 
     $result = mysqli_query($conn, $sql);
     if ($result) {

@@ -105,18 +105,11 @@
 
     <script>
         function showChargeSlip(salesID) {
-            Swal.fire({
-                title: 'Generating Print Report',
-                html: 'Please Wait!', // add html attribute if you want or remove
-                allowOutsideClick: false,
-            });
-            swal.showLoading();
             // fetch data from api 
             $.ajax({
                 url: `/Zarate/API/sales/search.php?SalesID=${salesID}`,
                 type: 'GET',
                 success: function(data) {
-                    swal.close();
                     const chargeSlip = JSON.parse(data);
                     const slipNumber = chargeSlip.SalesID;
 
@@ -160,6 +153,7 @@
                     $("#NetAmt").text(`Net Amount: ₱${chargeSlip.NetAmt}`);
                     $("#NetSale").text(`Net Sale: ₱${chargeSlip.NetSale}`);
                     $("#AddDisc").text(`Additional Discount(%): ${chargeSlip.AddDisc}`);
+
 
                     // fill up the charge slip information
                     $('#slipNumber').text(slipNumber);
@@ -231,16 +225,10 @@
                 },
                 error: function(error) {
                     console.log(error);
-                    console.log(error);
-                    swal.close();
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'There was something wrong printing the report.',
-                        text: error,
-                    });
                 }
             });
         }
+
 
         <?php
         if (isset($_SESSION['printSalesInsertedId'])) {

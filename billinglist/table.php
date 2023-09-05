@@ -3,10 +3,9 @@
 <html lang="en">
 
 <head>
-    <title>Billing Statement</title>
+    <title></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <style>
@@ -48,101 +47,25 @@
 
 <body>
     <div class="table w-100 p-4">
-        <h2 class="mt-4 mb-5">Billing Statement Table</h2>
-        <?php include './add/add.php'; ?>
-        <?php include './view/view.php'; ?>
+        <h2 class="mt-4 mb-5">BILLING LIST</h2>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-
-                    <th>Billing ID</th>
-                    <th>Encoder ID</th>
-                    <th>Patient ID</th>
-                    <th>Account Of</th>
-                    <th>Admission Date:Time</th>
-                    <th>Patient Type</th>
-                    <th>Attending Physician</th>
-                    <th>Admitting Physician</th>
-                    <th>Discharge Date:Time</th>
-
+                    <th>Bill #</th>
+                    <th>Patient</th>
+                    <th>Type</th>
+                    <th>Date Time Admitted</th>
+                    <th>Create Date</th>
+                    <th>Modified Date</th>
                     <th class="action-column">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <?php
-                require_once '../php/connect.php';
-                $conn = connect();
-                if ($conn->connect_error) {
-                    die("Connection failed: " . $conn->connect_error);
-                }
-               $sql = "SELECT
-            b.billingID,
-            s.PatientAcct,
-            b.dateTimeAdmitted,
-            b.type,
-            b.dateTimeDischarged,
-            e1.DatabaseID AS encoderDatabaseID,
-            e1.lname AS encoderLastName,
-            e1.fname AS encoderFirstName,
-            e1.mname AS encoderMiddleName,
-            e1.title AS encoderTitle,
-            e1.position AS encoderPosition,
-            p.hospistalrecordNo AS patientHospitalRecordNo,
-            p.lname AS patientLastName,
-            p.fname AS patientFirstName,
-            p.mname AS patientMiddleName,
-            e2.DatabaseID AS attendingPhysicianDatabaseID,
-            e2.lname AS attendingPhysicianLastName,
-            e2.fname AS attendingPhysicianFirstName,
-            e2.mname AS attendingPhysicianMiddleName,
-            e2.title AS attendingPhysicianTitle,
-            e2.position AS attendingPhysicianPosition,
-            e3.DatabaseID AS admittingPhysicianDatabaseID,
-            e3.lname AS admittingPhysicianLastName,
-            e3.fname AS admittingPhysicianFirstName,
-            e3.mname AS admittingPhysicianMiddleName,
-            e3.title AS admittingPhysicianTitle,
-            e3.position AS admittingPhysicianPosition,
-            s.ProductInfo as productInfo
-        FROM
-            billing_tb b
-        JOIN
-            employee_tb e1 ON b.encoderID = e1.DatabaseID
-        JOIN
-            patient_tb p ON b.patientID = p.hospistalrecordNo
-        JOIN
-            employee_tb e2 ON b.attendingPhysicianID = e2.DatabaseID
-        JOIN
-            employee_tb e3 ON b.admittingPhysicianID = e3.DatabaseID
-        JOIN
-            sales_tb s ON b.patientID = s.PatientAcct";
-
-
-                $result = $conn->query($sql);
-                while ($row = $result->fetch_assoc()) {
-                    echo "
-                            <tr>                        
-                                <td>" . $row["billingID"] . "</td>
-                                <td>" . $row["encoderTitle"] . '. '. $row["encoderFirstName"] . ', ' . $row["encoderMiddleName"] . ' ' . $row["encoderLastName"] .' | ' . $row["encoderPosition"] .  "</td>
-                                <td>" . $row["patientFirstName"] . ', ' . $row["patientMiddleName"] . ' ' . $row["patientLastName"] . "</td>
-                                <td>" . $row["patientFirstName"] . ', ' . $row["patientMiddleName"] . ' ' . $row["patientLastName"] . "</td>
-                                <td>" . $row["dateTimeAdmitted"] . "</td>
-                                <td>" . $row["type"] . "</td>
-                                <td>" . $row["attendingPhysicianTitle"] . '. '. $row["attendingPhysicianFirstName"] . ', ' . $row["attendingPhysicianMiddleName"] . ' ' . $row["attendingPhysicianLastName"] .' | ' . $row["attendingPhysicianPosition"] .  "</td>
-                                <td>" . $row["admittingPhysicianTitle"] . '. '. $row["admittingPhysicianFirstName"] . ', ' . $row["admittingPhysicianMiddleName"] . ' ' . $row["admittingPhysicianLastName"] .' | ' . $row["admittingPhysicianPosition"] .  "</td>
-                                <td>" . $row["dateTimeDischarged"] . "</td>
-                                 
-
-
-                                <td class='invisible action-wrapper'>" . json_encode($row) . "</td>
-                            </tr>
-                            ";
-                }
-                $conn->close();
-                ?>
             </tbody>
         </table>
     </div>
+    <?php include '../billing_slip/templates/billing.php'; ?>
+
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
@@ -158,14 +81,12 @@
         import {
             searchColumn,
             handleArchiveClick,
+            toFormattedDate
         } from "../costum-js/datatables.js";
 
         import {
             handleEditClick
         } from "./edit/editData.js";
-        import {
-            handleViewClick
-        } from './view/viewData.js'
 
         $(document).ready(function() {
 
@@ -176,6 +97,69 @@
                 .appendTo('#example thead');
 
             const table = $('#example').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '/Zarate/API/billing/view.php',
+                    dataType: 'JSON',
+                    type: 'POST',
+                    data: function(d) {
+                        d.draw = d.draw || 1;
+                    }
+                },
+                columns: [{
+                        data: 'billingID',
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            return `${data.patientFirstName} ${data.patientMiddleName} ${data.patientLastName}`;
+                        }
+                    },
+                    {
+                        data: 'type',
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            return toFormattedDate(data.dateTimeAdmitted);
+                        }
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            return toFormattedDate(data.createDate);
+                        }
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            return toFormattedDate(data.modifiedDate);
+                        }
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            const id = data.billingID;
+                            return `
+                            <div class="dropdown dropstart d-flex">
+                                <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
+                                    <img class="mb-1" src="../img/icons/ellipsis-horizontal.svg">
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="mx-2">
+                                        <button class=" btn action-btn btn-primary w-100 mx-auto view-btn view-bill"  data-item='${JSON.stringify(data)}' >View</button>
+                                    </li>
+                                    <li class="mx-2">
+                                        <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
+                                    </li>
+                                </ul>
+                            </div>
+                            `
+                        },
+                        "searchable": false
+                    }
+                ],
                 orderCellsTop: true,
                 fixedHeader: true,
                 responsive: true,
@@ -211,42 +195,21 @@
                         className: 'btn border border-info'
                     },
                     {
-                        text: 'Add Item Type',
+                        text: 'Create Billing',
                         className: 'btn btn-primary bg-primary text-white',
                         action: function(e, dt, node, config) {
-                            $('#addItemModal').modal('show');
+                            window.location.href = '/Zarate/billing-new-admission/index.php';
                         }
                     }
                 ],
                 initComplete: function() {
                     searchColumn(this.api());
                 },
-                columnDefs: [{
-                    targets: -1,
-                    render: (d) => {
-                        const data = JSON.parse(d);
-                        const id = data.InventoryID;
-                        return `
-                        <div class="dropdown dropstart d-flex">
-                            <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
-                                <img class="mb-1" src="../img/icons/ellipsis-horizontal.svg">
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li class="mx-2">
-                                    <button class=" btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
-                                </li>
-                            </ul>
-                        </div>
-                        `
-                    },
-                    "searchable": false
-                }],
                 order: [
-                    [3, 'asc']
+                    ['0', 'desc']
                 ]
             });
             handleEditClick(table);
-            handleViewClick(table);
 
             table.on('draw', function() {
                 $('.action-wrapper').each(function(i, e) {
@@ -254,6 +217,11 @@
                 });
             });
             table.page(1).draw(true);
+            table.on('click', '.view-bill', function(e) {
+                let bill = JSON.parse($(this).attr("data-item"));
+                showBill(bill.billingID);
+            });
+            showBill('32');
         });
     </script>
     <script>
