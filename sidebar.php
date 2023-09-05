@@ -53,7 +53,16 @@ $sidebarContent = [
         "name" => "Enter Payment", //name of the link
         "icon" => "paid", //material icon name
         "link" => "/enterPayment/index.php?type=cash", //link of the page
-        "navigations" => []
+        "navigations" => [
+            [
+                "name" => "Enter Payment", //name of the link
+                "link" => "/enterPayment/index.php?type=cash", //link of the page
+            ],
+            [
+                "name" => "Payment History", //name of the link
+                "link" => "/enterPayment/history/index.php", //link of the page
+            ]
+        ]
     ],
     [
         "name" => "Employee", //name of the link
