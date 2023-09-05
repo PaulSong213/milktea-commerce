@@ -8,7 +8,9 @@
     $query = "SELECT PatientAcct,SalesID,NetSale,NetAmt,ChangeAmt,AmtTendered,PatientType,patient_tb.fname,patient_tb.lname,patient_tb.mname 
     FROM sales_tb 
     LEFT JOIN patient_tb 
-    ON sales_tb.PatientAcct = patient_tb.hospistalrecordNo";
+    ON sales_tb.PatientAcct = patient_tb.hospistalrecordNo
+    ORDER BY `SalesID` DESC
+    ";
     $billingresult = $conn->query($query);
     $chargeData = (object)array(); // Create an empty object
 

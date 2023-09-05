@@ -5,7 +5,7 @@
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $query = "SELECT * FROM billing_tb LEFT JOIN patient_tb ON billing_tb.patientID = patient_tb.hospistalrecordNo";
+    $query = "SELECT * FROM billing_tb LEFT JOIN patient_tb ON billing_tb.patientID = patient_tb.hospistalrecordNo ORDER BY `billingID` DESC";
     $billingresult = $conn->query($query);
     $billingsData = (object)array(); // Create an empty object
 
