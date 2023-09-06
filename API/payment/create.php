@@ -66,8 +66,9 @@ if ($result) {
             die();
         }
     } else {
-        $toPayBalance = $amountTendered;
+        
         //bill
+        $toPayBalance = $amountTendered;
         $getChargeFromBillQuery = "SELECT * FROM `sales_tb` WHERE `billingID` = '$billID' AND (`ChangeAmt` < 0);";
         $resultChargeFromBill = mysqli_query($conn, $getChargeFromBillQuery);
         if (!$resultChargeFromBill) {
@@ -81,16 +82,22 @@ if ($result) {
         while ($row = $resultChargeFromBill->fetch_assoc()) {
             $lastInsertedChargeID = $row['SalesID'];
             $remainingBalance = $row['ChangeAmt'] * -1; // Make it positive
-            $AmtTendered = $toPayBalance;
+            $AmtTendered = $row['AmtTendered'];
 
-            if ($remainingBalance >= $toPayBalance) {
-                $remainingBalance = $remainingBalance - $toPayBalance;
-                $remainingBalance *= -1;
+            if($toPayBalance <= 0) break;
+
+            if($remainingBalance == $toPayBalance){
+                $AmtTendered += $remainingBalance;
+                $remainingBalance = 0;
                 $toPayBalance = 0;
-            } else {
-                $AmtTendered = $remainingBalance;
+            }else if($toPayBalance > $remainingBalance){
+                $AmtTendered += $remainingBalance;
                 $toPayBalance = $toPayBalance - $remainingBalance;
                 $remainingBalance = 0;
+            }else {
+                $AmtTendered += $toPayBalance;
+                $remainingBalance =  $toPayBalance - $remainingBalance;
+                $toPayBalance = 0;
             }
 
             $updateChargeQuery = "UPDATE `sales_tb` 
@@ -108,6 +115,8 @@ if ($result) {
             }
         }
     }
+
+    
 
     // success
     $_SESSION["alert_message"] = "Successfully Entered Payment";
