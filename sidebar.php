@@ -1,24 +1,12 @@
 <?php
- if (isset($_SESSION['user'])) {
-   $userData = json_decode($_SESSION['user'], true);
-   $userName = $userData['DatabaseID'];
-} else {
-        // Redirect back to the login page or handle the user not being logged in
-   header("Location: /Zarate/index.php");
-   exit();
- }
-
-if (isset($_GET['logout']) && $_GET['logout'] === "true") {
-    // Destroy the session
+// if (!isset($_SESSION['username'])) {
+//     header("Location:/Zarate/index.php");
+// }
+if (isset($_GET['logout'])) {
     session_destroy();
-
-    // Redirect to the login page or any other desired page after logout
-    header("Location: ./index.php"); // Change 'login.php' to the appropriate URL
-    exit;
+    unset($_SESSION);
+    header("Location:/Zarate/index.php");
 }
-
-// Rest of your code...
-
 // get icons here -> https://mui.com/material-ui/material-icons/
 $sidebarContent = [
     [
@@ -45,9 +33,12 @@ $sidebarContent = [
                 "link" => "/clinicUse/index.php", //link of the page
             ],
             [
+                "name" => "Clinic Use Table", //name of the link
+                "link" => "/clinicUsetable/index.php", //link of the page
+            ],
+            [
                 "name" => "Closing Report", // include returns the included content
                 "link" => "/closingReport/index.php",
-                "id" => "openModalButton",
             ],
 
 
@@ -130,7 +121,7 @@ $sidebarContent = [
             ],
             [
                 "name" => "Log Out", //name of the link
-                "link" => "./?logout=true", //link of the page
+                "link" => "/sidebar.php?logout=true", //link of the page
             ],
 
         ] //list of links on dropdown
