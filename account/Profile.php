@@ -13,7 +13,7 @@ if (isset($_SESSION['user'])) {
     $marital = $userData['maritalStatus'];
     $gender = $userData['sex'];
     $bdate = $userData['bDate'];
-    $departmentID = $userData['departmentName'];
+    $departmentName = $userData['departmentName'];
     $dateStarted = $userData['dateStart'];
     $status = $userData['Status'];
     $createdDate = $userData['createDate'];
@@ -85,6 +85,7 @@ if (isset($_GET['logout'])) {
             flex: 1 1 auto;
             min-height: 1px;
             padding: 1rem;
+
         }
 
         .gutters-sm {
@@ -114,6 +115,20 @@ if (isset($_GET['logout'])) {
         .shadow-none {
             box-shadow: none !important;
         }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .animated-icon {
+            animation: rotate 3s ;
+        }
     </style>
 </head>
 
@@ -122,16 +137,16 @@ if (isset($_GET['logout'])) {
         <div class="main-body">
             <div class="row gutters-sm">
                 <div class="col-md-4 mb-3">
-                    <div class="card">
+                    <div class="card" style="border-style: double;">
                         <div class="card-body">
                             <div class="d-flex flex-column align-items-center text-center">
-                                <i class="material-icons" id="account">account_circle</i>
+                                <i class="material-icons animated-icon" id="account">account_circle</i>
                                 <div class="mt-3">
                                     <h4><?php echo $title . ' ' . $fname . ' ' . $lname ?></h4>
                                     <p class="text-secondary mb-1">
-                                    <h4><?php echo $departmentID?></h4>
+                                    <h4><?php echo $departmentName ?></h4>
                                     </p>
-                                    <p class="text-muted font-size-sm"> <?php echo $position ?></p>
+                                    <p class="text-muted font-size-sm"><?php echo $position ?></p>
                                 </div>
                             </div>
                         </div>
@@ -172,7 +187,7 @@ if (isset($_GET['logout'])) {
                                 </div>
                                 <div class="col-sm-9 text-secondary">
 
-                                    <?php echo $mname ?>
+                                    <?php echo $nname ?>
                                 </div>
                             </div>
                             <hr>
@@ -237,7 +252,7 @@ if (isset($_GET['logout'])) {
                                 </div>
                                 <div class="col-sm-9 text-secondary">
                                     <?php
-                                    echo $departmentID
+                                    echo $departmentName
                                     ?>
                                 </div>
                             </div>

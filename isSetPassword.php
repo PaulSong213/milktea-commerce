@@ -7,6 +7,7 @@ session_start();
 if (isset($_SESSION['user'])) {
     $userData = json_decode($_SESSION['user'], true);
     $userName = $userData['DatabaseID'];
+    $nname = $userData['nickName'];
 } else {
     // Redirect back to the login page or handle the user not being logged in
     header("Location: ./index.php");
@@ -16,13 +17,13 @@ if (isset($_SESSION['user'])) {
 ?>
 
 <head>
-    <title>Set New Password</title>
+    <title>Setting Up New Password</title>
     <link rel="icon" href="./img/logo.png" type="image/png">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <style type="text/css">
         body {
             margin: 0;
-            background-color: #291231;
+            background-image: url(img/loginbg.jpg), linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4));
             padding: 0;
             display: flex;
             justify-content: center;
@@ -35,13 +36,25 @@ if (isset($_SESSION['user'])) {
 
         .login-container {
             position: relative;
-
             width: 380px;
             padding: 40px;
             border-radius: 15px;
             box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
             background-color: rgba(255, 255, 255, 0.9);
             text-align: center;
+            opacity: 0;
+            /* Set initial opacity to 0 */
+            transform: translateY(20px);
+            /* Move the container down by 20 pixels */
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            /* Add a transition effect */
+        }
+
+        .login-container.loaded {
+            opacity: 1;
+            /* Set opacity to 1 for the final state */
+            transform: translateY(0);
+            /* Reset the position */
         }
 
         .logo {
@@ -98,10 +111,15 @@ if (isset($_SESSION['user'])) {
 </head>
 
 <body>
-    <div class="login-container">
+    <div class="login-container loaded">
 
         <form class="" action="" method="post">
-            <h3>Welcome, Set Your New Password</h3>
+            <h5>Welcome
+                "<?php echo $nname ?>"!
+            </h5>
+            <h5>
+                Set Your New Password
+            </h5>
             <label for="exampleInputEmail1">New Password</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="Set New password..." required>
             <label for="exampleInputPassword1">Confirm Password</label>
@@ -177,6 +195,16 @@ if (isset($_SESSION['user'])) {
                     cPasswordInput.setCustomValidity("");
                 }
             });
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Delay the animation slightly to ensure it runs after other page resources load
+            setTimeout(function() {
+                const loginContainer = document.querySelector(".login-container");
+                loginContainer.classList.add("loaded");
+            }, 100);
         });
     </script>
 </body>
