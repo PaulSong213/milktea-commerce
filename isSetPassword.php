@@ -106,7 +106,7 @@ if (isset($_SESSION['user'])) {
             <input type="password" class="form-control" id="password" name="password" placeholder="Set New password..." required>
             <label for="exampleInputPassword1">Confirm Password</label>
             <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm New Password..." required>
-            <input type="text" name="DatabaseID" class="form-control" id="DatabaseID" value="<?php echo isset($_SESSION['user']) ? json_decode($_SESSION['user'], true)['DatabaseID'] : 'You are Logout'; ?>">
+            <input type="hidden" name="DatabaseID" class="form-control" id="DatabaseID" value="<?php echo isset($_SESSION['user']) ? json_decode($_SESSION['user'], true)['DatabaseID'] : 'You are Logout'; ?>">
             <button type="submit" class="btn btn-primary" name="login-submit">Set New Password</button>
         </form>
 
