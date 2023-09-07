@@ -41,8 +41,13 @@ $sidebarContent = [
                 "link" => "/clinicUse/index.php", //link of the page
             ],
             [
-                "name" => "Closing Report", // include returns the included content
+                "name" => "Print Closing Report", // include returns the included content
                 "link" => "/closingReport/index.php",
+                "id" => "openModalButton",
+            ],
+            [
+                "name" => "Print Montly Report", // include returns the included content
+                "link" => "/MontlyReport/index.php",
                 "id" => "openModalButton",
             ],
 
