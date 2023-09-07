@@ -18,7 +18,7 @@
                     <h5 class="modal-title" id="printModalLabel">Print Charge Slip</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body border p-4 m-4 shadow">
+                <div id="charge-slip-container" class="modal-body border p-4 m-4 shadow">
                     <div id="charge-slip">
                         <!-- HEADER -->
                         <div class="d-flex justify-content-between border-bottom border-5 border-secondary py-3 w-100 m-0">
@@ -32,7 +32,7 @@
                             <div class="mx-2 d-flex flex-column">
                                 <h5 class="fw-bold mb-1">Charge Slip # <span id="slipNumber"></span> </h5>
                                 <h6 class="text-muted mb-0"><span id="date"></span></h6>
-                                <h6 class="text-muted">Entered by: <span id="enteredBy"></span></h6>
+                                <h6 class="text-muted">Entered by: <span id="chargeEnteredBy"></span></h6>
                             </div>
                         </div>
 
@@ -45,9 +45,9 @@
                                     <h6 class="mb-1">ATTACHED TO:</h6>
                                 </div>
                                 <div>
-                                    <h6 class="fw-bold mb-1"><span id="patientName"></span></h6>
-                                    <h6 class="fw-bold mb-1"><span id="accountOfPrint"></span></h6>
-                                    <h6 class="fw-bold mb-1"><span id="attachedTo"></span></h6>
+                                    <h6 class="fw-bold mb-1"><span id="patientNameCharge"></span></h6>
+                                    <h6 class="fw-bold mb-1"><span id="accountOfCharge"></span></h6>
+                                    <h6 class="fw-bold mb-1"><span id="attachedToCharge"></span></h6>
                                 </div>
                             </div>
                         </div>
@@ -104,7 +104,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
     <script>
-        function showChargeSlip(salesID) {
+        function showChargeSlip(salesID, appendToElement = null) {
             Swal.fire({
                 title: 'Generating Print Report',
                 html: 'Please Wait!', // add html attribute if you want or remove
@@ -120,23 +120,23 @@
                     const chargeSlip = JSON.parse(data);
                     const slipNumber = chargeSlip.SalesID;
 
-                    const attachedTo = `${chargeSlip.RequestedEmployeeFirstName} ${chargeSlip.RequestedEmployeeMiddleName} ${chargeSlip.RequestedEmployeeLastName}`;
+                    const attachedToCharge = `${chargeSlip.RequestedEmployeeFirstName} ${chargeSlip.RequestedEmployeeMiddleName} ${chargeSlip.RequestedEmployeeLastName}`;
 
-                    var patientName = `${chargeSlip.PatientFirstName} ${chargeSlip.PatientMiddleName} ${chargeSlip.PatientLastName}`;
+                    var patientNameCharge = `${chargeSlip.PatientFirstName} ${chargeSlip.PatientMiddleName} ${chargeSlip.PatientLastName}`;
 
                     // if patient is not registered, use unpaid patient name
                     if (!chargeSlip.hospistalrecordNo) {
-                        patientName = chargeSlip.UnpaidPatientName;
+                        patientNameCharge = chargeSlip.UnpaidPatientName;
                     }
 
-                    var accountOf = patientName;
+                    var accountOf = patientNameCharge;
                     if (chargeSlip.billingID) {
                         accountOf = `${chargeSlip.AccountOfFirstName} ${chargeSlip.AccountOfMiddleName} ${chargeSlip.AccountOfLastName}`;
                     }
 
                     const date = chargeSlip.createDate;
                     const productInfoStr = chargeSlip.ProductInfo;
-                    const enteredBy = `${chargeSlip.EnteredEmployeeFirstName} ${chargeSlip.EnteredEmployeeMiddleName} ${chargeSlip.EnteredEmployeeLastName}`;
+                    const chargeEnteredBy = `${chargeSlip.EnteredEmployeeFirstName} ${chargeSlip.EnteredEmployeeMiddleName} ${chargeSlip.EnteredEmployeeLastName}`;
                     const totalAmount = chargeSlip.NetAmt;
                     const ChangeAmt = chargeSlip.ChangeAmt;
                     var remainingBalance = 0;
@@ -163,11 +163,12 @@
 
                     // fill up the charge slip information
                     $('#slipNumber').text(slipNumber);
-                    $('#attachedTo').text(attachedTo);
-                    $('#accountOfPrint').text(accountOf);
-                    $('#patientName').text(patientName);
+                    console.log($('#slipNumber'));
+                    $('#attachedToCharge').text(attachedToCharge);
+                    $('#accountOfCharge').text(accountOf);
+                    $('#patientNameCharge').text(patientNameCharge);
                     $('#date').text(date);
-                    $('#enteredBy').text(enteredBy);
+                    $('#chargeEnteredBy').text(chargeEnteredBy);
                     $('#totalAmount').text(totalAmount);
                     //render product rows to productInfoContainer
                     var productInfo = JSON.parse(productInfoStr);
@@ -223,8 +224,15 @@
                         }
                     }
 
-                    var exampleModalPopup = new bootstrap.Modal($('#printModal'), {});
-                    exampleModalPopup.show();
+
+                    if (appendToElement) {
+                        console.log($("#charge-slip-container"));
+                        $(appendToElement).html("");
+                        $(appendToElement).append($("#charge-slip-container").html());
+                    } else {
+                        var exampleModalPopup = new bootstrap.Modal($('#printModal'), {});
+                        exampleModalPopup.show();
+                    }
                     $("#print-charge-slip").click(function() {
                         printChargeSlip();
                     });

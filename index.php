@@ -103,7 +103,8 @@ if (isset($_SESSION['user'])) {
 
 			$conn = connect();
 
-			$sql = "SELECT * FROM employee_tb WHERE userName = ?";
+			$sql = "SELECT * FROM employee_tb LEFT JOIN department_tb
+			ON department_tb.departmentID = employee_tb.departmentID WHERE userName = ?";
 			$stmt = mysqli_prepare($conn, $sql);
 			mysqli_stmt_bind_param($stmt, "s", $mailuid);
 			mysqli_stmt_execute($stmt);

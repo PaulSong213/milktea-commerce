@@ -8,13 +8,13 @@
                 <div class="modal-header">
                     <div class="d-flex align-center">
                         <h5 class="modal-title" id="printModalLabel">Print Billing</h5>
-                        <button class="mx-2 btn btn-primary" id="print-charge-slip-header" type="button">Print</button>
+                        <button class="mx-2 btn btn-primary" id="print-bill-slip-header" type="button">Print</button>
                     </div>
 
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div id="charge-slip-container" class="modal-body border p-4 m-4 shadow">
-                    <div id="charge-slip">
+                <div id="bill-slip-container" class="modal-body border p-4 m-4 shadow">
+                    <div id="bill-slip">
                         <!-- HEADER -->
                         <div class="d-flex justify-content-between border-bottom border-5 border-secondary py-3 w-100 m-0">
                             <div class="d-flex">
@@ -25,7 +25,7 @@
                                 </div>
                             </div>
                             <div class="mx-2 d-flex flex-column">
-                                <h5 class="fw-bold mb-1">Bill # <span id="slipNumber"></span> </h5>
+                                <h5 class="fw-bold mb-1">Bill # <span id="billNumber"></span> </h5>
                                 <h6 class="text-muted mb-0"><span id="date"></span></h6>
                                 <h6 class="text-muted">Entered by: <span id="enteredBy"></span></h6>
                             </div>
@@ -62,7 +62,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button id="print-charge-slip" type="button" class="btn btn-primary">Print</button>
+                    <button id="print-bill-slip" type="button" class="btn btn-primary">Print</button>
                 </div>
             </div>
         </div>
@@ -86,7 +86,7 @@
                 swal.close();
                 const bill = JSON.parse(response);
 
-                $("#slipNumber").text(bill.billingID);
+                $("#billNumber").text(bill.billingID);
                 $("#enteredBy").text(`${bill.encoderFirstName} ${bill.encoderMiddleName} ${bill.encoderLastName}`);
                 $("#patientName").text(`${bill.patientFirstName} ${bill.patientMiddleName} ${bill.patientLastName}`);
                 $("#accountOfPrint").text(`${bill.accountOfFirstName} ${bill.accountOfMiddleName} ${bill.accountOfLastName}`);
@@ -102,13 +102,13 @@
 
                 if (appendToElement) {
                     $(appendToElement).html("");
-                    $(appendToElement).append($("#charge-slip-container").html());
+                    $(appendToElement).append($("#bill-slip-container").html());
                 } else {
                     var exampleModalPopup = new bootstrap.Modal($('#printModal'), {});
                     exampleModalPopup.show();
                 }
 
-                $("#print-charge-slip, #print-charge-slip-header").click(function() {
+                $("#print-bill-slip, #print-bill-slip-header").click(function() {
                     printChargeSlip();
                 });
                 return bill;
@@ -125,7 +125,7 @@
 
 
         function renderChargeSlip(chargeSlip) {
-            const slipNumber = chargeSlip.SalesID;
+            const billNumber = chargeSlip.SalesID;
             const productInfoStr = chargeSlip.ProductInfo;
             $("#patientType").text(`Patient Type: ${chargeSlip.PatientType}`);
             $("#AmtTendered").text(`Amount Tendered: ₱${chargeSlip.AmtTendered}`);
@@ -148,9 +148,9 @@
                                 <h6 class="mb-1">Entered by:</h6>
                             </div>
                             <div>
-                                <h6 class="mb-1"><span id="chargeSlip_${slipNumber}">${slipNumber}</span></h6>
-                                <h6 class="mb-1"><span id="date_${slipNumber}">${chargeSlip.createDate}</span></h6>
-                                <h6 class="mb-1"><span id="enteredBy_${slipNumber}">${chargeSlip.EnteredEmployeeFirstName} ${chargeSlip.EnteredEmployeeMiddleName} ${chargeSlip.EnteredEmployeeLastName}</span></h6>
+                                <h6 class="mb-1"><span id="chargeSlip_${billNumber}">${billNumber}</span></h6>
+                                <h6 class="mb-1"><span id="date_${billNumber}">${chargeSlip.createDate}</span></h6>
+                                <h6 class="mb-1"><span id="enteredBy_${billNumber}">${chargeSlip.EnteredEmployeeFirstName} ${chargeSlip.EnteredEmployeeMiddleName} ${chargeSlip.EnteredEmployeeLastName}</span></h6>
                             </div>
                         </div>
                         <div class="d-flex col">
@@ -235,7 +235,7 @@
         ?>
 
         function printChargeSlip() {
-            var divToPrint = document.getElementById('charge-slip').innerHTML;
+            var divToPrint = document.getElementById('bill-slip').innerHTML;
             var newWin = window.open('', '_blank');
 
             newWin.document.write('<html><head><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"></head><body>');

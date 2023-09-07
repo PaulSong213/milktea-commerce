@@ -22,7 +22,7 @@
     <!-- Check Amount -->
     <div class="mb-3">
         <label class="form-label" for="checkAmount">Check Amount</label>
-        <input type="number" id="checkAmount" name="checkAmount" class="form-control fw-bold fs-5  rounded px-2" placeholder="Enter Check Amount" required>
+        <input type="number" min="1" id="checkAmount" name="checkAmount" class="form-control fw-bold fs-5  rounded px-2" placeholder="Enter Check Amount" required>
     </div>
 
 
