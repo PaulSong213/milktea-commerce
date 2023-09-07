@@ -176,6 +176,7 @@ if (isset($_POST['SaveItem'])) {
     $_SESSION["alert_message"] = "Successfully Added an Billing Statement.";
     $_SESSION["alert_message_success"] = true;
     $_SESSION['printSalesInsertedId'] = $salesInsertedId;
+    //die(); // TODO : remove this line for debug
     // Redirect after processing
     header("Location: ../billing_slip/index.php");
     die();
