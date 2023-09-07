@@ -7,6 +7,7 @@ session_start();
 if (isset($_SESSION['user'])) {
     $userData = json_decode($_SESSION['user'], true);
     $userName = $userData['DatabaseID'];
+    $nname = $userData['nickName'];
 } else {
     // Redirect back to the login page or handle the user not being logged in
     header("Location: ./index.php");
@@ -16,12 +17,13 @@ if (isset($_SESSION['user'])) {
 ?>
 
 <head>
-    <title>Login Page</title>
+    <title>Setting Up New Password</title>
     <link rel="icon" href="./img/logo.png" type="image/png">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <style type="text/css">
         body {
             margin: 0;
+            background-image: url(img/loginbg.jpg), linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4));
             padding: 0;
             display: flex;
             justify-content: center;
@@ -40,6 +42,19 @@ if (isset($_SESSION['user'])) {
             box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
             background-color: rgba(255, 255, 255, 0.9);
             text-align: center;
+            opacity: 0;
+            /* Set initial opacity to 0 */
+            transform: translateY(20px);
+            /* Move the container down by 20 pixels */
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            /* Add a transition effect */
+        }
+
+        .login-container.loaded {
+            opacity: 1;
+            /* Set opacity to 1 for the final state */
+            transform: translateY(0);
+            /* Reset the position */
         }
 
         .logo {
@@ -96,10 +111,15 @@ if (isset($_SESSION['user'])) {
 </head>
 
 <body>
-    <div class="login-container">
+    <div class="login-container loaded">
 
         <form class="" action="" method="post">
-            <h3>SET NEW PASSWORD</h3>
+            <h5>Welcome
+                "<?php echo $nname ?>"!
+            </h5>
+            <h5>
+                Set Your New Password
+            </h5>
             <label for="exampleInputEmail1">New Password</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="Set New password..." required>
             <label for="exampleInputPassword1">Confirm Password</label>
@@ -107,19 +127,19 @@ if (isset($_SESSION['user'])) {
             <input type="hidden" name="DatabaseID" class="form-control" id="DatabaseID" value="<?php echo isset($_SESSION['user']) ? json_decode($_SESSION['user'], true)['DatabaseID'] : 'You are Logout'; ?>">
             <button type="submit" class="btn btn-primary" name="login-submit">Set New Password</button>
         </form>
-         
+
         <?php
-require_once './php/connect.php';
-$conn = connect();
+        require_once './php/connect.php';
+        $conn = connect();
 
-if (isset($_POST['login-submit'])) {
-    $password = $_POST['password'];
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-    $DatabaseID = $_POST['DatabaseID'];
-    $isPasswordSet = 1;
+        if (isset($_POST['login-submit'])) {
+            $password = $_POST['password'];
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $DatabaseID = $_POST['DatabaseID'];
+            $isPasswordSet = 1;
 
 
-    $sql = "UPDATE employee_tb
+            $sql = "UPDATE employee_tb
     SET
         password = '$hashedPassword',
         isPassSet = '$isPasswordSet'
@@ -129,28 +149,26 @@ if (isset($_POST['login-submit'])) {
         DatabaseID = '$DatabaseID';
     ";
 
-    $result = mysqli_query($conn, $sql);
-    if ($result) {
-        // success
-        $_SESSION["alert_message"] = "Successfully Change Password";
-        $_SESSION["alert_message_success"] = true;
-    } else {
-        $_SESSION["alert_message"] = "Failed to Edit an Room. Error Details: " . mysqli_error($conn);
-        $_SESSION["alert_message_error"] = true;
-    }
+            $result = mysqli_query($conn, $sql);
+            if ($result) {
+                // success
+                $_SESSION["alert_message"] = "Successfully Change Password";
+                $_SESSION["alert_message_success"] = true;
+            } else {
+                $_SESSION["alert_message"] = "Failed to Edit an Room. Error Details: " . mysqli_error($conn);
+                $_SESSION["alert_message_error"] = true;
+            }
 
-    header("Location: ./index.php");
-    die();
-}
+            header("Location: ./index.php");
+            die();
+        }
 
-// Close the database connection
-$conn->close();
+        // Close the database connection
+        $conn->close();
 
-?>
+        ?>
 
     </div>
-
-
     <script>
         function validatePassword() {
             var password = document.getElementById("password").value;
@@ -175,6 +193,16 @@ $conn->close();
                     cPasswordInput.setCustomValidity("");
                 }
             });
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Delay the animation slightly to ensure it runs after other page resources load
+            setTimeout(function() {
+                const loginContainer = document.querySelector(".login-container");
+                loginContainer.classList.add("loaded");
+            }, 100);
         });
     </script>
 </body>

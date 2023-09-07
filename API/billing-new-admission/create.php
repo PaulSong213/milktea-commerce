@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $dateAdmitted = $_POST['dateAdmitted'];
     $timeAdmitted = $_POST['timeAdmitted'];
     $formattedDatetimeAdmitted = null;
-    if (!empty($dateDischarged) && !empty($timeDischarged)) {
+    if (!empty($timeAdmitted) && !empty($dateAdmitted)) {
         $datetimeAdmitted = new DateTime($dateAdmitted . ' ' . $timeAdmitted);
         $formattedDatetimeAdmitted = $datetimeAdmitted->format('Y-m-d H:i:s');
     }

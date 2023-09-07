@@ -1,14 +1,197 @@
 <?php
-// if (!isset($_SESSION['username'])) {
-//     header("Location:/Zarate/index.php");
-// }
-if (isset($_GET['logout'])) {
-    session_destroy();
-    unset($_SESSION);
-    header("Location:/Zarate/index.php");
+require_once '../php/connect.php';
+$conn = connect();
+
+if (isset($_SESSION['user'])) {
+    $userData = json_decode($_SESSION['user'], true);
+    $userName = $userData['userName'];
+    $userDepartment = $userData['departmentName'];
+    $userLevel = $userData['AccessLevel'];
+
+    
+} else {
+    // Redirect back to the login page or handle the user not being logged in
+    header("Location: /Zarate/index.php");
+    exit();
 }
+if (isset($_GET['logout'])){
+    session_destroy();
+
+    // Redirect to the login page or any other desired page after logout
+    header("Location: ./index.php"); // Change 'login.php' to the appropriate URL
+    exit;
+}
+
+// Rest of your code...
+
 // get icons here -> https://mui.com/material-ui/material-icons/
-$sidebarContent = [
+
+$LeveL1 = [
+    [
+        "name" => "Patient", //name of the link
+        "icon" => "hotel", //material icon name
+        "link" => "/Patient/index.php", //link of the page
+        "navigations" => [
+            [
+                "name" => "Enter new Patient Record", //name of the  sub-link
+                "link" => "/Patient/index.php", //link of the page
+            ],
+            [
+                "name" => "Enter Billing (New Admission)", //name of the linksub-link
+                "link" => "/billing-new-admission/index.php", //link of the page
+            ],
+        ] //list of links on dropdown
+    ],
+    [
+        "name" => "Account Settings", //name of the link
+        "icon" => "account_circle", //material icon name
+        "link" => "/dashboard/index.php", //link of the page
+        "navigations" => [
+            [
+                "name" => isset($_SESSION['user']) ? json_decode($_SESSION['user'], true)['userName'] : 'You are Logout',
+                "icon" => "account_circle", //material icon name
+                "link" => "/dashboard/index.php", //link of the pages
+            ],
+            [
+                "name" => "Log Out", //name of the link
+                "link" => "./logout.php", //link of the page
+            ],
+
+        ] //list of links on dropdown
+    ],
+];
+$Level2 = [
+    [
+        "name" => "Dashboard", //name of the link
+        "icon" => "dashboard", //material icon name
+        "link" => "/dashboard/index.php", //link of the page
+        "navigations" => [] //list of links on dropdown
+    ],
+    [
+        "name" => "Employee", //name of the link
+        "icon" => "badge", //material icon name
+        "link" => "/Employee/index.php", //link of the page
+        "navigations" => [
+            [
+                "name" => "Employee", //name of the link
+                "link" => "/Employee/index.php", //link of the page
+            ],
+            [
+                "name" => "Department", //name of the link
+                "link" => "/departmentTable/index.php", //link of the page
+            ],
+            [
+                "name" => "Room", //name of the link
+                "link" => "/Room/index.php", //link of the page
+            ],
+
+        ] //list of links on dropdown
+    ],
+    [
+        "name" => "Patient", //name of the link
+        "icon" => "hotel", //material icon name
+        "link" => "/Patient/index.php", //link of the page
+        "navigations" => [
+            [
+                "name" => "Enter new Patient Record", //name of the link
+                "link" => "/Patient/index.php", //link of the page
+            ],
+            [
+                "name" => "Enter Billing (New Admission)", //name of the link
+                "link" => "/billing-new-admission/index.php", //link of the page
+            ],
+        ] //list of links on dropdown
+    ],
+
+    [
+        "name" => "Account Settings", //name of the link
+        "icon" => "account_circle", //material icon name
+        "link" => "/dashboard/index.php", //link of the page
+        "navigations" => [
+            [
+                "name" => isset($_SESSION['user']) ? json_decode($_SESSION['user'], true)['userName'] : 'You are Logout',
+                "icon" => "account_circle", //material icon name
+                "link" => "/dashboard/index.php", //link of the pages
+            ],
+            [
+                "name" => "Log Out", //name of the link
+                "link" => "./logout.php", //link of the page
+            ],
+
+        ] //list of links on dropdown
+    ],
+];
+$LeveL3 = [
+    [
+        "name" => "Dashboard", //name of the link
+        "icon" => "dashboard", //material icon name
+        "link" => "/dashboard/index.php", //link of the page
+        "navigations" => [] //list of links on dropdown
+    ],
+
+    [
+        "name" => "Charge Slip", //name of the link
+        "icon" => "point_of_sale", //material icon name
+        "link" => "/billing_slip/index.php", //link of the page
+        "navigations" => [
+            [
+                "name" => "ChargeBilling/IPD/OPD", //name of the link
+                "link" => "/billing_slip/index.php", //link of the page
+            ],
+            [
+                "name" => "Billing List", //name of the link
+                "link" => "/billinglist/index.php", //link of the page
+            ],
+            [
+                "name" => "Clinic Use", //name of the link
+                "link" => "/clinicUse/index.php", //link of the page
+            ],
+            [
+                "name" => "Print Closing Report", // include returns the included content
+                "link" => "/closingReport/index.php",
+                "id" => "openModalButton",
+            ],
+            // [
+            //     "name" => "Print Montly Report", // include returns the included content
+            //     "link" => "/MontlyReport/index.php",
+            //     "id" => "openModalButton",
+            // ],
+        ]
+    ],
+    [
+        "name" => "Patient", //name of the link
+        "icon" => "hotel", //material icon name
+        "link" => "/Patient/index.php", //link of the page
+        "navigations" => [
+            [
+                "name" => "Enter new Patient Record", //name of the link
+                "link" => "/Patient/index.php", //link of the page
+            ],
+            [
+                "name" => "Enter Billing (New Admission)", //name of the link
+                "link" => "/billing-new-admission/index.php", //link of the page
+            ],
+        ] //list of links on dropdown
+    ],
+    [
+        "name" => "Account Settings", //name of the link
+        "icon" => "account_circle", //material icon name
+        "link" => "/dashboard/index.php", //link of the page
+        "navigations" => [
+            [
+                "name" => isset($_SESSION['user']) ? json_decode($_SESSION['user'], true)['userName'] : 'You are Logout',
+                "icon" => "account_circle", //material icon name
+                "link" => "/dashboard/index.php", //link of the pages
+            ],
+            [
+                "name" => "Log Out", //name of the link
+                "link" => "./logout.php", //link of the page
+            ],
+
+        ] //list of links on dropdown
+    ],
+];
+$LeveL4 = [
     [
         "name" => "Dashboard", //name of the link
         "icon" => "dashboard", //material icon name
@@ -26,7 +209,7 @@ $sidebarContent = [
             ],
             [
                 "name" => "Billing List", //name of the link
-                "link" => "/billingtable/index.php", //link of the page
+                "link" => "/billinglist/index.php", //link of the page
             ],
             [
                 "name" => "Clinic Use", //name of the link
@@ -37,11 +220,29 @@ $sidebarContent = [
                 "link" => "/clinicUsetable/index.php", //link of the page
             ],
             [
-                "name" => "Closing Report", // include returns the included content
+                "name" => "Print Closing Report", // include returns the included content
                 "link" => "/closingReport/index.php",
             ],
-
-
+            // [
+            //     "name" => "Print Montly Report", // include returns the included content
+            //     "link" => "/MontlyReport/index.php",
+            //     "id" => "openModalButton",
+            // ],
+        ]
+    ],
+    [
+        "name" => "Enter Payment", //name of the link
+        "icon" => "paid", //material icon name
+        "link" => "/enterPayment/index.php?type=cash", //link of the page
+        "navigations" => [
+            [
+                "name" => "Enter Payment", //name of the link
+                "link" => "/enterPayment/index.php?type=cash", //link of the page
+            ],
+            [
+                "name" => "Payment History", //name of the link
+                "link" => "/enterPayment/history/index.php", //link of the page
+            ]
         ]
     ],
     [
@@ -64,8 +265,6 @@ $sidebarContent = [
 
         ] //list of links on dropdown
     ],
-
-
     [
         "name" => "Patient", //name of the link
         "icon" => "hotel", //material icon name
@@ -81,7 +280,6 @@ $sidebarContent = [
             ],
         ] //list of links on dropdown
     ],
-
     [
         "name" => "Inventory", //name of the link
         "icon" => "vaccines", //material icon name
@@ -112,25 +310,50 @@ $sidebarContent = [
     [
         "name" => "Account Settings", //name of the link
         "icon" => "account_circle", //material icon name
-        "link" => "/dashboard/index.php", //link of the page
+        "link" => "/account/index.php", //link of the page
         "navigations" => [
             [
                 "name" => isset($_SESSION['user']) ? json_decode($_SESSION['user'], true)['userName'] : 'You are Logout',
                 "icon" => "account_circle", //material icon name
-                "link" => "/dashboard/index.php", //link of the pages
+                "link" => "/account/index.php", //link of the pages
+            ],
+            [
+                "name" => isset($_SESSION['user']) ? json_decode($_SESSION['user'], true)['departmentName'] : 'You are Logout',
+                "icon" => "account_circle", //material icon name
+                "link" => "/account/index.php", //link of the pages
             ],
             [
                 "name" => "Log Out", //name of the link
-                "link" => "/sidebar.php?logout=true", //link of the page
+                "link" => "./?logout=true", //link of the page
             ],
 
         ] //list of links on dropdown
     ],
+];
+$LevelNav = ""; // Define $LevelNav with an initial value
 
+switch ($Level) {
+    case 1:
+        $LevelNav = $LeveL1;
+        break;
+    case 2:
+        $LevelNav = $LeveL2;
+        break;
+    case 3:
+        $LevelNav = $LeveL3;
+        break;
+    case 4:
+    case ($Level >= 4):
+        $LevelNav = $LeveL4;
+        break;
+    default:
+        // Handle other cases if necessary
+        break;
+}
 
-
-]
+// Now $LevelNav is set based on the value of $Level
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -150,7 +373,7 @@ $sidebarContent = [
 
         #sidebar {
             position: fixed;
-            width: 260px;
+            width: 200px;
             height: 100vh;
             transition: ease-in 0.1s;
             background-color: #fff;
@@ -171,12 +394,10 @@ $sidebarContent = [
         }
 
         #content {
-            width: calc(100% - 260px);
-            margin-left: 260px;
+            width: calc(100% - 200px);
+            margin-left: 200px;
             transition: all 0.3s;
         }
-
-
 
         #content.active {
             margin-left: 40px;
@@ -283,26 +504,21 @@ $sidebarContent = [
 
 <body>
     <nav id="sidebar">
-        <a href="../dashboard/index.php">
+        <a href="../account/index.php">
             <div class="sidebar-header">
                 <h3><img src="/Zarate/img/logo.png" class="img-fluid" alt="Logo" /><span class="fw-bold company-title">E.Zarate Hospital</span></h3>
             </div>
         </a>
         <ul class="list-unstyled components">
-
             <?php
             $root = "/Zarate";
-            for ($i = 0; $i < sizeof($sidebarContent); $i++) {
-                $content = $sidebarContent[$i];
-                $isDropdown = sizeof($content["navigations"]) > 0;
+            for ($i = 0; $i < sizeof($LevelNav); $i++) {
+                $content = $LevelNav[$i];
+                $isDropdown = isset($content["navigations"]) && sizeof($content["navigations"]) > 0;
                 $link = $root . $content["link"];
                 $navClass = $link == $_SERVER['REQUEST_URI'] && !$isDropdown ? "active " : "";
-
-
                 if (sizeof($content["navigations"]) > 0) $navClass = $navClass . "dropdown";
-
                 $dropdownClass = $isDropdown ? "dropdown-toggle" : "";
-
                 $hasActiveSublink = false;
                 $navigationList = '<ul class="collapse list-unstyled menu" id="' .  $content["link"] . '">';
                 for ($j = 0; $j < sizeof($content['navigations']); $j++) {
@@ -315,7 +531,6 @@ $sidebarContent = [
                 }
                 $navigationList = $navigationList . '</ul>';
                 if ($hasActiveSublink) $navigationList = str_replace("collapse", "collapse show", $navigationList);
-
                 echo '
                 <li class="' . $navClass . '">
                     <a id="' . $link . '" href="' . $link . '" class="dashboard d-flex align-items-center nav-link ' . $dropdownClass . '">
@@ -329,8 +544,6 @@ $sidebarContent = [
             ?>
 
         </ul>
-
-
         <div>
             <button class="btn btn-primary rounded-circle position-fixed p-3 bottom-0 start-0 m-4 d-flex justify-content-center align-items-center" id="toggleSidebar">
                 <span class="material-icons" id="sidebar-icon">table_rows</span>
@@ -343,7 +556,6 @@ $sidebarContent = [
 
         <!-- Your content here -->
     </div>
-
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -399,6 +611,7 @@ $sidebarContent = [
             checkSideBarState();
         });
     </script>
+
 </body>
 
 </html>

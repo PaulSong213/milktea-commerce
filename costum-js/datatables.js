@@ -110,10 +110,17 @@ function renderArchiveButton(table, statusIndex) {
 
 export function toFormattedDate(date) {
     const inputDate = new Date(date);
+
+    // Check if the inputDate is valid
+    if (isNaN(inputDate)) {
+        return "N/A";
+    }
+
     const months = [
         "Jan", "Feb", "Mar", "Apr", "May", "Jun",
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ];
+
     const formattedDate = `${months[inputDate.getMonth()]} ${inputDate.getDate()}, ${inputDate.getFullYear()} ${inputDate.getHours()}:${inputDate.getMinutes()}`;
     return formattedDate;
 }

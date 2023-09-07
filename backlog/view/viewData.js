@@ -1,86 +1,61 @@
 import { formatDate } from "../../costum-js/date.js";
 
 export function handleViewClick(table) {
-
     const viewDatas = [
         {
-            dataKey: "DatabaseID",
-            label: "Database ID"
+            dataKey: "supplier_name",
+            label: "Supplier Name"
         },
         {
-            dataKey: "lname",
-            label: "Last Name"
+            dataKey: "address",
+            label: "Address"
         },
         {
-            dataKey: "fname",
-            label: "First Name"
+            dataKey: "telNum",
+            label: "Telephone No"
         },
         {
-            dataKey: "mname",
-            label: "Middle Name"
+            dataKey: "faxNum",
+            label: "Fax Number"
         },
         {
-            dataKey: "nickName",
-            label: "Nick Name"
+            dataKey: "contactNo",
+            label: "Contact No"
         },
         {
-            dataKey: "bDate",
-            label: "Birth Date"
+            dataKey: "CelNum",
+            label: "Cellphone No"
         },
         {
-            dataKey: "createDate",
-            label: "Created Date"
-        },
-
-        {
-            dataKey: "title",
-            label: "Title"
+            dataKey: "Snote",
+            label: "Supplier Note"
         },
         {
-            dataKey: "position",
-            label: "Position"
-        },
-        {
-            dataKey: "sex",
-            label: "Sex"
-        },
-        {
-            dataKey: "departmentName",
-            label: "Department"
-        },
-        {
-            dataKey: "dateStart",
-            label: "Date Start"
-        },
-      
-        {
-            dataKey: "userName",
-            label: "Email"
-        },
-        {
-            dataKey: "Status",
+            dataKey: "status",
             label: "Status"
         },
         {
             dataKey: "createDate",
-            label: "Created Date"
+            label: "Create Date"
         },
         {
             dataKey: "modifiedDate",
             label: "Modified Date"
-        },
+        }
+        
     ];
     table.on('click', '.view-btn', function (e) {
         let data = JSON.parse($(this).attr("data-item"));
+
         $("#viewModalBody").html("");
         for (let i = 0; i < viewDatas.length; i++) {
             const viewData = viewDatas[i];
-            if (viewData.dataKey === "Status") {
+            if (viewData.label.includes("Date")) data[viewData.dataKey] = formatDate(new Date(data[viewData.dataKey]));
+            if (viewData.dataKey === "status") {
                 console.log(data[viewData.dataKey]);
                 const status = data[viewData.dataKey] == 1 ? "Active" : "Inactive";
                 data[viewData.dataKey] = status;
             }
-            if (viewData.label.includes("Date")) data[viewData.dataKey] = formatDate(new Date(data[viewData.dataKey]));
             $("#viewModalBody").append(`
                 <div class="d-flex justify-content-between">
                     <h5>${viewData.label}:</h5>

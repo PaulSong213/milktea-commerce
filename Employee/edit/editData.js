@@ -43,7 +43,7 @@ export function handleEditClick(table) {
                 inputName: "sex"
             },
             {
-                dataKey: "department",
+                dataKey: "departmentID",
                 inputName: "dept"
             },
             {
