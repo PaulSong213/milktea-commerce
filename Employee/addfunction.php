@@ -24,7 +24,6 @@ if (isset($_POST['SaveItem'])) {
     $startDate = $_POST['employee_sdate'];
     $username = $_POST['email'];
     $password = $_POST['Password'];
-
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
 

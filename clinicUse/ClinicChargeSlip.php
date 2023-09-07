@@ -13,7 +13,7 @@ if ($conn->connect_error) {
 // Function to get the last SalesID
 function getLastSalesID($conn)
 {
-    $querySalesID = "SELECT MAX(SalesID) AS LastSalesID FROM sales_tb";
+    $querySalesID = "SELECT MAX(SalesID) AS LastSalesID FROM clinicuse_tb";
     $result = $conn->query($querySalesID);
 
     if ($result->num_rows > 0) {
@@ -28,7 +28,7 @@ $lastSalesID = getLastSalesID($conn);
 
 function getLastBillingID($conn)
 {
-    $querySalesID = "SELECT MAX(billingID) AS LastBillingID FROM billing_tb";
+    $querySalesID = "SELECT MAX(SalesID) AS LastBillingID FROM clinicuse_tb";
     $result = $conn->query($querySalesID);
 
     if ($result->num_rows > 0) {
@@ -58,10 +58,10 @@ $LastBillingID = getLastBillingID($conn);
             <div class="col-md-6 p-4">
                 <div class="row">
                     <div class="form-group fw-bold">
-                        <label for="chargeSlipNumber">Charge Slip Number</label>
+                        <label for="chargeSlipNumber">Clinic Transaction Number</label>
                         <input type="text" class="form-control text-light bg-secondary" name="chargeSlipNumber" placeholder="Enter Charge Slip Number" required value="<?php echo "00" . ($lastSalesID + 1); ?>" readonly>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group fw-bold">
                     <label for="department">Clinic Department</label>
                     <select class="form-control" name="department" required>
                         <option value="" disabled selected>Select a Department</option>
@@ -78,15 +78,15 @@ $LastBillingID = getLastBillingID($conn);
                         Please select a Department.
                     </small>
                 </div>
-                    <div class="form-group">
-                        <label for="requestedByName">Requested By: </label>
+                    <div class="form-group fw-bold">
+                        <label for="requestedByName">Requested By </label>
                         <input type="text" class="form-control is-invalid" name="requestedByName" list="employeeList" correctData="employeesData" placeholder="Enter Requested By Name" required>
                         <?php require_once('../API/datalist/employee.php') ?>
                         <small class="feedback d-none bg-danger p-1 rounded my-1">
                             Please select a valid requested by Name.
                         </small>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group fw-bold">
                         <label for="enteredByName">Entered By: </label>
                         <input type="text" class="form-control is-valid text-light bg-secondary" name="enteredByName" list="employeeList" readonly correctData="employeesData" placeholder="Enter Entered By Name" value="<?= $currentLoggedInEncoder; ?>" sql-value="<?= $currentLoggedInEncoderID; ?>" required isvalidated="true">
                         <?php require_once('../API/datalist/employee.php') ?>
@@ -101,21 +101,8 @@ $LastBillingID = getLastBillingID($conn);
             <div class="col-md-6 p-4">
                 <!-- Additional Info Section -->
                 <div class="form-group fw-bold">
-                    <label for="netSale">Net Sale</label>
-                    <input type="text" class="form-control text-light bg-secondary" name="netSale" readonly value="0.00">
-                </div>
-                <div class="form-group fw-bold">
                     <label for="netAmount">Net Amount</label>
                     <input type="text" class="form-control text-light bg-secondary " name="netAmount" readonly value="0.00">
-                </div>
-                <div class="form-group was-validated">
-                    <label for="amountTendered">Amount Tendered</label>
-                    <input type="number" class="form-control" name="amountTendered" min="0" required>
-                    <div class="invalid-feedback">Please enter a valid amount tendered.</div>
-                </div>
-                <div class="form-group fw-bold">
-                    <label for="change">Change</label>
-                    <input type="number" class="form-control text-light bg-secondary" name="change" id="change" step="0.1" value="0.00" readonly>
                 </div>
                 <button type="submit" class="btn btn-primary add-button" name="SaveItem">Save Transaction</button>
             </div>
@@ -163,6 +150,7 @@ $LastBillingID = getLastBillingID($conn);
     </form>
     <script script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
     <script>
+        
         function validateForm() {
             const form = document.getElementById('addItemForm');
             const inputFields = form.querySelectorAll('.form-control');
@@ -204,45 +192,59 @@ $LastBillingID = getLastBillingID($conn);
         });
 
         function updateProductInfo(input) {
-            var selectedValue = input.value;
-            var row = input.closest("tr");
-            var invInput = row.querySelector('[name="inv"]');
-            var unitInput = row.querySelector('[name="unit[]"]');
-            var priceInput = row.querySelector('[name="price[]"]');
-            var itemTypeInput = row.querySelector('[name="itemType[]"]');
-            var idInput = row.querySelector('[name="id[]"]');
-            var itemTypeIDInput = row.querySelector('[name="itemTypeID[]"]');
-            var datalist = document.getElementById('product_id_list');
+    var selectedValue = input.value;
+    var row = input.closest("tr");
+    var invInput = row.querySelector('[name="inv"]');
+    var unitInput = row.querySelector('[name="unit[]"]');
+    var priceInput = row.querySelector('[name="price[]"]');
+    var itemTypeInput = row.querySelector('[name="itemType[]"]');
+    var idInput = row.querySelector('[name="id[]"]');
+    var itemTypeIDInput = row.querySelector('[name="itemTypeID[]"]');
+    var datalist = document.getElementById('product_id_list');
 
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "getproductdetails.php?itemCode=" + selectedValue, true);
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        var response = JSON.parse(xhr.responseText);
-                        invInput.value = response.inv;
-                        unitInput.value = response.unit;
-                        priceInput.value = response.price;
-                        itemTypeInput.value = response.itemtype;
-                        idInput.value = response.id;
-                        itemTypeIDInput.value = response.itemTypeID;
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "getproductdetails.php?itemCode=" + selectedValue, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                
+                if (invInput) {
+                    invInput.value = response.inv;
+                }
+                if (unitInput) {
+                    unitInput.value = response.unit;
+                }
+                if (priceInput) {
+                    priceInput.value = response.price;
+                }
+                if (itemTypeInput) {
+                    itemTypeInput.value = response.itemtype;
+                }
+                if (idInput) {
+                    idInput.value = response.id;
+                }
+                if (itemTypeIDInput) {
+                    itemTypeIDInput.value = response.itemTypeID;
+                }
 
-                        for (var i = 0; i < datalist.options.length; i++) {
-                            if (datalist.options[i].value === selectedValue) {
-                                datalist.options[i].disabled = true;
-                                CalculateValues(row);
-                                break;
-                            }
-                        }
-
-                        console.log("Response:", response);
-                    } else {
-                        console.error("Failed to fetch product details");
+                for (var i = 0; i < datalist.options.length; i++) {
+                    if (datalist.options[i].value === selectedValue) {
+                        datalist.options[i].disabled = true;
+                        CalculateValues(row);
+                        break;
                     }
                 }
-            };
-            xhr.send();
+
+                console.log("Response:", response);
+            } else {
+                console.error("Failed to fetch product details");
+            }
         }
+    };
+    xhr.send();
+}
+
 
         function removeRow(button) {
             const row = button.parentNode.parentNode;
@@ -301,10 +303,8 @@ $LastBillingID = getLastBillingID($conn);
             // Remove the discount calculation lines
             const inventory = parseFloat(row.querySelector('[name="inv"]').value) || 0;
             const subtotal = qty * price;
-
             const subtotalInput = row.querySelector('[name="subtotal[]"]');
             subtotalInput.value = subtotal.toFixed(2);
-
             // Recalculate net sale
             const allSubtotalInputs = document.querySelectorAll('[name="subtotal[]"]');
             let netSale = 0;
@@ -320,19 +320,8 @@ $LastBillingID = getLastBillingID($conn);
 
     const netSaleInput = document.querySelector('[name="netSale"]');
     const netAmountInput = document.querySelector('[name="netAmount"]');
-    const changeInput = document.querySelector('[name="change"]');
-
-    netSaleInput.value = netSale.toFixed(2);
     netAmountInput.value = netAmount.toFixed(2);
-
-    // Calculate and update change amount
-    const amountTenderedInput = document.querySelector('[name="amountTendered"]');
-    const amountTenderedValue = parseFloat(amountTenderedInput.value) || 0;
-    const change = amountTenderedValue - netAmount;
-    changeInput.value = change.toFixed(2);
-    $('input[name="change"]').change();
 }
-
         document.addEventListener("DOMContentLoaded", function() {
             addRow();
 
@@ -350,14 +339,6 @@ $LastBillingID = getLastBillingID($conn);
             initialRows.forEach(row => {
                 attachInputListeners(row);
             });
-
-            // Attach input listeners to additional discount and amount tendered input fields
-            const additionalDiscountInput = document.querySelector('[name="additionalDiscount"]');
-            if (additionalDiscountInput) {
-                additionalDiscountInput.addEventListener("input", function() {
-                    CalculateValues(document.querySelector("table"));
-                });
-            }
 
             const amountTenderedInput = document.querySelector('[name="amountTendered"]');
             if (amountTenderedInput) {
@@ -377,18 +358,10 @@ $LastBillingID = getLastBillingID($conn);
         var formattedTime = hours + ':' + minutes;
         $("#dateAdmitted").val(formattedDate);
         $("#timeAdmitted").val(formattedTime);
+        
     </script>
 
-    <script type="module">
-        import {
-            validateDataList
-        } from "./js/datalist.js";
-        validateDataList({
-            patientsData: JSON.parse('<?= $patientsData ?>'),
-            employeesData: JSON.parse('<?= $employeesData ?>'),
-            billingsData: JSON.parse('<?= $billingsData ?>'),
-        });
-    </script>
+    
 </body>
 
 </html>

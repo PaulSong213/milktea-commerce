@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
 <?php
-
-
 require_once('./php/connect.php');
 session_start();
 if (isset($_SESSION['user'])) {
@@ -117,8 +115,27 @@ if (isset($_SESSION['user'])) {
 					if (password_verify($password, $val["password"]) && $val["Status"] == 1) {
 						if ($val["isPassSet"] == 1) {
 							$_SESSION["user"] = json_encode($val);
-							header("Location: ./billing_slip/index.php");
-							exit();
+							$employee_id = $val["DatabaseID"];
+							$action = "Log In" ;
+							$description = "User Log in";
+							echo"<p style='color:red'>$employee_id</p>";
+
+							$conn1 = connect();
+							$sql1 = "INSERT INTO backlog_tb (employeeID, action, description, timeStamp)
+        						VALUES ('$employee_id', '$action', '$description', NOW())";
+
+							$result1 = mysqli_query($conn1, $sql1);
+							if ($result) {
+								// success
+								$_SESSION["alert_message"] = "Successfully Added an Employee";
+								$_SESSION["alert_message_success"] = true;
+								header("Location: ./billing_slip/index.php");
+
+							} else {
+								$_SESSION["alert_message"] = "Failed to Added an Employee. Error Details: " . mysqli_error($conn);
+								$_SESSION["alert_message_error"] = true;
+							}
+
 						} else if (password_verify($password, $val["password"]) && $val["Status"] == 0) {
 							echo "<p style='color:red'>Account currently disable</p>";
 							header("Location: ./index.php");

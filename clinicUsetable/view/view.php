@@ -2,11 +2,11 @@
 <html lang="en">
 
 <body>
-    <div class="modal fade" id="viewItemModal" tabindex="-1" role="dialog" aria-labelledby="viewItemModalLabel" aria-hidden="true">
+    <div class="modal fade" data-bs-backdrop="static" id="viewItemModal" tabindex="-1" role="dialog" aria-labelledby="viewItemModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addItemModalLabel">View Item</h5>
+                    <h5 class="modal-title" id="addItemModalLabel">Clinic Use</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="viewModalBody">
@@ -24,5 +24,4 @@
         $('#viewItemModal').modal('hide'); // Close the modal when the close button is clicked
     });
 </script>
-
 </html>
