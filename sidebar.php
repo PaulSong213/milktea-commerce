@@ -6,6 +6,8 @@ if (isset($_SESSION['user'])) {
     $userData = json_decode($_SESSION['user'], true);
     $userName = $userData['userName'];
     $userDepartment = $userData['departmentName'];
+    $userLevel = $userData['AccessLevel'];
+
     
 } else {
     // Redirect back to the login page or handle the user not being logged in
@@ -18,7 +20,9 @@ if (isset($_GET['logout'])){
     header('location: ./index.php');
 }
 
-$query = "SELECT * FROM employee_tb LEFT JOIN department_tb ON employee_tb.departmentID = department_tb.departmentID WHERE employee_tb.DatabaseID >= $userData";
+$query = "SELECT * FROM employee_tb 
+        LEFT JOIN department_tb ON employee_tb.departmentID = department_tb.departmentID 
+        WHERE department_tb.AccessLevel =  $userLevel";
 $result = mysqli_query($conn, $query);
 // Check if the query executed successfully
 if ($result) {
@@ -331,7 +335,7 @@ $LeveL4 = [
             [
                 "name" => isset($_SESSION['user']) ? json_decode($_SESSION['user'], true)['departmentName'] : 'You are Logout',
                 "icon" => "account_circle", //material icon name
-                "link" => "/dashboard/index.php", //link of the pages
+                "link" => "/account/index.php", //link of the pages
             ],
             [
                 "name" => "Log Out", //name of the link
