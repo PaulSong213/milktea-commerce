@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -86,10 +87,10 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         // Get the current date
         const currentDate = new Date();
-        
 
         // Format the current date as YYYY-MM-DD
         const formattedDate = currentDate.toISOString().split('T')[0];
@@ -103,29 +104,22 @@
         const currentHours = eightHoursAgo.getHours().toString().padStart(2, '0');
         const currentMinutes = eightHoursAgo.getMinutes().toString().padStart(2, '0');
         const ShiftIn = currentHours + ':' + currentMinutes;
-
-
         var ShiftOut = currentDate.getHours().toString().padStart(2, '0') + ':' + currentDate.getMinutes().toString().padStart(2, '0');
-
         // Get the input element for time in and out by their IDs
         const inputTimeIn = document.getElementById('inputTimeIn');
         const inputTimeOut = document.getElementById('inputTimeOut');
-
         // Set the formatted time as the default value for the input fields
         inputTimeIn.value = ShiftIn;
         inputTimeOut.value = ShiftOut;
-
 
         $(document).ready(function() {
             $("#confirmButton").click(function() {
                 var selectedDate = $("#inputDate").val();
                 var selectedTimeIn = $("#inputTimeIn").val();
                 var selectedTimeOut = $("#inputTimeOut").val();
-
                 if (selectedDate && selectedTimeIn && selectedTimeOut) {
                     var dateTimeIn = selectedDate + ' ' + selectedTimeIn;
                     var dateTimeOut = selectedDate + ' ' + selectedTimeOut;
-
                     $.ajax({
                         url: "fetch_data.php",
                         method: "POST",
@@ -173,13 +167,11 @@
     <head>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     </head>
-
-    <body style="width: 100%; height: 100%; margin:0;">
-        <div class="print-content">
+    <body">
+        <div class="print-content fluid">
             ${divToPrint}
         </div>
     </body>
-
     </html>`);
 
                 newTab.document.close();

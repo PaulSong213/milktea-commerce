@@ -3,8 +3,8 @@
 
     <!-- Bank -->
     <div class="mb-3">
-        <label class="form-label" for="bank">Bank</label>
-        <input type="text" id="bank" name="bank" class="form-control fw-bold fs-5  rounded px-2" placeholder="Enter Bank" required>
+        <label class="form-label" for="bankName">Bank</label>
+        <input type="text" id="bankName" name="bankName" class="form-control fw-bold fs-5  rounded px-2" placeholder="Enter Bank" required>
     </div>
 
     <!-- Check # -->
@@ -22,8 +22,10 @@
     <!-- Check Amount -->
     <div class="mb-3">
         <label class="form-label" for="checkAmount">Check Amount</label>
-        <input type="number" id="checkAmount" name="checkAmount" class="form-control fw-bold fs-5  rounded px-2" placeholder="Enter Check Amount" required>
+        <input type="number" min="1" id="checkAmount" name="checkAmount" class="form-control fw-bold fs-5  rounded px-2" placeholder="Enter Check Amount" required>
     </div>
+
+
 </div>
 
 <script>

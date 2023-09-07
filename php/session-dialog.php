@@ -8,6 +8,7 @@ if (isset($_SESSION["alert_message"])) {
     if (isset($_SESSION["alert_message_success"])) $alertType = "success";
     if (isset($_SESSION["alert_message_error"])) $alertType = "error";
 
+    $message =  str_replace("`", "'", $message);
     // fire sweetalert2
     echo "<script>
         Swal.fire(

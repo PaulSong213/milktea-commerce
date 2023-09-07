@@ -25,7 +25,7 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
 </head>
 
 <body class="fluid" id="parent">
-    <form method="POST" action="databasefunctions.php" id="addItemForm" class="container-fluid p-3" autocomplete="off">
+    <form method="POST" action="../API/payment/create.php" id="addItemForm" class="container-fluid p-3" autocomplete="off">
         <div class="row text-white mb-4">
             <h3 class="text-uppercase my-4 text">
                 ENTER PAYMENT | <?= $_GET['type'] ?? 'CASH' ?>
@@ -39,18 +39,38 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
                         <label class="form-label">Type</label>
                         <div class="col radio-btn btn btn-dark ms-3">
                             <div class="form-check d-flex">
-                                <input class="form-check-input" type="radio" checked="checked" id="chargeRadio" name="type" value="charge" required />
+                                <input class="form-check-input billTypeRadio" type="radio" checked="checked" id="chargeRadio" name="type" value="charge" required />
                                 <label class="form-check-label h-full d-flex align-items-center" for="chargeRadio">
                                     <i class="material-icons d-inline mx-2">attach_money</i>NYP (Charge)</label>
                             </div>
                         </div>
                         <div class="col radio-btn btn text-white border border-secondary ms-3">
                             <div class="form-check d-flex">
-                                <input class="form-check-input" type="radio" id="billRadio" name="type" value="bill" required />
+                                <input class="form-check-input billTypeRadio" type="radio" id="billRadio" name="type" value="bill" required />
                                 <label class="form-check-label h-full d-flex align-items-center" for="billRadio">
                                     <i class="material-icons d-inline mx-2">credit_card</i>Bill</label>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Charge Slip -->
+                    <div class="mb-3 charge-slip-container">
+                        <label class="form-label" for="chargeID">Charge Slip</label>
+                        <input type="text" class="form-select" name="chargeID" id="chargeID" list="chargeList" correctData="chargeData" placeholder="Enter Charge Slip" required>
+                        <?php require_once('../API/datalist/charge-opd.php') ?>
+                        <small class="feedback d-none bg-danger p-1 rounded my-1">
+                            Please select a valid Charge No.
+                        </small>
+                    </div>
+
+                    <!-- Bill Slip -->
+                    <div class="mb-3 bill-slip-container d-none">
+                        <label class="form-label" for="billID">Bill #</label>
+                        <input type="text" class="form-select" name="billID" id="billID" list="billingList" correctData="billingsData" placeholder="Enter Bill Slip" required>
+                        <?php require_once('../API/datalist/billing-list.php') ?>
+                        <small class="feedback d-none bg-danger p-1 rounded my-1">
+                            Please select a valid Bill No.
+                        </small>
                     </div>
 
                     <!-- Received by -->
@@ -95,15 +115,6 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
                         </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label" for="chargeID">Charge Slip</label>
-                        <input type="text" class="form-select" name="chargeID" id="chargeID" list="chargeList" correctData="chargeData" placeholder="Enter Charge Slip" required>
-                        <?php require_once('../API/datalist/charge.php') ?>
-                        <small class="feedback d-none bg-danger p-1 rounded my-1">
-                            Please select a valid Charge No.
-                        </small>
-                    </div>
-
                     <button id="submitPayment" class="btn btn-success col text-uppercase fw-bold fs-5" type="submit">
                         Enter Payment
                     </button>
@@ -112,11 +123,11 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
                 <div class="col-12 col-lg-6">
 
                     <?php
-                    require_once('./modeOfPayment/cash.php');
                     require_once('./modeOfPayment/check.php');
+                    require_once('./modeOfPayment/cash.php');
                     ?>
 
-                    <div id="chargeInfoParent" class="p-3 rounded d-none" style="background-color: #002240;">
+                    <div id="chargeInfoParent" class="p-3 rounded d-none mb-3" style="background-color: #002240;">
 
                         <!-- Charge to -->
                         <div class="mb-3">
@@ -144,11 +155,15 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
 
                     </div>
 
+                    <div id="billInfoParent" class="bg-white text-dark p-4 rounded shadow d-none" style="zoom: 0.7;"></div>
+
                 </div>
             </div>
         </div>
 
     </form>
+    <?php require_once('../billing_slip/templates/billing.php') ?>
+    <?php require_once('../billing_slip/templates/charge-slip.php') ?>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -159,6 +174,7 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
     validateDataList({
         employeesData: JSON.parse('<?= $employeesData ?>'),
         chargeData: JSON.parse('<?= $chargeData ?>'),
+        billingsData: JSON.parse('<?= $billingsData ?>')
     });
 </script>
 <script>
@@ -175,7 +191,8 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
             $(this).removeClass("border border-secondary text-white").addClass("btn-dark");
             const radioInput = $(this).find("input");
             radioInput.prop("checked", true);
-            if(radioInput.attr('name') === 'modeOfPayment') {
+            radioInput.trigger("change");
+            if (radioInput.attr('name') === 'modeOfPayment') {
                 if (radioInput.val() === "cash") {
                     $(".check-form").addClass("d-none");
                     $(".cash-form").removeClass("d-none");
@@ -188,20 +205,40 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
 
         $("#chargeID").change(function() {
             const chargeID = $(this).attr('sql-value');
-            if (!chargeID) {
-                $("#chargeInfoParent").addClass("d-none");
+            if (!chargeID || !$(this).is(':visible')) {
+                $("#billInfoParent, #chargeInfoParent").addClass("d-none");
                 return;
             };
+            $("#billInfoParent").html("");
             const chargeData = JSON.parse('<?= $chargeData ?>');
+
             const charge = chargeData[chargeID].data;
-            console.log(charge);
+            console.log('CHARGE', charge.SalesID);
+            $("#billInfoParent").html("");
+            showChargeSlip(charge.SalesID, $("#billInfoParent"));
+            $("#billInfoParent,#chargeInfoParent").removeClass("d-none");
             $("#chargedTo").val(`${charge.fname} ${charge.mname} ${charge.lname}`);
             $("#billTotal").val(`${charge.NetAmt}`);
             $("#remainingBalance").val(`${charge.remainingBalance}`);
             $("#amountPaid").val(charge.AmtTendered);
-            $("#chargeInfoParent").removeClass("d-none");
+            $("#amountTendered").trigger("change");
+        });
 
-            $("#ammountTendered").trigger("change");
+        $("#billID").change(async function() {
+            const billID = $(this).attr('sql-value');
+            if (!billID || !$(this).is(':visible')) {
+                $("#billInfoParent, #chargeInfoParent").addClass("d-none");
+                return;
+            }
+            console.log('BILL ID', billID);
+            $("#billInfoParent").html("");
+            const billData = await showBill(billID, $("#billInfoParent"));
+            $("#billInfoParent, #chargeInfoParent").removeClass("d-none");
+            $("#chargedTo").val(`${billData.accountOfFirstName} ${billData.accountOfMiddleName} ${billData.accountOfLastName}`);
+            $("#billTotal").val(`${billData.grandTotal}`);
+            $("#remainingBalance").val(`${billData.totalRemainingBalance}`);
+            $("#amountPaid").val(billData.AmtTendered);
+            $("#amountTendered").trigger("change");
         });
 
         $("#submitPayment").click(function(event) {
@@ -218,6 +255,18 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
             }
         });
 
+        $(".billTypeRadio").change(function() {
+            $("#chargeID, #billID")
+                .val("")
+                .trigger("change");
+            if ($(this).val() === "bill") {
+                $(".bill-slip-container").removeClass("d-none");
+                $(".charge-slip-container").addClass("d-none");
+            } else {
+                $(".bill-slip-container").addClass("d-none");
+                $(".charge-slip-container").removeClass("d-none");
+            }
+        });
     });
 </script>
 

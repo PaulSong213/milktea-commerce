@@ -42,10 +42,15 @@ $sidebarContent = [
                 "link" => "/clinicUse/index.php", //link of the page
             ],
             [
-                "name" => "Closing Report", // include returns the included content
+                "name" => "Print Closing Report", // include returns the included content
                 "link" => "/closingReport/index.php",
                 "id" => "openModalButton",
             ],
+            // [
+            //     "name" => "Print Montly Report", // include returns the included content
+            //     "link" => "/MontlyReport/index.php",
+            //     "id" => "openModalButton",
+            // ],
 
 
         ]
@@ -54,7 +59,16 @@ $sidebarContent = [
         "name" => "Enter Payment", //name of the link
         "icon" => "paid", //material icon name
         "link" => "/enterPayment/index.php?type=cash", //link of the page
-        "navigations" => []
+        "navigations" => [
+            [
+                "name" => "Enter Payment", //name of the link
+                "link" => "/enterPayment/index.php?type=cash", //link of the page
+            ],
+            [
+                "name" => "Payment History", //name of the link
+                "link" => "/enterPayment/history/index.php", //link of the page
+            ]
+        ]
     ],
     [
         "name" => "Employee", //name of the link
@@ -165,7 +179,7 @@ $sidebarContent = [
 
         #sidebar {
             position: fixed;
-            width: 260px;
+            width: 200px;
             height: 100vh;
             transition: ease-in 0.1s;
             background-color: #fff;
@@ -186,12 +200,10 @@ $sidebarContent = [
         }
 
         #content {
-            width: calc(100% - 260px);
-            margin-left: 260px;
+            width: calc(100% - 200px);
+            margin-left: 200px;
             transition: all 0.3s;
         }
-
-
 
         #content.active {
             margin-left: 40px;
@@ -356,7 +368,6 @@ $sidebarContent = [
 
         <!-- Your content here -->
     </div>
-
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

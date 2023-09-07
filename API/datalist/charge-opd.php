@@ -9,6 +9,7 @@
     FROM sales_tb 
     LEFT JOIN patient_tb 
     ON sales_tb.PatientAcct = patient_tb.hospistalrecordNo
+    WHERE PatientType = 'OPD'
     ORDER BY `SalesID` DESC
     ";
     $billingresult = $conn->query($query);
