@@ -133,7 +133,7 @@ if (isset($_GET['logout'])) {
 </head>
 
 <body>
-    <div class="container">
+    <div class="container-fluid bg-dark rounded ">
         <div class="main-body">
             <div class="row gutters-sm">
                 <div class="col-md-4 mb-3">
