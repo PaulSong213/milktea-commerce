@@ -7,12 +7,14 @@ if (isset($_SESSION['user'])) {
     $userName = $userData['userName'];
     $userDepartment = $userData['departmentName'];
     $userLevel = $userData['AccessLevel'];
+
+    
 } else {
     // Redirect back to the login page or handle the user not being logged in
     header("Location: /Zarate/index.php");
     exit();
 }
-if (isset($_GET['logout'])) {
+if (isset($_GET['logout'])){
     session_destroy();
     unset($_SESSION['user']);
     header('location: ./index.php');
@@ -333,7 +335,7 @@ $LeveL4 = [
             [
                 "name" => isset($_SESSION['user']) ? json_decode($_SESSION['user'], true)['departmentName'] : 'You are Logout',
                 "icon" => "account_circle", //material icon name
-                "link" => "/dashboard/index.php", //link of the pages
+                "link" => "/account/index.php", //link of the pages
             ],
             [
                 "name" => "Log Out", //name of the link

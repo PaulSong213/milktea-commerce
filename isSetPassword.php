@@ -169,8 +169,6 @@ if (isset($_SESSION['user'])) {
         ?>
 
     </div>
-
-
     <script>
         function validatePassword() {
             var password = document.getElementById("password").value;
