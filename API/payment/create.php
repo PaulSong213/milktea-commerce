@@ -45,7 +45,10 @@ $checkAmount = $_POST['checkAmount'];
 $amountTendered = $cashAmountTendered;
 if ($modeOfPayment == 'check') $amountTendered = $checkAmount;
 
+$amountPaid = 0; // total amount lessen
+
 if ($type == 'charge') {
+
     $updateChargeQuery = "UPDATE `sales_tb` 
         SET `AmtTendered` = (AmtTendered + $amountTendered), 
         `ChangeAmt` = (ChangeAmt + '$amountTendered'), 
@@ -127,6 +130,7 @@ if ($type == 'charge') {
 
     // record the change
     if ($toPayBalance > 0) {
+        $changeAmt = $toPayBalance;
         $updateChangeQuery = "UPDATE `sales_tb` 
             SET `ChangeAmt` = '$toPayBalance', 
             `AmtTendered` = AmtTendered + $toPayBalance,
@@ -141,7 +145,7 @@ if ($type == 'charge') {
         }
     }
 }
-
+if ($changeAmt < 0) $changeAmt = 0;
 // insert payment transaction history
 $insertPaymentQuery = "INSERT INTO `payment_tb` (`billID`, `chargeID`, `receivedID`, `dateTimePaid`, `modifiedDate`, `paymentType`, `type`, `cashAmountTendered`, `changeAmt`, `bankName`, `checkNo`, `checkDate`, `checkAmount`) 
 VALUES ('$billID', '$chargeID', '$receivedByID', '$formattedDatetimePaid', current_timestamp(), '$modeOfPayment', '$type', '$cashAmountTendered', '$changeAmt', '$bankName', '$checkNo', '$checkDate', '$checkAmount');";
@@ -152,6 +156,10 @@ if (!$result) {
     header('Location: ' . $_SERVER['HTTP_REFERER']);
     die();
 }
+
+// save insert id to print
+$insertedPaymentID = $conn->insert_id;
+$_SESSION["printPaymentInsertedId"] = $insertedPaymentID;
 
 // success
 $_SESSION["alert_message"] = "Successfully Entered Payment";

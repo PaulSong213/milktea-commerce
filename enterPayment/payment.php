@@ -164,6 +164,7 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
     </form>
     <?php require_once('../billing_slip/templates/billing.php') ?>
     <?php require_once('../billing_slip/templates/charge-slip.php') ?>
+    <?php require_once('../billing_slip/templates/payment-slip.php'); ?>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

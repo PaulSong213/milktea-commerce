@@ -77,9 +77,9 @@
                             <div class="border-top border-3 my-3 py-1 px-2 border-secondary w-max" style="min-width: 25%;">
                                 <h5 class="fw-bold">Total Amount: ₱<span id="totalAmount">0</span></h5>
                                 <div class="d-flex flex-column">
-                                    <span id="AmtTendered">Ammount Tendered: ₱</span>
+                                    <span id="AmtTendered">Amount Tendered: ₱</span>
                                     <span id="ChangeAmt">Change: ₱</span>
-                                    <span id="NetAmt">Net Ammount: ₱</span>
+                                    <span id="NetAmt">Net Amount: ₱</span>
                                     <span id="NetSale">Net Sale: ₱</span>
                                     <span id="AddDisc">Additional Discount(%): </span>
                                     <span id="billRef">Bill Reference: </span>
@@ -102,6 +102,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
 
     <script>
         function showChargeSlip(salesID, appendToElement = null) {
@@ -257,8 +258,6 @@
             unset($_SESSION['printSalesInsertedId']);
         }
         ?>
-
-
 
         function printChargeSlip() {
             var divToPrint = document.getElementById('charge-slip').outerHTML;
