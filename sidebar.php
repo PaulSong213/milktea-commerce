@@ -1,13 +1,14 @@
 <?php
 if (isset($_SESSION['user'])) {
     $userData = json_decode($_SESSION['user'], true);
-    $userName = $userData['DatabaseID'];
+    $userName = $userData['userName'];
+    $userDepartment = $userData['departmentName'];
 } else {
     // Redirect back to the login page or handle the user not being logged in
     header("Location: /Zarate/index.php");
     exit();
 }
-if (isset($_GET['logout'])) {
+if (isset($_GET['logout'])){
     session_destroy();
     unset($_SESSION['user']);
     header('location: ./index.php');
@@ -134,10 +135,15 @@ $sidebarContent = [
     [
         "name" => "Account Settings", //name of the link
         "icon" => "account_circle", //material icon name
-        "link" => "/dashboard/index.php", //link of the page
+        "link" => "/account/index.php", //link of the page
         "navigations" => [
             [
                 "name" => isset($_SESSION['user']) ? json_decode($_SESSION['user'], true)['userName'] : 'You are Logout',
+                "icon" => "account_circle", //material icon name
+                "link" => "/account/index.php", //link of the pages
+            ],
+            [
+                "name" => isset($_SESSION['user']) ? json_decode($_SESSION['user'], true)['departmentName'] : 'You are Logout',
                 "icon" => "account_circle", //material icon name
                 "link" => "/dashboard/index.php", //link of the pages
             ],
@@ -153,6 +159,7 @@ $sidebarContent = [
 
 ]
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -303,7 +310,7 @@ $sidebarContent = [
 
 <body>
     <nav id="sidebar">
-        <a href="../dashboard/index.php">
+        <a href="../account/index.php">
             <div class="sidebar-header">
                 <h3><img src="/Zarate/img/logo.png" class="img-fluid" alt="Logo" /><span class="fw-bold company-title">E.Zarate Hospital</span></h3>
             </div>
@@ -416,6 +423,7 @@ $sidebarContent = [
             checkSideBarState();
         });
     </script>
+
 </body>
 
 </html>
