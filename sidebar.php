@@ -45,11 +45,11 @@ $sidebarContent = [
                 "link" => "/closingReport/index.php",
                 "id" => "openModalButton",
             ],
-            [
-                "name" => "Print Montly Report", // include returns the included content
-                "link" => "/MontlyReport/index.php",
-                "id" => "openModalButton",
-            ],
+            // [
+            //     "name" => "Print Montly Report", // include returns the included content
+            //     "link" => "/MontlyReport/index.php",
+            //     "id" => "openModalButton",
+            // ],
 
 
         ]
@@ -354,7 +354,6 @@ $sidebarContent = [
 
         <!-- Your content here -->
     </div>
-
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

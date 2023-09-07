@@ -38,7 +38,7 @@ if ($conn->connect_error) {
 }
 // -----------------------------------------------------------
 // Get total net amount
-$queryTotalNet = "SELECT SUM(NetAmt) AS total_net_amount FROM sales_tb WHERE createDate >= '$dateTimeInFormatted' AND createDate <= '$dateTimeOutFormatted'";
+$queryTotalNet = "SELECT SUM(NetAmt) AS total_net_amount FROM sales_tb WHERE createDate BETWEEN '$dateTimeInFormatted' AND '$dateTimeOutFormatted'";
 $totalNetAmount = executeQuery($conn, $queryTotalNet);
 // Calculate total cash amount
 $queryTotalCash = "SELECT SUM(NetAmt) - SUM(CASE WHEN ChangeAmt < 0 THEN ChangeAmt ELSE 0 END) AS total_Cash FROM sales_tb";
