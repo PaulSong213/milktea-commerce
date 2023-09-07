@@ -6,22 +6,19 @@ if (isset($_SESSION['user'])) {
     $userData = json_decode($_SESSION['user'], true);
     $userName = $userData['userName'];
     $userDepartment = $userData['departmentName'];
-    $userLevel = $userData['AccessLevel'];
     
 } else {
     // Redirect back to the login page or handle the user not being logged in
     header("Location: /Zarate/index.php");
     exit();
 }
-if (isset($_GET['logout'])) {
+if (isset($_GET['logout'])){
     session_destroy();
     unset($_SESSION['user']);
     header('location: ./index.php');
 }
 
-$query = "SELECT * FROM employee_tb 
-        LEFT JOIN department_tb ON employee_tb.departmentID = department_tb.departmentID 
-        WHERE department_tb.AccessLevel =  $userLevel";
+$query = "SELECT * FROM employee_tb LEFT JOIN department_tb ON employee_tb.departmentID = department_tb.departmentID WHERE employee_tb.DatabaseID >= $userData";
 $result = mysqli_query($conn, $query);
 // Check if the query executed successfully
 if ($result) {
