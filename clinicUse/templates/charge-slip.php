@@ -40,13 +40,9 @@
                         <div class="py-3 ">
                             <div class="d-flex">
                                 <div style="margin-right: 12px;">
-                                    <h6 class="mb-1">PATIENT NAME:</h6>
-                                    <h6 class="mb-1">ACCOUNT OF:</h6>
                                     <h6 class="mb-1">ATTACHED TO:</h6>
                                 </div>
                                 <div>
-                                    <h6 class="fw-bold mb-1"><span id="patientName"></span></h6>
-                                    <h6 class="fw-bold mb-1"><span id="accountOfPrint"></span></h6>
                                     <h6 class="fw-bold mb-1"><span id="attachedTo"></span></h6>
                                 </div>
                             </div>
@@ -77,13 +73,8 @@
                             <div class="border-top border-3 my-3 py-1 px-2 border-secondary w-max" style="min-width: 25%;">
                                 <h5 class="fw-bold">Total Amount: ₱<span id="totalAmount">0</span></h5>
                                 <div class="d-flex flex-column">
-                                    <span id="AmtTendered">Ammount Tendered: ₱</span>
-                                    <span id="ChangeAmt">Change: ₱</span>
+
                                     <span id="NetAmt">Net Ammount: ₱</span>
-                                    <span id="NetSale">Net Sale: ₱</span>
-                                    <span id="AddDisc">Additional Discount(%): </span>
-                                    <span id="billRef">Bill Reference: </span>
-                                    <span id="patientType">Patient Type: </span>
                                     <h5 id="paidIndicator" class="fs-6 fw-bold">
                                         PAID
                                     </h5>
@@ -104,56 +95,25 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
     <script>
-        function showChargeSlip(salesID) {
+        function showChargeSlip(SalesID) {
             // fetch data from api 
             $.ajax({
-                url: `/Zarate/API/sales/search.php?SalesID=${salesID}`,
+                url: `/Zarate/API/ClinicUse/search.php?SalesID=${salesID}`,
                 type: 'GET',
                 success: function(data) {
                     const chargeSlip = JSON.parse(data);
-                    const slipNumber = chargeSlip.SalesID;
-
-                    const attachedTo = `${chargeSlip.RequestedEmployeeFirstName} ${chargeSlip.RequestedEmployeeMiddleName} ${chargeSlip.RequestedEmployeeLastName}`;
-
-                    var patientName = `${chargeSlip.PatientFirstName} ${chargeSlip.PatientMiddleName} ${chargeSlip.PatientLastName}`;
-
-                    // if patient is not registered, use unpaid patient name
-                    if (!chargeSlip.hospistalrecordNo) {
-                        patientName = chargeSlip.UnpaidPatientName;
-                    }
-
-                    var accountOf = patientName;
-                    if (chargeSlip.billingID) {
-                        accountOf = `${chargeSlip.AccountOfFirstName} ${chargeSlip.AccountOfMiddleName} ${chargeSlip.AccountOfLastName}`;
-                    }
-
                     const date = chargeSlip.createDate;
                     const productInfoStr = chargeSlip.ProductInfo;
                     const enteredBy = `${chargeSlip.EnteredEmployeeFirstName} ${chargeSlip.EnteredEmployeeMiddleName} ${chargeSlip.EnteredEmployeeLastName}`;
                     const totalAmount = chargeSlip.NetAmt;
-                    const ChangeAmt = chargeSlip.ChangeAmt;
-                    var remainingBalance = 0;
-                    if (parseFloat(ChangeAmt) < 0) {
-                        remainingBalance = parseFloat(ChangeAmt) * -1;
-                        $("#paidIndicator").text(`**Remaining Balance: ₱${remainingBalance}`);
-                        $("#paidIndicator").addClass("text-danger");
-                    }
-
                     console.log(chargeSlip);
-
-                    if (!chargeSlip.billingID) {
+                    if (!chargeSlip.SalesID) {
                         $("#billRef").remove();
                     } else {
-                        $("#billRef").text(`Bill Reference: ${chargeSlip.billingID}`);
+                        $("#billRef").text(`Bill Reference: ${chargeSlip.SalesID}`);
                     }
-
-                    $("#patientType").text(`Patient Type: ${chargeSlip.PatientType}`);
                     $("#AmtTendered").text(`Amount Tendered: ₱${chargeSlip.AmtTendered}`);
-                    $("#ChangeAmt").text(`Change: ₱${ chargeSlip.ChangeAmt >= 0  ? chargeSlip.ChangeAmt : 0}`);
                     $("#NetAmt").text(`Net Amount: ₱${chargeSlip.NetAmt}`);
-                    $("#NetSale").text(`Net Sale: ₱${chargeSlip.NetSale}`);
-                    $("#AddDisc").text(`Additional Discount(%): ${chargeSlip.AddDisc}`);
-
 
                     // fill up the charge slip information
                     $('#slipNumber').text(slipNumber);
