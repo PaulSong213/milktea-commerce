@@ -5,6 +5,7 @@ require_once('./php/connect.php');
 session_start();
 if (isset($_SESSION['user'])) {
 	header("Location: ./billing_slip/index.php");
+	
 }
 ?>
 
@@ -116,6 +117,7 @@ if (isset($_SESSION['user'])) {
 						if ($val["isPassSet"] == 1) {
 							$_SESSION["user"] = json_encode($val);
 							$employee_id = $val["DatabaseID"];
+							$employeeName = $val["nickName"];
 							$action = "Log In" ;
 							$description = "User Log in";
 							echo"<p style='color:red'>$employee_id</p>";
@@ -127,7 +129,7 @@ if (isset($_SESSION['user'])) {
 							$result1 = mysqli_query($conn1, $sql1);
 							if ($result) {
 								// success
-								$_SESSION["alert_message"] = "Successfully Added an Employee";
+								$_SESSION["alert_message"] = "Successfully Log in";
 								$_SESSION["alert_message_success"] = true;
 								header("Location: ./billing_slip/index.php");
 

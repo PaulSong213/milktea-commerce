@@ -69,10 +69,10 @@ $dailySalesSummaryResult = $conn->query($dailySalesSummaryQuery);
 // Close the database connection
 $conn->close();
 ?>
-<body>
-<div class="container-fluid mt-5">
-    <div class="container">
-        <h1 class="text-center">SUMMARY DASHBOARD</h1>
+<body class="bg-dark ">
+<div class="fluid mt-2">
+    <div class="fluid p-4">
+        <h1 class="text-center text-white">SUMMARY DASHBOARD</h1>
         <div class="row">
             <?php
             $summarySections = [
@@ -86,7 +86,7 @@ $conn->close();
             foreach ($summarySections as $section) {
                 $totalUnit = ($section['data']['total_unit'] === null) ? '0' : $section['data']['total_unit'];
                 ?>
-                <div class="col-md-4 mb-4">
+                <div class="col-md-3 mb-3">
                     <div class="card">
                         <div class="card-header <?php echo $section['color']; ?> text-white">
                             <?php echo $section['title']; ?>  Summary
@@ -99,7 +99,7 @@ $conn->close();
             <?php } ?>
         </div>
         <div class="row">
-            <canvas id="InventoryChart" style="max-height: 600px;" class="container-fluid"></canvas>
+            <canvas id="InventoryChart" style="max-height: 600px;" class="container-fluid bg-white rounded"></canvas>
         </div>
     </div>
 </div>
