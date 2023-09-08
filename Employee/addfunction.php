@@ -41,7 +41,7 @@ if (isset($_POST['SaveItem'])) {
         // success
 
         $act = "Add New Employee";
-        $description = "Add New Employee";
+        $description = "Add Employee Data ";
 
         $conn1 = connect();
         $sql1 = "INSERT INTO backlog_tb (employeeID, action, description, timeStamp)

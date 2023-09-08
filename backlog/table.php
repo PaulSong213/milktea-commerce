@@ -86,9 +86,6 @@
         } from "../costum-js/datatables.js";
 
         import {
-            handleEditClick
-        } from "./edit/editData.js";
-        import {
             handleViewClick
         } from './view/viewData.js'
 
