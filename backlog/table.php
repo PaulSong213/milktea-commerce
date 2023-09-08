@@ -1,4 +1,3 @@
-<?php require_once '../php/connect.php'; ?>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -36,58 +35,35 @@
             font-size: 10px;
             margin-bottom: 5px;
         }
+
+        td:nth-child(2) {
+            max-width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     </style>
 </head>
 
 <body>
     <div class="table w-100 p-4">
-        <h2 class="mt-4 mb-5">SUPPLIER</h2>
+        <h2 class="mt-4 mb-5">Back Logs</h2>
         <?php include './add/add.php'; ?>
         <?php include './view/view.php'; ?>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>Supplier Name</th>
-                   
-                   
-                    <th>Fax Number</th>
-                  
-                    <th>Date Added</th>
-                    <th>Modified Date</th>
-                    <th>Status</th>
+                    <th>Employee Name</th>
+                    <th>Position</th>
+                    <th>Title</th>
+                    <th>Department</th>
+                    <th>Action</th>
+                    <th>Description</th>
+                    <th>Time Stamp</th>
                     <th class="action-column">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <?php
-                $connection = connect();
-
-                $sql = " select * from supplier_tb ";
-                $result = $connection->query($sql);
-
-                while ($row = $result->fetch_assoc()) {
-                   $activeStatus = ($row["status"]  == "1") ? "Active"  : "Inactive"; //condition for status
-                    $statusColor = ($row["status"]  == "1") ? "alert-success"  : "alert-danger"; //condition for color bg.
-                    echo "
-                        <tr>
-                            <td>" . $row["supplier_name"] . "</td>
-                          
-                           
-                            <td>" . $row["faxNum"] . "</td>
-                          
-                           
-                            <td>" . date("M d, Y h:i", strtotime($row["createDate"])) . "</td>
-                            <td>" . date("M d, Y h:i", strtotime($row["modifiedDate"])) . "</td>
-                            <td>
-                                <div class='d-flex w-100 h-100 d-flex '>
-                                    <h6 style='font-size: 13px' class='p-1 alert m-auto " . $statusColor . "'>" . $activeStatus . "</h6>
-                                </div>
-                            </td>
-                            <td class='invisible'>" . json_encode($row) . "</td>
-                        </tr>
-                        ";
-                }
-                ?>
             </tbody>
         </table>
     </div>
@@ -106,6 +82,7 @@
         import {
             searchColumn,
             handleArchiveClick,
+            toFormattedDate
         } from "../costum-js/datatables.js";
 
         import {
@@ -124,6 +101,63 @@
                 .appendTo('#example thead');
 
             const table = $('#example').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '/Zarate/API/backlog/view.php',
+                    dataType: 'JSON',
+                    type: 'POST',
+                    data: function(d) {
+                        d.draw = d.draw || 1;
+                    }
+                },
+                columns: [{
+                        data: null,
+                        render: (data, type, row) => {
+                            return data.fname + " " + data.mname + ", " + data.lname;
+                        }
+                    },
+                    {
+                        data: 'position',
+                    },
+                    {
+                        data: 'title',
+                    },
+                    {
+                        data: 'departmentName',
+                    }, {
+                        data: 'action'
+                    },
+                    {
+                        data: 'description'
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            return toFormattedDate(data.timeStamp);
+                        }
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            const id = data.backlogID;
+                            return `
+                            <div class="dropdown dropstart d-flex">
+                                <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
+                                    <img class="mb-1" src="../img/icons/ellipsis-horizontal.svg">
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="mx-2">
+                                        <button class=" btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
+                                    </li>
+                                  
+                                </ul>
+                            </div>
+                            `
+                        },
+                        "searchable": false
+                    }
+                ],
                 orderCellsTop: true,
                 fixedHeader: true,
                 responsive: true,
@@ -157,13 +191,6 @@
                     {
                         extend: 'pageLength',
                         className: 'btn border border-info'
-                    },
-                    {
-                        text: 'Add Supplier',
-                        className: 'btn btn-primary bg-primary text-white',
-                        action: function(e, dt, node, config) {
-                            $('#addItemModal').modal('show');
-                        }
                     }
                 ],
                 initComplete: function() {
@@ -173,7 +200,7 @@
                     targets: -1,
                     render: (d) => {
                         const data = JSON.parse(d);
-                        const id = data.supplier_code;
+                        const id = data.backlogID;
                         return `
                         <div class="dropdown dropstart d-flex">
                             <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
@@ -186,9 +213,6 @@
                                 <li class="mx-2">
                                     <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
                                 </li>
-                                <li class="mx-2">
-                                    <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>
-                                </li>
                             </ul>
                         </div>
                         `
@@ -196,24 +220,18 @@
                     "searchable": false
                 }],
                 order: [
-                    [5, 'asc']
+                    [3, 'asc']
                 ]
             });
-            handleArchiveClick(table, 0, "./edit/archive.php", 4);
             handleEditClick(table);
             handleViewClick(table);
-        });
-    </script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $(".xp-menubar").on('click', function() {
-                $('#sidebar').toggleClass('active');
-                $('#content').toggleClass('active');
-            });
 
-            $(".xp-menubar,.body-overlay").on('click', function() {
-                $('#sidebar,.body-overlay').toggleClass('show-nav');
+            table.on('draw', function() {
+                $('.action-wrapper').each(function(i, e) {
+                    $(this).removeClass('invisible');
+                });
             });
+            table.page(1).draw(true);
         });
     </script>
     <script>

@@ -152,10 +152,10 @@ if (isset($_SESSION['user'])) {
             $result = mysqli_query($conn, $sql);
             if ($result) {
                 // success
-                $_SESSION["alert_message"] = "Successfully Change Password";
+                $_SESSION["alert_message"] = " Password Successfully Change";
                 $_SESSION["alert_message_success"] = true;
             } else {
-                $_SESSION["alert_message"] = "Failed to Edit an Room. Error Details: " . mysqli_error($conn);
+                $_SESSION["alert_message"] = "Failed to Change Password. Error Details: " . mysqli_error($conn);
                 $_SESSION["alert_message_error"] = true;
             }
 

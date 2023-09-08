@@ -326,7 +326,7 @@ $LeveL4 = [
             ],
             [
                 "name" => "Log Out", //name of the link
-                "link" => "./?logout=true", //link of the page
+                "link" => "./logout.php", //link of the page
             ],
 
         ] //list of links on dropdown

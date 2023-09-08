@@ -24,5 +24,4 @@
         $('#viewItemModal').modal('hide'); // Close the modal when the close button is clicked
     });
 </script>
-
 </html>

@@ -9,24 +9,19 @@ if ($conn->connect_error) {
 }
 
 if (isset($_POST['SaveItem'])) {
-    $Sname = $_POST['supplier_name'];
-    $address = $_POST['address'];
-    $telNumber = $_POST['telNum'];
-    $faxNumber = $_POST['faxNum'];
-    $celNumber = $_POST['CelNum'];
-    $contactNumber = $_POST['contactNum'];
-    $Snote = $_POST['Snote'];
+    $itemTypeCode = $_POST['itemTypeCode'];
+    $description = $_POST['description'];
 
-    $sql = "INSERT INTO supplier_tb (supplier_name, address, telNum, faxNum, CelNum, contactNo, Snote, createDate, modifiedDate)
-    VALUES ('$Sname', '$address', '$telNumber', '$faxNumber','$celNumber', '$contactNumber', '$Snote', NOW(), NOW())";
+    $sql = "INSERT INTO itemtype_tb (itemTypeCode, description)
+    VALUES ('$itemTypeCode', '$description')";
 
     $result = mysqli_query($conn, $sql);
     if ($result) {
         // success
-        $_SESSION["alert_message"] = "Successfully Added an Item";
+        $_SESSION["alert_message"] = "Successfully Added an Item Type";
         $_SESSION["alert_message_success"] = true;
     } else {
-        $_SESSION["alert_message"] = "Failed to Added an Item. Error Details: " . mysqli_error($conn);
+        $_SESSION["alert_message"] = "Failed to Added an Item Type. Error Details: " . mysqli_error($conn);
         $_SESSION["alert_message_error"] = true;
     }
 
