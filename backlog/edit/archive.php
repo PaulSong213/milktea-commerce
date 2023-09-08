@@ -5,11 +5,6 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
     echo "POST REQUEST ONLY";
     die();
 };
-if (isset($_SESSION['user'])) {
-    $userData = json_decode($_SESSION['user'], true);
-    $userID = $userData['DatabaseID'];
-    $userDepartment = $userData['departmentName'];
-}
 
 // Data Validation
 if (!isset($_POST["rowID"])) {
