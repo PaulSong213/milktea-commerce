@@ -7,39 +7,23 @@ if (isset($_SESSION['user'])) {
     $userName = $userData['userName'];
     $userDepartment = $userData['departmentName'];
     $userLevel = $userData['AccessLevel'];
+
+    
 } else {
     // Redirect back to the login page or handle the user not being logged in
     header("Location: /Zarate/index.php");
     exit();
 }
-if (isset($_GET['logout'])) {
+if (isset($_GET['logout'])){
     session_destroy();
-    unset($_SESSION['user']);
-    header('location: ./index.php');
+
+    // Redirect to the login page or any other desired page after logout
+    header("Location: ./index.php"); // Change 'login.php' to the appropriate URL
+    exit;
 }
 
-$query = "SELECT * FROM employee_tb 
-        LEFT JOIN department_tb ON employee_tb.departmentID = department_tb.departmentID 
-        WHERE department_tb.AccessLevel =  $userLevel";
-$result = mysqli_query($conn, $query);
-// Check if the query executed successfully
-if ($result) {
-    $data = []; // Initialize an array to store the fetched rows
-    while ($row = mysqli_fetch_assoc($result)) {
-        // Append each row to the $data array
-        $data[] = $row;
-    }
-    // $data now contains the fetched rows
-} else {
-    echo "Error executing the query: " . mysqli_error($conn);
-}
+// Rest of your code...
 
-// Loop through the $data array and echo the values
-foreach ($data as $row) {
-    $Level = $row['AccessLevel'];
-}
-// Close the database connection when done
-mysqli_close($conn);
 // get icons here -> https://mui.com/material-ui/material-icons/
 
 $LeveL1 = [
@@ -232,9 +216,12 @@ $LeveL4 = [
                 "link" => "/clinicUse/index.php", //link of the page
             ],
             [
+                "name" => "Clinic Use Table", //name of the link
+                "link" => "/clinicUsetable/index.php", //link of the page
+            ],
+            [
                 "name" => "Print Closing Report", // include returns the included content
                 "link" => "/closingReport/index.php",
-                "id" => "openModalButton",
             ],
             // [
             //     "name" => "Print Montly Report", // include returns the included content
@@ -333,11 +320,11 @@ $LeveL4 = [
             [
                 "name" => isset($_SESSION['user']) ? json_decode($_SESSION['user'], true)['departmentName'] : 'You are Logout',
                 "icon" => "account_circle", //material icon name
-                "link" => "/dashboard/index.php", //link of the pages
+                "link" => "/account/index.php", //link of the pages
             ],
             [
                 "name" => "Log Out", //name of the link
-                "link" => "./logout.php", //link of the page
+                "link" => "./?logout=true", //link of the page
             ],
 
         ] //list of links on dropdown
@@ -345,7 +332,7 @@ $LeveL4 = [
 ];
 $LevelNav = ""; // Define $LevelNav with an initial value
 
-switch ($Level) {
+switch ($userLevel) {
     case 1:
         $LevelNav = $LeveL1;
         break;
