@@ -47,11 +47,8 @@
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>Supplier Name</th>
-                   
-                   
+                    <th>Supplier Name</th>                   
                     <th>Fax Number</th>
-                  
                     <th>Date Added</th>
                     <th>Modified Date</th>
                     <th>Status</th>
@@ -66,18 +63,12 @@
                 $result = $connection->query($sql);
 
                 while ($row = $result->fetch_assoc()) {
-                   $activeStatus = ($row["status"]  == "1") ? "Active"  : "Inactive"; //condition for status
-                    $statusColor = ($row["status"]  == "1") ? "alert-success"  : "alert-danger"; //condition for color bg.
                     echo "
                         <tr>
-                            <td>" . $row["supplier_name"] . "</td>
-                          
+                            <td>" . $row["employeeID"] . "</td>
+                            <td>" . $row["faxNum"] . "</td>  
+                            <td>" . date("M d, Y h:i", strtotime($row["timeStamp"])) . "</td>
                            
-                            <td>" . $row["faxNum"] . "</td>
-                          
-                           
-                            <td>" . date("M d, Y h:i", strtotime($row["createDate"])) . "</td>
-                            <td>" . date("M d, Y h:i", strtotime($row["modifiedDate"])) . "</td>
                             <td>
                                 <div class='d-flex w-100 h-100 d-flex '>
                                     <h6 style='font-size: 13px' class='p-1 alert m-auto " . $statusColor . "'>" . $activeStatus . "</h6>
