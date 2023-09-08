@@ -7,7 +7,6 @@
       $userDepartment = $userData['departmentName'];
       $userLevel = $userData['AccessLevel'];
    }
-
     echo $userID;
 
    $action = "Log out";
