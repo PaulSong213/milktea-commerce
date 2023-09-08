@@ -101,7 +101,7 @@
                     const paymentData = JSON.parse(data);
                     console.log(paymentData);
                     $("#paySlipNumber").text(paymentData.paymentID);
-                    $("#payAmountPaid").text(`₱${paymentData.cashAmountTendered}`);
+                    $("#payAmountPaid").text(`₱${paymentData.paidAmt}`);
                     $("#payDateTime").text(formatDate(new Date(paymentData.dateTimePaid)));
                     $("#receivedByPay").text(`${paymentData.fname} ${paymentData.mname}  ${paymentData.lname}`);
                     $("#printDate").text(formatDate(new Date()));
@@ -119,7 +119,7 @@
                         <span>Bank Name: ${paymentData.bankName}</span>
                         <span>Check No.: ${paymentData.checkNo}</span>
                         <span>Check Date: ${formatDate(new Date(paymentData.checkDate))}</span>
-                        <span>Check Amount: ₱${paymentData.checkAmount}</span>
+                        <span>Check Amount: ₱${paymentData.paidAmt}</span>
                         `;
                     }
 
@@ -137,8 +137,10 @@
                             swal.close();
                             const chargeBillData = JSON.parse(chargeBillDataStr);
                             console.log("chargeBillData", chargeBillData);
-                            $("#payAccountOf").text(`${chargeBillData.AccountOfFirstName} ${chargeBillData.AccountOfMiddleName} ${chargeBillData.AccountOfLastName}`);
-                            $("#payPatientName").text(`${chargeBillData.PatientFirstName} ${chargeBillData.PatientMiddleName} ${chargeBillData.PatientLastName}`);
+
+                            $("#payAccountOf").text(`${chargeBillData.AccountOfFirstName || chargeBillData.accountOfFirstName } ${chargeBillData.AccountOfMiddleName || chargeBillData.accountOfMiddleName} ${chargeBillData.AccountOfLastName || chargeBillData.accountOfLastName}`);
+
+                            $("#payPatientName").text(`${chargeBillData.PatientFirstName || chargeBillData.patientFirstName} ${chargeBillData.PatientMiddleName || chargeBillData.patientMiddleName} ${chargeBillData.PatientLastName || chargeBillData.patientLastName}`);
 
                             if (appendToElement) {
                                 console.log($("#pay-slip-container"));
