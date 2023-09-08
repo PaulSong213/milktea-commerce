@@ -1,14 +1,14 @@
-<?php 
-            session_start();
+<?php
+session_start();
 
-            if (isset($_SESSION['user'])) {
-                $userData = json_decode($_SESSION['user'], true);
-                $userName = $userData['DatabaseID'];
-            } else {
-                // Redirect back to the login page or handle the user not being logged in
-                header("Location: ./login.php");
-                exit();
-            }
+if (isset($_SESSION['user'])) {
+    $userData = json_decode($_SESSION['user'], true);
+    $userName = $userData['DatabaseID'];
+} else {
+    // Redirect back to the login page or handle the user not being logged in
+    header("Location: ./login.php");
+    exit();
+}
 
 
 
@@ -39,6 +39,7 @@
             <?php include('./charge.php') ?>
             <?php include('../php/session-dialog.php') ?>
             <?php include('./templates/charge-slip.php') ?>
+            <?php require_once('./templates/payment-slip.php'); ?>
         </div>
     </div>
 
