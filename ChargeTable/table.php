@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 
 <html lang="en">
-
 <head>
     <title></title>
     <meta charset="UTF-8">
@@ -16,6 +15,9 @@
 
         .button-page-length.dt-button-active {
             background-color: #b6e8f3;
+        }   
+        .searchDiv{
+            width: 75%;
         }
 
         .dt-button {
@@ -47,8 +49,7 @@
 
 <body>
     <div class="table w-100 p-4">
-        <h2 class="mt-4 mb-5">CHARGE LIST TABLE</h2>
-        <?php include './add/add.php'; ?>
+        <h2 class="mt-4 mb-5">CHARGE LIST TABLE</h2>    
         <?php include './view/view.php'; ?>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
@@ -205,40 +206,33 @@
                 dom: 'Bfrtip',
                 buttons: [{
                         extend: 'excelHtml5',
-                        className: 'btn border border-info',
+                        className: 'btn col-1 border border-info',
                         exportOptions: {
                             columns: ':not(.action-column)'
                         }
                     },
                     {
                         extend: 'pdfHtml5',
-                        className: 'btn border border-info',
+                        className: 'btn  col-1 border border-info',
                         exportOptions: {
                             columns: ':not(.action-column)'
                         }
                     },
                     {
                         extend: 'print',
-                        className: 'btn border border-info',
+                        className: 'btn col-1 border border-info',
                         exportOptions: {
                             columns: ':not(.action-column)'
                         }
                     },
                     {
                         extend: 'colvis',
-                        className: 'btn border border-info'
+                        className: 'btn col-1 border border-info'
                     },
                     {
                         extend: 'pageLength',
-                        className: 'btn border border-info'
+                        className: 'btn col-1 border border-info'
                     },
-                    {
-                        text: 'Add Item Type',
-                        className: 'btn btn-primary bg-primary text-white',
-                        action: function(e, dt, node, config) {
-                            $('#addItemModal').modal('show');
-                        }
-                    }
                 ],
                 initComplete: function() {
                     searchColumn(this.api());
@@ -279,23 +273,6 @@
                 });
             });
             table.page(1).draw(true);
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('#saveItemButton').click(function() {
-                var itemCode = $('#itemCode').val();
-                var unit = $('#Unit').val();
-                var description = $('#description').val();
-                if (itemCode.trim() === "" || unit.trim() === "" || description.trim() === "") {
-                    return false; // Prevent closing modal and form submission
-                } else {
-                    $('#addItemModal').modal('hide'); // Close the modal after saving
-                }
-            });
-        });
-        $('#Closemodal1, #Closemodal2').click(function() {
-            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
         });
     </script>
 </body>
