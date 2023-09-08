@@ -38,11 +38,18 @@ if ($conn->connect_error) {
 }
 // -----------------------------------------------------------
 // Get total net amount
+
 $queryTotalNet = "SELECT SUM(NetAmt) AS total_net_amount FROM sales_tb WHERE createDate BETWEEN '$dateTimeInFormatted' AND '$dateTimeOutFormatted'";
 $totalNetAmount = executeQuery($conn, $queryTotalNet);
 // Calculate total cash amount
-$queryTotalCash = "SELECT SUM(NetAmt) - SUM(CASE WHEN ChangeAmt < 0 THEN ChangeAmt ELSE 0 END) AS total_Cash FROM sales_tb";
+$queryTotalCash = "SELECT SUM(NetAmt) - SUM(CASE WHEN ChangeAmt < 0 THEN ChangeAmt ELSE 0 END) AS total_Cash FROM sales_tb WHERE createDate BETWEEN '$dateTimeInFormatted' AND '$dateTimeOutFormatted'";
 $totalCashAmount = executeQuery($conn, $queryTotalCash);
+
+$queryTotalBill = "SELECT SUM(cashAmountTendered) - SUM(changeAmt) AS total_Bill FROM payment_tb  WHERE dateTimePaid BETWEEN '$dateTimeInFormatted' AND '$dateTimeOutFormatted'";
+$totalBillAmount = executeQuery($conn, $queryTotalBill);
+
+$FinaltotalNet = 0;
+
 
 ?>
 
@@ -53,7 +60,7 @@ $totalCashAmount = executeQuery($conn, $queryTotalCash);
             <img style="height: 60px;" src="../img/logo.png" alt="ZARATE LOGO">
             <div class="mx-3 d-flex flex-column justify-content-end">
                 <h5 class="fw-bold mb-1">E. Zarate Hospital</h5>
-                <h6 class="text-muted">16 J. Aguilar Avenue, Talon, Las Piñas City,<br />Metro Manila, Philippines 1747</h6>
+                <h6 class="text-muted">16 J. Aguilar Avenue, Talon, Las Piñas City,<br/>Metro Manila, Philippines 1747</h6>
             </div>
         </div>
 
@@ -196,7 +203,7 @@ $totalCashAmount = executeQuery($conn, $queryTotalCash);
                 </div>
                 <div class="d-flex justify-content-between">
                     <span>Bill Transactions:</span>
-                    <span>₱ <?= number_format($totalCashAmount['total_Cash'] ?? 0, 2); ?></span>
+                    <span>₱ <?= number_format($totalBillAmount['total_Bill'] ?? 0, 2); ?></span>
                 </div>
                 <div class="d-flex justify-content-between">
                     <span>NYP Transactions:</span>
