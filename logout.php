@@ -1,5 +1,6 @@
  <?php
    session_start(); // Start or resume the existing session
+
    require_once('./php/connect.php');
    if (isset($_SESSION['user'])) {
       $userData = json_decode($_SESSION['user'],true);
