@@ -5,6 +5,11 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
     echo "POST REQUEST ONLY";
     die();
 };
+if (isset($_SESSION['user'])) {
+    $userData = json_decode($_SESSION['user'], true);
+    $userID = $userData['DatabaseID'];
+    $userDepartment = $userData['departmentName'];
+}
 
 // Data Validation
 if (!isset($_POST["rowID"])) {
@@ -36,8 +41,17 @@ $result = $connection->query($sql);
 
 if ($result) {
     // set session variable
-    $newStatus == 1 ? $action = "Available" : $action = "Not Available";
+    $newStatus == 1 ? $action = "Available" : $action = "Occupied/Under Maintenance";
+
+   
     $_SESSION["alert_message"] = "Successfully " . $action . " Item";
+    $act = "Room is  $action";
+    $description = "Room is  $action";
+
+    $conn1 = connect();
+    $sql1 = "INSERT INTO backlog_tb (employeeID, action, description, timeStamp)
+        						VALUES ('$userID', '$act', '$description', NOW())";
+    $result1 = mysqli_query($conn1, $sql1);
     $_SESSION["alert_message_success"] = true;
 } else {
     $_SESSION["alert_message"] = "Failed to " . $action . " Item. Error Details: " . mysqli_error($connection) . "";

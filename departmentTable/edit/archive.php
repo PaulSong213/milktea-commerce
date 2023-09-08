@@ -5,6 +5,12 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
     echo "POST REQUEST ONLY";
     die();
 };
+if (isset($_SESSION['user'])) {
+    $userData = json_decode($_SESSION['user'], true);
+    $userID = $userData['DatabaseID'];
+    $userDepartment = $userData['departmentName'];
+}
+
 
 // Data Validation
 if (!isset($_POST["rowID"])) {
@@ -37,6 +43,14 @@ $result = $connection->query($sql);
 if ($result) {
     // set session variable
     $newStatus == 0 ? $action = "Archived" : $action = "Unarchived";
+
+    $act = "$action  Department Data";
+    $description = "$action Department Data";
+
+    $conn1 = connect();
+    $sql1 = "INSERT INTO backlog_tb (employeeID, action, description, timeStamp)
+        						VALUES ('$userID', '$act', '$description', NOW())";
+    $result1 = mysqli_query($conn1, $sql1);
     $_SESSION["alert_message"] = "Successfully " . $action . " Item";
     $_SESSION["alert_message_success"] = true;
 } else {
