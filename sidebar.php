@@ -1,5 +1,5 @@
 <?php
-require_once '../php/connect.php';
+require_once __DIR__ . '/php/connect.php';
 $conn = connect();
 
 if (isset($_SESSION['user'])) {

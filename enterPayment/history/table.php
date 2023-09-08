@@ -47,16 +47,16 @@
 
 <body>
     <div class="table w-100 p-4">
-        <h2 class="mt-4 mb-5">ITEM TYPE</h2>
-        <?php include './add/add.php'; ?>
-        <?php include './view/view.php'; ?>
+
+        <h2 class="mt-4 mb-5">PAYMENT HISTORY</h2>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>Item Type Code</th>
-                    <th>Department Reference</th>
-                    <th>Description</th>
-                    <th>Date Added</th>
+                    <th>Payment #</th>
+                    <th>Date/Time Paid</th>
+                    <th>Type</th>
+                    <th>Mode of Payment</th>
+                    <th>Amount Paid</th>
                     <th>Modified Date</th>
                     <th class="action-column">Actions</th>
                 </tr>
@@ -64,6 +64,9 @@
             <tbody>
             </tbody>
         </table>
+        <div>
+            <?php require_once('../../billing_slip/templates/payment-slip.php') ?>
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
@@ -76,19 +79,24 @@
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables-buttons/2.2.0/js/buttons.colVis.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script type="module">
         import {
             searchColumn,
             handleArchiveClick,
             toFormattedDate
-        } from "../costum-js/datatables.js";
+        } from "../../costum-js/datatables.js";
 
         import {
-            handleEditClick
-        } from "./edit/editData.js";
-        import {
-            handleViewClick
-        } from './view/viewData.js'
+            showPaySlip
+        } from "../../billing_slip/templates/functions.js";
+
+        // import {
+        //     handleEditClick
+        // } from "./edit/editData.js";
+        // import {
+        //     handleViewClick
+        // } from './view/viewData.js'
 
         $(document).ready(function() {
 
@@ -102,7 +110,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '/Zarate/API/itemType/view.php',
+                    url: '/Zarate/API/payment/view.php',
                     dataType: 'JSON',
                     type: 'POST',
                     data: function(d) {
@@ -110,18 +118,30 @@
                     }
                 },
                 columns: [{
-                        data: 'itemTypeCode',
-                    },
-                    {
-                        data: 'departmentName',
-                    },
-                    {
-                        data: 'description'
+                        data: 'paymentID',
                     },
                     {
                         data: null,
                         render: (data, type, row) => {
-                            return toFormattedDate(data.createDate);
+                            return toFormattedDate(data.dateTimePaid);
+                        }
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            if (data.type === "charge") {
+                                return "CHARGE #" + data.chargeID;
+                            }
+                            return "BILL #" + data.billID;
+                        }
+                    },
+                    {
+                        data: 'paymentType',
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            return "₱" + data.paidAmt;
                         }
                     },
                     {
@@ -133,18 +153,15 @@
                     {
                         data: null,
                         render: (data, type, row) => {
-                            const id = data.InventoryID;
+                            const id = data.paymentID;
                             return `
                             <div class="dropdown dropstart d-flex">
                                 <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
-                                    <img class="mb-1" src="../img/icons/ellipsis-horizontal.svg">
+                                    <img class="mb-1" src="../../img/icons/ellipsis-horizontal.svg">
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li class="mx-2">
-                                        <button class=" btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
-                                    </li>
-                                    <li class="mx-2">
-                                        <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
+                                        <button class=" btn action-btn btn-primary w-100 mx-auto view-btn" data-id="${id}" >View</button>
                                     </li>
                                 </ul>
                             </div>
@@ -187,49 +204,25 @@
                         extend: 'pageLength',
                         className: 'btn border border-info'
                     },
-                    {
-                        text: 'Add Item Type',
-                        className: 'btn btn-primary bg-primary text-white',
-                        action: function(e, dt, node, config) {
-                            $('#addItemModal').modal('show');
-                        }
-                    }
                 ],
                 initComplete: function() {
                     searchColumn(this.api());
                 },
-                columnDefs: [{
-                    targets: -1,
-                    render: (d) => {
-                        const data = JSON.parse(d);
-                        const id = data.InventoryID;
-                        return `
-                        <div class="dropdown dropstart d-flex">
-                            <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
-                                <img class="mb-1" src="../img/icons/ellipsis-horizontal.svg">
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li class="mx-2">
-                                    <button class=" btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
-                                </li>
-                                <li class="mx-2">
-                                    <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
-                                </li>
-                            </ul>
-                        </div>
-                        `
-                    },
-                    "searchable": false
-                }],
             });
-            handleEditClick(table);
-            handleViewClick(table);
+            // handleEditClick(table);
+            // handleViewClick(table);
 
             table.on('draw', function() {
                 $('.action-wrapper').each(function(i, e) {
                     $(this).removeClass('invisible');
                 });
             });
+
+            table.on('click', '.view-btn', function(e) {
+                let paymentID = $(this).attr("data-id");
+                showPaySlip(paymentID);
+            });
+
             table.page(1).draw(true);
         });
     </script>
