@@ -94,6 +94,7 @@ if (isset($_POST['SaveItem'])) {
     $id = $_POST['id'];
     $ItemType = $_POST['itemType'];
     $ItemTypeID = $_POST['itemTypeID'];
+    $product_desciption = $_POST['product_desciption'];
 
     for ($i = 0; $i < count($product_id); $i++) {
         if (empty($product_id[$i])) continue;
@@ -109,7 +110,8 @@ if (isset($_POST['SaveItem'])) {
             "id" => $id[$i],
             "unit" => $unit[$i],
             "itemType" => $ItemType[$i],
-            "itemTypeID" => $ItemTypeID[$i]
+            "itemTypeID" => $ItemTypeID[$i],
+            "product_desciption" => $product_desciption[$i]
         ];
     }
 
