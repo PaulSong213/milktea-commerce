@@ -7,7 +7,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once '../../php/connect.php';
     $conn = connect();
 
-    // Assuming your form fields are named 'field1' and 'field2'
     $encoderID = $_POST['encoderID'];
     $patientID = $_POST['patientID'];
     $accountOfID = $_POST['accountOfID'];
@@ -41,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = mysqli_query($conn, $query);
     if ($result) {
         // success
+        $_SESSION["printSalesInsertedId"] =  mysqli_insert_id($conn);
         $_SESSION["alert_message"] = "Successfully Added an Billing";
         $_SESSION["alert_message_success"] = true;
     } else {

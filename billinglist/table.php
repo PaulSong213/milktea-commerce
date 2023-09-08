@@ -150,9 +150,6 @@
                                     <li class="mx-2">
                                         <button class=" btn action-btn btn-primary w-100 mx-auto view-btn view-bill"  data-item='${JSON.stringify(data)}' >View</button>
                                     </li>
-                                    <li class="mx-2">
-                                        <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
-                                    </li>
                                 </ul>
                             </div>
                             `
@@ -221,7 +218,6 @@
                 let bill = JSON.parse($(this).attr("data-item"));
                 showBill(bill.billingID);
             });
-            showBill('32');
         });
     </script>
     <script>

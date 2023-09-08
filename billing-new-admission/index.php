@@ -24,6 +24,7 @@
         <div class="d-block w-100">
             <?php include('./billing-new-admission.php') ?>
             <?php include('../php/session-dialog.php') ?>
+            <?php include '../billing_slip/templates/billing.php'; ?>
         </div>
     </div>
     <!-- end of main -->
