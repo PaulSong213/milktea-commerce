@@ -21,18 +21,13 @@ $query = $baseQuery;
 if (!empty($searchValue)) {
     $query .= " WHERE
 SalesID LIKE '%$searchValue%'
-OR NetSale '%$searchValue%'
-OR AddDiscAmt '%$searchValue%'
-OR NetAmt '%$searchValue%'
-OR AmtTendered'%$searchValue%'
-OR ChangeAmt'%$searchValue%'
-OR PatientAcct	 '%$searchValue%'
-OR RequestedName '%$searchValue%'
-OR EnteredName '%$searchValue%'
-OR billingID '%$searchValue%'
-OR PatientType '%$searchValue%'
-OR UnpaidPatientName '%$searchValue%'
-OR createDate	'%$searchValue%'
+OR PatientAcct	LIKE '%$searchValue%'
+OR RequestedName LIKE '%$searchValue%'
+OR EnteredName LIKE'%$searchValue%'
+OR billingID LIKE'%$searchValue%'
+OR PatientType LIKE '%$searchValue%'
+OR UnpaidPatientName LIKE '%$searchValue%'
+OR createDate	LIKE '%$searchValue%'
 ";
 }
 
