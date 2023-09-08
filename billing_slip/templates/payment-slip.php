@@ -112,18 +112,17 @@
                     if (paymentData.paymentType == "cash") {
                         paymentDetails += `
                         <span>Amount Tendered: ₱${paymentData.cashAmountTendered}</span>
-                        <span>Change: ₱${paymentData.changeAmt}</span>
+                        
                         `;
                     } else {
                         paymentDetails += `
                         <span>Bank Name: ${paymentData.bankName}</span>
                         <span>Check No.: ${paymentData.checkNo}</span>
                         <span>Check Date: ${formatDate(new Date(paymentData.checkDate))}</span>
-                        <span>Check Amount: ₱${paymentData.paidAmt}</span>
+                        <span>Check Amount: ₱${paymentData.checkAmount}</span>
                         `;
                     }
-
-
+                    paymentDetails += `<span>Change: ₱${paymentData.changeAmt}</span>`;
                     $("#payDetails").html(paymentDetails);
 
                     var chargeBillRequestURL = `/Zarate/API/sales/search.php?SalesID=${paymentData.chargeID}`;
