@@ -49,8 +49,8 @@
                                     <h6 class="mb-1">Attending Physician:</h6>
                                 </div>
                                 <div>
-                                    <h6 class="fw-bold mb-1"><span id="admittingPhysician"></span></h6>
-                                    <h6 class="fw-bold mb-1"><span id="attendingPhysician"></span></h6>
+                                    <h6 class="fw-bold mb-1"><span id="billprint_admittingPhysician"></span></h6>
+                                    <h6 class="fw-bold mb-1"><span id="billprint_attendingPhysician"></span></h6>
                                 </div>
                             </div>
                         </div>
@@ -67,11 +67,12 @@
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+
     <script script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
     <script>
         async function showBill(billingID, appendToElement = null) {
+            console.log(billingID);
             try {
                 Swal.fire({
                     title: 'Generating Print Report',
@@ -87,15 +88,20 @@
 
                 swal.close();
                 const bill = JSON.parse(response);
+                console.log(bill);
 
                 $("#billNumber").text(bill.billingID);
                 $("#enteredBy").text(`${bill.encoderFirstName} ${bill.encoderMiddleName} ${bill.encoderLastName}`);
                 $("#patientName").text(`${bill.patientFirstName} ${bill.patientMiddleName} ${bill.patientLastName}`);
                 $("#accountOfPrint").text(`${bill.accountOfFirstName} ${bill.accountOfMiddleName} ${bill.accountOfLastName}`);
-                $("#admittingPhysician").text(`${bill.admittingPhysicianFirstName} ${bill.admittingPhysicianMiddleName} ${bill.admittingPhysicianLastName}`);
-                $("#attendingPhysician").text(`${bill.attendingPhysicianFirstName} ${bill.attendingPhysicianMiddleName} ${bill.attendingPhysicianLastName}`);
+                $("#billprint_admittingPhysician").text(`${bill.admittingPhysicianFirstName} ${bill.admittingPhysicianMiddleName} ${bill.admittingPhysicianLastName}`);
+                $("#billprint_attendingPhysician").text(`${bill.attendingPhysicianFirstName} ${bill.attendingPhysicianMiddleName} ${bill.attendingPhysicianLastName}`);
 
-                $("#chargeInfoContainer").html("<h6 class='fw-bold mt-3 mb-2 text-uppercase'>Charge Slips Summary</h6>");
+                if (bill.charges.length > 0) {
+                    $("#chargeInfoContainer").html("<h6 class='fw-bold mt-3 mb-2 text-uppercase'>Charge Slips Summary</h6>");
+                } else {
+                    $("#chargeInfoContainer").html("<h6 class='fw-bold mt-3 mb-2 text-uppercase'>No Charges for this Bill</h6>");
+                }
 
                 for (let i = 0; i < bill.charges.length; i++) {
                     const chargeSlip = bill.charges[i];
@@ -124,7 +130,6 @@
                 });
             }
         }
-
 
         function renderChargeSlip(chargeSlip) {
             const billNumber = chargeSlip.SalesID;
@@ -232,7 +237,7 @@
         if (isset($_SESSION['printSalesInsertedId'])) {
             $printSalesInsertedId = $_SESSION['printSalesInsertedId'];
             echo "showBill(`" . $printSalesInsertedId . "`)";
-            unset($_SESSION['printSalesInsertedId']);
+            // unset($_SESSION['printSalesInsertedId']);
         }
         ?>
 
