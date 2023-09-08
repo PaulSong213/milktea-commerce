@@ -178,7 +178,7 @@ $LastBillingID = getLastBillingID($conn);
                             Please select a valid requested by Name.
                         </small>
                     </div>
-                    <h3 class="app-title mt-4 text">PRODUCT CART:</h3>
+                   
                 </div>
 
             </div>
@@ -212,22 +212,23 @@ $LastBillingID = getLastBillingID($conn);
         </div>
 
         <div class="table-container">
+        <h3 class="app-title mt-4 text-white">PRODUCT CART:</h3>
             <div class="table-responsive p-2">
                 <table class="table table-bordered wide-table">
                     <thead class="thead-dark">
                         <tr>
-                            <th>Product Code</th>
-                            <th>Inventory</th>
-                            <th>Unit</th>
-                            <th>Price</th>
-                            <th>Item Type</th>
-                            <th style="display:none">ID</th>
-                            <th style="display:none">itemTypeID</th>
-                            <th>Quantity</th>
-                            <th>Discount %</th>
-                            <th>Discount Amount</th>
-                            <th>Sub-Total</th>
-                            <th>action</th>
+                            <th  class="col-3">Product Code</th>
+                            <th class="col-1">Inventory</th>
+                            <th class="col-1">Unit</th>
+                            <th class="col-1">Price</th>
+                            <th class="col-1">Item Type</th>
+                            <th class="col-1" style="display:none">ID</th>
+                            <th class="col-1" style="display:none">itemTypeID</th>
+                            <th class="col-1">Quantity</th>
+                            <th class="col-1">Discount %</th>
+                            <th class="col-1">Discount Amount</th>
+                            <th class="col-2">Sub-Total</th>
+                            <th class="col-0">action</th>
                         </tr>
                     </thead>
                     <tbody>
