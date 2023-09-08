@@ -47,60 +47,23 @@
 
 <body>
     <div class="table w-100 p-4">
-<<<<<<< HEAD
-        <h2 class="mt-4 mb-5">BACKLOGS</h2>
-       
-=======
         <h2 class="mt-4 mb-5">Back Logs</h2>
-     
->>>>>>> 1d2c5e0b38211b46e4feaabe00c2f9a31164fcfa
+
         <?php include './view/view.php'; ?>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-<<<<<<< HEAD
-                    <th>Employee ID</th>
-=======
                     <th>Employee Name</th>
                     <th>Position</th>
                     <th>Title</th>
                     <th>Department</th>
->>>>>>> 1d2c5e0b38211b46e4feaabe00c2f9a31164fcfa
                     <th>Action</th>
                     <th>Description</th>
                     <th>Time Stamp</th>
                     <th class="action-column">Actions</th>
                 </tr>
             </thead>
-            <tbody>
-<<<<<<< HEAD
-                <?php
-                $connection = connect();
 
-                $sql = " select * from backlog_tb ";
-                $result = $connection->query($sql);
-
-                while ($row = $result->fetch_assoc()) {
-                    echo "
-                        <tr>
-                            <td>" . $row["employeeID"] . "</td>
-                           
-                            <td>" . $row["action"] . "</td>
-
-                            <td>" . $row["description"] . "</td>
-                          
-                           
-                            <td>" . date("M d, Y h:i", strtotime($row["timeStamp"])) . "</td>
-                            
-                            <td class='invisible'>" . json_encode($row) . "</td>
-                        </tr>
-                        ";
-                }
-                ?>
-=======
->>>>>>> 1d2c5e0b38211b46e4feaabe00c2f9a31164fcfa
-            </tbody>
-        </table>
     </div>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
@@ -226,12 +189,8 @@
                     {
                         extend: 'pageLength',
                         className: 'btn border border-info'
-<<<<<<< HEAD
                     },
-                    
-=======
-                    }
->>>>>>> 1d2c5e0b38211b46e4feaabe00c2f9a31164fcfa
+
                 ],
                 initComplete: function() {
                     searchColumn(this.api());
@@ -263,10 +222,7 @@
                     [3, 'asc']
                 ]
             });
-<<<<<<< HEAD
             handleArchiveClick(table, 0, "./edit/archive.php", 3);
-=======
->>>>>>> 1d2c5e0b38211b46e4feaabe00c2f9a31164fcfa
             handleEditClick(table);
             handleViewClick(table);
 
