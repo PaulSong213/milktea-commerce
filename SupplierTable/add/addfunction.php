@@ -2,6 +2,11 @@
 session_start();
 require_once '../../php/connect.php';
 $conn = connect();
+if (isset($_SESSION['user'])) {
+    $userData = json_decode($_SESSION['user'], true);
+    $userID = $userData['DatabaseID'];
+    $userDepartment = $userData['departmentName'];
+}
 
 // Check connection
 if ($conn->connect_error) {
