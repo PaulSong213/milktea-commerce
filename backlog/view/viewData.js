@@ -3,63 +3,53 @@ import { formatDate } from "../../costum-js/date.js";
 export function handleViewClick(table) {
     const viewDatas = [
         {
-            dataKey: "supplier_name",
-            label: "Supplier Name"
+            dataKey: "lname",
+            label: "Last Name"
         },
         {
-            dataKey: "address",
-            label: "Address"
+            dataKey: "fname",
+            label: "First Name"
+        },
+         {
+            dataKey: "mname",
+            label: "Middle Name"
+        }, 
+        {
+            dataKey: "position",
+            label: "Position"
+        }, 
+        {
+            dataKey: "title",
+            label: "Title"
         },
         {
-            dataKey: "telNum",
-            label: "Telephone No"
+            dataKey: "departmentName",
+            label: "Department"
         },
         {
-            dataKey: "faxNum",
-            label: "Fax Number"
+            dataKey: "action",
+            label: "Action"
         },
         {
-            dataKey: "contactNo",
-            label: "Contact No"
+            dataKey: "description",
+            label: "Description"
         },
         {
-            dataKey: "CelNum",
-            label: "Cellphone No"
+            dataKey: "timeStamp",
+            label: "Time Stamp"
         },
-        {
-            dataKey: "Snote",
-            label: "Supplier Note"
-        },
-        {
-            dataKey: "status",
-            label: "Status"
-        },
-        {
-            dataKey: "createDate",
-            label: "Create Date"
-        },
-        {
-            dataKey: "modifiedDate",
-            label: "Modified Date"
-        }
-        
     ];
     table.on('click', '.view-btn', function (e) {
         let data = JSON.parse($(this).attr("data-item"));
-
         $("#viewModalBody").html("");
+
         for (let i = 0; i < viewDatas.length; i++) {
             const viewData = viewDatas[i];
             if (viewData.label.includes("Date")) data[viewData.dataKey] = formatDate(new Date(data[viewData.dataKey]));
-            if (viewData.dataKey === "status") {
-                console.log(data[viewData.dataKey]);
-                const status = data[viewData.dataKey] == 1 ? "Active" : "Inactive";
-                data[viewData.dataKey] = status;
-            }
             $("#viewModalBody").append(`
                 <div class="d-flex justify-content-between">
-                    <h5>${viewData.label}:</h5>
-                    <h5 class="fw-bold">${data[viewData.dataKey]}</h5>
+                    <h5 class="mx-2">${viewData.label}:</h5>
+                    <h5 class="fw-bold">${data[viewData.dataKey] || "None"}</h5>
                 </div>
             `);
         }
