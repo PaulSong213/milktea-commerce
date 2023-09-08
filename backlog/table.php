@@ -41,20 +41,16 @@
 
 <body>
     <div class="table w-100 p-4">
-        <h2 class="mt-4 mb-5">SUPPLIER</h2>
-        <?php include './add/add.php'; ?>
+        <h2 class="mt-4 mb-5">BACKLOGS</h2>
+       
         <?php include './view/view.php'; ?>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>Supplier Name</th>
-                   
-                   
-                    <th>Fax Number</th>
-                  
-                    <th>Date Added</th>
-                    <th>Modified Date</th>
-                    <th>Status</th>
+                    <th>Employee ID</th>
+                    <th>Action</th>
+                    <th>Description</th>
+                    <th>Time Stamp</th>
                     <th class="action-column">Actions</th>
                 </tr>
             </thead>
@@ -62,27 +58,21 @@
                 <?php
                 $connection = connect();
 
-                $sql = " select * from supplier_tb ";
+                $sql = " select * from backlog_tb ";
                 $result = $connection->query($sql);
 
                 while ($row = $result->fetch_assoc()) {
-                   $activeStatus = ($row["status"]  == "1") ? "Active"  : "Inactive"; //condition for status
-                    $statusColor = ($row["status"]  == "1") ? "alert-success"  : "alert-danger"; //condition for color bg.
                     echo "
                         <tr>
-                            <td>" . $row["supplier_name"] . "</td>
+                            <td>" . $row["employeeID"] . "</td>
+                           
+                            <td>" . $row["action"] . "</td>
+
+                            <td>" . $row["description"] . "</td>
                           
                            
-                            <td>" . $row["faxNum"] . "</td>
-                          
-                           
-                            <td>" . date("M d, Y h:i", strtotime($row["createDate"])) . "</td>
-                            <td>" . date("M d, Y h:i", strtotime($row["modifiedDate"])) . "</td>
-                            <td>
-                                <div class='d-flex w-100 h-100 d-flex '>
-                                    <h6 style='font-size: 13px' class='p-1 alert m-auto " . $statusColor . "'>" . $activeStatus . "</h6>
-                                </div>
-                            </td>
+                            <td>" . date("M d, Y h:i", strtotime($row["timeStamp"])) . "</td>
+                            
                             <td class='invisible'>" . json_encode($row) . "</td>
                         </tr>
                         ";
@@ -158,13 +148,7 @@
                         extend: 'pageLength',
                         className: 'btn border border-info'
                     },
-                    {
-                        text: 'Add Supplier',
-                        className: 'btn btn-primary bg-primary text-white',
-                        action: function(e, dt, node, config) {
-                            $('#addItemModal').modal('show');
-                        }
-                    }
+                    
                 ],
                 initComplete: function() {
                     searchColumn(this.api());
@@ -196,10 +180,10 @@
                     "searchable": false
                 }],
                 order: [
-                    [5, 'asc']
+                    [3, 'asc']
                 ]
             });
-            handleArchiveClick(table, 0, "./edit/archive.php", 4);
+            handleArchiveClick(table, 0, "./edit/archive.php", 3);
             handleEditClick(table);
             handleViewClick(table);
         });
