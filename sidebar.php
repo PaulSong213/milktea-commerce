@@ -65,6 +65,7 @@ $Level2 = [
         "link" => "/dashboard/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
     ],
+    
     [
         "name" => "Employee", //name of the link
         "icon" => "badge", //material icon name
@@ -209,6 +210,7 @@ $LeveL4 = [
                 "name" => "Charge List", //name of the link
                 "link" => "/ChargeTable/index.php", //link of the page
             ],
+
             [
                 "name" => "Billing List", //name of the link
                 "link" => "/billinglist/index.php", //link of the page
@@ -308,7 +310,12 @@ $LeveL4 = [
             ],
         ] //list of links on dropdown
     ],
-
+    [
+        "name" => "Back Logs", //name of the link
+        "icon" => "history", //material icon name
+        "link" => "/backlog/index.php", //link of the page
+        "navigations" => [] //list of links on dropdown
+    ],
     [
         "name" => "Account Settings", //name of the link
         "icon" => "account_circle", //material icon name
