@@ -22,6 +22,7 @@
             <?php include('../sidebar.php') ?>
         </div>
         <div class="d-block w-100">
+            <?php require_once("../billing_slip/templates/charge-slip.php") ?>
             <?php include('../php/session-dialog.php') ?>
             <?php include('./table.php') ?>
         </div>

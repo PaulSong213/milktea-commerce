@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <html lang="en">
+
 <head>
     <title></title>
     <meta charset="UTF-8">
@@ -15,7 +16,7 @@
 
         .button-page-length.dt-button-active {
             background-color: #b6e8f3;
-        }   
+        }
 
         .dt-button {
             border-radius: 5px;
@@ -46,7 +47,7 @@
 
 <body>
     <div class="table w-100 p-4">
-        <h2 class="mt-4 mb-5">CHARGE LIST TABLE</h2>    
+        <h2 class="mt-4 mb-5">CHARGE LIST TABLE</h2>
         <?php include './view/view.php'; ?>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
@@ -68,7 +69,7 @@
             <tbody>
             </tbody>
         </table>
-        
+
 
     </div>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
@@ -88,13 +89,9 @@
             handleArchiveClick,
             toFormattedDate
         } from "../costum-js/datatables.js";
-
         import {
-            handleEditClick
-        } from "./edit/editData.js";
-        import {
-            handleViewClick
-        } from './view/viewData.js'
+            showChargeSlip
+        } from '../billing_slip/templates/functions.js';
 
         $(document).ready(function() {
 
@@ -115,7 +112,7 @@
                         d.draw = d.draw || 1;
                     }
                 },
-                
+
                 columns: [{
                         data: 'SalesID',
                     },
@@ -133,7 +130,7 @@
                     },
                     {
                         data: 'PatientAcct'
-                    }, 
+                    },
                     {
                         data: 'RequestedName'
                     },
@@ -166,11 +163,9 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li class="mx-2">
-                                        <button class=" btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
+                                        <button class=" btn action-btn btn-primary w-100 mx-auto view-charge" data-item='${JSON.stringify(data)}' >View</button>
                                     </li>
-                                    <li class="mx-2">
-                                        <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
-                                    </li>
+                        
                                 </ul>
                             </div>
                             `
@@ -230,9 +225,6 @@
                                 <li class="mx-2">
                                     <button class=" btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
                                 </li>
-                                <li class="mx-2">
-                                    <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
-                                </li>
                             </ul>
                         </div>
                         `
@@ -243,13 +235,16 @@
                     [3, 'asc']
                 ]
             });
-            handleEditClick(table);
-            handleViewClick(table);
 
             table.on('draw', function() {
                 $('.action-wrapper').each(function(i, e) {
                     $(this).removeClass('invisible');
                 });
+            });
+            table.on('click', '.view-charge', function(e) {
+                let bill = JSON.parse($(this).attr("data-item"));
+                console.log(bill.SalesID);
+                showChargeSlip(bill.SalesID);
             });
             table.page(1).draw(true);
         });
