@@ -7,14 +7,12 @@ if (isset($_SESSION['user'])) {
     $userName = $userData['userName'];
     $userDepartment = $userData['departmentName'];
     $userLevel = $userData['AccessLevel'];
-
-    
 } else {
     // Redirect back to the login page or handle the user not being logged in
     header("Location: /Zarate/index.php");
     exit();
 }
-if (isset($_GET['logout'])){
+if (isset($_GET['logout'])) {
     session_destroy();
 
     // Redirect to the login page or any other desired page after logout
@@ -206,6 +204,10 @@ $LeveL4 = [
             [
                 "name" => "ChargeBilling/IPD/OPD", //name of the link
                 "link" => "/billing_slip/index.php", //link of the page
+            ],
+            [
+                "name" => "Charge List", //name of the link
+                "link" => "/ChargeTable/index.php", //link of the page
             ],
             [
                 "name" => "Billing List", //name of the link
