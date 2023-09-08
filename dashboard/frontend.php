@@ -86,7 +86,7 @@ $conn->close();
             foreach ($summarySections as $section) {
                 $totalUnit = ($section['data']['total_unit'] === null) ? '0' : $section['data']['total_unit'];
                 ?>
-                <div class="col-md-4 mb-4">
+                <div class="col-md-3 mb-3">
                     <div class="card">
                         <div class="card-header <?php echo $section['color']; ?> text-white">
                             <?php echo $section['title']; ?>  Summary
