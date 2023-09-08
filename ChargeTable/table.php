@@ -16,9 +16,6 @@
         .button-page-length.dt-button-active {
             background-color: #b6e8f3;
         }   
-        .searchDiv{
-            width: 75%;
-        }
 
         .dt-button {
             border-radius: 5px;
@@ -55,18 +52,14 @@
             <thead>
                 <tr>
                     <th>Sales Code</th>
-                    <th>Product Cart</th>
                     <th>NetSale</th>
-                    <th>Add Discount</th>
                     <th>AddDiscAmt</th>
                     <th>AmtTendered </th>
                     <th>ChangeAmt</th>
                     <th>PatientAcct</th>
                     <th>RequestedName</th>
                     <th>EnteredName</th>
-                    <th>billingID</th>
                     <th>PatientType</th>
-                    <th>UnpaidPatientName</th>
                     <th>Created Date</th>
                     <th>Modified Date</th>
                     <th class="action-column">Actions</th>
@@ -127,14 +120,7 @@
                         data: 'SalesID',
                     },
                     {
-                        data: 'ProductInfo',
-                        
-                    },
-                    {
                         data: 'NetSale',
-                    },
-                    {
-                        data: 'AddDisc',
                     },
                     {
                         data: 'AddDiscAmt',
@@ -155,15 +141,8 @@
                         data: 'EnteredName'
                     },
                     {
-                        data: 'billingID'
-                    },
-                    {
                         data: 'PatientType'
                     },
-                    {
-                        data: 'UnpaidPatientName'
-                    },
-                    
                     {
                         data: null,
                         render: (data, type, row) => {
@@ -227,7 +206,7 @@
                     },
                     {
                         extend: 'colvis',
-                        className: 'btn col-1 border border-info'
+                        className: 'btn col-2 border border-info'
                     },
                     {
                         extend: 'pageLength',
