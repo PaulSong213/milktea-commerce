@@ -332,7 +332,7 @@ $LeveL4 = [
 ];
 $LevelNav = ""; // Define $LevelNav with an initial value
 
-switch ($Level) {
+switch ($userLevel) {
     case 1:
         $LevelNav = $LeveL1;
         break;
