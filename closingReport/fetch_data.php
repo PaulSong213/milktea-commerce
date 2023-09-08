@@ -19,7 +19,6 @@ if ($loggedInUser && isset($loggedInUser->title, $loggedInUser->lname, $loggedIn
     $fname = $loggedInUser->fname;
     $mname = $loggedInUser->mname;
     $DatabaseID = $loggedInUser->DatabaseID;
-
     $currentLoggedInEncoder = "$title $lname, $fname $mname | ID: $DatabaseID";
     $currentLoggedInEncoderID = $DatabaseID;
 } else {
@@ -27,29 +26,26 @@ if ($loggedInUser && isset($loggedInUser->title, $loggedInUser->lname, $loggedIn
     $currentLoggedInEncoder = "Guest"; // Provide a default value or handle as needed
     $currentLoggedInEncoderID = null; // Provide a default value or handle as needed
 }
-function executeQuery($conn, $query)
-{
+$TotalNetquery="SELECT SUM(cashAmountTendered)-SUM(changeAmt> 0) + SUM(checkAmount)-SUM(changeAmt > 0)   AS total_net_amount FROM payment_tb 
+WHERE checkDate BETWEEN '$dateTimeInFormatted' AND '$dateTimeOutFormatted'";
+function calculateTotalNetAmount($conn, $query) {
     $result = $conn->query($query);
-    return $result->num_rows > 0 ? $result->fetch_assoc() : 0;
+
+    if ($result) {
+        $row = $result->fetch_assoc();
+        return $row['total_net_amount'];
+    } else {
+        return 0; // Return 0 or handle the error as needed
+    }
 }
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-// -----------------------------------------------------------
-// Get total net amount
 
-$queryTotalNet = "SELECT SUM(NetAmt) AS total_net_amount FROM sales_tb WHERE createDate BETWEEN '$dateTimeInFormatted' AND '$dateTimeOutFormatted'";
-$totalNetAmount = executeQuery($conn, $queryTotalNet);
-// Calculate total cash amount
-$queryTotalCash = "SELECT SUM(NetAmt) - SUM(CASE WHEN ChangeAmt < 0 THEN ChangeAmt ELSE 0 END) AS total_Cash FROM sales_tb WHERE createDate BETWEEN '$dateTimeInFormatted' AND '$dateTimeOutFormatted'";
-$totalCashAmount = executeQuery($conn, $queryTotalCash);
+// Call the function to get the total net amount
+$totalNetAmount = calculateTotalNetAmount($conn, $TotalNetquery);
 
-$queryTotalBill = "SELECT SUM(cashAmountTendered) - SUM(changeAmt) AS total_Bill FROM payment_tb  WHERE dateTimePaid BETWEEN '$dateTimeInFormatted' AND '$dateTimeOutFormatted'";
-$totalBillAmount = executeQuery($conn, $queryTotalBill);
-
-$FinaltotalNet = 0;
-
+// $cashquery="SELECT SUM(cashAmountTendered)-SUM(changeAmt > 0) FROM payment_tb WHERE paymentType = 'cash' ";
+// $Checkquery="SELECT SUM(checkAmount)-SUM(changeAmt > 0) FROM payment_tb WHERE paymentType = 'check'";
+// $billquery = "SELECT SUM(cashAmountTendered)-SUM(changeAmt> 0) + SUM(checkAmount)-SUM(changeAmt > 0)  FROM payment_tb WHERE type = 'bill' ";
+// $NYPquery = "SELECT SUM(cashAmountTendered)-SUM(changeAmt> 0) + SUM(checkAmount)-SUM(changeAmt > 0)  FROM payment_tb WHERE type = 'charge' ";
 
 ?>
 
@@ -60,7 +56,7 @@ $FinaltotalNet = 0;
             <img style="height: 60px;" src="../img/logo.png" alt="ZARATE LOGO">
             <div class="mx-3 d-flex flex-column justify-content-end">
                 <h5 class="fw-bold mb-1">E. Zarate Hospital</h5>
-                <h6 class="text-muted">16 J. Aguilar Avenue, Talon, Las Piñas City,<br/>Metro Manila, Philippines 1747</h6>
+                <h6 class="text-muted">16 J. Aguilar Avenue, Talon, Las Piñas City,<br />Metro Manila, Philippines 1747</h6>
             </div>
         </div>
 
@@ -135,197 +131,70 @@ $FinaltotalNet = 0;
                 </div>
                 <!-- Right Column -->
                 <div class="col text-end fw-bold">
-                    <h6>NET TOTAL: ₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?> </h6>
+                <h6>NET TOTAL: ₱ <?= number_format($totalNetAmount ?? 0, 2); ?> </h6>
                 </div>
             </div>
         </div>
         <table id="example" class="table" style="width:100%">
             <thead>
                 <tr>
-                    <th>Charge Slip Number</th>
+                    <th>Chargeslip Number</th>
                     <th>Time</th>
                     <th>Payment Type</th>
-                    <th>Patient Type</th>
+                    <th>Transaction Type</th>
                     <th>Account Name</th>
                     <th>Net Amount</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                $query = "SELECT *, DATE_FORMAT(sales_tb.createDate, '%h:%i %p') AS createTime,
-                patient_tb.lname AS patientLastName ,
-                patient_tb.fname AS patientFirstName ,
-                patient_tb.mname AS patienMiddleName 
-                FROM sales_tb
-                LEFT JOIN patient_tb ON sales_tb.PatientAcct = patient_tb.hospistalrecordNo  
-                WHERE sales_tb.createDate BETWEEN '$dateTimeInFormatted' AND '$dateTimeOutFormatted'";
+                $query = "SELECT payment_tb.*, sales_tb.*, patient_tb.lname AS sales_lname, 
+    billing_patient.lname AS billing_patient_lname,  -- Select the lname for billing_patient
+    DATE_FORMAT(payment_tb.checkDate, '%h:%i %p') AS createTime
+    FROM payment_tb
+    LEFT JOIN sales_tb ON payment_tb.chargeID = sales_tb.salesID
+    LEFT JOIN billing_tb ON payment_tb.billID = billing_tb.billingID
+    LEFT JOIN patient_tb ON patient_tb.HospistalrecordNo = sales_tb.patientAcct
+    LEFT JOIN patient_tb AS billing_patient ON billing_patient.HospistalrecordNo = billing_tb.patientID
+    WHERE payment_tb.checkDate BETWEEN '$dateTimeInFormatted' AND '$dateTimeOutFormatted'
+    ";
                 $result = mysqli_query($conn, $query);
-
                 if ($result && mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
                         echo "<tr>";
-                        echo "<td>" . $row['SalesID'] . "</td>";
+                        echo "<td>" . $row['paymentID'] . "</td>";
                         echo "<td>" . $row['createTime'] . "</td>";
-                        echo "<td>" . (($row['billingID'] == 0 || $row['billingID'] === null) ? "Cash" : $row['UnpaidPatientName']) . "</td>";
-                        echo "<td>" . $row['PatientType'] . "</td>";
-                        echo "<td>" . (($row['billingID'] != 0 && $row['billingID'] !== null)? $row['patientLastName'] . ' . ' . $row['patienMiddleName'] . ' ' . $row['patientFirstName']: $row['UnpaidPatientName']) . "</td>";"</td>";
-                        echo "<td>₱ " . number_format($row['NetAmt'], 2) . "</td>";
+                        echo "<td>" . $row['paymentType'] . "</td>";
+                        echo "<td>" . $row['type'] . "</td>";
+                        // Check the value of 'type' and output the appropriate 'lname'
+                        if ($row['type'] == 'bill') {
+                            echo "<td>" . $row['billing_patient_lname'] . "</td>"; // Output billing_patient's lname
+                        } elseif ($row['type'] == 'charge') {
+                            echo "<td>" . $row['sales_lname'] . "</td>"; // Output sales_lname
+                        } else {
+                            // Handle other cases if needed
+                            echo "<td>ERROR</td>";
+                        }
+                        "</td>";
+                        if ($row['paymentType'] == 'check') {
+                            echo "<td>₱ " . number_format($row['checkAmount'] - $row['changeAmt'], 2) . "</td>";
+                        } else {
+                            echo "<td>₱ " . number_format($row['cashAmountTendered'] - $row['changeAmt'], 2) . "</td>";
+                            
+                        }
                         // Add more columns here if needed
                         echo "</tr>";
                     }
                     mysqli_free_result($result); // Free the result set
                 } else {
-                    echo "No records found."; // Handle no records case
+                    echo "No records found. <br>"; // Handle no records case
                     echo $dateTimeIn . '.' . $dateTimeOut;
                 }
-
                 // Close the database connection
                 mysqli_close($conn);
                 ?>
-
-
             </tbody>
         </table>
-
-    </div>
-    <div class="container-fluid border border-dark py-1">
-        <div class="row">
-            <div class="col-5 d-flex flex-column">
-                <!-- Total Sale -->
-                <div class="d-flex justify-content-between fw-bold">
-                    <span>TOTAL SALE:</span>
-                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
-                </div>
-                <!-- Transactions -->
-                <div class="d-flex justify-content-between">
-                    <span>Cash Transactions:</span>
-                    <span>₱ <?= number_format($totalCashAmount['total_Cash'] ?? 0, 2); ?></span>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <span>Bill Transactions:</span>
-                    <span>₱ <?= number_format($totalBillAmount['total_Bill'] ?? 0, 2); ?></span>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <span>NYP Transactions:</span>
-                    <span>₱ <?= number_format($totalCashAmount['total_Cash'] ?? 0, 2); ?></span>
-                </div>
-                <div class="d-flex justify-content-between border-bottom">
-                    <span>Employee Transactions:</span>
-                    <span>₱ <?= number_format($totalCashAmount['total_Cash'] ?? 0, 2); ?></span>
-                </div>
-
-                <!-- Clinic Use -->
-                <div class="d-flex justify-content-between fw-bold">
-                    <span>TOTAL CLINIC USE:</span>
-                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
-                </div>
-
-                <!-- Personal Use -->
-                <div class="d-flex justify-content-between fw-bold">
-                    <span>TOTAL PERSONAL USE:</span>
-                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
-                </div>
-
-                <!-- Bill Discount -->
-                <div class="d-flex justify-content-between fw-bold border-bottom">
-                    <span>TOTAL BILL DISCOUNT:</span>
-                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
-                </div>
-
-                <!-- More elements as needed -->
-
-                <!-- Beginning Balance -->
-                <div class="d-flex justify-content-between fw-bold">
-                    <span>BEGINNING BALANCE</span>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <span>CASH:</span>
-                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
-                </div>
-                <div class="d-flex justify-content-between border-bottom">
-                    <span>CHECK:</span>
-                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
-                </div>
-
-                <!-- Total Cash In -->
-                <div class="d-flex justify-content-between fw-bold">
-                    <span>TOTAL CASH IN:</span>
-                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
-                </div>
-
-                <!-- Total Check In -->
-                <div class="d-flex justify-content-between fw-bold">
-                    <span>TOTAL CHECK IN:</span>
-                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
-                </div>
-
-                <!-- Total Amount In -->
-                <div class="d-flex justify-content-between fw-bold">
-                    <span>TOTAL AMOUNT IN:</span>
-                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
-                </div>
-
-                <!-- Previous Shiftee -->
-                <div class="d-flex justify-content-between fw-bold">
-                    <span>PREVIOUS SHIFTEE:</span>
-                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
-                </div>
-
-                <!-- Rest of your content for the left column -->
-            </div>
-
-            <div class="col-7">
-                <!-- Cash Transaction for This Shift -->
-                <div class="d-flex justify-content-between fw-bold">
-                    <span>CASH TRANSACTION FOR THIS SHIFT:</span>
-                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
-                </div>
-                <div class="d-flex justify-content-between ">
-                    <span>+ CASH TRANSACTIONS:</span>
-                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
-                </div>
-                <div class="d-flex justify-content-between ">
-                    <span>+ BILL CASH PAYMENTS:</span>
-                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
-                </div>
-                <div class="d-flex justify-content-between ">
-                    <span>+ NYP CASH PAYMENTS::</span>
-                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
-                </div>
-                <div class="d-flex justify-content-between  border-bottom">
-                    <span>= SHIFT CASH BALANCE:</span>
-                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
-                </div>
-                <div class="d-flex justify-content-between fw-bold">
-                    <span>CHECK TRANSACTIONS FOR THIS SHIFT:</span>
-                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
-                </div>
-                <div class="d-flex justify-content-between ">
-                    <span>+ BILL CHECK PAYMENTS:</span>
-                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
-                </div>
-                <div class="d-flex justify-content-between border-bottom ">
-                    <span>+ NYP CHECK PAYMENTS:</span>
-                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
-                </div>
-                <div class="d-flex justify-content-between fw-bold ">
-                    <span>ENDING CASH BALANCE:</span>
-                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
-                </div>
-                <div class="d-flex justify-content-between fw-bold">
-                    <span>ENDING CHECK BALANCE:</span>
-                    <span>₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?></span>
-                </div>
-                <div class="d-flex justify-content-between fw-bold">
-                    <span>TOTAL AMOUNT ON HAND:</span>
-                    <span class="border border-2 px-2">
-                        ₱ <?= number_format($totalNetAmount['total_net_amount'] ?? 0, 2); ?>
-                    </span>
-                </div>
-
-                <!-- Rest of your content for the right column -->
-            </div>
-        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
