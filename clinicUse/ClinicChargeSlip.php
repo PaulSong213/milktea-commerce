@@ -104,7 +104,7 @@ $LastBillingID = getLastBillingID($conn);
                     <label for="netAmount">Net Amount</label>
                     <input type="text" class="form-control text-light bg-secondary " name="netAmount" readonly value="0.00">
                 </div>
-                <button type="submit" class="btn btn-primary add-button" name="SaveItem">Save Transaction</button>
+                <button type="submit" class="btn btn-primary add-button" name="SaveItem" id="saveButton">Save Transaction</button>
             </div>
         </div>
 
@@ -274,9 +274,6 @@ $LastBillingID = getLastBillingID($conn);
                 let nextInputValue = "";
                 if (input.getAttribute("name") === "qty[]") {
                     nextInputValue = "1";
-                }
-                if (input.getAttribute("name") === "disc_percent[]") {
-                    nextInputValue = "0";
                 }
                 input.value = nextInputValue;
             });

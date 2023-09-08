@@ -69,7 +69,7 @@ if (isset($_POST['SaveItem'])) {
                 $toEditProductID = $productInfo["product_id"];
                 if (empty($toEditProductID)) continue;
                 $qty = $productInfo["qty"];
-                $updateQuery = "UPDATE clinicuse_tb SET ProductInfo = ProductInfo - ? WHERE SalesID = ?";
+                $updateQuery = "UPDATE inventory_tb SET Unit = Unit - ? WHERE InventoryID = ? "; // AND Consumable = 1";
                 $stmt = $conn->prepare($updateQuery);
                 $stmt->bind_param("ii", $qty, $toEditProductID);
                 $updateInventoryResult = $stmt->execute();
@@ -83,25 +83,15 @@ if (isset($_POST['SaveItem'])) {
                     die();
                 }
             }
-
-            // Set the session variable for printing
-            $_SESSION['printSalesInsertedId'] = $salesInsertedId;
-
-            // Set success message
-            $_SESSION["alert_message"] = "Successfully Added a Clinic Use.";
-            $_SESSION["alert_message_success"] = true;
-
-            // Redirect to the desired page
-            header("Location: ../clinicUse/index.php");
-            die();
-        } else {
-            // Set error message
-            $_SESSION["alert_message"] = "Failed to Add a Clinic Use. Error Details: " . $stmt->error;
-            $_SESSION["alert_message_error"] = true;
-            header("Location: ../clinicUse/index.php");
-            die();
-        }
-
+   // Success
+   $_SESSION["alert_message"] = "Successfully Added an Billing Statement.";
+   $_SESSION["alert_message_success"] = true;
+   $_SESSION['printSalesInsertedId'] = $salesInsertedId;
+   //die(); // TODO : remove this line for debug
+   // Redirect after processing
+   header("Location: ../clinicUse/index.php");
+   die();
+}
         $stmt->close();
         
         if (isset($_SESSION['printSalesInsertedId'])) {
@@ -109,6 +99,7 @@ if (isset($_POST['SaveItem'])) {
             echo "<script>showChargeSlip('$printSalesInsertedId');</script>";
             unset($_SESSION['printSalesInsertedId']);
         }
+
     } else {
         // Set error message for SQL query preparation
         $_SESSION["alert_message"] = "Failed to prepare the statement. Error Details: " . $conn->error;
@@ -121,9 +112,3 @@ if (isset($_POST['SaveItem'])) {
 // Close the database connection
 $conn->close();
 ?>
-
-<!-- Your HTML content here -->
-
-<script>
-    // Place the JavaScript code you provided here
-</script>
