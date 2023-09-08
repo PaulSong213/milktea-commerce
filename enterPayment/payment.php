@@ -57,7 +57,7 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
                     <div class="mb-3 charge-slip-container">
                         <label class="form-label" for="chargeID">Charge Slip</label>
                         <input type="text" class="form-select" name="chargeID" id="chargeID" list="chargeList" correctData="chargeData" placeholder="Enter Charge Slip" required>
-                        <?php require_once('../API/datalist/charge-opd.php') ?>
+                        <?php require_once('../API/datalist/charge.php') ?>
                         <small class="feedback d-none bg-danger p-1 rounded my-1">
                             Please select a valid Charge No.
                         </small>
@@ -164,6 +164,7 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
     </form>
     <?php require_once('../billing_slip/templates/billing.php') ?>
     <?php require_once('../billing_slip/templates/charge-slip.php') ?>
+    <?php require_once('../billing_slip/templates/payment-slip.php'); ?>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
