@@ -230,9 +230,19 @@ export function showPaySlip(paymentID, appendToElement = null) {
                     const chargeBillData = JSON.parse(chargeBillDataStr);
                     console.log("chargeBillData", chargeBillData);
 
-                    $("#payAccountOf").text(`${chargeBillData.AccountOfFirstName || chargeBillData.accountOfFirstName} ${chargeBillData.AccountOfMiddleName || chargeBillData.accountOfMiddleName} ${chargeBillData.AccountOfLastName || chargeBillData.accountOfLastName}`);
+                    if (chargeBillData) {
+                        $("#payPatientName").text(`${chargeBillData.PatientFirstName || chargeBillData.patientFirstName} ${chargeBillData.PatientMiddleName || chargeBillData.patientMiddleName} ${chargeBillData.PatientLastName || chargeBillData.patientLastName}`);
 
-                    $("#payPatientName").text(`${chargeBillData.PatientFirstName || chargeBillData.patientFirstName} ${chargeBillData.PatientMiddleName || chargeBillData.patientMiddleName} ${chargeBillData.PatientLastName || chargeBillData.patientLastName}`);
+                        if (!chargeBillData.PatientFirstName || !chargeBillData.patientFirstName) {
+                            $("#payPatientName").text(chargeBillData.UnpaidPatientName);
+                        }
+
+                        $("#payAccountOf").text(`${chargeBillData.AccountOfFirstName || chargeBillData.accountOfFirstName} ${chargeBillData.AccountOfMiddleName || chargeBillData.accountOfMiddleName} ${chargeBillData.AccountOfLastName || chargeBillData.accountOfLastName}`);
+
+                        if (!chargeBillData.AccountOfFirstName || !chargeBillData.accountOfFirstName) {
+                            $("#payAccountOf").text($("#payPatientName").text());
+                        }
+                    }
 
                     if (appendToElement) {
                         console.log($("#pay-slip-container"));

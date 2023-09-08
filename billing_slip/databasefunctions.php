@@ -23,10 +23,13 @@ if (isset($_POST['SaveItem'])) {
     $patientType = $_POST['patientAccountType'];
 
     $billingID = null;
+    $paymentType = "cash";
     if (isset($_POST['billingID']) && !empty($_POST['billingID']) && $patientType == "IPD") {
+        $paymentType = "bill";
         // There is existing billing ID
         $billingID = $_POST['billingID'];
     } else if ($change < 0) {
+        $paymentType = "bill";
         // OPT with remaining balance
         // Create new billing
         $encoderID = $enteredByName;
@@ -156,9 +159,16 @@ if (isset($_POST['SaveItem'])) {
         $toEditProductID = $productInfo["id"];
         if (empty($toEditProductID)) continue;
         $qty = $productInfo["qty"];
-        $updateQuery = "UPDATE inventory_tb SET Unit = Unit - ? WHERE InventoryID = ? "; // AND Consumable = 1";
+        $updateQuery = "
+        UPDATE inventory_tb
+        SET Unit = CASE
+            WHEN $qty <= Unit THEN Unit - $qty
+            WHEN $qty > Unit  THEN 0
+            ELSE Unit
+        END
+        WHERE InventoryID = $toEditProductID;
+        "; // AND Consumable = 1";
         $stmt = $conn->prepare($updateQuery);
-        $stmt->bind_param("ii", $qty, $toEditProductID);
         $updateInventoryResult = $stmt->execute();
         $stmt->close();
 
@@ -169,6 +179,20 @@ if (isset($_POST['SaveItem'])) {
             header("Location: ../billing_slip/index.php");
             die();
         }
+    }
+
+    if ($amountTendered > 0) {
+        $paymentChange = $change;
+        if ($paymentChange < 0) $paymentChange = 0;
+        // insert payment transaction history
+        $insertPaymentQuery = "INSERT INTO `payment_tb` 
+        (`billID`, `chargeID`, `receivedID`, `dateTimePaid`, `modifiedDate`, `paymentType`, `type`, `cashAmountTendered`, `changeAmt`) 
+        VALUES ('$billingID', '$chargeSlipNumber', '$enteredByName', current_timestamp(), current_timestamp(), 'cash', '$paymentType', '$amountTendered', '$paymentChange');";
+        $result = mysqli_query($conn, $insertPaymentQuery);
+
+        // save insert id to print
+        $insertedPaymentID = $conn->insert_id;
+        $_SESSION["printPaymentInsertedId"] = $insertedPaymentID;
     }
 
 
