@@ -52,7 +52,7 @@ $LeveL1 = [
             ],
             [
                 "name" => "Log Out", //name of the link
-                "link" => "./logout.php", //link of the page
+                "link" => "/logout.php", //link of the page
             ],
 
         ] //list of links on dropdown
@@ -114,7 +114,7 @@ $Level2 = [
             ],
             [
                 "name" => "Log Out", //name of the link
-                "link" => "./logout.php", //link of the page
+                "link" => "/logout.php", //link of the page
             ],
 
         ] //list of links on dropdown
@@ -184,7 +184,7 @@ $LeveL3 = [
             ],
             [
                 "name" => "Log Out", //name of the link
-                "link" => "./logout.php", //link of the page
+                "link" => "/logout.php", //link of the page
             ],
 
         ] //list of links on dropdown
@@ -333,7 +333,7 @@ $LeveL4 = [
             ],
             [
                 "name" => "Log Out", //name of the link
-                "link" => "./logout.php", //link of the page
+                "link" => "/logout.php", //link of the page
             ],
 
         ] //list of links on dropdown
@@ -511,8 +511,9 @@ switch ($userLevel) {
     </style>
 </head>
 
-<body>
-    <nav id="sidebar">
+<body style="height: 100%; overflow-y: auto;">
+<div style="height: 100%; overflow-y: auto;">
+    <nav id="sidebar" class="bg-light" pb-5">
         <a href="../account/index.php">
             <div class="sidebar-header">
                 <h3><img src="/Zarate/img/logo.png" class="img-fluid" alt="Logo" /><span class="fw-bold company-title">E.Zarate Hospital</span></h3>
@@ -560,10 +561,8 @@ switch ($userLevel) {
         </div>
 
     </nav>
-
+    </div>
     <div class="container-fluid bg-danger" id="content">
-
-        <!-- Your content here -->
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
