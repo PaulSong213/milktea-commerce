@@ -65,7 +65,7 @@ if (isset($_POST['SaveItem'])) {
         $_SESSION["alert_message_error"] = true;
     }
 
-    header("Location: ../index.php");
+    header("Location: ./index.php");
     die();
 }
 
