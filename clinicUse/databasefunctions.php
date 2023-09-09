@@ -25,18 +25,31 @@ if (isset($_POST['SaveItem'])) {
 
     // Prepare product information array
     $productInfoArray = [];
+    $unit = $_POST['unit'];
+    $subtotal = $_POST['subtotal'];
     $product_id = $_POST['product_id'];
     $qty = $_POST['qty'];
     $price = $_POST['price'];
+    $id = $_POST['id'];
+    $ItemType = $_POST['itemType'];
+    $ItemTypeID = $_POST['itemTypeID'];
+    // $product_desciption = $_POST['product_desciption'];
+
 
     for ($i = 0; $i < count($product_id); $i++) {
         if (!empty($product_id[$i])) { // Use !empty() to check for non-empty values
             $qtyValue = max(1, intval($qty[$i])); // Ensure qty is at least 1 and cast to int
 
             $productInfoArray[] = [
+                "subtotal" => $subtotal[$i],
                 "product_id" => $product_id[$i],
                 "qty" => $qtyValue,
-                "price" => $price[$i]
+                "price" => $price[$i],
+                "id" => $id[$i],
+                "unit" => $unit[$i],
+                "itemType" => $ItemType[$i],
+                "itemTypeID" => $ItemTypeID[$i],
+                // "product_desciption" => $product_desciption[$i]
             ];
         }
     }

@@ -17,7 +17,7 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="printModalLabel">Print Charge Slip</h5>
+                    <h5 class="modal-title" id="printModalLabel">Print Clinic Slip</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body border p-4 m-4 shadow">
@@ -34,7 +34,7 @@
                                 </div>
                             </div>
                             <div class="mx-2 d-flex flex-column">
-                                <h5 class="fw-bold mb-1">Charge Slip # <span id="slipNumber"></span> </h5>
+                                <h5 class="fw-bold mb-1">Clinic Slip # <span id="slipNumber"></span> </h5>
                                 <h6 class="text-muted mb-0"><span id="date"></span></h6>
                                 <h6 class="text-muted">Entered by: <span id="enteredBy"></span></h6>
                             </div>
@@ -59,19 +59,7 @@
                         <div class="d-flex justify-content-end">
                             <div class="border-top border-3 my-3 py-1 px-2 border-secondary w-max"
                                 style="min-width: 25%;">
-                                <h5 class="fw-bold">Total Amount: ₱<span id="totalAmount">0</span></h5>
-                                <div class="d-flex flex-column">
-                                    <span id="AmtTendered">Amount Tendered: ₱</span>
-                                    <span id="ChangeAmt">Change: ₱</span>
-                                    <span id="NetAmt">Net Amount: ₱</span>
-                                    <span id="NetSale">Net Sale: ₱</span>
-                                    <span id="AddDisc">Additional Discount(%): </span>
-                                    <span id="billRef">Bill Reference: </span>
-                                    <span id="patientType">Patient Type: </span>
-                                    <h5 id="paidIndicator" class="fs-6 fw-bold">
-                                        PAID
-                                    </h5>
-                                </div>
+                                <h5 class="fw-bold"><span id="totalAmount">0</span></h5>
                             </div>
                         </div>
                     </div>
@@ -100,14 +88,14 @@
                 type: 'GET',
                 success: function(data) {
                     swal.close();
-                    const chargeSlip = JSON.parse(data);
+                    console.log(data);
+                    const chargeSlip = data;
                     const slipNumber = chargeSlip.SalesID;
 
                     // if patient is not registered, use unpaid patient name
 
                     const date = chargeSlip.createDate;
                     const productInfoStr = chargeSlip.ProductInfo;
-                    const chargeEnteredBy = `${chargeSlip.EnteredEmployeeFirstName} ${chargeSlip.EnteredEmployeeMiddleName} ${chargeSlip.EnteredEmployeeLastName}`;
                     const totalAmount = chargeSlip.NetAmt;
                     var remainingBalance = 0;
 
@@ -118,13 +106,13 @@
                     } else {
                         $("#SalesID").text(`Bill Reference: ${chargeSlip.SalesID}`);
                     }
-                    $("#NetAmt").text(`Net Amount: ₱${chargeSlip.NetAmt}`);
+                    $("#totalAmount").text(`Total Amount: ₱${chargeSlip.NetAmt}`);
                     // fill up the charge slip information
                     $('#slipNumber').text(slipNumber);
                     console.log($('#slipNumber'));
-                    $('#attachedToCharge').text(attachedToCharge);
+                    // $('#attachedToCharge').text(attachedToCharge);
                     $('#createDate').text(date);
-                    $('#EnteredBy').text(chargeEnteredBy);
+                    $('#enteredBy').text(chargeSlip.EnteredBy);
                     $('#NetAmt').text(totalAmount);
                     //render product rows to productInfoContainer
                     var productInfo = JSON.parse(productInfoStr);
