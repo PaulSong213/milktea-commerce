@@ -176,8 +176,9 @@ require_once(__DIR__ . "/accessLevels.php");
     </style>
 </head>
 
-<body>
-    <nav id="sidebar">
+<body style="height: 100%; overflow-y: auto;">
+<div style="height: 100%; overflow-y: auto;">
+    <nav id="sidebar" class="bg-light" style="height: 100%; overflow-y: auto;">
         <a href="../account/index.php">
             <div class="sidebar-header">
                 <h3><img src="/Zarate/img/logo.png" class="img-fluid" alt="Logo" /><span class="fw-bold company-title">E.Zarate Hospital</span></h3>
@@ -225,10 +226,8 @@ require_once(__DIR__ . "/accessLevels.php");
         </div>
 
     </nav>
-
+    </div>
     <div class="container-fluid bg-danger" id="content">
-
-        <!-- Your content here -->
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>

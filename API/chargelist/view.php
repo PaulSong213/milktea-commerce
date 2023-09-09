@@ -9,7 +9,7 @@ $conn = connect();
 $baseTable = "sales_tb";
 
 // Define the base query
-$baseQuery = "SELECT * FROM $baseTable";
+$baseQuery = "SELECT * FROM $baseTable ORDER BY SalesID DESC";
 
 // Retrieve DataTables' request parameters
 $start = $_POST['start']; // Start index for pagination
