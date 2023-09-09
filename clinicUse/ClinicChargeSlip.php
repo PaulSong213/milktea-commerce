@@ -51,7 +51,12 @@ $LastBillingID = getLastBillingID($conn);
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 
-<body class="fluid" style="background-color: #006666;">
+<style>
+    .body {
+        background-color: #006666;
+    }
+</style>
+<body class="fluid body">
     <form method="POST" action="databasefunctions.php" id="addItemForm" class="container-fluid p-3" autocomplete="off">
         <div class="row text-white mb-4">
             <h3 class="app-title mt-4 text">CLINIC USE</h3>
