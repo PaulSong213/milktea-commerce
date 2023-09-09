@@ -129,10 +129,11 @@
                     {
                         data: null,
                         render: (data, type, row) => {
-                            if (data.type === "charge") {
-                                return "CHARGE #" + data.chargeID;
-                            }
-                            return "BILL #" + data.billID;
+                            let typeNumber = data.chargeID;
+                            if (data.type === "bill") data.billID;
+                            const cashInfo = data.type === "cash" ? "(CASH) " : "";
+                            if (data.type === "cash") data.type = "charge"; // cash are referenced to charge
+                            return (`${cashInfo}${data.type}# ${typeNumber}`).toUpperCase();
                         }
                     },
                     {

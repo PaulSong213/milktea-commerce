@@ -8,8 +8,9 @@
     }
     $query = "SELECT title, fname, lname, mname, DatabaseID, department_tb.departmentName
     FROM employee_tb
-    LEFT JOIN department_tb ON employee_tb.departmentID = department_tb.departmentID;
-    ";
+    LEFT JOIN department_tb ON employee_tb.departmentID = department_tb.departmentID
+    WHERE Status = 1
+    ;";
     $result = $conn->query($query);
     $employeesData = (object)array(); // Create an empty object
 

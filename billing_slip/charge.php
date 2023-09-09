@@ -233,6 +233,7 @@ $LastBillingID = getLastBillingID($conn);
                         <tr name="templateRow" style="display: none;">
                             <td>
                                 <input autocomplete="off" class="form-control" list="productList" id="product_id_input" name="product_id[]" onchange="updateProductInfo(this)" />
+                                <input type="hidden" id="product_desciption" name="product_desciption[]"/>
                                 <datalist id="product_id_list">
                                     <?php require_once('../API/datalist/product-list.php') ?>
                                 </datalist>
