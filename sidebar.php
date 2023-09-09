@@ -178,7 +178,7 @@ require_once(__DIR__ . "/accessLevels.php");
 
 <body style="height: 100%; overflow-y: auto;">
 <div style="height: 100%; overflow-y: auto;">
-    <nav id="sidebar" class="bg-light" pb-5">
+    <nav id="sidebar" class="bg-light" style="height: 100%; overflow-y: auto;">
         <a href="../account/index.php">
             <div class="sidebar-header">
                 <h3><img src="/Zarate/img/logo.png" class="img-fluid" alt="Logo" /><span class="fw-bold company-title">E.Zarate Hospital</span></h3>
