@@ -114,6 +114,7 @@ if (isset($_SESSION['user'])) {
     <div class="login-container loaded">
 
         <form class="" action="" method="post">
+            
             <h5>Welcome
                 "<?php echo $nname ?>"!
             </h5>
