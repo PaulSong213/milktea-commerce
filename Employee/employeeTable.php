@@ -241,7 +241,7 @@
                 ]
             });
             handleArchiveClick(table, "userName", "./edit/archive.php", "Status");
-            handleEditClick(table, $('#editModal'));
+            handleEditClick(table, '<?php echo json_decode($_SESSION["user"])->AccessLevel >= 2 ? false : true ?>');
             handleViewClick(table);
 
         });

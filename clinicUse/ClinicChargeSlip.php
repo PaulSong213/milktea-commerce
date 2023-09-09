@@ -136,6 +136,8 @@ $LastBillingID = getLastBillingID($conn);
                             <td><input type="number" class="form-control text-light bg-secondary" readonly name="inv"></td>
                             <td><input type="number" class="form-control" name="qty[]" min="1"></td>
                             <td><input type="text" class="form-control text-light bg-secondary" name="unit[]" readonly></td>
+                            <td style="display:none"><input type="text" class="form-control text-light bg-secondary" name="itemType[]" readonly></td>
+                            <td style="display:none"><input type="text" class="form-control text-light bg-secondary" name="itemTypeID[]" readonly></td>
                             <td style="display:none"><input type="number" style="display:none" class="form-control text-light bg-secondary" name="id[]" readonly></td>
                             <td style="display:none"><input type="number" style="display:none" class="form-control text-light bg-secondary" name="itemTypeID[]" readonly></td>
                             <td><input type="number" class="form-control text-light bg-secondary" name="price[]" readonly step="0.01"></td>
@@ -203,11 +205,12 @@ $LastBillingID = getLastBillingID($conn);
     var datalist = document.getElementById('product_id_list');
 
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "getproductdetails.php?itemCode=" + selectedValue, true);
+    xhr.open("GET", "/Zarate/billing_slip/getproductdetails.php?itemCode=" + selectedValue, true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
                 var response = JSON.parse(xhr.responseText);
+                console.log('itemTypeInput',itemTypeInput);
                 
                 if (invInput) {
                     invInput.value = response.inv;
