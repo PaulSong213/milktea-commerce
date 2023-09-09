@@ -12,7 +12,7 @@ $baseTable = "backlog_tb";
 $baseQuery = "SELECT * FROM $baseTable 
 LEFT JOIN employee_tb
 ON employee_tb.DatabaseID = $baseTable.employeeID
-LEFT JOIN department_tb ON department_tb.departmentID = employee_tb.departmentID ORDER BY timeStamp DESC
+LEFT JOIN department_tb ON department_tb.departmentID = employee_tb.departmentID ORDER BY backlogID DESC
 ";
 
 // Retrieve DataTables' request parameters
