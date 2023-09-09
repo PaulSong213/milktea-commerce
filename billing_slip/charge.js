@@ -66,6 +66,7 @@
             var selectedValue = input.value;
             var row = input.closest("tr");
             var invInput = row.querySelector('[name="inv"]');
+            var product_desciption = row.querySelector('[name="product_desciption[]"]');
             var unitInput = row.querySelector('[name="unit[]"]');
             var priceInput = row.querySelector('[name="price[]"]');
             var itemTypeInput = row.querySelector('[name="itemType[]"]');
@@ -80,6 +81,7 @@
                     if (xhr.status === 200) {
                         var response = JSON.parse(xhr.responseText);
                         invInput.value = response.inv;
+                        product_desciption.value = response.itemDescription;
                         unitInput.value = response.unit;
                         priceInput.value = response.price;
                         itemTypeInput.value = response.itemtype;
