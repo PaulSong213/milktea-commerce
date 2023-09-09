@@ -33,7 +33,7 @@ $levelOne = [
             ],
             [
                 "name" => "Log Out", //name of the link
-                "link" => "./logout.php", //link of the page
+                "link" => "/logout.php", //link of the page
             ],
 
         ] //list of links on dropdown
@@ -95,7 +95,7 @@ $levelTwo = [
             ],
             [
                 "name" => "Log Out", //name of the link
-                "link" => "./logout.php", //link of the page
+                "link" => "/logout.php", //link of the page
             ],
 
         ] //list of links on dropdown
@@ -165,7 +165,7 @@ $levelThree = [
             ],
             [
                 "name" => "Log Out", //name of the link
-                "link" => "./logout.php", //link of the page
+                "link" => "/logout.php", //link of the page
             ],
 
         ] //list of links on dropdown
@@ -314,7 +314,7 @@ $levelFour = [
             ],
             [
                 "name" => "Log Out", //name of the link
-                "link" => "./logout.php", //link of the page
+                "link" => "/logout.php", //link of the page
             ],
 
         ] //list of links on dropdown

@@ -1,11 +1,13 @@
 import { verifyAdmin } from "../../costum-js/verifyAdmin.js";
 
-export function handleEditClick(table) {
+export function handleEditClick(table, willCheckAdmin = false) {
 
     table.on('click', '.edit-btn', async function (e) {
-        const isConfirmedByAdmin = await verifyAdmin();
-        console.log(isConfirmedByAdmin);
-        if (!isConfirmedByAdmin) return;
+        console.log(willCheckAdmin);
+        if (willCheckAdmin) {
+            const isConfirmedByAdmin = await verifyAdmin();
+            if (!isConfirmedByAdmin) return;
+        }
 
         console.log('verify admin done');
         const addModal = $("#addItemModal");

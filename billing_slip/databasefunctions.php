@@ -45,7 +45,7 @@ if (isset($_POST['SaveItem'])) {
             $admittingPhysicianID = $_POST['admittingPhysicianID'];
             $dateDischarged = $_POST['dateDischarged'];
             $timeDischarged = $_POST['timeDischarged'];
-            if (!empty($dateDischarged) && !empty($timeDischarged)) {
+            if (!empty($dateAdmitted) && !empty($timeAdmitted)) {
                 $datetimeAdmitted = new DateTime($dateAdmitted . ' ' . $timeAdmitted);
                 $formattedDatetimeAdmitted = $datetimeAdmitted->format('Y-m-d H:i:s');
             }

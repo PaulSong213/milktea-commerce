@@ -23,11 +23,7 @@ if (isset($_SESSION['user'])) {
     header("Location: /Zarate/index.php");
     exit();
 }
-if (isset($_GET['logout'])) {
-    session_destroy();
-    unset($_SESSION['user']);
-    header('location: ./index.php');
-}
+
 
 ?>
 
@@ -127,12 +123,13 @@ if (isset($_GET['logout'])) {
         }
 
         .animated-icon {
-            animation: rotate 3s ;
+            animation: rotate 3s;
         }
     </style>
 </head>
 
 <body>
+
     <div class="container-fluid bg-dark rounded ">
         <div class="main-body">
             <div class="row gutters-sm">
@@ -145,8 +142,10 @@ if (isset($_GET['logout'])) {
                                     <h4><?php echo $title . ' ' . $fname . ' ' . $lname ?></h4>
                                     <p class="text-secondary mb-1">
                                     <h4><?php echo $departmentName ?></h4>
+
                                     </p>
                                     <p class="text-muted font-size-sm"><?php echo $position ?></p>
+                                    <p class="text-muted font-size-sm"><?php include("editProfile.php"); ?></p>
                                 </div>
                             </div>
                         </div>
@@ -181,9 +180,9 @@ if (isset($_GET['logout'])) {
                                 </div>
                             </div>
                             <hr>
-                            <div class="row">
+                                <div class="row">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0">Nickname</h6>
+                                    <h6 class="mb-0">Nick Name</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
 
@@ -191,6 +190,7 @@ if (isset($_GET['logout'])) {
                                 </div>
                             </div>
                             <hr>
+                         
                             <div class="row">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Title</h6>

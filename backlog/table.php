@@ -102,7 +102,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '/Zarate/API/backlog/view.php',
+                    url: '/Zarate/API/Log/view.php',
                     dataType: 'JSON',
                     type: 'POST',
                     data: function(d) {
