@@ -16,9 +16,10 @@ if ($conn->connect_error) {
 if (isset($_POST['SaveItem'])) {
     $itemTypeCode = $_POST['itemTypeCode'];
     $description = $_POST['description'];
-
-    $sql = "INSERT INTO itemtype_tb (itemTypeCode, description)
-    VALUES ('$itemTypeCode', '$description')";
+    $departmentID = $_POST['departmentID'];
+    $is_consumable = $_POST['is_consumable'] === "1"  ?  "1" : "0";
+    $sql = "INSERT INTO itemtype_tb (itemTypeCode, description, is_consumable, departmentID)
+    VALUES ('$itemTypeCode', '$description','$is_consumable', $departmentID)";
 
     $result = mysqli_query($conn, $sql);
     if ($result) {
@@ -28,7 +29,7 @@ if (isset($_POST['SaveItem'])) {
 
         $conn1 = connect();
         $sql1 = "INSERT INTO backlog_tb (employeeID, action, description, timeStamp)
-        						VALUES ('$userID', '$act', '$description', NOW())";
+        				VALUES ('$userID', '$act', '$description', NOW())";
         $result1 = mysqli_query($conn1, $sql1);
 
         $_SESSION["alert_message"] = "Successfully Added an Item Type";

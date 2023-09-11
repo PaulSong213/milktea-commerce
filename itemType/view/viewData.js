@@ -7,6 +7,10 @@ export function handleViewClick(table) {
             label: "Item Type Code"
         },
         {
+            dataKey: "is_consumable",
+            label: "Type"
+        },
+        {
             dataKey: "description",
             label: "Description"
         },
@@ -26,6 +30,9 @@ export function handleViewClick(table) {
         for (let i = 0; i < viewDatas.length; i++) {
             const viewData = viewDatas[i];
             if (viewData.label.includes("Date")) data[viewData.dataKey] = formatDate(new Date(data[viewData.dataKey]));
+
+            if (viewData.dataKey === "is_consumable") data[viewData.dataKey] = data[viewData.dataKey] === "1" ? "Consumable" : "Not Consumable";
+
             $("#viewModalBody").append(`
                 <div class="d-flex justify-content-between">
                     <h5 class="mx-2">${viewData.label}:</h5>
