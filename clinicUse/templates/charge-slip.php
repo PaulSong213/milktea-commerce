@@ -6,22 +6,22 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
 
 </head>
 
 <body>
 
-    <div class="modal fade" data-bs-backdrop="static" id="printModal" tabindex="-1" aria-labelledby="printModalLabel"
+    <div class="modal fade " data-bs-backdrop="static" id="printModal" tabindex="-1" aria-labelledby="printModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog modal-xl">
+        <div class="modal-dialog modal-xl bg-white">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="printModalLabel">Print Clinic Slip</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body border p-4 m-4 shadow">
-                    <div id="charge-slip">
+                    <div id="charge-slip" class="bg-white">
                         <!-- HEADER -->
                         <div
                             class="d-flex justify-content-between border-bottom border-5 border-secondary py-3 w-100 m-0">
@@ -73,7 +73,6 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script>
         function showChargeSlip(SalesID, appendToElement = null) {
             Swal.fire({
