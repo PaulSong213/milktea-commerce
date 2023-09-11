@@ -57,7 +57,7 @@
 
                         <!-- chargeInfoContainer -->
                         <div id="chargeInfoContainer"></div>
-
+                        <small class="fw-bold my-2">*This receipt is provided for your reference and records. Please note that this is not an official receipt.</small>
                     </div>
                 </div>
                 <div class="modal-footer">
