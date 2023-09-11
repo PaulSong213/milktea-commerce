@@ -178,7 +178,10 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
         billingsData: JSON.parse('<?= $billingsData ?>')
     });
 </script>
-<script>
+<script type="module">
+    import {
+        showChargeSlip
+    } from "/Zarate/billing_slip/templates/functions.js";
     $(document).ready(function() {
         // set default value of date and time admitted to current date and time
         const now = new Date();
