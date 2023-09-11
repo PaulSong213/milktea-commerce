@@ -13,11 +13,15 @@ if (isset($_POST['SaveItem'])) {
     $itemTypeID = $_POST['itemTypeID'];
     $description = $_POST['description'];
     $itemTypeCode = $_POST['itemTypeCode'];
+    $is_consumable = $_POST['is_consumable'] === "1"  ?  "1" : "0";
+    $departmentID = $_POST['departmentID'];
 
     $sql = "UPDATE itemtype_tb
     SET
         itemTypeCode = '$itemTypeCode',
         description = '$description',
+        departmentID = '$departmentID',
+        is_consumable = '$is_consumable',
         modifiedDate = now()
     WHERE
         itemTypeID = '$itemTypeID';
@@ -32,7 +36,7 @@ if (isset($_POST['SaveItem'])) {
 
         $conn1 = connect();
         $sql1 = "INSERT INTO backlog_tb (employeeID, action, description, timeStamp)
-        						VALUES ('$userID', '$act', '$description', NOW())";
+                            VALUES ('$userID', '$act', '$description', NOW())";
         $result1 = mysqli_query($conn1, $sql1);
 
         $_SESSION["alert_message"] = "Successfully Edited an Item Type";

@@ -11,6 +11,14 @@ export function handleEditClick(table) {
                 inputName: "itemTypeCode"
             },
             {
+                dataKey: "is_consumable",
+                inputName: "is_consumable"
+            },
+            {
+                dataKey: "departmentID",
+                inputName: "departmentID"
+            },
+            {
                 dataKey: "description",
                 inputName: "description"
             }
@@ -19,7 +27,15 @@ export function handleEditClick(table) {
         // fill up the fields
         for (let i = 0; i < toFillUpDatas.length; i++) {
             const toFillUpData = toFillUpDatas[i];
+            if (toFillUpData.dataKey === "is_consumable") {
+                $(`[name="${toFillUpData.inputName}"]`).prop('checked', () => {
+                    return data[toFillUpData.dataKey] === "1";
+                });
+                continue;
+            }
+
             $(`[name="${toFillUpData.inputName}"]`).val(data[toFillUpData.dataKey]);
+            console.log($(`[name="${toFillUpData.inputName}"]`));
         }
 
         // edit the save button
@@ -45,6 +61,7 @@ export function handleEditClick(table) {
                 const toFillUpData = toFillUpDatas[i];
                 $(`[name="${toFillUpData.inputName}"]`).val("");
             }
+            $(`[name="is_consumable"]`).prop('checked', true);
         });
     });
 }

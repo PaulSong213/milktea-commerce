@@ -52,13 +52,14 @@
         <?php include './view/view.php'; ?>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
-                    <th>Type</th>
-                    <th>Department</th>
-                    <th>Amount</th>
-                    <th>Requested By</th>
-                    <th>Create Date</th>
-                    <th>Modified Date</th>
-                    <th class="action-column">Actions</th>
+                <th>Type</th>
+                <th>Department Name</th>
+                <th>Payable To</th>
+                <th>Amount</th>
+                <th>Requested By</th>
+                <th>Entered Date</th>
+                <th>Date Post</th>
+                <th class="action-column">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -113,7 +114,10 @@
                         data: 'expenseType',
                     },
                     {
-                        data: 'department',
+                        data: 'departmentName',
+                    },
+                    {
+                        data: 'payableTo',
                     },
                     {
                         data: 'amount'
@@ -122,10 +126,10 @@
                         data: 'requestedBy'
                     },
                     {
-                        data: 'createDate',
+                        data: 'dateEntered',
                     },
                     {
-                        data: 'modifiedDate',
+                        data: 'datePost',
                     },
                     {
                         data: null,

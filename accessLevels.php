@@ -21,23 +21,6 @@ $levelOne = [
             ],
         ] //list of links on dropdown
     ],
-    [
-        "name" => "Account Settings", //name of the link
-        "icon" => "account_circle", //material icon name
-        "link" => "/dashboard/index.php", //link of the page
-        "navigations" => [
-            [
-                "name" => isset($_SESSION['user']) ? json_decode($_SESSION['user'], true)['userName'] : 'You are Logout',
-                "icon" => "account_circle", //material icon name
-                "link" => "/dashboard/index.php", //link of the pages
-            ],
-            [
-                "name" => "Log Out", //name of the link
-                "link" => "/logout.php", //link of the page
-            ],
-
-        ] //list of links on dropdown
-    ],
 ];
 $levelTwo = [
     [
@@ -80,24 +63,6 @@ $levelTwo = [
                 "name" => "Enter Billing (New Admission)", //name of the link
                 "link" => "/billing-new-admission/index.php", //link of the page
             ],
-        ] //list of links on dropdown
-    ],
-
-    [
-        "name" => "Account Settings", //name of the link
-        "icon" => "account_circle", //material icon name
-        "link" => "/dashboard/index.php", //link of the page
-        "navigations" => [
-            [
-                "name" => isset($_SESSION['user']) ? json_decode($_SESSION['user'], true)['userName'] : 'You are Logout',
-                "icon" => "account_circle", //material icon name
-                "link" => "/dashboard/index.php", //link of the pages
-            ],
-            [
-                "name" => "Log Out", //name of the link
-                "link" => "/logout.php", //link of the page
-            ],
-
         ] //list of links on dropdown
     ],
 ];
@@ -151,23 +116,6 @@ $levelThree = [
                 "name" => "Enter Billing (New Admission)", //name of the link
                 "link" => "/billing-new-admission/index.php", //link of the page
             ],
-        ] //list of links on dropdown
-    ],
-    [
-        "name" => "Account Settings", //name of the link
-        "icon" => "account_circle", //material icon name
-        "link" => "/dashboard/index.php", //link of the page
-        "navigations" => [
-            [
-                "name" => isset($_SESSION['user']) ? json_decode($_SESSION['user'], true)['userName'] : 'You are Logout',
-                "icon" => "account_circle", //material icon name
-                "link" => "/dashboard/index.php", //link of the pages
-            ],
-            [
-                "name" => "Log Out", //name of the link
-                "link" => "/logout.php", //link of the page
-            ],
-
         ] //list of links on dropdown
     ],
 ];
@@ -297,28 +245,6 @@ $levelFour = [
         "link" => "/backlog/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
     ],
-    [
-        "name" => "Account Settings", //name of the link
-        "icon" => "account_circle", //material icon name
-        "link" => "/account/index.php", //link of the page
-        "navigations" => [
-            [
-                "name" => isset($_SESSION['user']) ? json_decode($_SESSION['user'], true)['userName'] : 'You are Logout',
-                "icon" => "account_circle", //material icon name
-                "link" => "/account/index.php", //link of the pages
-            ],
-            [
-                "name" => isset($_SESSION['user']) ? json_decode($_SESSION['user'], true)['departmentName'] : 'You are Logout',
-                "icon" => "account_circle", //material icon name
-                "link" => "/account/index.php", //link of the pages
-            ],
-            [
-                "name" => "Log Out", //name of the link
-                "link" => "/logout.php", //link of the page
-            ],
-
-        ] //list of links on dropdown
-    ],
 ];
 
 $LevelNav = []; // Define $LevelNav with an initial value
@@ -341,4 +267,28 @@ switch ($userLevel) {
         break;
 }
 
+$accountSettings = [
+    "name" => "Account Settings", //name of the link
+    "icon" => "account_circle", //material icon name
+    "link" => "/account/index.php", //link of the page
+    "navigations" => [
+        [
+            "name" => isset($_SESSION['user']) ? json_decode($_SESSION['user'], true)['userName'] : 'You are Logout',
+            "icon" => "account_circle", //material icon name
+            "link" => "/account/index.php", //link of the pages
+        ],
+        [
+            "name" => isset($_SESSION['user']) ? json_decode($_SESSION['user'], true)['departmentName'] : 'You are Logout',
+            "icon" => "account_circle", //material icon name
+            "link" => "/account/index.php", //link of the pages
+        ],
+        [
+            "name" => "Log Out", //name of the link
+            "link" => "/logout.php", //link of the page
+        ],
+
+    ] //list of links on dropdown
+];
+
 // Now $LevelNav is set based on the value of $Level
+array_push($LevelNav, $accountSettings);

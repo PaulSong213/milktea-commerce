@@ -23,8 +23,7 @@
                 <div class="modal-body border p-4 m-4 shadow">
                     <div id="charge-slip" class="bg-white">
                         <!-- HEADER -->
-                        <div
-                            class="d-flex justify-content-between border-bottom border-5 border-secondary py-3 w-100 m-0">
+                        <div class="d-flex justify-content-between border-bottom border-5 border-secondary py-3 w-100 m-0">
                             <div class="d-flex">
                                 <img style="height: 60px;" src="../img/logo.png" alt="ZARATE LOGO">
                                 <div class="mx-3 d-flex flex-column justify-content-end ">
@@ -57,11 +56,11 @@
                             <!-- Product information will be dynamically populated here -->
                         </div>
                         <div class="d-flex justify-content-end">
-                            <div class="border-top border-3 my-3 py-1 px-2 border-secondary w-max"
-                                style="min-width: 25%;">
+                            <div class="border-top border-3 my-3 py-1 px-2 border-secondary w-max" style="min-width: 25%;">
                                 <h5 class="fw-bold"><span id="totalAmount">0</span></h5>
                             </div>
                         </div>
+                        <small class="fw-bold">*This receipt is provided for your reference and records. Please note that this is not an official receipt.</small>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -70,7 +69,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -218,4 +217,5 @@
         }
     </script>
 </body>
+
 </html>

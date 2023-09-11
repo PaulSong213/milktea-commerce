@@ -27,7 +27,10 @@ if (!empty($searchValue)) {
 }
 
 // Add the limit condition for all cases
-$query .= " LIMIT $start, $length";
+$query .= " 
+ORDER BY modifiedDate DESC
+LIMIT $start, $length
+";
 
 // Execute the query
 $result = $conn->query($query);

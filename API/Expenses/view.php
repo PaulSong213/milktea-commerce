@@ -6,10 +6,12 @@ header("Content-Type: application/json");
 require_once '../../php/connect.php';
 $conn = connect();
 
-$baseTable = "expense_tb";
+$baseTable = "expenses_tb";
 
 // Define the base query
-$baseQuery = "SELECT * FROM $baseTable";
+$baseQuery = "SELECT * FROM $baseTable 
+LEFT JOIN department_tb 
+ON department_tb.departmentID = $baseTable.departmentID";
 
 // Retrieve DataTables' request parameters
 $start = 0; // Start index for pagination
