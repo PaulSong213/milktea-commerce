@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 09, 2023 at 08:59 AM
+-- Generation Time: Sep 09, 2023 at 09:24 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -111,7 +111,8 @@ INSERT INTO `backlog_tb` (`backlogID`, `employeeID`, `action`, `description`, `t
 (69, 379, 'Edit Employee Data', 'Edit Employee Data', '2023-09-09 13:27:54'),
 (70, 379, 'Add New Patient Data', 'Add New Patient Data  [Songalia, John]', '2023-09-09 13:28:53'),
 (71, 379, 'Log out', 'User Log out', '2023-09-09 14:48:37'),
-(72, 211, 'Log In', 'User Log in', '2023-09-09 14:55:50');
+(72, 211, 'Log In', 'User Log in', '2023-09-09 14:55:50'),
+(73, 211, 'Log out', 'User Log out', '2023-09-09 15:01:48');
 
 -- --------------------------------------------------------
 
@@ -141,6 +142,120 @@ INSERT INTO `billing_tb` (`billingID`, `encoderID`, `patientID`, `accountOfID`, 
 (1, 379, 1, 1, '0000-00-00 00:00:00', 'IPD', 27, 23, '0000-00-00 00:00:00', '2023-09-09 13:29:16', '2023-09-09 13:29:16'),
 (2, 379, 1, 1, '0000-00-00 00:00:00', 'IPD', 24, 25, '0000-00-00 00:00:00', '2023-09-09 13:29:44', '2023-09-09 13:29:44'),
 (3, 379, 1, 1, '2023-09-09 13:41:00', 'IPD', 25, 23, '0000-00-00 00:00:00', '2023-09-09 13:41:51', '2023-09-09 13:41:51');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `clinicuse_tb`
+--
+
+CREATE TABLE `clinicuse_tb` (
+  `SalesID` int(11) NOT NULL,
+  `ProductInfo` text DEFAULT NULL,
+  `department` varchar(100) DEFAULT NULL,
+  `NetAmt` int(11) DEFAULT NULL,
+  `requestedBy` varchar(100) DEFAULT NULL,
+  `enteredBy` varchar(100) DEFAULT NULL,
+  `createDate` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `clinicuse_tb`
+--
+
+INSERT INTO `clinicuse_tb` (`SalesID`, `ProductInfo`, `department`, `NetAmt`, `requestedBy`, `enteredBy`, `createDate`) VALUES
+(2, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'ECG | ID: 2', 300, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 11:09:49'),
+(3, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'FAMILY | ID: 3', 300, 'DR. CHUA,ALJER  | ID: 25', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 11:17:26'),
+(4, '[{\"product_id\":\"LAB***AMY\",\"qty\":1,\"price\":\"850\"}]', 'ADMIN | ID: 1', 850, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 11:18:25'),
+(5, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'LAB | ID: 5', 300, 'DR. CHUA,ALJER  | ID: 25', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 11:19:57'),
+(6, '[{\"product_id\":\"LAB***AMY\",\"qty\":1,\"price\":\"850\"}]', 'FAMILY | ID: 3', 850, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 11:21:04'),
+(7, '[{\"product_id\":\"LAB***ALCO\",\"qty\":1,\"price\":\"780\"}]', 'ADMIN | ID: 1', 780, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 11:22:34'),
+(8, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'ECG | ID: 2', 300, 'DR. CHUA,ALJER  | ID: 25', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 11:25:20'),
+(9, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'ECG | ID: 2', 300, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 11:31:52'),
+(10, '[{\"product_id\":\"LAB***AMY\",\"qty\":1,\"price\":\"850\"}]', 'FAMILY | ID: 3', 850, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 11:35:10'),
+(11, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'FAMILY | ID: 3', 300, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 11:36:57'),
+(12, '[{\"product_id\":\"LAB***ALCO\",\"qty\":1,\"price\":\"780\"}]', 'ADMIN | ID: 1', 780, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 11:42:24'),
+(13, '[{\"product_id\":\"LAB***ABG\",\"qty\":1,\"price\":\"1440\"}]', 'ECG | ID: 2', 1440, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 11:42:37'),
+(14, '[{\"product_id\":\"LAB***ALCO\",\"qty\":1,\"price\":\"780\"}]', 'ECG | ID: 2', 780, 'DR. CHUA,ALJER  | ID: 25', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 11:44:10'),
+(15, '[{\"product_id\":\"LAB***ANA\",\"qty\":1,\"price\":\"1200\"}]', 'ECG | ID: 2', 1200, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 11:45:11'),
+(16, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"\"}]', 'ADMIN | ID: 1', 0, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 11:46:39'),
+(17, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'ECG | ID: 2', 300, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 11:47:25'),
+(18, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'GENERAL | ID: 4', 300, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 11:47:40'),
+(19, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'ECG | ID: 2', 300, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 11:48:11'),
+(20, '[{\"product_id\":\"LAB***ALCO\",\"qty\":1,\"price\":\"780\"}]', 'ECG | ID: 2', 780, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 11:59:31'),
+(21, '[{\"product_id\":\"LAB***ALCO\",\"qty\":1,\"price\":\"780\"}]', 'FAMILY | ID: 3', 780, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 12:41:16'),
+(22, '[{\"product_id\":\"LAB***ALCO\",\"qty\":1,\"price\":\"780\"}]', 'ADMIN | ID: 1', 780, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 12:42:45'),
+(23, '[{\"product_id\":\"LAB***AMY\",\"qty\":1,\"price\":\"850\"}]', 'FAMILY | ID: 3', 850, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 12:47:28'),
+(24, '[{\"product_id\":\"LAB***ANA\",\"qty\":1,\"price\":\"1200\"}]', 'ADMIN | ID: 1', 1200, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 12:49:29'),
+(25, '[{\"product_id\":\"LAB***ALCO\",\"qty\":1,\"price\":\"780\"}]', 'ECG | ID: 2', 780, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 12:49:40'),
+(26, '[{\"product_id\":\"LAB***ANA\",\"qty\":1,\"price\":\"1200\"}]', 'ADMIN | ID: 1', 1200, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 12:54:00'),
+(27, '[{\"product_id\":\"LAB***ALCO\",\"qty\":1,\"price\":\"780\"}]', 'ADMIN | ID: 1', 780, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 12:57:35'),
+(28, '[{\"product_id\":\"LAB***ALCO\",\"qty\":1,\"price\":\"780\"}]', 'ADMIN | ID: 1', 780, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 12:58:12'),
+(29, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'LAB | ID: 5', 300, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 12:58:57'),
+(30, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'ECG | ID: 2', 300, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 12:59:58'),
+(31, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'ADMIN | ID: 1', 300, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 13:02:42'),
+(32, '[{\"product_id\":\"LAB***ANTIHAV\",\"qty\":1,\"price\":\"0\"}]', 'ADMIN | ID: 1', 0, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 13:03:53'),
+(33, '[{\"product_id\":\"LAB***AMY\",\"qty\":1,\"price\":\"850\"}]', 'ECG | ID: 2', 850, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 13:04:03'),
+(34, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'ADMIN | ID: 1', 300, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 13:08:21'),
+(35, '[{\"product_id\":\"LAB***ALCO\",\"qty\":1,\"price\":\"780\"}]', 'IT | ID: 8', 780, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 13:09:15'),
+(36, '[{\"product_id\":\"LAB***ALBUMIN\",\"qty\":1,\"price\":\"350\"}]', 'ECG | ID: 2', 350, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 13:11:06'),
+(37, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'ECG | ID: 2', 300, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 13:12:12'),
+(38, '[{\"product_id\":\"LAB***AMY\",\"qty\":1,\"price\":\"850\"}]', 'LAB | ID: 5', 850, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 13:12:46'),
+(39, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'ADMIN | ID: 1', 300, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 13:19:35'),
+(40, '[{\"product_id\":\"LAB***ALCO\",\"qty\":1,\"price\":\"780\"}]', 'FAMILY | ID: 3', 780, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 13:24:37'),
+(41, '[{\"product_id\":\"LAB***ALCO\",\"qty\":1,\"price\":\"780\"}]', 'FAMILY | ID: 3', 780, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 13:24:59'),
+(42, '[{\"product_id\":\"LAB***AMY\",\"qty\":1,\"price\":\"850\"}]', 'ADMIN | ID: 1', 850, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 13:28:09'),
+(43, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'ECG | ID: 2', 300, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 13:37:43'),
+(44, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'ECG | ID: 2', 300, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 13:52:25'),
+(45, '[{\"product_id\":\"LAB***ALCO\",\"qty\":1,\"price\":\"780\"}]', 'ADMIN | ID: 1', 780, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 13:53:42'),
+(46, '[{\"product_id\":\"LAB***AMY\",\"qty\":1,\"price\":\"850\"}]', 'FAMILY | ID: 3', 850, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 13:54:36'),
+(47, '[{\"product_id\":\"LAB***AMY\",\"qty\":1,\"price\":\"850\"}]', 'FAMILY | ID: 3', 850, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 14:21:17'),
+(48, '[{\"product_id\":\"LAB***ALCO\",\"qty\":1,\"price\":\"780\"}]', 'ADMIN | ID: 1', 780, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 14:22:45'),
+(49, '[{\"product_id\":\"LAB***AMY\",\"qty\":1,\"price\":\"850\"}]', 'ADMIN | ID: 1', 850, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 14:26:17'),
+(50, '[{\"product_id\":\"LAB***AMY\",\"qty\":1,\"price\":\"850\"}]', 'ADMIN | ID: 1', 850, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 14:28:27'),
+(51, '[{\"product_id\":\"LAB***AMY\",\"qty\":1,\"price\":\"850\"},{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'ADMIN | ID: 1', 1150, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 14:33:36'),
+(52, '[{\"product_id\":\"LAB***ALBUMIN\",\"qty\":1,\"price\":\"350\"}]', 'ECG | ID: 2', 350, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 14:41:57'),
+(53, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'GENERAL | ID: 4', 300, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 14:49:24'),
+(54, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'FAMILY | ID: 3', 300, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 14:49:43'),
+(55, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'FAMILY | ID: 3', 300, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 14:57:42'),
+(56, '[{\"product_id\":\"LAB***ALCO\",\"qty\":1,\"price\":\"780\"}]', 'ECG | ID: 2', 780, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 15:00:56'),
+(57, '[{\"product_id\":\"LAB***ANA\",\"qty\":1,\"price\":\"1200\"}]', 'ECG | ID: 2', 1200, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 15:01:22'),
+(58, '[{\"product_id\":\"LAB***ALBUMIN\",\"qty\":1,\"price\":\"350\"}]', 'ADMIN | ID: 1', 350, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 15:04:31'),
+(59, '[{\"product_id\":\"LAB***ALCO\",\"qty\":1,\"price\":\"780\"}]', 'ADMIN | ID: 1', 780, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 15:06:34'),
+(60, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'ECG | ID: 2', 300, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 15:08:05'),
+(61, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'ECG | ID: 2', 300, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 15:08:24'),
+(62, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'ADMIN | ID: 1', 300, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 15:12:41'),
+(63, '[{\"product_id\":\"LAB***AMY\",\"qty\":1,\"price\":\"850\"}]', 'ADMIN | ID: 1', 850, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 15:15:15'),
+(64, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'FAMILY | ID: 3', 300, 'DR. CHUA,ALJER  | ID: 25', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 15:19:43'),
+(65, '[{\"product_id\":\"LAB***ALBUMIN\",\"qty\":1,\"price\":\"350\"}]', 'ECG | ID: 2', 350, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 15:23:02'),
+(66, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'FAMILY | ID: 3', 300, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 15:26:31'),
+(67, '[{\"product_id\":\"LAB***ANTIHBC(QUALITATIVE)\",\"qty\":1,\"price\":\"780\"}]', 'ECG | ID: 2', 780, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 15:27:42'),
+(68, '[{\"product_id\":\"LAB***ALCO\",\"qty\":1,\"price\":\"780\"}]', 'ADMIN | ID: 1', 780, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 15:29:40'),
+(69, '[{\"product_id\":\"LAB***ANA\",\"qty\":1,\"price\":\"1200\"}]', 'ADMIN | ID: 1', 1200, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 15:40:46'),
+(70, '[{\"product_id\":\"LAB***ALCO\",\"qty\":1,\"price\":\"780\"}]', 'ADMIN | ID: 1', 780, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 15:44:06'),
+(71, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'ADMIN | ID: 1', 300, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 15:46:16'),
+(72, '[{\"product_id\":\"LAB***ALBUMIN\",\"qty\":1,\"price\":\"350\"}]', 'ADMIN | ID: 1', 350, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 15:47:22'),
+(73, '[{\"product_id\":\"LAB***ALCO\",\"qty\":1,\"price\":\"780\"}]', 'FAMILY | ID: 3', 780, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 15:50:50'),
+(74, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'ADMIN | ID: 1', 300, 'DR. CHUA,ALJER  | ID: 25', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 15:56:54'),
+(75, '[{\"product_id\":\"LAB***AFB(SPUTUM)\",\"qty\":1,\"price\":\"350\"}]', 'ECG | ID: 2', 350, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 15:59:57'),
+(76, '[{\"product_id\":\"LAB***ALCO\",\"qty\":1,\"price\":\"780\"}]', 'ADMIN | ID: 1', 780, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 16:03:16'),
+(77, '[{\"product_id\":\"LAB***ALCO\",\"qty\":1,\"price\":\"780\"}]', 'ULTRASOUND | ID: 6', 780, 'DR. CHUA,ALJER  | ID: 25', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 16:05:42'),
+(78, '[{\"product_id\":\"LAB***ALBUMIN\",\"qty\":1,\"price\":\"350\"}]', 'ECG | ID: 2', 350, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 16:06:50'),
+(79, '[{\"product_id\":\"LAB***ALBUMIN\",\"qty\":1,\"price\":\"350\"}]', 'ECG | ID: 2', 350, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 16:07:16'),
+(80, '[{\"product_id\":\"LAB***ALBUMIN\",\"qty\":1,\"price\":\"350\"}]', 'ADMIN | ID: 1', 350, 'DR. CHUA,ALJER  | ID: 25', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 16:12:02'),
+(81, '[{\"product_id\":\"LAB***ANA\",\"qty\":1,\"price\":\"1200\"}]', 'ADMIN | ID: 1', 1200, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 16:16:59'),
+(82, '[{\"product_id\":\"LAB***ALCO\",\"qty\":1,\"price\":\"780\"}]', 'ECG | ID: 2', 780, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 16:17:16'),
+(83, '[{\"product_id\":\"LAB***ALCO\",\"qty\":1,\"price\":\"780\"}]', 'FAMILY | ID: 3', 780, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 16:19:53'),
+(84, '[{\"product_id\":\"LAB***ALCO\",\"qty\":1,\"price\":\"780\"}]', 'ECG | ID: 2', 780, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 16:24:36'),
+(85, '[{\"product_id\":\"LAB***AMY\",\"qty\":1,\"price\":\"850\"}]', 'ADMIN | ID: 1', 850, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 16:25:54'),
+(86, '[{\"product_id\":\"LAB***AFB(SPUTUM)\",\"qty\":1,\"price\":\"350\"}]', 'ECG | ID: 2', 350, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 16:26:57'),
+(87, '[{\"product_id\":\"LAB***ALK\",\"qty\":1,\"price\":\"300\"}]', 'ECG | ID: 2', 300, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 16:29:54'),
+(88, '[{\"product_id\":\"LAB***AFB(SPUTUM)\",\"qty\":1,\"price\":\"350\"}]', 'ECG | ID: 2', 350, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 16:30:50'),
+(89, '[{\"product_id\":\"LAB***ALCO\",\"qty\":1,\"price\":\"780\"}]', 'LAB | ID: 5', 780, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 16:31:53'),
+(90, '[{\"product_id\":\"LAB***ALCO\",\"qty\":1,\"price\":\"780\"}]', 'ECG | ID: 2', 780, 'DR. CHUA,ALJER  | ID: 25', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 16:32:14'),
+(91, '[{\"product_id\":\"LAB***ALBUMIN\",\"qty\":1,\"price\":\"350\"}]', 'ADMIN | ID: 1', 350, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 16:32:37'),
+(92, '[{\"product_id\":\"LAB***BETAHCG\",\"qty\":1,\"price\":\"1080\"}]', 'FAMILY | ID: 3', 1080, 'DR. GONZALES,MELISSA  | ID: 23', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 16:50:13'),
+(93, '[{\"product_id\":\"LAB***ALBUMIN\",\"qty\":1,\"price\":\"350\"}]', 'ECG | ID: 2', 350, 'DR MADAJE,MARICHUE  | ID: 24', 'Tester Tester,Tester Tester | ID: 379', '2023-09-08 16:54:14');
 
 -- --------------------------------------------------------
 
@@ -388,11 +503,11 @@ INSERT INTO `employee_tb` (`DatabaseID`, `lname`, `fname`, `mname`, `title`, `po
 (204, 'LOPEZ', 'RAQUEL', 'B.', 'MS.', 'nurse', 'Married', 'Female', '0000-00-00', 'RAX', 4, '0000-00-00', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
 (205, 'ZARATE', 'EDGAR', 'Lising', 'DR.', 'Med. Director', 'Married', 'Male', '0000-00-00', 'Ed', 4, '0000-00-00', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
 (206, 'ZARATE', 'JOAN', 'sy', 'DR.', 'Doctor', 'Married', 'Female', '0000-00-00', 'Johj', 4, '0000-00-00', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
-(207, 'REYES', 'VILMA', 'J', 'MS.', 'Clinical Adm.', 'Married', 'Female', '0000-00-00', 'Vi', 1, '0000-00-00', '2023-08-30 09:59:56', '2023-09-09 13:27:54', 'vilma_reyes@gmail.com', '$2y$10$Anz75byFQFrnzB1ahUEYjuELi0YU.R2k4OUePshwpfmZvud7CcLju', 1, 1),
+(207, 'REYES', 'VILMA', 'J', 'MS.', 'Clinical Adm.', 'Married', 'Female', '0000-00-00', 'Vi', 1, '0000-00-00', '2023-08-30 09:59:56', '2023-09-09 13:27:54', 'vilma_reyes', '$2y$10$Anz75byFQFrnzB1ahUEYjuELi0YU.R2k4OUePshwpfmZvud7CcLju', 1, 1),
 (208, 'GAYAMO', 'MARI JOAN', 'P', 'MS', 'Midwife', 'Married', 'Female', '0000-00-00', 'Joan', 4, '0000-00-00', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
 (209, 'CLEMENCIA', 'MA.REVELINA', 'P', 'MS.', 'Midwife', 'Single', 'Female', '0000-00-00', 'Lyn', 4, '0000-00-00', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
 (210, 'LABATIAO', 'AURA', 'P', 'MS.', 'Head Nurse', 'Married', 'Female', '0000-00-00', 'Au', 4, '0000-00-00', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
-(211, 'JOMPILLfA', 'CHERRYLYN', 'P', 'MS.', 'Cashier', 'Single', 'Female', '1999-01-01', 'Che', 10, '0008-05-03', '2023-08-30 09:59:56', '2023-09-09 09:52:29', 'jompillfa_cherrylyn@gmail.com', '$2y$10$gsMuRa1as0faqLgpBYyDc.ITq2eUjlcs2R19K1mNDT6rpRN/3QCpe', 1, 1),
+(211, 'JOMPILLfA', 'CHERRYLYN', 'P', 'MS.', 'Cashier', 'Single', 'Female', '1999-01-01', 'Che', 10, '0008-05-03', '2023-08-30 09:59:56', '2023-09-09 09:52:29', 'jompillfa_cherrylyn', '$2y$10$gsMuRa1as0faqLgpBYyDc.ITq2eUjlcs2R19K1mNDT6rpRN/3QCpe', 1, 1),
 (212, 'BUNGABONG', 'JORGE', 'A', 'MR.', 'Med Tech', 'Single', 'Male', '0000-00-00', 'Jorge', 4, '0000-00-00', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
 (213, 'SALVACION', 'CHRISTINE MARIE', 'S', 'MS.', 'nurse', 'Married', 'Female', '0000-00-00', 'Mutz', 4, '0000-00-00', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
 (214, 'DELA TORRE', 'ARMANDO', 'T', 'MR.', 'Nursing Attendant', 'Single', 'Male', '0000-00-00', 'Arman', 4, '2010-03-02', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
@@ -480,7 +595,7 @@ INSERT INTO `employee_tb` (`DatabaseID`, `lname`, `fname`, `mname`, `title`, `po
 (296, 'ARROGANCIA', 'ROBERTO', '', 'MR', 'MAINTENANCE', 'Single', 'Male', '0000-00-00', 'JUN-JUN', 4, '0008-12-10', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
 (297, 'OCAMPO', 'NATHAN', 'M.', 'MR.', 'nurse', 'Single', 'Male', '0000-00-00', 'nath', 4, '0009-01-10', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
 (298, 'DELA CRUZ', 'SHEENA', 'Limpiada', 'RN', 'nurse', 'Single', 'Female', '0000-00-00', 'shyn', 4, '0005-01-10', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
-(299, 'ZARATE', 'MARIAM NATHALIE', 'T', 'MS.', 'CMO', 'Single', 'Female', '0000-00-00', 'YAM', 1, '2010-01-10', '2023-08-30 09:59:56', '2023-09-09 12:54:25', 'mariam_nathalie_zarate@gmail.com', '$2y$10$v2n8j5/AVlrIAzQIAztMkOqfedV9RMr1De.I6K3a5G2fzD5FRwK6O', 1, 0),
+(299, 'ZARATE', 'MARIAM NATHALIE', 'T', 'MS.', 'CMO', 'Single', 'Female', '0000-00-00', 'YAM', 1, '2010-01-10', '2023-08-30 09:59:56', '2023-09-09 12:54:25', 'mariam_nathalie_zarate', '$2y$10$v2n8j5/AVlrIAzQIAztMkOqfedV9RMr1De.I6K3a5G2fzD5FRwK6O', 1, 0),
 (300, 'LUGTO', 'GINA', '', 'MS.', 'accountant', 'Married', 'Female', '0000-00-00', 'Gina', 4, '0006-12-20', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
 (301, 'RECTO', 'RODERICK', 'P.', 'MR.', 'nurse', 'Single', 'Male', '0000-00-00', 'ODICK', 4, '2011-01-11', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
 (302, 'PAGADOR', 'MARYLLAINE JOANNE', 'LOPEZ', 'MS', 'nurse', 'Single', 'Female', '0000-00-00', 'JOY', 4, '0008-01-11', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
@@ -561,7 +676,7 @@ INSERT INTO `employee_tb` (`DatabaseID`, `lname`, `fname`, `mname`, `title`, `po
 (376, 'MANON-OG', 'JESSA MARIE', 'B', 'MS.', 'RM', 'Single', 'Female', '0000-00-00', 'JESSA', 4, '0003-10-21', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
 (377, 'LORANIA', 'JENNY', 'DELA LUNA', 'Miss', 'Cashier', 'Single', 'Female', '0000-00-00', 'JHEN', 4, '2012-08-22', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
 (378, 'OAFERINA', 'MARY JOY', 'A.', 'MRS', 'CG', 'Married', 'Female', '0000-00-00', 'MJ', 4, '0001-01-23', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
-(379, 'Tester', 'Tester', 'Tester', 'Tester', 'Tester', 'Single', 'Male', '2023-08-31', 'Tester', 1, '2023-08-30', '2023-08-30 10:05:59', '2023-08-30 10:12:11', 'tester@gmail.com', '$2y$10$VsX6DZryjAGom76zWcZpLexBbu6hl01DUWYnUtR1UshCk6Iotu7/O', 1, 1);
+(379, 'Tester', 'Tester', 'Tester', 'Tester', 'Tester', 'Single', 'Male', '2023-08-31', 'Tester', 1, '2023-08-30', '2023-08-30 10:05:59', '2023-08-30 10:12:11', 'tester', '$2y$10$VsX6DZryjAGom76zWcZpLexBbu6hl01DUWYnUtR1UshCk6Iotu7/O', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -3124,6 +3239,12 @@ ALTER TABLE `billing_tb`
   ADD PRIMARY KEY (`billingID`);
 
 --
+-- Indexes for table `clinicuse_tb`
+--
+ALTER TABLE `clinicuse_tb`
+  ADD PRIMARY KEY (`SalesID`);
+
+--
 -- Indexes for table `department_tb`
 --
 ALTER TABLE `department_tb`
@@ -3185,13 +3306,19 @@ ALTER TABLE `supplier_tb`
 -- AUTO_INCREMENT for table `backlog_tb`
 --
 ALTER TABLE `backlog_tb`
-  MODIFY `backlogID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `backlogID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `billing_tb`
 --
 ALTER TABLE `billing_tb`
   MODIFY `billingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `clinicuse_tb`
+--
+ALTER TABLE `clinicuse_tb`
+  MODIFY `SalesID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
 -- AUTO_INCREMENT for table `department_tb`
