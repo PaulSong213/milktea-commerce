@@ -7,7 +7,7 @@ export function handleViewClick(table) {
             label: "Type"
         },
         {
-            dataKey: "department",
+            dataKey: "departmentName",
             label: "Department"
         },
         {
@@ -15,7 +15,7 @@ export function handleViewClick(table) {
             label: "Amount"
         },
         {
-            dataKey: "payable",
+            dataKey: "payableTo",
             label: "Payable to"
         },
         {
@@ -31,17 +31,17 @@ export function handleViewClick(table) {
             label: "Requested By"
         },
         {
-            dataKey: "Note",
+            dataKey: "note",
             label: "Note"
         },
 
         {
-            dataKey: "createDate",
-            label: "Create Date"
+            dataKey: "dateEntered",
+            label: "Date Entered"
         },
         {
-            dataKey: "modifiedDate",
-            label: "Modified Date"
+            dataKey: "datePost",
+            label: "Date Post"
         }
     ];
     table.on('click', '.view-btn', function (e) {

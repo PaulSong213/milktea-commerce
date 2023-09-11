@@ -17,10 +17,10 @@ if (isset($_POST['SaveItem'])) {
     $docRef = $_POST['docRef'];
     $reason = $_POST['reason'];
     $Note = $_POST['Note'];
-    $enteredBy = $_POST['enteredBy'];
+    $enteredBy = $_POST['enteredByName'];
     $requestedBy = $_POST['requestedBy'];
 
-    $sql = "INSERT INTO expense_tb (expenseType, department,amount,payable,docRef,reason,Note,enteredBy,requestedBy,createDate,modifiedDate)
+    $sql = "INSERT INTO expenses_tb (expenseType, departmentID, amount, payableTo, docRef, reason, note, enteredBy, requestedBy, dateEntered, datePost)
     VALUES ('$expenseType', '$department','$amount','$payable','$docRef','$reason','$Note','$enteredBy','$requestedBy',NOW(),NOW())";
 
     $result = mysqli_query($conn, $sql);
