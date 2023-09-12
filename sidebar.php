@@ -19,7 +19,6 @@ if (isset($_GET['logout'])) {
     header("Location: ./index.php"); // Change 'login.php' to the appropriate URL
     exit;
 }
-
 // Rest of your code...
 
 // get icons here -> https://mui.com/material-ui/material-icons/
@@ -27,8 +26,6 @@ if (isset($_GET['logout'])) {
 require_once(__DIR__ . "/accessLevels.php");
 
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
