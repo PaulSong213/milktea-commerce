@@ -1,3 +1,21 @@
+<?php
+
+if (isset($_SESSION['user'])) {
+    $userData = json_decode($_SESSION['user'], true);
+    $userID = $userData['DatabaseID'];
+    $lname = $userData['lname'];
+    $fname = $userData['fname'];
+    $mname = $userData['mname'];
+    $nname = $userData['nickName'];
+} else {
+    // Redirect back to the login page or handle the user not being logged in
+    header("Location: ./index.php");
+    exit();
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,30 +41,25 @@
                                 <option value="Uncommon">Uncommon</option>
                                 <option value="New">New</option>
                             </select>
-                    </div>
-                    <div class="mb-3">
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label" for="department">Department<span class="text-danger mx-1">*</span></label>
                             <select class="form-select" id="department" name="department" required>
                                 <?php
                                 require_once '../php/connect.php';
-                                $loggedInUser = isset($_SESSION['user']) ? json_decode($_SESSION['user']) : null;
-                                $currentLoggedInEncoder = $loggedInUser->title . ' ' . $loggedInUser->lname . ',' . $loggedInUser->fname . ' ' . $loggedInUser->mname . ' | ID: ' . $loggedInUser->DatabaseID;
-                                $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
                                 $connectionType = connect();
                                 $sqlDepartment = "select * from department_tb";
                                 $resultDepartment = $connectionType->query($sqlDepartment);
-                                if (!$resultDepartment) {
-                                    die($connectionType->error);
-                                }
+                                if (!$resultDepartment) die($connectionType->error);
                                 while ($rowType = $resultDepartment->fetch_assoc()) {
-                                    echo '<option value="' . $rowType["departmentName"] . '">' . $rowType["departmentName"] . '</option>';
+                                    echo '<option value="' . $rowType["departmentID"] . '">' . $rowType["departmentName"] . '</option>';
                                 }
                                 ?>
                             </select>
-                    </div>
+                        </div>
                         <div class="mb-3">
                             <label class="form-label" for="amount">Amount<span class="text-danger mx-1">*</span></label>
-                            <input type="text" id="amount" name="amount" class="form-control" placeholder="Enter Amount" autocomplete="on" required>
+                            <input type="number" id="amount" name="amount" class="form-control" placeholder="Enter Amount" autocomplete="on" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="payable">Payable To<span class="text-danger mx-1">*</span></label>
@@ -61,20 +74,19 @@
                             <input type="text" id="reason" name="reason" class="form-control" placeholder="Enter Reason" autocomplete="on" required>
                         </div>
                         <div class="form-group">
-                        <label for="enteredByName">Entered By: </label>
-                        <input type="text" class="form-control is-valid text-dark" name="enteredByName" list="employeeList" readonly correctData="employeesData" placeholder="Enter Entered By Name" value="<?= $currentLoggedInEncoder; ?>" sql-value="<?= $currentLoggedInEncoderID; ?>" required isvalidated="true">
-                        <?php require_once('../API/datalist/employee.php')                    
-                        ?>
-                        <small class="feedback d-none bg-danger p-1 rounded my-1">
-                            Please select a valid requested by Name.
-                        </small>
+                            <label for="enteredByName">Entered By: </label>
+                            <input type="text" class="form-control is-valid text-dark" name="enteredByName" list="employeeList" readonly correctData="employeesData" placeholder="Enter Entered By Name" value="<?= $lname. ', ' . $fname . ' ' .$mname?>"  required isvalidated="true">
+                            
+                            <small class="feedback d-none bg-danger p-1 rounded my-1">
+                                Please select a valid requested by Name.
+                            </small>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="requestedBy">Requested By<span class="text-danger mx-1">*</span></label>
                             <select class="form-select" id="requestedBy" name="requestedBy" required>
                                 <?php
                                 require_once '../php/connect.php';
-                                $connectionType = connect(); 
+                                $connectionType = connect();
                                 $sqlDepartment = "SELECT * FROM employee_tb";
                                 $resultDepartment = $connectionType->query($sqlDepartment);
                                 if (!$resultDepartment) {
@@ -102,7 +114,7 @@
             </div>
         </div>
     </form>
-    
+
 </body>
 
 </html>

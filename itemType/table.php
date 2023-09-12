@@ -55,6 +55,7 @@
                 <tr>
                     <th>Item Type Code</th>
                     <th>Department Reference</th>
+                    <th>Type</th>
                     <th>Description</th>
                     <th>Date Added</th>
                     <th>Modified Date</th>
@@ -114,6 +115,20 @@
                     },
                     {
                         data: 'departmentName',
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            const consumableStatus = (data.is_consumable == "1") ? "Consumable" : "Not Consumable"; //condition for status
+                            const statusColor = (data.is_consumable == "1") ? "alert-success" : "alert-secondary"; //condition for color bg.
+                            return `
+                            <td>
+                                <div class='d-flex w-100 h-100 d-flex justify-content-start'>
+                                    <h6 style='font-size: 13px' class='p-1 alert m-auto ${statusColor}'>${consumableStatus} </h6>
+                                </div>
+                            </td>
+                            `
+                        }
                     },
                     {
                         data: 'description'

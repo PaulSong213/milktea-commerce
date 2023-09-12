@@ -63,6 +63,7 @@ if (isset($_POST['SaveItem'])) {
     } else {
         $_SESSION["alert_message"] = "Failed to Edited an Employee. Error Details: " . mysqli_error($conn);
         $_SESSION["alert_message_error"] = true;
+        
     }
 
     header("Location: ./index.php");

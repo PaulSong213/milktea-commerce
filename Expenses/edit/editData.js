@@ -8,27 +8,27 @@ export function handleEditClick(table) {
         const toFillUpDatas = [
             {
                 dataKey: "expenseType",
-                label: "expenseType"
+                inputName: "Expense Type"
             },
             {
-                dataKey: "department",
-                label: "department"
+                dataKey: "departmentName",
+                inputName: "department"
             },
             {
                 dataKey: "amount",
-                label: "amount"
+                inputName: "amount"
             },
             {
                 dataKey: "payable",
-                label: "payable"
+                inputName: "payable"
             },
             {
                 dataKey: "docRef",
-                label: "docRef"
+                inputName: "docRef"
             },
             {
                 dataKey: "reason",
-                label: "reason"
+                inputName: "reason"
             },
             {
                 dataKey: "enteredBy",
@@ -39,8 +39,8 @@ export function handleEditClick(table) {
                 label: "requestedBy"
             },
             {
-                dataKey: "Note",
-                label: "Note"
+                dataKey: "note",
+                inputName: "Note"
             }
         ];
 
