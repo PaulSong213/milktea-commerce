@@ -7,7 +7,8 @@ if ($conn->connect_error) {
 }
 
 $itemCode = $_GET['itemCode'];
-$query = "SELECT inventory_tb.Unit, inventory_tb.UnitType,  inventory_tb.InventoryID ,inventory_tb.SugPrice, itemtype_tb.description AS itemtype_description ,itemtype_tb.itemTypeID FROM inventory_tb LEFT JOIN itemtype_tb ON 
+$query = "SELECT inventory_tb.Unit, inventory_tb.UnitType,  inventory_tb.InventoryID ,inventory_tb.SugPrice, itemtype_tb.description AS itemtype_description ,itemtype_tb.itemTypeID, inventory_tb.Description AS itemDescription, itemtype_tb.is_consumable
+FROM inventory_tb LEFT JOIN itemtype_tb ON 
 inventory_tb.itemTypeID = itemtype_tb.itemTypeID WHERE itemCode = '$itemCode'";
 $result = $conn->query($query);
 
@@ -17,9 +18,11 @@ if ($result->num_rows > 0) {
         'inv' => $row['Unit'],
         'unit' => $row['UnitType'],
         'price' => $row['SugPrice'],
+        'is_consumable' => $row['is_consumable'],
         'itemtype' => $row['itemtype_description'],
         'id' => $row['InventoryID'],
-        'itemTypeID' => $row['itemTypeID']
+        'itemTypeID' => $row['itemTypeID'],
+        'itemDescription' => $row['itemDescription']
     );
     echo json_encode($response);
 } else {

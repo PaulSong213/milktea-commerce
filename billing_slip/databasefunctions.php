@@ -45,7 +45,7 @@ if (isset($_POST['SaveItem'])) {
             $admittingPhysicianID = $_POST['admittingPhysicianID'];
             $dateDischarged = $_POST['dateDischarged'];
             $timeDischarged = $_POST['timeDischarged'];
-            if (!empty($dateDischarged) && !empty($timeDischarged)) {
+            if (!empty($dateAdmitted) && !empty($timeAdmitted)) {
                 $datetimeAdmitted = new DateTime($dateAdmitted . ' ' . $timeAdmitted);
                 $formattedDatetimeAdmitted = $datetimeAdmitted->format('Y-m-d H:i:s');
             }
@@ -94,6 +94,7 @@ if (isset($_POST['SaveItem'])) {
     $id = $_POST['id'];
     $ItemType = $_POST['itemType'];
     $ItemTypeID = $_POST['itemTypeID'];
+    $product_desciption = $_POST['product_desciption'];
 
     for ($i = 0; $i < count($product_id); $i++) {
         if (empty($product_id[$i])) continue;
@@ -109,7 +110,8 @@ if (isset($_POST['SaveItem'])) {
             "id" => $id[$i],
             "unit" => $unit[$i],
             "itemType" => $ItemType[$i],
-            "itemTypeID" => $ItemTypeID[$i]
+            "itemTypeID" => $ItemTypeID[$i],
+            "product_desciption" => $product_desciption[$i]
         ];
     }
 

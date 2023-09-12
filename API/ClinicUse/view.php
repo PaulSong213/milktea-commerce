@@ -20,35 +20,34 @@ if (isset($_GET['SalesID'])) {
 
     // Use prepared statements to prevent SQL injection
     $query = "SELECT
-        s.SalesID,
-        s.ProductInfo,
-        s.NetAmt,
-        s.RequestedName,
-        er.DatabaseID AS RequestedEmployeeID,
-        er.lname AS RequestedEmployeeLastName,
-        er.fname AS RequestedEmployeeFirstName,
-        er.mname AS RequestedEmployeeMiddleName,
-        er.title AS RequestedEmployeeTitle,
-        er.position AS RequestedEmployeePosition,
-        s.EnteredName,
-        ee.DatabaseID AS EnteredEmployeeID,
-        ee.lname AS EnteredEmployeeLastName,
-        ee.fname AS EnteredEmployeeFirstName,
-        ee.mname AS EnteredEmployeeMiddleName,
-        ee.title AS EnteredEmployeeTitle,
-        ee.position AS EnteredEmployeePosition,
-        s.billingID,
-        s.createDate,
-        d.departmentID
-    FROM
-        clinicuse_tb s
-    LEFT JOIN
-        employee_tb er ON s.RequestedName = er.DatabaseID
-    LEFT JOIN
-        employee_tb ee ON s.EnteredName = ee.DatabaseID
-    LEFT JOIN
-        billing_tb b ON s.billingID = b.billingID
-    WHERE s.SalesID = ?";
+    s.SalesID,
+    s.ProductInfo,
+    s.NetAmt,
+    s.RequestedBy,
+    er.DatabaseID AS RequestedEmployeeID,
+    er.lname AS RequestedEmployeeLastName,
+    er.fname AS RequestedEmployeeFirstName,
+    er.mname AS RequestedEmployeeMiddleName,
+    er.title AS RequestedEmployeeTitle,
+    er.position AS RequestedEmployeePosition,
+    s.EnteredBy,
+    ee.DatabaseID AS EnteredEmployeeID,
+    ee.lname AS EnteredEmployeeLastName,
+    ee.fname AS EnteredEmployeeFirstName,
+    ee.mname AS EnteredEmployeeMiddleName,
+    ee.title AS EnteredEmployeeTitle,
+    ee.position AS EnteredEmployeePosition,
+    s.SalesID,
+    s.createDate
+FROM
+    clinicuse_tb s
+LEFT JOIN
+    employee_tb er ON s.RequestedBy = er.DatabaseID
+LEFT JOIN
+    employee_tb ee ON s.EnteredBy = ee.DatabaseID
+LEFT JOIN
+    billing_tb b ON s.SalesID = b.billingID
+WHERE s.SalesID = ?";
     
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $SalesID); // "i" represents an integer, adjust the data type if needed
@@ -87,9 +86,11 @@ if (isset($_GET['SalesID'])) {
     // Build the SQL query based on search value
     $query = $baseQuery;
     if (!empty($searchValue)) {
-        $query .= " WHERE itemTypeCode LIKE '%$searchValue%' 
-        OR description LIKE '%$searchValue%' 
-        OR departmentName LIKE '%$searchValue%'"; // Add more columns as needed
+        $query .= " WHERE SalesID LIKE '%$searchValue%' 
+        OR ProductInfo LIKE '%$searchValue%' 
+        OR department LIKE '%$searchValue%'
+        OR createDate LIKE '%$searchValue%' "; // Add more columns as needed
+        
     }
 
     if ($length > 0 && $start > 0) {

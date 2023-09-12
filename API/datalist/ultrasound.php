@@ -1,28 +1,19 @@
 <html>
-<datalist id="productList">
+<datalist id="ultrasoundlist">
     <?php
     require_once '../php/connect.php';
     $conn = connect();
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $query = "SELECT inventory_tb.itemCode, itemtype_tb.itemTypeCode, inventory_tb.description,Status, Unit,  itemtype_tb.is_consumable FROM inventory_tb LEFT JOIN itemtype_tb ON inventory_tb.itemTypeID = itemtype_tb.itemTypeID";
+    $query = "SELECT inventory_tb.Description, itemtype_tb.itemTypeCode , inventory_tb.itemCode FROM inventory_tb LEFT JOIN itemtype_tb
+    ON inventory_tb.itemTypeID = itemtype_tb.itemTypeID WHERE Status = 1 AND itemtype_tb.description = 'ULTRASOUND' ";
     $productsResult = $conn->query($query);
     $productsData = (object)array(); // Create an empty object
     while ($row = $productsResult->fetch_assoc()) {
         $itemCode = $row['itemCode'];
+        $Description = $row['Description'];
         $itemTypeCode = $row['itemTypeCode'];
-        $itemDescription = $row['description'];
-        $is_consumable = $row['is_consumable'];
-        $unit = $row['Unit'];
-        $unitText = "";
-        if ($is_consumable == "1") {
-            if ($unit <= 0) {
-                $unitText =  "| OUT OF STOCK";
-            } else {
-                $unitText = " | Unit: $unit";
-            }
-        }
 
         if (!isset($productsData->$itemTypeCode)) {
             $productsData->$itemTypeCode = (object)array(
@@ -33,9 +24,8 @@
 
         // Append the current data to the existing item type code
         $productsData->$itemTypeCode->data[] = $row;
-        echo "<option value='$itemCode'>
-            $itemTypeCode | $itemDescription $unitText 
-            </option>";
+
+        echo "<option value='$Description'>$itemTypeCode ||  $itemCode  </option>";
     }
     $productsData = json_encode($productsData);
     ?>

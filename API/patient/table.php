@@ -10,7 +10,6 @@ $baseTable = "patient_tb";
 
 // Define the base query
 $baseQuery = "SELECT * FROM $baseTable 
- ORDER BY createDate DESC
 ";
 
 // Retrieve DataTables' request parameters
@@ -22,17 +21,14 @@ $searchValue = $_POST['search']['value']; // Search value
 $query = $baseQuery;
 if (!empty($searchValue)) {
     $query .= " WHERE hospistalrecordNo LIKE '%$searchValue%' 
-   
     OR lname LIKE '%$searchValue%'
     OR fname LIKE '%$searchValue%'
-    OR mname LIKE '%$searchValue%'
-    OR position LIKE '%$searchValue%'
-    OR timeStamp LIKE '%$searchValue%'     
-    OR departmentName LIKE '%$searchValue%'"; // Add more columns as needed
+    OR mname LIKE '%$searchValue%' ";
 }
 
 // Add the limit condition for all cases
-$query .= " LIMIT $start, $length";
+$query .= " ORDER BY modifiedDate DESC
+ LIMIT $start, $length";
 
 // Execute the query
 $result = $conn->query($query);

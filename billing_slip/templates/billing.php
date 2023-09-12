@@ -57,7 +57,7 @@
 
                         <!-- chargeInfoContainer -->
                         <div id="chargeInfoContainer"></div>
-
+                        <small class="fw-bold my-2">*This receipt is provided for your reference and records. Please note that this is not an official receipt.</small>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -209,7 +209,7 @@
                 var newProductInfo = $(`
                         <div class="d-flex justify-content-end px-3 ms-3">
                             <div class="row w-100">
-                                <h6 class="col-6">${info.product_id}</h6>
+                                <h6 class="col-6">${info.product_desciption}</h6>
                                 <h6 class="col-2">₱${info.price}</h6>
                                 <h6 class="col-1">${info.qty}</h6>
                                 <h6 class="col-1">${info.unit}</h6>

@@ -20,9 +20,13 @@ $levelOne = [
                 "link" => "/billing-new-admission/index.php", //link of the page
             ],
             [
-                "name" => "Notification", //name of the linksub-link
-                "link" => "/notification/index.php", //link of the page
+                "name" => "Request Services", //name of the linksub-link
+                "link" => "/services/index.php", //link of the page
             ],
+            // [
+            //     "name" => "Notification", //name of the linksub-link
+            //     "link" => "/notification/index.php", //link of the page
+            // ],
         ] //list of links on dropdown
     ],
 ];
@@ -67,10 +71,15 @@ $levelTwo = [
                 "name" => "Enter Billing (New Admission)", //name of the link
                 "link" => "/billing-new-admission/index.php", //link of the page
             ],
+            [
+                "name" => "Request Services", //name of the linksub-link
+                "link" => "/services/index.php", //link of the page
+            ],
         ] //list of links on dropdown
     ],
 ];
 $levelThree = [
+
     [
         "name" => "Dashboard", //name of the link
         "icon" => "dashboard", //material icon name
@@ -119,6 +128,10 @@ $levelThree = [
             [
                 "name" => "Enter Billing (New Admission)", //name of the link
                 "link" => "/billing-new-admission/index.php", //link of the page
+            ],
+            [
+                "name" => "Request Services", //name of the linksub-link
+                "link" => "/services/index.php", //link of the page
             ],
         ] //list of links on dropdown
     ],
@@ -214,6 +227,10 @@ $levelFour = [
             [
                 "name" => "Enter Billing (New Admission)", //name of the link
                 "link" => "/billing-new-admission/index.php", //link of the page
+            ],
+            [
+                "name" => "Request Services", //name of the linksub-link
+                "link" => "/services/index.php", //link of the page
             ],
         ] //list of links on dropdown
     ],
