@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 12, 2023 at 03:45 AM
+-- Generation Time: Sep 12, 2023 at 03:49 AM
 -- Server version: 10.11.5-MariaDB
 -- PHP Version: 8.2.10
 
@@ -325,11 +325,11 @@ INSERT INTO `employee_tb` (`DatabaseID`, `lname`, `fname`, `mname`, `title`, `po
 (204, 'LOPEZ', 'RAQUEL', 'B.', 'MS.', 'nurse', 'Married', 'Female', '0000-00-00', 'RAX', 4, '0000-00-00', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
 (205, 'ZARATE', 'EDGAR', 'Lising', 'DR.', 'Med. Director', 'Married', 'Male', '0000-00-00', 'Ed', 4, '0000-00-00', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
 (206, 'ZARATE', 'JOAN', 'sy', 'DR.', 'Doctor', 'Married', 'Female', '0000-00-00', 'Johj', 4, '0000-00-00', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
-(207, 'REYES', 'VILMA', 'J', 'MS.', 'Clinical Adm.', 'Married', 'Female', '0000-00-00', 'Vi', 1, '0000-00-00', '2023-08-30 09:59:56', '2023-09-09 13:27:54', 'vilma_reyes', '$2y$10$Anz75byFQFrnzB1ahUEYjuELi0YU.R2k4OUePshwpfmZvud7CcLju', 1, 1),
+(207, 'REYES', 'VILMA', 'J', 'MS.', 'Clinical Adm.', 'Married', 'Female', '0000-00-00', 'Vi', 1, '0000-00-00', '2023-08-30 09:59:56', '2023-09-09 03:57:38', 'vilma_reyes', '$2y$10$fTY6mVchKk7/cMAMET9ICeaOFR/POpKkH.nymLDkepkwqrQ00MRGm', 1, 1),
 (208, 'GAYAMO', 'MARI JOAN', 'P', 'MS', 'Midwife', 'Married', 'Female', '0000-00-00', 'Joan', 4, '0000-00-00', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
 (209, 'CLEMENCIA', 'MA.REVELINA', 'P', 'MS.', 'Midwife', 'Single', 'Female', '0000-00-00', 'Lyn', 4, '0000-00-00', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
 (210, 'LABATIAO', 'AURA', 'P', 'MS.', 'Head Nurse', 'Married', 'Female', '0000-00-00', 'Au', 4, '0000-00-00', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
-(211, 'JOMPILLfA', 'CHERRYLYN', 'P', 'MS.', 'Cashier', 'Single', 'Female', '1999-01-01', 'Che', 10, '0008-05-03', '2023-08-30 09:59:56', '2023-09-09 09:52:29', 'jompillfa_cherrylyn', '$2y$10$gsMuRa1as0faqLgpBYyDc.ITq2eUjlcs2R19K1mNDT6rpRN/3QCpe', 1, 1),
+(211, 'JOMPILLfA', 'CHERRYLYN', 'P', 'MS.', 'Cashier', 'Single', 'Female', '1999-01-01', 'Che', 10, '0008-05-03', '2023-08-30 09:59:56', '2023-09-09 03:58:10', 'jompillfa_cherrylyn', '$2y$10$VZjTCRGhAZfMUHCUFRrmtOD8weTDFSeDxzrLxBIeNJ2km/3wZMLOG', 1, 0),
 (212, 'BUNGABONG', 'JORGE', 'A', 'MR.', 'Med Tech', 'Single', 'Male', '0000-00-00', 'Jorge', 4, '0000-00-00', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
 (213, 'SALVACION', 'CHRISTINE MARIE', 'S', 'MS.', 'nurse', 'Married', 'Female', '0000-00-00', 'Mutz', 4, '0000-00-00', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
 (214, 'DELA TORRE', 'ARMANDO', 'T', 'MR.', 'Nursing Attendant', 'Single', 'Male', '0000-00-00', 'Arman', 4, '2010-03-02', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
@@ -417,7 +417,7 @@ INSERT INTO `employee_tb` (`DatabaseID`, `lname`, `fname`, `mname`, `title`, `po
 (296, 'ARROGANCIA', 'ROBERTO', '', 'MR', 'MAINTENANCE', 'Single', 'Male', '0000-00-00', 'JUN-JUN', 4, '0008-12-10', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
 (297, 'OCAMPO', 'NATHAN', 'M.', 'MR.', 'nurse', 'Single', 'Male', '0000-00-00', 'nath', 4, '0009-01-10', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
 (298, 'DELA CRUZ', 'SHEENA', 'Limpiada', 'RN', 'nurse', 'Single', 'Female', '0000-00-00', 'shyn', 4, '0005-01-10', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
-(299, 'ZARATE', 'MARIAM NATHALIE', 'T', 'MS.', 'CMO', 'Single', 'Female', '0000-00-00', 'YAM', 1, '2010-01-10', '2023-08-30 09:59:56', '2023-09-09 12:54:25', 'mariam_nathalie_zarate', '$2y$10$v2n8j5/AVlrIAzQIAztMkOqfedV9RMr1De.I6K3a5G2fzD5FRwK6O', 1, 0),
+(299, 'ZARATE', 'MARIAM NATHALIE', 'T', 'MS.', 'CMO', 'Single', 'Female', '0000-00-00', 'YAM', 1, '2010-01-10', '2023-08-30 09:59:56', '2023-09-09 03:57:55', 'mariam_nathalie_zarate', '$2y$10$3kSCg7Y6TxDmqMMoC/vfDu3Kts9mSdCsJMnwdhuiw4StSSTTXsFJu', 1, 0),
 (300, 'LUGTO', 'GINA', '', 'MS.', 'accountant', 'Married', 'Female', '0000-00-00', 'Gina', 4, '0006-12-20', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
 (301, 'RECTO', 'RODERICK', 'P.', 'MR.', 'nurse', 'Single', 'Male', '0000-00-00', 'ODICK', 4, '2011-01-11', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
 (302, 'PAGADOR', 'MARYLLAINE JOANNE', 'LOPEZ', 'MS', 'nurse', 'Single', 'Female', '0000-00-00', 'JOY', 4, '0008-01-11', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
@@ -498,7 +498,10 @@ INSERT INTO `employee_tb` (`DatabaseID`, `lname`, `fname`, `mname`, `title`, `po
 (376, 'MANON-OG', 'JESSA MARIE', 'B', 'MS.', 'RM', 'Single', 'Female', '0000-00-00', 'JESSA', 4, '0003-10-21', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
 (377, 'LORANIA', 'JENNY', 'DELA LUNA', 'Miss', 'Cashier', 'Single', 'Female', '0000-00-00', 'JHEN', 4, '2012-08-22', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
 (378, 'OAFERINA', 'MARY JOY', 'A.', 'MRS', 'CG', 'Married', 'Female', '0000-00-00', 'MJ', 4, '0001-01-23', '2023-08-30 09:59:56', '2023-08-30 09:59:56', '', '', 1, 0),
-(379, 'Tester', 'Tester', 'Tester', 'Tester', 'Tester', 'Single', 'Male', '2023-08-31', 'Tester', 1, '2023-08-30', '2023-08-30 10:05:59', '2023-08-30 10:12:11', 'tester', '$2y$10$VsX6DZryjAGom76zWcZpLexBbu6hl01DUWYnUtR1UshCk6Iotu7/O', 1, 1);
+(379, 'Tester', 'Tester', 'Tester', 'Tester', 'Tester', 'Single', 'Male', '2023-08-31', 'Tester', 1, '2023-08-30', '2023-08-30 10:05:59', '2023-08-30 10:12:11', 'tester', '$2y$10$b6Z/n86XS2OyKzDPkNgVA.KFZKNir.3B5AzTF8gY5FL31Y1/EpIZi', 1, 1),
+(380, 'Songalia', 'John Paul', 'Relente', 'Mr.', 'Intern', 'Single', 'Male', '2001-11-21', 'Paul', 8, '2023-09-07', '2023-09-09 03:59:22', '2023-09-09 03:59:22', 'songaliajohnpaul@gmail.com', '$2y$10$JY0DnotCmzzewYPEX1vNB.k2t4prLco38mm23ULEpocOkfg6ouoqC', 1, 1),
+(381, 'Sargento', 'Ryan Joshua', 'B', 'Mr.', 'Intern', 'Single', 'Male', '0000-00-00', 'Sarge', 8, '2023-08-07', '2023-09-09 04:01:16', '2023-09-09 04:25:36', 'ryan_sargento', '$2y$10$7CfOidCO7XyWqMwPTjdLheoQV8FM.NTV5fuByJA7tGReR.PKhDXjG', 1, 1),
+(382, 'Mahinay', 'Joshua', 'X', 'Mr.', 'Intern', 'Single', 'Male', '2023-09-13', 'Josh', 1, '0000-00-00', '2023-09-09 04:07:10', '2023-09-09 04:07:10', 'joshua_mahinay', '$2y$10$fl1EGvggjPgbO8re/YtEl.WBGXDRX46NqJenQATq5Cpg4p190/the', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -3112,7 +3115,7 @@ ALTER TABLE `department_tb`
 -- AUTO_INCREMENT for table `employee_tb`
 --
 ALTER TABLE `employee_tb`
-  MODIFY `DatabaseID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=380;
+  MODIFY `DatabaseID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=383;
 
 --
 -- AUTO_INCREMENT for table `inventory_tb`
