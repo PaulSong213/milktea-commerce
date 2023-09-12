@@ -5,6 +5,8 @@ if (session_status() === PHP_SESSION_NONE) {
 if (!isset($_SESSION['user'])) header("Location: /Zarate/logout.php");
 $userData = json_decode($_SESSION['user'], true);
 $userLevel = $userData["AccessLevel"];
+
+// PATIENT ACCESS
 $levelOne = [
     [
         "name" => "Patient", //name of the link
@@ -30,6 +32,8 @@ $levelOne = [
         ] //list of links on dropdown
     ],
 ];
+
+// Employee Access
 $levelTwo = [
     [
         "name" => "Dashboard", //name of the link
@@ -78,6 +82,8 @@ $levelTwo = [
         ] //list of links on dropdown
     ],
 ];
+
+// Cashier Accer
 $levelThree = [
 
     [
@@ -86,7 +92,6 @@ $levelThree = [
         "link" => "/dashboard/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
     ],
-
     [
         "name" => "Charge Slip", //name of the link
         "icon" => "point_of_sale", //material icon name
@@ -132,6 +137,32 @@ $levelThree = [
             [
                 "name" => "Request Services", //name of the linksub-link
                 "link" => "/services/index.php", //link of the page
+            ],
+        ] //list of links on dropdown
+    ],
+    [
+        "name" => "Inventory", //name of the link
+        "icon" => "vaccines", //material icon name
+        "link" => "/inventory/index.php", //link of the page
+        "navigations" => [
+            [
+                "name" => "Inventory Items", //name of the link
+                "link" => "/inventory/index.php", //link of the page
+            ],
+            [
+                "name" => "Item Types", //name of the link
+                "link" => "/itemType/index.php", //link of the page
+            ],
+            [
+                "name" => "Supplier", //name of the link
+                "icon" => "local_shipping", //material icon name
+                "link" => "/suppliers/index.php", //link of the page
+                "navigations" => [] //list of links on dropdown
+            ],
+            [
+                "name" => "Expenses", //name of the link
+                "link" => "/Expenses/index.php", //link of the page
+                "navigations" => [] //list of links on dropdown
             ],
         ] //list of links on dropdown
     ],
@@ -250,7 +281,7 @@ $levelFour = [
             [
                 "name" => "Supplier", //name of the link
                 "icon" => "local_shipping", //material icon name
-                "link" => "/SupplierTable/index.php", //link of the page
+                "link" => "/suppliers/index.php", //link of the page
                 "navigations" => [] //list of links on dropdown
             ],
             [
