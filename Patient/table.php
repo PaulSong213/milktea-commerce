@@ -63,25 +63,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php
-                require_once '../php/connect.php';
-                $connection = connect();
-                $sql = "select * from patient_tb";
-                $result = $connection->query($sql);
-                while ($row = $result->fetch_assoc()) {
-                    echo "
-                        <tr>
-                             <td>" . $row["hospistalrecordNo"] . "</td>
-                            <td>" . $row["lname"] . " " . $row["fname"] . " " . $row["mname"] . "</td>
-                            <td>" . $row["age"] . "</td>
-                            <td>" . $row["gender"] . "</td>
-                            <td>" . date("M d, Y h:i", strtotime($row["createDate"])) . "</td>
-                            <td>" . date("M d, Y h:i", strtotime($row["modifiedDate"])) . "</td>
-                            <td class='invisible action-wrapper'>" . json_encode($row) . "</td>
-                        </tr>
-                        ";
-                }
-                ?>
+
             </tbody>
         </table>
     </div>
@@ -100,6 +82,7 @@
         import {
             searchColumn,
             handleArchiveClick,
+            toFormattedDate
         } from "../costum-js/datatables.js";
 
         import {
@@ -118,6 +101,66 @@
                 .appendTo('#example thead');
 
             const table = $('#example').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '/Zarate/API/patient/table.php',
+                    dataType: 'JSON',
+                    type: 'POST',
+                    data: function(d) {
+                        d.draw = d.draw || 1;
+                    }
+                },
+                columns: [{
+                        data: 'hospistalrecordNo',
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            return data.fname + " " + data.mname + ", " + data.lname;
+                        }
+                    },
+                    {
+                        data: 'age',
+                    },
+                    {
+                        data: 'gender'
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            return toFormattedDate(data.createDate);
+                        }
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            return toFormattedDate(data.modifiedDate);
+                        }
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            const id = data.hospistalrecordNo;
+                            return `
+                            <div class="dropdown dropstart d-flex">
+                                <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
+                                    <img class="mb-1" src="../img/icons/ellipsis-horizontal.svg">
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="mx-2">
+                                        <button class=" btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
+                                    </li>
+                                    <li class="mx-2">
+                                        <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
+                                    </li>
+                                </ul>
+                            </div>
+                            `
+                        },
+                        "searchable": false
+                    }
+                ],
                 orderCellsTop: true,
                 fixedHeader: true,
                 responsive: true,
@@ -153,16 +196,13 @@
                         className: 'btn border border-info'
                     },
                     {
-                        text: 'Add Patient Information',
+                        text: 'Add Item Type',
                         className: 'btn btn-primary bg-primary text-white',
                         action: function(e, dt, node, config) {
                             $('#addItemModal').modal('show');
                         }
                     }
                 ],
-
-
-
                 initComplete: function() {
                     searchColumn(this.api());
                 },
@@ -170,7 +210,7 @@
                     targets: -1,
                     render: (d) => {
                         const data = JSON.parse(d);
-                        const id = data.InventoryID;
+                        const id = data.hospistalrecordNo;
                         return `
                         <div class="dropdown dropstart d-flex">
                             <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
@@ -183,19 +223,15 @@
                                 <li class="mx-2">
                                     <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
                                 </li>
-                                
                             </ul>
                         </div>
                         `
                     },
                     "searchable": false
                 }],
-                order: [
-                    [4, 'asc']
-                ]
             });
-            handleEditClick();
-            handleViewClick();
+            handleEditClick(table);
+            handleViewClick(table);
             $('.action-wrapper').each(function(i, e) {
                 $(this).removeClass('invisible');
             });

@@ -12,7 +12,7 @@ $baseTable = "backlog_tb";
 $baseQuery = "SELECT * FROM $baseTable 
 LEFT JOIN employee_tb
 ON employee_tb.DatabaseID = $baseTable.employeeID
-LEFT JOIN department_tb ON department_tb.departmentID = employee_tb.departmentID ORDER BY backlogID DESC
+LEFT JOIN department_tb ON department_tb.departmentID = employee_tb.departmentID
 ";
 
 // Retrieve DataTables' request parameters
@@ -33,7 +33,9 @@ if (!empty($searchValue)) {
 }
 
 // Add the limit condition for all cases
-$query .= " LIMIT $start, $length";
+$query .= " 
+ORDER BY backlogID DESC
+LIMIT $start, $length";
 
 // Execute the query
 $result = $conn->query($query);
