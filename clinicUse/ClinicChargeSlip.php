@@ -59,15 +59,15 @@ $LastBillingID = getLastBillingID($conn);
 <body class="fluid body">
     <form method="POST" action="databasefunctions.php" id="addItemForm" class="container-fluid p-3" autocomplete="off">
         <div class="row text-white mb-4">
-            <h3 class="app-title mt-4 text">CLINIC USE</h3>
+            <h3 class="app-title mt-4 text">HOSPITAL USE</h3>
             <div class="col-md-6 p-4">
                 <div class="row">
                     <div class="form-group fw-bold">
-                        <label for="chargeSlipNumber">Clinic Transaction Number</label>
+                        <label for="chargeSlipNumber">Hospital Transaction Number</label>
                         <input type="text" class="form-control text-light bg-secondary" name="chargeSlipNumber" placeholder="Enter Charge Slip Number" required value="<?php echo "00" . ($lastSalesID + 1); ?>" readonly>
                     </div>
                     <div class="form-group fw-bold">
-                    <label for="department">Clinic Department</label>
+                    <label for="department">Hospital Department</label>
                     <select class="form-control" name="department" required>
                         <option value="" disabled selected>Select a Department</option>
                         <?php

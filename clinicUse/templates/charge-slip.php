@@ -6,24 +6,25 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
 </head>
 
 <body>
 
-    <div class="modal fade " data-bs-backdrop="static" id="printModal" tabindex="-1" aria-labelledby="printModalLabel"
+    <div class="modal fade" data-bs-backdrop="static" id="printModal" tabindex="-1" aria-labelledby="printModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog modal-xl bg-white">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="printModalLabel">Print Clinic Slip</h5>
+                    <h5 class="modal-title" id="printModalLabel">Print Hospital Slip</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body border p-4 m-4 shadow">
-                    <div id="charge-slip" class="bg-white">
+                    <div id="charge-slip">
                         <!-- HEADER -->
-                        <div class="d-flex justify-content-between border-bottom border-5 border-secondary py-3 w-100 m-0">
+                        <div
+                            class="d-flex justify-content-between border-bottom border-5 border-secondary py-3 w-100 m-0">
                             <div class="d-flex">
                                 <img style="height: 60px;" src="../img/logo.png" alt="ZARATE LOGO">
                                 <div class="mx-3 d-flex flex-column justify-content-end ">
@@ -33,7 +34,7 @@
                                 </div>
                             </div>
                             <div class="mx-2 d-flex flex-column">
-                                <h5 class="fw-bold mb-1">Clinic Slip # <span id="slipNumber"></span> </h5>
+                                <h5 class="fw-bold mb-1">Hospital Slip # <span id="slipNumber"></span> </h5>
                                 <h6 class="text-muted mb-0"><span id="date"></span></h6>
                                 <h6 class="text-muted">Entered by: <span id="enteredBy"></span></h6>
                             </div>
@@ -43,7 +44,7 @@
                         <div class="py-3 ">
                             <div class="d-flex">
                                 <div style="margin-right: 12px;">
-                                    <h6 class="mb-1">ATTACHED TO: CLINIC USE</h6>
+                                    <h6 class="mb-1">ATTACHED TO: HOSPITAL USE</h6>
                                 </div>
                                 <div>
                                     <h6 class="fw-bold mb-1"><span id="attachedTo"></span></h6>
@@ -56,8 +57,21 @@
                             <!-- Product information will be dynamically populated here -->
                         </div>
                         <div class="d-flex justify-content-end">
-                            <div class="border-top border-3 my-3 py-1 px-2 border-secondary w-max" style="min-width: 25%;">
-                                <h5 class="fw-bold"><span id="totalAmount">0</span></h5>
+                            <div class="border-top border-3 my-3 py-1 px-2 border-secondary w-max"
+                                style="min-width: 25%;">
+                                <h5 class="fw-bold">Total Amount: ₱<span id="totalAmount">0</span></h5>
+                                <div class="d-flex flex-column">
+                                    <span id="AmtTendered">Amount Tendered: ₱</span>
+                                    <span id="ChangeAmt">Change: ₱</span>
+                                    <span id="NetAmt">Net Amount: ₱</span>
+                                    <span id="NetSale">Net Sale: ₱</span>
+                                    <span id="AddDisc">Additional Discount(%): </span>
+                                    <span id="billRef">Bill Reference: </span>
+                                    <span id="patientType">Patient Type: </span>
+                                    <h5 id="paidIndicator" class="fs-6 fw-bold">
+                                        PAID
+                                    </h5>
+                                </div>
                             </div>
                         </div>
                         <small class="fw-bold">*This receipt is provided for your reference and records. Please note that this is not an official receipt.</small>
@@ -69,7 +83,7 @@
                 </div>
             </div>
         </div>
-    </main>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
