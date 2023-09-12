@@ -86,9 +86,11 @@ WHERE s.SalesID = ?";
     // Build the SQL query based on search value
     $query = $baseQuery;
     if (!empty($searchValue)) {
-        $query .= " WHERE itemTypeCode LIKE '%$searchValue%' 
-        OR description LIKE '%$searchValue%' 
-        OR departmentName LIKE '%$searchValue%'"; // Add more columns as needed
+        $query .= " WHERE SalesID LIKE '%$searchValue%' 
+        OR ProductInfo LIKE '%$searchValue%' 
+        OR department LIKE '%$searchValue%'
+        OR createDate LIKE '%$searchValue%' "; // Add more columns as needed
+        
     }
 
     if ($length > 0 && $start > 0) {

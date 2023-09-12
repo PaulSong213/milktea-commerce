@@ -148,6 +148,21 @@ require_once(__DIR__ . "/accessLevels.php");
             white-space: nowrap;
         }
 
+        .btn-primary {
+            background-color: #ffffff;
+            color: #000000;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #cccccc;
+        }
+
         @media (max-width: 600px) {
             .session {
                 flex-direction: column;
@@ -174,36 +189,36 @@ require_once(__DIR__ . "/accessLevels.php");
 </head>
 
 <body style="height: 100%; overflow-y: auto;">
-<div style="height: 100%; overflow-y: auto;">
-    <nav id="sidebar" class="bg-light" style="height: 100%; overflow-y: auto;">
-        <a href="../account/index.php">
-            <div class="sidebar-header">
-                <h3><img src="/Zarate/img/logo.png" class="img-fluid" alt="Logo" /><span class="fw-bold company-title">E.Zarate Hospital</span></h3>
-            </div>
-        </a>
-        <ul class="list-unstyled components">
-            <?php
-            $root = "/Zarate";
-            for ($i = 0; $i < sizeof($LevelNav); $i++) {
-                $content = $LevelNav[$i];
-                $isDropdown = isset($content["navigations"]) && sizeof($content["navigations"]) > 0;
-                $link = $root . $content["link"];
-                $navClass = $link == $_SERVER['REQUEST_URI'] && !$isDropdown ? "active " : "";
-                if (sizeof($content["navigations"]) > 0) $navClass = $navClass . "dropdown";
-                $dropdownClass = $isDropdown ? "dropdown-toggle" : "";
-                $hasActiveSublink = false;
-                $navigationList = '<ul class="collapse list-unstyled menu" id="' .  $content["link"] . '">';
-                for ($j = 0; $j < sizeof($content['navigations']); $j++) {
-                    $navigation = $content['navigations'][$j];
-                    $subNavLink = $root . $navigation['link'];
-                    $isActive = $subNavLink == $_SERVER['REQUEST_URI'];
-                    if ($isActive) $hasActiveSublink = true;
-                    $activeClass = $isActive ? "active" : "";
-                    $navigationList = $navigationList . '<li class="' . $activeClass . '"><a class="nav-link sub-nav-link mx-2" href="' . $subNavLink . '">' . $navigation['name'] . '</a></li>';
-                }
-                $navigationList = $navigationList . '</ul>';
-                if ($hasActiveSublink) $navigationList = str_replace("collapse", "collapse show", $navigationList);
-                echo '
+    <div style="height: 100%; overflow-y: auto;">
+        <nav id="sidebar" class="bg-light" style="height: 100%; overflow-y: auto;">
+            <a href="../account/index.php">
+                <div class="sidebar-header">
+                    <h3><img src="/Zarate/img/logo.png" class="img-fluid" alt="Logo" /><span class="fw-bold company-title">E.Zarate Hospital</span></h3>
+                </div>
+            </a>
+            <ul class="list-unstyled components">
+                <?php
+                $root = "/Zarate";
+                for ($i = 0; $i < sizeof($LevelNav); $i++) {
+                    $content = $LevelNav[$i];
+                    $isDropdown = isset($content["navigations"]) && sizeof($content["navigations"]) > 0;
+                    $link = $root . $content["link"];
+                    $navClass = $link == $_SERVER['REQUEST_URI'] && !$isDropdown ? "active " : "";
+                    if (sizeof($content["navigations"]) > 0) $navClass = $navClass . "dropdown";
+                    $dropdownClass = $isDropdown ? "dropdown-toggle" : "";
+                    $hasActiveSublink = false;
+                    $navigationList = '<ul class="collapse list-unstyled menu" id="' .  $content["link"] . '">';
+                    for ($j = 0; $j < sizeof($content['navigations']); $j++) {
+                        $navigation = $content['navigations'][$j];
+                        $subNavLink = $root . $navigation['link'];
+                        $isActive = $subNavLink == $_SERVER['REQUEST_URI'];
+                        if ($isActive) $hasActiveSublink = true;
+                        $activeClass = $isActive ? "active" : "";
+                        $navigationList = $navigationList . '<li class="' . $activeClass . '"><a class="nav-link sub-nav-link mx-2" href="' . $subNavLink . '">' . $navigation['name'] . '</a></li>';
+                    }
+                    $navigationList = $navigationList . '</ul>';
+                    if ($hasActiveSublink) $navigationList = str_replace("collapse", "collapse show", $navigationList);
+                    echo '
                 <li class="' . $navClass . '">
                     <a id="' . $link . '" href="' . $link . '" class="dashboard d-flex align-items-center nav-link ' . $dropdownClass . '">
                         <i class="material-icons">' . $content["icon"] . '</i>
@@ -212,17 +227,17 @@ require_once(__DIR__ . "/accessLevels.php");
                     ' . $navigationList . '
                 </li>
                 ';
-            }
-            ?>
+                }
+                ?>
 
-        </ul>
-        <div>
-            <button class="btn btn-primary rounded-circle position-fixed p-3 bottom-0 start-0 m-4 d-flex justify-content-center align-items-center" id="toggleSidebar">
-                <span class="material-icons" id="sidebar-icon">table_rows</span>
-            </button>
-        </div>
+            </ul>
+            <div>
+                <button class="btn-primary rounded-circle position-fixed p-3 bottom-0 start-0 m-4 d-flex justify-content-center align-items-center" id="toggleSidebar">
+                    <span class="material-icons" id="sidebar-icon">table_rows</span>
+                </button>
+            </div>
 
-    </nav>
+        </nav>
     </div>
     <div class="container-fluid bg-danger" id="content">
     </div>
