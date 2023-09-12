@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 08, 2023 at 10:55 AM
+-- Generation Time: Sep 12, 2023 at 10:36 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `clinicuse_tb` (
   `SalesID` int(11) NOT NULL,
-  `ProductInfo` varchar(100) DEFAULT NULL,
+  `ProductInfo` text DEFAULT NULL,
   `department` varchar(100) DEFAULT NULL,
   `NetAmt` int(11) DEFAULT NULL,
   `requestedBy` varchar(100) DEFAULT NULL,
