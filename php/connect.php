@@ -2,7 +2,7 @@
 
 function connect()
 {
-    $environment = "localhost";
+    $environment = "local";
     if ($environment == "demo") {
         // demo setup
         $servername = "sql207.infinityfree.com";
