@@ -19,6 +19,10 @@ $levelOne = [
                 "name" => "Enter Billing (New Admission)", //name of the linksub-link
                 "link" => "/billing-new-admission/index.php", //link of the page
             ],
+            [
+                "name" => "Notification", //name of the linksub-link
+                "link" => "/notification/index.php", //link of the page
+            ],
         ] //list of links on dropdown
     ],
 ];
