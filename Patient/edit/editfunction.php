@@ -25,7 +25,7 @@ if (isset($_POST['SaveItem'])) {
     $email = $_POST['email'];
     $occupation = $_POST['occupation'];
     $employerName = $_POST['employerName'];
-    $employeeDetail = $_POST['employerNo'];
+    $employerDetail = $_POST['employerNo'];
     $workAddress = $_POST['workAddress'];
     $nationality = $_POST['nationality'];
     $religion = $_POST['religion'];

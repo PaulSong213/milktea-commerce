@@ -89,74 +89,69 @@
 
         $(document).ready(function() {
 
-                    // clone header to add search by columns
-                    $('#example thead tr')
-                        .clone(true)
-                        .addClass('filters')
-                        .appendTo('#example thead');
+            // clone header to add search by columns
+            $('#example thead tr')
+                .clone(true)
+                .addClass('filters')
+                .appendTo('#example thead');
 
-                    const table = $('#example').DataTable({
-                        processing: true,
-                        serverSide: true,
-                        ajax: {
-                            url: '/Zarate/API/inventory/view.php',
-                            dataType: 'JSON',
-                            type: 'POST',
-                            data: function(d) {
-                                d.draw = d.draw || 1;
-                            }
-                        },
-                        const table = $('#example').DataTable({
-                            processing: true,
-                            serverSide: true,
-                            ajax: {
-                                url: '/Zarate/API/itemType/view.php',
-                                dataType: 'JSON',
-                                type: 'POST',
-                                data: function(d) {
-                                    d.draw = d.draw || 1;
-                                }
-                            },
-                            columns: [{
-                                    data: 'itemTypeCode',
-                                },
-                                {
-                                    data: 'departmentName',
-                                },
-                                {
-                                    data: null,
-                                    render: (data, type, row) => {
-                                        const consumableStatus = (data.is_consumable == "1") ? "Consumable" : "Not Consumable"; //condition for status
-                                        const statusColor = (data.is_consumable == "1") ? "alert-success" : "alert-secondary"; //condition for color bg.
-                                        return `
+            const table = $('#example').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '/Zarate/API/inventory/view.php',
+                    dataType: 'JSON',
+                    type: 'POST',
+                    data: function(d) {
+                        d.draw = d.draw || 1;
+                    }
+                },
+                columns: [{
+                        data: 'itemTypeCode',
+                    },
+                    {
+                        data: 'itemCode'
+                    },
+                    {
+                        data: 'Unit'
+                    },
+                    {
+                        data: 'Generic'
+                    },
+                    {
+                        data: 'SugPrice'
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            return toFormattedDate(data.createDate);
+                        }
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            return toFormattedDate(data.modifiedDate);
+                        }
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            const activeStatus = (data.Status == "1") ? "Active" : "Inactive"; //condition for status
+                            const statusColor = (data.Status == "1") ? "alert-success" : "alert-danger"; //condition for color bg.
+                            return `
                             <td>
-                                <div class='d-flex w-100 h-100 d-flex justify-content-start'>
-                                    <h6 style='font-size: 13px' class='p-1 alert m-auto ${statusColor}'>${consumableStatus} </h6>
+                                <div class='d-flex w-100 h-100 d-flex '>
+                                    <h6 style='font-size: 13px' class='p-1 alert m-auto ${statusColor}'>${activeStatus} </h6>
                                 </div>
                             </td>
                             `
-                                    }
-                                },
-                                {
-                                    data: 'description'
-                                },
-                                {
-                                    data: null,
-                                    render: (data, type, row) => {
-                                        return toFormattedDate(data.createDate);
-                                    }
-                                },
-                                {
-                                    data: null,
-                                    render: (data, type, row) => {
-                                        return toFormattedDate(data.modifiedDate);
-                                    }
-                                },
-                                {
-                                    data: null,
-                                    render: (data, type, row) => {
-                                        const id = data.InventoryID;
-                                        return `
+                        }
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            const id = data.InventoryID;
+                            return `
                             <div class="dropdown dropstart d-flex">
                                 <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
                                     <img class="mb-1" src="../img/icons/ellipsis-horizontal.svg">
@@ -168,67 +163,70 @@
                                     <li class="mx-2">
                                         <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
                                     </li>
+                                    <li class="mx-2">
+                                        <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>
+                                    </li>
                                 </ul>
                             </div>
                             `
-                                    },
-                                    "searchable": false
-                                }
-                            ],
-                            orderCellsTop: true,
-                            fixedHeader: true,
-                            responsive: true,
-                            autoFill: true,
-                            dom: 'Bfrtip',
-                            buttons: [{
-                                    extend: 'excelHtml5',
-                                    className: 'btn border border-info',
-                                    exportOptions: {
-                                        columns: ':not(.action-column)'
-                                    }
-                                },
-                                {
-                                    extend: 'pdfHtml5',
-                                    className: 'btn border border-info',
-                                    exportOptions: {
-                                        columns: ':not(.action-column)'
-                                    }
-                                },
-                                {
-                                    extend: 'print',
-                                    className: 'btn border border-info',
-                                    exportOptions: {
-                                        columns: ':not(.action-column)'
-                                    }
-                                },
-                                {
-                                    extend: 'colvis',
-                                    className: 'btn border border-info'
-                                },
-                                {
-                                    extend: 'pageLength',
-                                    className: 'btn border border-info'
-                                },
-                                {
-                                    text: 'Add Item',
-                                    className: 'btn btn-primary bg-primary text-white',
-                                    action: function(e, dt, node, config) {
-                                        $('#addItemModal').modal('show');
-                                    }
-                                }
-                            ],
-                            initComplete: function() {
-                                searchColumn(this.api());
-                            },
-                            order: [
-                                [5, 'asc']
-                            ],
-                        });
-                        handleArchiveClick(table, "itemTypeCode", "./edit/archive.php", "Status");
-                        handleEditClick(table);
-                        handleViewClick(table);
+                        },
+                        "searchable": false
+                    }
+                ],
+                orderCellsTop: true,
+                fixedHeader: true,
+                responsive: true,
+                autoFill: true,
+                dom: 'Bfrtip',
+                buttons: [{
+                        extend: 'excelHtml5',
+                        className: 'btn border border-info',
+                        exportOptions: {
+                            columns: ':not(.action-column)'
+                        }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        className: 'btn border border-info',
+                        exportOptions: {
+                            columns: ':not(.action-column)'
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        className: 'btn border border-info',
+                        exportOptions: {
+                            columns: ':not(.action-column)'
+                        }
+                    },
+                    {
+                        extend: 'colvis',
+                        className: 'btn border border-info'
+                    },
+                    {
+                        extend: 'pageLength',
+                        className: 'btn border border-info'
+                    },
+                    {
+                        text: 'Add Item',
+                        className: 'btn btn-primary bg-primary text-white',
+                        action: function(e, dt, node, config) {
+                            $('#addItemModal').modal('show');
+                        }
+                    }
+                ],
+                initComplete: function() {
+                    searchColumn(this.api());
+                },
+                order: [
+                    [5, 'asc']
+                ],
+            });
+            handleArchiveClick(table, "itemTypeCode", "./edit/archive.php", "Status");
+            handleEditClick(table);
+            handleViewClick(table);
 
-                    });
+        });
     </script>
     <script type="text/javascript">
         $(document).ready(function() {
@@ -260,5 +258,6 @@
         });
     </script>
 </body>
+
 
 </html>

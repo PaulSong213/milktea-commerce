@@ -172,6 +172,7 @@ export function handleEditClick(table) {
         for (let i = 0; i < toFillUpDatas.length; i++) {
             const toFillUpData = toFillUpDatas[i];
             $(`[name="${toFillUpData.inputName}"]`).val(data[toFillUpData.dataKey]);
+           
         }
 
         // edit the save button
@@ -185,7 +186,7 @@ export function handleEditClick(table) {
         const addItemForm = $("#addItemForm");
         const addItemFormAction = addItemForm.attr("action");
         addItemForm.attr("action", "./edit/editfunction.php");
-        addItemForm.append(`<input type="hidden" name="itemTypeID" value="${data['itemTypeID']}">`);
+        addItemForm.append(`<input type="hidden" name="itemTypeID" value="${data['hospistalrecordNo']}">`);
 
         // watch modal close then reset data
         addModal.on("hidden.bs.modal", function () {

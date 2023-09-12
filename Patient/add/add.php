@@ -46,7 +46,7 @@
                                 <!-- Age -->
                                 <div class="mb-3">
                                     <label class="form-label" for="age">Age<span class="text-danger mx-1">*</span></label>
-                                    <input type="number" id="age" name="age" class="form-control" placeholder="Enter Age" autocomplete="on" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+                                    <input type="text" id="age" name="age" class="form-control" placeholder="Enter Age" autocomplete="on"  required>
                                 </div>
 
                                 <div class="mb-3">
@@ -60,15 +60,15 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="phoneHome">Phone No.(Home)</label>
-                                    <input type="number" id="phoneHome" name="phoneHome" placeholder="Enter Phone No. (Home)" class="form-control" autocomplete="on" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                    <input type="text" id="phoneHome" name="phoneHome" placeholder="Enter Phone No. (Home)" class="form-control" autocomplete="on" >
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="phoneWork">Phone No.(Work)</label>
-                                    <input type="number" id="phoneWork" name="phoneWork" placeholder="Enter Phone No. (Work)" class=" form-control" autocomplete="on" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                    <input type="text" id="phoneWork" name="phoneWork" placeholder="Enter Phone No. (Work)" class=" form-control" autocomplete="on" >
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="phoneCell">Cellphone</label>
-                                    <input type="number" id="phoneCell" name="phoneCell" placeholder="Enter Phone No. (Cellphone)" class=" form-control" autocomplete="on" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+                                    <input type="text" id="phoneCell" name="phoneCell" placeholder="Enter Phone No. (Cellphone)" class=" form-control" autocomplete="on"  required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="nationality">Nationality<span class="text-danger mx-1">*</span></label>
@@ -90,7 +90,7 @@
                                 </div>
                                 <div class=" mb-3">
                                     <label class="form-label" for="email">Email Address</label>
-                                    <input type="email" id="email" name="email" class="form-control" placeholder="Enter Email Address" autocomplete=" on">
+                                    <input type="text" id="email" name="email" class="form-control" placeholder="Enter Email Address" autocomplete=" on">
                                 </div>
 
                                 <!-- Add more fields for the first column as needed -->
@@ -110,7 +110,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="employerNo">Employer's Contact No.</label>
-                                    <input type="number" id="employerNo" name="employerNo" placeholder="Enter Contact No." class=" form-control" autocomplete="on" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                    <input type="text" id="employerNo" name="employerNo" placeholder="Enter Contact No." class=" form-control" autocomplete="on" >
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="workAddress">Work Address</label>
@@ -124,7 +124,7 @@
 
                                 <div class="mb-3">
                                     <label class="form-label" for="spousecontactNo">Contact No.(Spouse)</label>
-                                    <input type="number" id="spousecontactNo" name="spousecontactNo" class="form-control" placeholder="Enter Phone No." autocomplete="on" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                    <input type="text" id="spousecontactNo" name="spousecontactNo" class="form-control" placeholder="Enter Phone No." autocomplete="on" >
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="MotherName">Name of Mother</label>
@@ -132,7 +132,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="mothercontactNo">Contact No.(Mother)</label>
-                                    <input type="number" id="mothercontactNo" name="mothercontactNo" placeholder="Enter Phone No." class=" form-control" autocomplete="on" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                    <input type="text" id="mothercontactNo" name="mothercontactNo" placeholder="Enter Phone No." class=" form-control" autocomplete="on" >
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="FatherName">Name of Father</label>
@@ -140,7 +140,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="fathercontactNo">Contact No.(Father)</label>
-                                    <input type="number" id="fathercontactNo" name="fathercontactNo" class="form-control" placeholder="Enter Phone No." autocomplete="on" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                    <input type="number" id="fathercontactNo" name="fathercontactNo" class="form-control" placeholder="Enter Phone No." autocomplete="on" >
                                 </div>
                                 <b><label for="description">Health Coverage</label></b>
 
@@ -189,15 +189,15 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="emergencyphoneHome">Phone No. (Home)</label>
-                                    <input type="number" id="emergencyphoneHome" name="emergencyphoneHome" class="form-control" autocomplete="on" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                    <input type="text" id="emergencyphoneHome" name="emergencyphoneHome" class="form-control" autocomplete="on" >
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="emergencyphoneWork">Phone No. (Work)</label>
-                                    <input type="number" id="emergencyphoneWork" name="emergencyphoneWork" class="form-control" autocomplete="on" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                    <input type="text" id="emergencyphoneWork" name="emergencyphoneWork" class="form-control" autocomplete="on" >
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="emergencyCphone">Phone No. (Cellphone)</label>
-                                    <input type="number" id="emergencyCphone" name="emergencyCphone" class="form-control" autocomplete="on" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                    <input type="text" id="emergencyCphone" name="emergencyCphone" class="form-control" autocomplete="on" >
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="allergies">Allergies</label>
