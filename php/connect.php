@@ -2,7 +2,7 @@
 
 function connect()
 {
-    $environment = "local";
+    $environment = "localhost";
     if ($environment == "demo") {
         // demo setup
         $servername = "sql207.infinityfree.com";
@@ -10,11 +10,12 @@ function connect()
         $Password = "wwwYlVEuaI";
         $database = "if0_34844081_zaratehostpital";
     } else if ($environment == "production") {
-        // demo setup
-        $servername = "sql305.infinityfree.com";
-        $username = "if0_34996121";
-        $Password = "UvZmVCNPmXoj";
-        $database = "if0_34996121_zaratehospital";
+        // azure bitnami setup
+        //https://docs.bitnami.com/aws/faq/get-started/access-phpmyadmin/
+        $servername = "localhost";
+        $username = "root";
+        $Password = "IeUrXz+mL/6.";
+        $database = "zaratehospital";
     } else {
         $servername = "localhost";
         $username = "root";
