@@ -6,42 +6,29 @@ header("Content-Type: application/json");
 require_once '../../php/connect.php';
 $conn = connect();
 
-$baseTable = "expenses_tb";
+$baseTable = "patient_tb";
 
 // Define the base query
 $baseQuery = "SELECT * FROM $baseTable 
-LEFT JOIN department_tb 
-ON department_tb.departmentID = $baseTable.departmentID";
+";
 
 // Retrieve DataTables' request parameters
-$start = 0; // Start index for pagination
-if (isset($_POST['start'])) $start = $_POST['start']; // Start index for pagination
-
-$length = 0;
-if (isset($_POST['length'])) $length = $_POST['length']; // Number of records to fetch
-
-$searchValue = ""; // Search value
-if (isset($_POST['search']['value'])) {
-    $searchValue = $_POST['search']['value']; // Search value
-}
+$start = $_POST['start']; // Start index for pagination
+$length = $_POST['length']; // Number of records to fetch
+$searchValue = $_POST['search']['value']; // Search value
 
 // Build the SQL query based on search value
 $query = $baseQuery;
 if (!empty($searchValue)) {
-    $query .= " WHERE expenseType LIKE '%$searchValue%' 
-    OR amount LIKE '%$searchValue%' 
-    OR departmentName LIKE '%$searchValue%'
-    OR payableTo LIKE '%$searchValue%'
-    OR docRef LIKE '%$searchValue%'
-    OR enteredBy LIKE '%$searchValue%'
-    OR payableTo LIKE '%$searchValue%'
-    "; // Add more columns as needed
+    $query .= " WHERE hospistalrecordNo LIKE '%$searchValue%' 
+    OR lname LIKE '%$searchValue%'
+    OR fname LIKE '%$searchValue%'
+    OR mname LIKE '%$searchValue%' ";
 }
 
-if ($length > 0 && $start > 0) {
-    // Add the limit condition for all cases
-    $query .= " LIMIT $start, $length";
-}
+// Add the limit condition for all cases
+$query .= " ORDER BY modifiedDate DESC
+ LIMIT $start, $length";
 
 // Execute the query
 $result = $conn->query($query);
@@ -61,7 +48,7 @@ if (empty($searchValue)) {
 
 // Construct the JSON response
 $response = array(
-    "draw" => intval(isset($_POST['draw']) ? $_POST['draw'] : 0),
+    "draw" => intval($_POST['draw']),
     "recordsTotal" => $totalRecords,
     "recordsFiltered" => $totalRecords,
     "data" => $data

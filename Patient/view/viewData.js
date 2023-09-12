@@ -1,4 +1,6 @@
-export function handleViewClick() {
+import { formatDate } from "../../costum-js/date.js";
+export function handleViewClick(table) {
+    console.log ("test")
     const viewDatas = [
         {
             dataKey: "hospistalrecordNo",
@@ -158,11 +160,13 @@ export function handleViewClick() {
         },
 
     ];
-    $(".view-btn").on('click', function (event) {
+    table.on('click', '.view-btn', function (e) {
         let data = JSON.parse($(this).attr("data-item"));
         $("#viewModalBody").html("");
+
         for (let i = 0; i < viewDatas.length; i++) {
             const viewData = viewDatas[i];
+            if (viewData.label.includes("Date")) data[viewData.dataKey] = formatDate(new Date(data[viewData.dataKey]));
             $("#viewModalBody").append(`
                 <div class="d-flex justify-content-between">
                     <h5 class="mx-2">${viewData.label}:</h5>

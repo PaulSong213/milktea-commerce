@@ -1,5 +1,6 @@
 export function handleEditClick(table) {
-    $(".edit-btn").on('click', function (e) {
+    console.log("Edit")
+    table.on('click', '.edit-btn', function (e) {
         const addModal = $("#addItemModal");
         addModal.modal('show');
         let data = JSON.parse($(this).attr("data-item"));
@@ -167,18 +168,20 @@ export function handleEditClick(table) {
         ];
 
         // fill up the fields
+    // fill up the fields
         for (let i = 0; i < toFillUpDatas.length; i++) {
             const toFillUpData = toFillUpDatas[i];
             $(`[name="${toFillUpData.inputName}"]`).val(data[toFillUpData.dataKey]);
+           
         }
 
         // edit the save button
         const saveButton = $("[name='SaveItem']");
-        saveButton.text("Edit Patient Information");
+        saveButton.text("Edit Item");
 
         // edit header title
         const headerTitle = $("#addItemModalLabel");
-        headerTitle.text("Edit Patient Information");
+        headerTitle.text("Edit Item");
 
         const addItemForm = $("#addItemForm");
         const addItemFormAction = addItemForm.attr("action");
@@ -187,13 +190,16 @@ export function handleEditClick(table) {
 
         // watch modal close then reset data
         addModal.on("hidden.bs.modal", function () {
-            headerTitle.text("Add New Patient");
-            saveButton.text("Add New Patient");
+            headerTitle.text("Add Item");
+            saveButton.text("Add Item");
             addItemForm.attr("action", addItemFormAction);
+            addItemForm.find("input[name='item_id']").remove();
             for (let i = 0; i < toFillUpDatas.length; i++) {
                 const toFillUpData = toFillUpDatas[i];
                 $(`[name="${toFillUpData.inputName}"]`).val("");
             }
         });
     });
+
+
 }

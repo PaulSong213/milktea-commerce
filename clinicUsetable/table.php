@@ -47,8 +47,7 @@
 
 <body>
     <div class="table w-100 p-4">
-        <h2 class="mt-4 mb-5">Clinic Use Table</h2>
-        <?php include './add/add.php'; ?>
+        <h2 class="mt-4 mb-5">Hospital Use Table</h2>
         <?php include './view/view.php'; ?>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
@@ -76,6 +75,7 @@
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables-buttons/2.2.0/js/buttons.colVis.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script type="module">
         import {
             searchColumn,
@@ -182,10 +182,10 @@
                         className: 'btn border border-info'
                     },
                     {
-                        text: 'Add Item',
+                        text: 'Add Hospital Use',
                         className: 'btn btn-primary bg-primary text-white',
                         action: function(e, dt, node, config) {
-                            $('#addItemModal').modal('show');
+                            window.location.href = '/Zarate/clinicUse/index.php';
                         }
                     }
                 ],
@@ -219,13 +219,17 @@
                     [3, 'asc']
                 ]
             });
-            handleEditClick(table);
-            handleViewClick(table);
+            
 
             table.on('draw', function() {
                 $('.action-wrapper').each(function(i, e) {
                     $(this).removeClass('invisible');
                 });
+            });
+            table.on('click', '.view-btn', function(e) {
+                let bill = JSON.parse($(this).attr("data-item"));
+                console.log(bill.SalesID);
+                showChargeSlip(bill.SalesID);
             });
             table.page(1).draw(true);
         });

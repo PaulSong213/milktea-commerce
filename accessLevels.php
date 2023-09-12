@@ -162,11 +162,11 @@ $levelFour = [
                 "link" => "/billinglist/index.php", //link of the page
             ],
             [
-                "name" => "Clinic Use", //name of the link
+                "name" => "Hospital Use", //name of the link
                 "link" => "/clinicUse/index.php", //link of the page
             ],
             [
-                "name" => "Clinic Use Table", //name of the link
+                "name" => "Hospital Use Table", //name of the link
                 "link" => "/clinicUsetable/index.php", //link of the page
             ],
             [
