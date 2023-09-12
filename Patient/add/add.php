@@ -140,7 +140,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="fathercontactNo">Contact No.(Father)</label>
-                                    <input type="number" id="fathercontactNo" name="fathercontactNo" class="form-control" placeholder="Enter Phone No." autocomplete="on" >
+                                    <input type="text" id="fathercontactNo" name="fathercontactNo" class="form-control" placeholder="Enter Phone No." autocomplete="on" >
                                 </div>
                                 <b><label for="description">Health Coverage</label></b>
 

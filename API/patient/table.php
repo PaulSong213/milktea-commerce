@@ -21,10 +21,11 @@ $searchValue = $_POST['search']['value']; // Search value
 // Build the SQL query based on search value
 $query = $baseQuery;
 if (!empty($searchValue)) {
-    $query .= " WHERE  LIKE '%$searchValue%' 
-    OR description LIKE '%$searchValue%'
+    $query .= " WHERE hospistalrecordNo LIKE '%$searchValue%' 
+   
     OR lname LIKE '%$searchValue%'
     OR fname LIKE '%$searchValue%'
+    OR mname LIKE '%$searchValue%'
     OR position LIKE '%$searchValue%'
     OR timeStamp LIKE '%$searchValue%'     
     OR departmentName LIKE '%$searchValue%'"; // Add more columns as needed
