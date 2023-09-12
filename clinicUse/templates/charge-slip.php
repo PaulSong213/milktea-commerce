@@ -59,17 +59,8 @@
                         <div class="d-flex justify-content-end">
                             <div class="border-top border-3 my-3 py-1 px-2 border-secondary w-max"
                                 style="min-width: 25%;">
-                                <h5 class="fw-bold">Total Amount: ₱<span id="totalAmount">0</span></h5>
+                                <h5 class="fw-bold"><span id="totalAmount">0</span></h5>
                                 <div class="d-flex flex-column">
-                                    <span id="AmtTendered">Amount Tendered: ₱</span>
-                                    <span id="ChangeAmt">Change: ₱</span>
-                                    <span id="NetAmt">Net Amount: ₱</span>
-                                    <span id="NetSale">Net Sale: ₱</span>
-                                    <span id="AddDisc">Additional Discount(%): </span>
-                                    <span id="billRef">Bill Reference: </span>
-                                    <span id="patientType">Patient Type: </span>
-                                    <h5 id="paidIndicator" class="fs-6 fw-bold">
-                                        PAID
                                     </h5>
                                 </div>
                             </div>
