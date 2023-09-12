@@ -7,6 +7,8 @@ if (isset($_SESSION['user'])) {
     $userName = $userData['userName'];
     $userDepartment = $userData['departmentName'];
     $userLevel = $userData['AccessLevel'];
+
+    $userFullName = $userData['lname'] . ', ' .$userData['fname'].  ' ' . $userData['mname'];
 } else {
     // Redirect back to the login page or handle the user not being logged in
     header("Location: /Zarate/index.php");
@@ -41,7 +43,7 @@ $LeveL1 = [
         ] //list of links on dropdown
     ],
     [
-        "name" => "Account Settings", //name of the link
+        "name" => $userFullName, //name of the link
         "icon" => "account_circle", //material icon name
         "link" => "/dashboard/index.php", //link of the page
         "navigations" => [
@@ -103,7 +105,7 @@ $Level2 = [
     ],
 
     [
-        "name" => "Account Settings", //name of the link
+        "name" => $userFullName, //name of the link
         "icon" => "account_circle", //material icon name
         "link" => "/dashboard/index.php", //link of the page
         "navigations" => [
@@ -173,7 +175,7 @@ $LeveL3 = [
         ] //list of links on dropdown
     ],
     [
-        "name" => "Account Settings", //name of the link
+        "name" =>  $userFullName, //name of the link
         "icon" => "account_circle", //material icon name
         "link" => "/dashboard/index.php", //link of the page
         "navigations" => [
@@ -317,7 +319,7 @@ $LeveL4 = [
         "navigations" => [] //list of links on dropdown
     ],
     [
-        "name" => "Account Settings", //name of the link
+        "name" => $userFullName, //name of the link
         "icon" => "account_circle", //material icon name
         "link" => "/account/index.php", //link of the page
         "navigations" => [
