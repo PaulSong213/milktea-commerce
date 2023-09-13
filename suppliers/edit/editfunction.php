@@ -3,6 +3,13 @@ require_once '../../php/connect.php';
 session_start();
 $conn = connect();
 
+if (isset($_SESSION['user'])) {
+    $userData = json_decode($_SESSION['user'], true);
+    $userID = $userData['DatabaseID'];
+    $userDepartment = $userData['departmentName'];
+}
+
+
 if (isset($_POST['SaveItem'])) {
     $itemTypeID = $_POST['item_id'];
     $Sname = $_POST['supplier_name'];
@@ -31,6 +38,13 @@ if (isset($_POST['SaveItem'])) {
 
     $result = mysqli_query($conn, $sql);
     if ($result) {
+        $act = "Edit Supplier Data";
+        $description = "Edit Supplier Data";
+
+        $conn1 = connect();
+        $sql1 = "INSERT INTO backlog_tb (employeeID, action, description, timeStamp)
+        						VALUES ('$userID', '$act', '$description', NOW())";
+        $result1 = mysqli_query($conn1, $sql1);
         // success
         $_SESSION["alert_message"] = "Successfully Edited an Item";
         $_SESSION["alert_message_success"] = true;

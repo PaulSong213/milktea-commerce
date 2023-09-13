@@ -5,8 +5,12 @@ if (session_status() === PHP_SESSION_NONE) {
 if (!isset($_SESSION['user'])) header("Location: /Zarate/logout.php");
 $userData = json_decode($_SESSION['user'], true);
 $userLevel = $userData["AccessLevel"];
+<<<<<<< HEAD
+$userFullName = $userData['lname'] . ', ' . $userData['fname'] .  ' ' . $userData['mname'];
+=======
 
 // PATIENT ACCESS
+>>>>>>> c22d5cf5d8a603bb88afd1c7dabf2ff33be06e34
 $levelOne = [
     [
         "name" => "Patient", //name of the link
@@ -320,7 +324,7 @@ switch ($userLevel) {
 }
 
 $accountSettings = [
-    "name" => "Account Settings", //name of the link
+    "name" => "$userFullName", //name of the link
     "icon" => "account_circle", //material icon name
     "link" => "/account/index.php", //link of the page
     "navigations" => [

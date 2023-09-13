@@ -119,7 +119,7 @@ if (isset($_SESSION['user'])) {
 							$employeeName = $val["nickName"];
 							$action = "Log In";
 							$description = "User Log in";
-							echo "<p style='color:red'>$employee_id</p>";
+							
 
 							$conn1 = connect();
 							$sql1 = "INSERT INTO backlog_tb (employeeID, action, description, timeStamp)
