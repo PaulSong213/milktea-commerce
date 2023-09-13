@@ -13,22 +13,24 @@ if (isset($_SESSION['user'])) {
 if (isset($_POST['SaveItem'])) {
     $itemTypeID = $_POST['item_id'];
     $Sname = $_POST['supplier_name'];
+    $supplier_code = $_POST['supplier_code'];
     $address = $_POST['address'];
     $telNumber = $_POST['telNum'];
     $faxNumber = $_POST['faxNum'];
     $celNumber = $_POST['CelNum'];
-    $contactNumber = $_POST['contactNum'];
-    $Snote = $_POST['Snote'];
+    $contactNumber = $_POST['contactNo'];
+    $Snote = $_POST['note'];
 
     $sql = "UPDATE supplier_tb
     SET
+        supplier_code = '$supplier_code',
         supplier_name = '$Sname',
         address = '$address',
         telNum = '$telNumber',
         faxNum = '$faxNumber',
         CelNum ='$celNumber', 
         contactNo ='$contactNumber', 
-        Snote ='$Snote',
+        note ='$Snote',
         modifiedDate = now()
     WHERE
         supplier_code = '$itemTypeID';
