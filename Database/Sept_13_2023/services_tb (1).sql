@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 13, 2023 at 04:38 AM
+-- Generation Time: Sep 13, 2023 at 09:26 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -33,20 +33,27 @@ CREATE TABLE `services_tb` (
   `RequestedName` varchar(60) NOT NULL,
   `PatientName` varchar(60) NOT NULL,
   `remarks` text NOT NULL,
-  `departmentID` int(11) NOT NULL
+  `departmentID` int(11) NOT NULL,
+  `ChiefComplaint` text NOT NULL,
+  `WorkingDx` text NOT NULL,
+  `EnteredBy` int(11) NOT NULL,
+  `ChargeNo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `services_tb`
 --
 
-INSERT INTO `services_tb` (`transID`, `Services`, `RequestedName`, `PatientName`, `remarks`, `departmentID`) VALUES
-(1, 'Array', '', '', '', 0),
-(2, 'Array', 'DR. GONZALES,MELISSA  | ID: 23', 'Test,Test Test | ID: 1', 'None', 0),
-(3, 'Array', '24', 'sample,sample sample | ID: 2', 'PLEASE PUMASOK KANA', 0),
-(4, 'Array', '23', 'sample,sample sample | ID: 2', '', 0),
-(5, '', '24', 'sample,sample sample | ID: 2', 'None', 0),
-(6, '', '24', 'Tabuyan,Kean Arthur Sargento | ID: 5', 'aa', 0);
+INSERT INTO `services_tb` (`transID`, `Services`, `RequestedName`, `PatientName`, `remarks`, `departmentID`, `ChiefComplaint`, `WorkingDx`, `EnteredBy`, `ChargeNo`) VALUES
+(1, '', '26', 'Test,Test Test | ID: 1', '', 5, '', '', 0, 0),
+(2, '', '27', 'Test2LastName,Test2FirstName Test2MiddleName | ID: 6', 'None', 5, '', '', 0, 0),
+(3, 'Service Name', '27', 'Test,Test Test | ID: 1', 'None', 5, '', '', 0, 0),
+(4, 'Service Name', '26', 'sample,sample sample | ID: 2', 'none', 5, '', '', 0, 0),
+(5, '', '26', 'Test,Test Test | ID: 1', 'none', 5, '', '', 0, 0),
+(6, '', '26', 'Test,Test Test | ID: 1', 'aww', 5, '', '', 0, 0),
+(7, '', '24', 'ZZZZZZZZZZZZZZZZZZZZZZ,TestFname TestMname | ID: 7', 'awdawd', 5, '', '', 0, 0),
+(8, '', '', 'ZZZZZZZZZZZZZZZZZZZZZZ,TestFname TestMname | ID: 7', '', 5, '', '', 0, 0),
+(9, '', '25', 'ZZZZZZZZZZZZZZZZZZZZZZ,TestFname TestMname | ID: 7', 'None', 5, '', '', 0, 0);
 
 --
 -- Indexes for dumped tables
@@ -66,7 +73,7 @@ ALTER TABLE `services_tb`
 -- AUTO_INCREMENT for table `services_tb`
 --
 ALTER TABLE `services_tb`
-  MODIFY `transID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `transID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
