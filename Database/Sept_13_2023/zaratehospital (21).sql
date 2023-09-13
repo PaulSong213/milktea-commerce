@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 13, 2023 at 04:27 AM
+-- Generation Time: Sep 13, 2023 at 04:32 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -168,7 +168,8 @@ INSERT INTO `billing_tb` (`billingID`, `encoderID`, `patientID`, `accountOfID`, 
 (33, 379, 1, 1, '2023-09-08 09:55:08', 'OPD', 23, 23, '2023-09-08 09:55:08', '2023-09-08 15:55:08', '2023-09-08 15:55:08'),
 (34, 379, 1, 1, '2023-09-08 09:55:36', 'OPD', 23, 23, '2023-09-08 09:55:36', '2023-09-08 15:55:36', '2023-09-08 15:55:36'),
 (35, 379, 1, 1, '2023-09-08 09:56:00', 'OPD', 23, 23, '2023-09-08 09:56:00', '2023-09-08 15:56:00', '2023-09-08 15:56:00'),
-(36, 379, 1, 1, '2023-09-08 10:41:36', 'OPD', 23, 23, '2023-09-08 10:41:36', '2023-09-08 16:41:36', '2023-09-08 16:41:36');
+(36, 379, 1, 1, '2023-09-08 10:41:36', 'OPD', 23, 23, '2023-09-08 10:41:36', '2023-09-08 16:41:36', '2023-09-08 16:41:36'),
+(37, 379, 6, 6, '2023-09-13 04:32:17', 'OPD', 25, 25, '2023-09-13 04:32:17', '2023-09-13 10:32:17', '2023-09-13 10:32:17');
 
 -- --------------------------------------------------------
 
@@ -671,7 +672,7 @@ INSERT INTO `inventory_tb` (`InventoryID`, `itemTypeID`, `itemCode`, `Unit`, `De
 (1, 39, 'LAB*ETROPONIN-T', 10, 'TROPONIN-T', '', 2110.68, 0, 10, 0, 1, 'TEST', '2023-08-22 14:56:32', '2023-08-22 15:12:05'),
 (2, 39, 'LAB****INORGANICPHOSPHATE', 9, 'INORGANIC PHOSPHATE', '', 1800, 0, 10, 0, 1, 'TEST', '2023-08-22 14:56:32', '2023-08-22 14:56:32'),
 (3, 39, 'LAB***ABG', 9, 'ARTERIAL BLOOD GAS', '', 1440, 0, 10, 0, 1, 'TEST', '2023-08-22 14:56:32', '2023-08-22 14:56:32'),
-(4, 39, 'LAB***AFB(SPUTUM)', 6, 'AFB (SPUTUM TEST)', '', 350, 0, 10, 0, 1, 'TEST', '2023-08-22 14:56:32', '2023-08-22 14:56:32'),
+(4, 39, 'LAB***AFB(SPUTUM)', 5, 'AFB (SPUTUM TEST)', '', 350, 0, 10, 0, 1, 'TEST', '2023-08-22 14:56:32', '2023-08-22 14:56:32'),
 (5, 39, 'LAB***ALBUMIN', 0, 'LAB ALBUMIN', '', 350, 0, 10, 0, 1, 'TEST', '2023-08-22 14:56:32', '2023-08-22 14:56:32'),
 (6, 39, 'LAB***ALCO', 0, 'ALCOHOL LEVEL', '', 780, 0, 10, 0, 1, 'TEST', '2023-08-22 14:56:32', '2023-08-22 14:56:32'),
 (7, 39, 'LAB***ALK', 0, 'ALKALINE PHOSPHATES', '', 300, 0, 10, 0, 1, 'TEST', '2023-08-22 14:56:32', '2023-08-22 14:56:32'),
@@ -1172,7 +1173,7 @@ INSERT INTO `inventory_tb` (`InventoryID`, `itemTypeID`, `itemCode`, `Unit`, `De
 (501, 49, 'CAREGIVER/HR', 10, 'CAREGIVER / HR', '', 100, 0, 0, 0, 1, 'PHP', '2023-08-22 14:56:32', '2023-08-22 14:56:32'),
 (502, 40, 'MAJORINSTRUMENT', 10, 'MAJOR INSTRUMENT', '', 1, 0, 0, 0, 1, 'PHP', '2023-08-22 14:56:32', '2023-08-22 14:56:32'),
 (503, 43, 'ORFEE', 10, 'OPERATING ROOM', '', 1, 0, 0, 0, 1, 'PHP', '2023-08-22 14:56:32', '2023-08-22 14:56:32'),
-(504, 40, 'PREV.BAL', 10, 'PREVIOUS BALANCE OPD', '', 1, 0, 0, 0, 1, 'PHP', '2023-08-22 14:56:32', '2023-08-22 14:56:32'),
+(504, 40, 'PREV.BAL', 0, 'PREVIOUS BALANCE OPD', '', 1, 0, 0, 0, 1, 'PHP', '2023-08-22 14:56:32', '2023-08-22 14:56:32'),
 (505, 42, 'PF(CASHOUT)', 10, 'PF', '', 1, 0, 0, 0, 1, 'PHP', '2023-08-22 14:56:32', '2023-08-22 14:56:32'),
 (506, 49, 'BANDAGE APPLICATION', 10, 'BANDAGE APPLICATION', '', 1, 0, 0, 0, 1, 'PHP', '2023-08-22 14:56:32', '2023-08-22 14:56:32'),
 (507, 40, 'MEDICAL CERTIFICATE', 10, 'MEDICAL CERTIFICATE 1', '', 1, 0, 0, 0, 1, 'PHP', '2023-08-22 14:56:32', '2023-08-22 14:56:32'),
@@ -2982,19 +2983,17 @@ CREATE TABLE `itemtype_tb` (
 --
 
 INSERT INTO `itemtype_tb` (`itemTypeID`, `itemTypeCode`, `description`, `departmentID`, `is_consumable`, `createDate`, `modifiedDate`) VALUES
-(37, 'ECG - ECG', 'ECG', 2, 1, '2023-08-21 17:59:23', '2023-08-21 17:59:23'),
-(39, 'LW - Lab Work', 'LABORATORY', 5, 1, '2023-08-21 17:59:23', '2023-08-21 17:59:23'),
+(39, 'LW - Lab Work', 'LABORATORY', 5, 0, '2023-08-21 17:59:23', '2023-08-21 17:59:23'),
 (40, 'O - Others', 'OTHERS', 1, 1, '2023-08-21 17:59:23', '2023-08-21 17:59:23'),
 (41, 'P - Pharmacy', 'PHARMACY', 2, 1, '2023-08-21 17:59:23', '2023-08-21 17:59:23'),
-(42, 'PF - Professional Fees', 'PROFESSIONAL FEE', 1, 1, '2023-08-21 17:59:23', '2023-08-21 17:59:23'),
-(43, 'R - Room', 'ROOM', 4, 1, '2023-08-21 17:59:23', '2023-08-21 17:59:23'),
-(44, 'RISO', 'RISOGRAPH PRINTING', 4, 1, '2023-08-21 17:59:23', '2023-08-21 17:59:23'),
+(42, 'PF - Professional Fees', 'PROFESSIONAL FEE', 1, 0, '2023-08-21 17:59:23', '2023-08-21 17:59:23'),
+(43, 'R - Room', 'ROOM', 4, 0, '2023-08-21 17:59:23', '2023-08-21 17:59:23'),
 (45, 'S - Supplies', 'SUPPLIES', 1, 1, '2023-08-21 17:59:23', '2023-08-21 17:59:23'),
-(46, 'SET - Set Items', 'LABORATORY', 5, 1, '2023-08-21 17:59:23', '2023-08-21 17:59:23'),
-(47, 'SO - SO Lab', 'LABORATORY', 5, 1, '2023-08-21 17:59:23', '2023-08-21 17:59:23'),
-(48, 'US - Ultra Sound', 'ULTRASOUND', 6, 1, '2023-08-21 17:59:23', '2023-08-21 17:59:23'),
-(49, 'V - Services', 'SERVICES', 1, 1, '2023-08-21 17:59:23', '2023-08-21 17:59:23'),
-(50, 'X - X-Ray', 'X-RAY', 7, 1, '2023-08-21 17:59:23', '2023-08-21 17:59:23');
+(46, 'SET - Set Items', 'LABORATORY', 5, 0, '2023-08-21 17:59:23', '2023-08-21 17:59:23'),
+(48, 'US - Ultra Sound', 'ULTRASOUND', 6, 0, '2023-08-21 17:59:23', '2023-08-21 17:59:23'),
+(49, 'V - Services', 'SERVICES', 1, 0, '2023-08-21 17:59:23', '2023-08-21 17:59:23'),
+(50, 'X - X-Ray', 'X-RAY', 7, 0, '2023-08-21 17:59:23', '2023-08-21 17:59:23'),
+(51, 'US - Ultra Sound', 'test', 0, 0, '2023-09-11 12:02:38', '2023-09-11 12:02:38');
 
 -- --------------------------------------------------------
 
@@ -3305,7 +3304,8 @@ INSERT INTO `sales_tb` (`SalesID`, `ProductInfo`, `NetSale`, `AddDisc`, `AddDisc
 (29, '[{\"subtotal\":\"300.00\",\"product_id\":\"LAB***ALK\",\"qty\":\"1\",\"price\":\"300\",\"disc_percent\":\"0\",\"disc_amt\":\"0.00\",\"id\":\"7\",\"unit\":\"TEST\",\"itemType\":\"LABORATORY\",\"itemTypeID\":\"38\"}]', 300, 0, 0, 300, 300, 0, '2', '24', 379, NULL, 'OPD', '2', '2023-09-08 16:42:05', '2023-09-08 16:42:05'),
 (30, '[{\"subtotal\":\"850.00\",\"product_id\":\"LAB***AMY\",\"qty\":\"1\",\"price\":\"850\",\"disc_percent\":\"0\",\"disc_amt\":\"0.00\",\"id\":\"8\",\"unit\":\"TEST\",\"itemType\":\"LABORATORY\",\"itemTypeID\":\"38\"}]', 850, 0, 0, 850, 1000, 150, '1', '23', 379, NULL, 'OPD', '1', '2023-09-08 16:42:34', '2023-09-08 16:42:34'),
 (31, '[{\"subtotal\":\"600.00\",\"product_id\":\"X*EPELVIC\",\"qty\":\"1\",\"price\":\"600\",\"disc_percent\":\"0\",\"disc_amt\":\"0.00\",\"id\":\"398\",\"unit\":\"PHP\",\"itemType\":\"X-RAY\",\"itemTypeID\":\"50\"}]', 600, 0, 0, 600, 600, 0, 'John Doe', '23', 379, NULL, 'OPD', 'John Doe', '2023-09-08 16:43:14', '2023-09-08 16:43:14'),
-(32, '[{\"subtotal\":\"850.00\",\"product_id\":\"LAB***AMY\",\"qty\":\"1\",\"price\":\"850\",\"disc_percent\":\"0\",\"disc_amt\":\"0.00\",\"id\":\"8\",\"unit\":\"TEST\",\"itemType\":\"LABORATORY\",\"itemTypeID\":\"38\"}]', 850, 0, 0, 850, 1000, 150, 'John Doe', '23', 379, NULL, 'OPD', 'John Doe', '2023-09-08 16:46:01', '2023-09-08 16:46:01');
+(32, '[{\"subtotal\":\"850.00\",\"product_id\":\"LAB***AMY\",\"qty\":\"1\",\"price\":\"850\",\"disc_percent\":\"0\",\"disc_amt\":\"0.00\",\"id\":\"8\",\"unit\":\"TEST\",\"itemType\":\"LABORATORY\",\"itemTypeID\":\"38\"}]', 850, 0, 0, 850, 1000, 150, 'John Doe', '23', 379, NULL, 'OPD', 'John Doe', '2023-09-08 16:46:01', '2023-09-08 16:46:01'),
+(33, '[{\"subtotal\":\"350.00\",\"product_id\":\"LAB***AFB(SPUTUM)\",\"qty\":\"1\",\"price\":\"350\",\"disc_percent\":\"0\",\"disc_amt\":\"0.00\",\"id\":\"4\",\"unit\":\"TEST\",\"itemType\":\"LABORATORY\",\"itemTypeID\":\"39\",\"product_desciption\":\"AFB (SPUTUM TEST)\"},{\"subtotal\":\"11.00\",\"product_id\":\"PREV.BAL\",\"qty\":\"10\",\"price\":\"1\",\"disc_percent\":\"0\",\"disc_amt\":\"0.00\",\"id\":\"504\",\"unit\":\"PHP\",\"itemType\":\"OTHERS\",\"itemTypeID\":\"40\",\"product_desciption\":\"PREVIOUS BALANCE OPD\"}]', 361, 0, 0, 361, 0, -361, '6', '25', 379, 37, 'OPD', '6', '2023-09-13 10:32:17', '2023-09-13 10:32:17');
 
 -- --------------------------------------------------------
 
@@ -3865,7 +3865,7 @@ ALTER TABLE `backlog_tb`
 -- AUTO_INCREMENT for table `billing_tb`
 --
 ALTER TABLE `billing_tb`
-  MODIFY `billingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `billingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `clinicuse_tb`
@@ -3901,7 +3901,7 @@ ALTER TABLE `inventory_tb`
 -- AUTO_INCREMENT for table `itemtype_tb`
 --
 ALTER TABLE `itemtype_tb`
-  MODIFY `itemTypeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `itemTypeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `patient_tb`
@@ -3925,7 +3925,7 @@ ALTER TABLE `room_tb`
 -- AUTO_INCREMENT for table `sales_tb`
 --
 ALTER TABLE `sales_tb`
-  MODIFY `SalesID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `SalesID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `supplier_tb`
