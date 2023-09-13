@@ -7,6 +7,10 @@ export function handleEditClick(table) {
 
         const toFillUpDatas = [
             {
+                dataKey: "supplier_code",
+                inputName: "supplier_code"
+            },
+            {
                 dataKey: "supplier_name",
                 inputName: "supplier_name"
             },
@@ -22,19 +26,19 @@ export function handleEditClick(table) {
                 dataKey: "faxNum",
                 inputName: "faxNum"
             },
-             {
-                 dataKey: "CelNum",
-                 inputName: "CelNum"
-             },
             {
-                dataKey: "contactNo",
-                inputName: "contactNum"
+                dataKey: "CelNum",
+                inputName: "CelNum"
             },
             {
-                dataKey: "Snote",
-                inputName: "Snote"
+                dataKey: "contactNo",
+                inputName: "contactNo"
+            },
+            {
+                dataKey: "note",
+                inputName: "note"
             }
-          
+
         ];
 
         // fill up the fields
@@ -45,11 +49,11 @@ export function handleEditClick(table) {
 
         // edit the save button
         const saveButton = $("[name='SaveItem']");
-        saveButton.text("Edit Item");
+        saveButton.text("Edit Supplier");
 
         // edit header title
         const headerTitle = $("#addItemModalLabel");
-        headerTitle.text("Edit Item");
+        headerTitle.text("Edit Supplier");
 
         const addItemForm = $("#addItemForm");
         const addItemFormAction = addItemForm.attr("action");
