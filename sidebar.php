@@ -175,7 +175,7 @@ $LeveL3 = [
         ] //list of links on dropdown
     ],
     [
-        "name" =>  $userFullName, //name of the link
+        "name" => $userFullName, //name of the link
         "icon" => "account_circle", //material icon name
         "link" => "/dashboard/index.php", //link of the page
         "navigations" => [

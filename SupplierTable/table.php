@@ -192,7 +192,7 @@
                     [5, 'asc']
                 ]
             });
-            handleArchiveClick(table, 0, "./edit/archive.php", 4);
+            handleArchiveClick(table, 0, "./edit/archive.php", 5);
             handleEditClick(table);
             handleViewClick(table);
         });
