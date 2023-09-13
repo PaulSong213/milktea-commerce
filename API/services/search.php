@@ -4,7 +4,8 @@ $conn = connect();
 $serviceID = $_GET['serviceID']; // Make sure to sanitize and validate user input
 
 $query = "SELECT 
-transID, Services, services_tb.departmentID,RequestedName as requestedEmployeeID, PatientName as patientID, remarks,
+transID, Services, services_tb.departmentID,RequestedName as requestedEmployeeID, PatientName as patientID, remarks,ChargeNo,EnteredBy,WorkingDx,ChiefComplaint,testReason,
+services_tb.createDate AS transactionDate, services_tb.modifiedDate,services_tb.dateTimeCollection,
 dept.departmentID AS departmentID,
 dept.departmentDescription AS departmentDescription,
 dept.departmentName AS departmentName, 
