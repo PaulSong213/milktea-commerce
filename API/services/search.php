@@ -13,12 +13,21 @@ er.lname AS requestedEmployeeLastName,
 er.fname AS requestedEmployeeFirstName,
 er.mname AS requestedEmployeeMiddleName,
 er.title AS requestedEmployeeTitle,
-er.position AS RequestedEmployeePosition
+er.position AS RequestedEmployeePosition,
+p.hospistalrecordNo AS patientHospitalRecordNo,
+p.lname AS patientLastName,
+p.fname AS patientFirstName,
+p.mname AS patientMiddleName,
+p.bDate AS patientBDate,
+p.gender AS patientGender,
+p.age AS patientAge
 FROM services_tb
 LEFT JOIN 
     department_tb dept ON services_tb.departmentID = dept.departmentID
 LEFT JOIN 
     employee_tb er ON services_tb.RequestedName = er.DatabaseID
+LEFT JOIN
+patient_tb p ON services_tb.PatientName = p.hospistalrecordNo
 WHERE transID = '$serviceID'";
 
 $result = $conn->query($query);

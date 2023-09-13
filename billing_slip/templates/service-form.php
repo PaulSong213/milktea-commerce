@@ -110,7 +110,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script>
+    <script type="module">
+        import {
+            formatDate
+        } from "/Zarate/costum-js/date.js";
         async function showXrayForm(serviceID, appendToElement = null) {
             try {
                 Swal.fire({
@@ -129,6 +132,7 @@
                 console.log(service);
 
                 const servicesAvailedContainer = $("#servicesAvailedContainer");
+                servicesAvailedContainer.html("");
                 const itemsAvailed = JSON.parse(service.Services);
                 for (let i = 0; i < itemsAvailed.length; i++) {
                     const item = itemsAvailed[i];
@@ -148,6 +152,10 @@
 
                 $("#formRequestNo").text(`${service.transID}`);
                 $("#formHospitalNo").text(`${service.patientID}`);
+                $("#formPatientName").text(`${service.patientFirstName} ${service.patientMiddleName} ${service.patientLastName}`);
+                $("#formPatientBday").text(`${formatDate(new Date(service.patientBDate),false)}`);
+                $("#formPatientAge").text(`${service.patientAge}`);
+                $("#formPatientSex").text(`${service.patientGender}`);
 
                 if (appendToElement) {
                     $(appendToElement).html("");
