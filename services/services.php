@@ -54,6 +54,7 @@
             font-size: 16px;
             font-weight: bold;
             transition: background-color 0.3s ease;
+
         }
 
         .btn-primary:hover {
@@ -73,18 +74,20 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container-fluid">
         <div class="container-fluid py-5 form-container">
             <h1>Medical Services Request Form</h1>
-            <form method="post" action="process_request.php">
+            <form method="post" action="process.php">
                 <div class="row">
                     <div class="col-md-7">
-                        <div class="row">
+                        <div class="row text-left">
+                            <h6>SERVICES: </h6>
                             <div class="col-md-4 col-sm-12" onclick="showRadioOptions('lab')">
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" id="lab_radio" name="request_type" value="lab" class="custom-control-input">
-                                    <label class="custom-control-label" for="lab_radio"><i class="material-icons">local_hospital</i> Laboratory</label>
+                                    <label class="custom-control-label " for="lab_radio"><i class="material-icons">local_hospital</i> Laboratory</label>
                                 </div>
                             </div>
                             <div class="col-md-4 col-sm-12" onclick="showRadioOptions('ultrasound')">
@@ -170,9 +173,12 @@
                                 <tbody id="services_list_body" style="max-height: 200px; overflow: auto;"></tbody>
                             </table>
                         </div>
+                        <input type="hidden" name="table_html" id="table_html" value="">
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit Request</button>
+                <div class=" form-group mt-5 text-left">
+                    <button type="submit" class="btn btn-primary px-5" name="SaveItem"> Submit Request</button>
+                </div>
             </form>
         </div>
     </div>
