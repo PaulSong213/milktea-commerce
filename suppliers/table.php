@@ -199,10 +199,6 @@
                     searchColumn(this.api());
                 },
             });
-<<<<<<< HEAD:SupplierTable/table.php
-            handleArchiveClick(table, 0, "./edit/archive.php", 5);
-=======
->>>>>>> c22d5cf5d8a603bb88afd1c7dabf2ff33be06e34:suppliers/table.php
             handleEditClick(table);
             handleViewClick(table);
 
