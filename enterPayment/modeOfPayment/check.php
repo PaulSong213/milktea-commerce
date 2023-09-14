@@ -1,5 +1,5 @@
 <html>
-<div class="p-3 rounded mb-3 check-form d-none" style="background-color: #002240;">
+<div class="p-3 rounded mb-3 check-form d-none bg-white shadow" >
 
     <!-- Bank -->
     <div class="mb-3">
