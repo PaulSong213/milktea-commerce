@@ -68,7 +68,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="phoneCell">Cellphone</label>
-                                    <input type="text" id="phoneCell" name="phoneCell" placeholder="Enter Phone No. (Cellphone)" class=" form-control" autocomplete="on" required>
+                                    <input type="text" id="phoneCell" name="phoneCell" placeholder="Enter Phone No. (Cellphone)" class=" form-control" autocomplete="on" >
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="nationality">Nationality<span class="text-danger mx-1">*</span></label>
