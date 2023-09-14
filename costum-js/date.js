@@ -1,4 +1,4 @@
-export function formatDate(date) {
+export function formatDate(date, hasHours = true) {
     const months = [
         "Jan", "Feb", "Mar", "Apr", "May", "Jun",
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
@@ -8,6 +8,7 @@ export function formatDate(date) {
     const year = date.getFullYear();
     const hours = date.getHours();
     const minutes = date.getMinutes();
-    const formattedDate = `${month} ${day}, ${year} ${hours}:${minutes.toString().padStart(2, '0')}`;
+    let formattedDate = `${month} ${day}, ${year}`;
+    if (hasHours) formattedDate += ` ${hours}:${minutes.toString().padStart(2, '0')}`;
     return formattedDate;
 }

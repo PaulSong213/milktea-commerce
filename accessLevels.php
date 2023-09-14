@@ -6,7 +6,8 @@ if (!isset($_SESSION['user'])) header("Location: /Zarate/logout.php");
 $userData = json_decode($_SESSION['user'], true);
 $userLevel = $userData["AccessLevel"];
 
-// PATIENT ACCESS
+$userFullName = $userData['lname'] . ', ' . $userData['fname'] .  ' ' . $userData['mname'];
+
 $levelOne = [
     [
         "name" => "Patient", //name of the link
@@ -137,6 +138,32 @@ $levelThree = [
             [
                 "name" => "Request Services", //name of the linksub-link
                 "link" => "/services/index.php", //link of the page
+            ],
+        ] //list of links on dropdown
+    ],
+    [
+        "name" => "Enter Supplier", //name of the link
+        "icon" => "local_shipping", //material icon name
+        "link" => "/supplierEnter/index.php", //link of the page
+        "navigations" => [
+            [
+                "name" => "Supplier Info", //name of the link
+                "link" => "/supplierEnter/index.php", //link of the page
+            ],
+            [
+                "name" => "Item Types", //name of the link
+                "link" => "/itemType/index.php", //link of the page
+            ],
+            [
+                "name" => "Supplier", //name of the link
+                "icon" => "local_shipping", //material icon name
+                "link" => "/suppliers/index.php", //link of the page
+                "navigations" => [] //list of links on dropdown
+            ],
+            [
+                "name" => "Expenses", //name of the link
+                "link" => "/Expenses/index.php", //link of the page
+                "navigations" => [] //list of links on dropdown
             ],
         ] //list of links on dropdown
     ],
@@ -332,7 +359,7 @@ switch ($userLevel) {
 }
 
 $accountSettings = [
-    "name" => "Account Settings", //name of the link
+    "name" => "$userFullName", //name of the link
     "icon" => "account_circle", //material icon name
     "link" => "/account/index.php", //link of the page
     "navigations" => [

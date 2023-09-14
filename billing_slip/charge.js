@@ -101,6 +101,14 @@ function updateProductInfo(input) {
                 idInput.value = response.id;
                 itemTypeIDInput.value = response.itemTypeID;
 
+                for (var i = 0; i < datalist.options.length; i++) {
+                    if (datalist.options[i].value === selectedValue) {
+                        datalist.options[i].disabled = true;
+                        CalculateValues(row);
+                        break;
+                    }
+                }
+
                 qtyInput.addEventListener("change", function (e) {
                     if (response.is_consumable != "1") return; // item is not consumable
                     const value = e.target.value;
@@ -117,14 +125,6 @@ function updateProductInfo(input) {
                         });
                     }
                 });
-
-                for (var i = 0; i < datalist.options.length; i++) {
-                    if (datalist.options[i].value === selectedValue) {
-                        datalist.options[i].disabled = true;
-                        CalculateValues(row);
-                        break;
-                    }
-                }
 
                 console.log("Response:", response);
             } else {
