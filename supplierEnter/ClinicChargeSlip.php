@@ -13,7 +13,7 @@ if ($conn->connect_error) {
 // Function to get the last SalesID
 function getLastSalesID($conn)
 {
-    $querySalesID = "SELECT MAX(SalesID) AS LastSalesID FROM clinicuse_tb";
+    $querySalesID = "SELECT MAX(supplier_ref) AS LastSupplier_ref FROM supplier_enter";
     $result = $conn->query($querySalesID);
 
     if ($result->num_rows > 0) {
@@ -24,7 +24,7 @@ function getLastSalesID($conn)
     }
 }
 // Get the last SalesID
-$lastSalesID = getLastSalesID($conn);
+$lastSupplier_ref = getLastSalesID($conn);
 
 function getLastBillingID($conn)
 {
