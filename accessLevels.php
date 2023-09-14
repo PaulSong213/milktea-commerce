@@ -141,6 +141,32 @@ $levelThree = [
         ] //list of links on dropdown
     ],
     [
+        "name" => "Enter Supplier", //name of the link
+        "icon" => "local_shipping", //material icon name
+        "link" => "/supplierEnter/index.php", //link of the page
+        "navigations" => [
+            [
+                "name" => "Supplier Info", //name of the link
+                "link" => "/supplierEnter/index.php", //link of the page
+            ],
+            [
+                "name" => "Item Types", //name of the link
+                "link" => "/itemType/index.php", //link of the page
+            ],
+            [
+                "name" => "Supplier", //name of the link
+                "icon" => "local_shipping", //material icon name
+                "link" => "/suppliers/index.php", //link of the page
+                "navigations" => [] //list of links on dropdown
+            ],
+            [
+                "name" => "Expenses", //name of the link
+                "link" => "/Expenses/index.php", //link of the page
+                "navigations" => [] //list of links on dropdown
+            ],
+        ] //list of links on dropdown
+    ],
+    [
         "name" => "Inventory", //name of the link
         "icon" => "vaccines", //material icon name
         "link" => "/inventory/index.php", //link of the page
