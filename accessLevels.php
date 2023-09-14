@@ -263,6 +263,18 @@ $levelFour = [
                 "name" => "Request Services", //name of the linksub-link
                 "link" => "/services/index.php", //link of the page
             ],
+            [
+                "name" => "Laboratory Result", //name of the linksub-link
+                "link" => "/resultLab/index.php", //link of the page
+            ],
+            [
+                "name" => "Ultrasound Result", //name of the linksub-link
+                "link" => "/resultUltrasound/index.php", //link of the page
+            ],
+            [
+                "name" => "X-Ray Result", //name of the linksub-link
+                "link" => "/resultXray/index.php", //link of the page
+            ],
         ] //list of links on dropdown
     ],
     [
