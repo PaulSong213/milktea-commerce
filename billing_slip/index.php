@@ -40,6 +40,7 @@ if (isset($_SESSION['user'])) {
             <?php include('../php/session-dialog.php') ?>
             <?php include('./templates/charge-slip.php') ?>
             <?php require_once('./templates/payment-slip.php'); ?>
+            <?php require_once('./templates/service-form.php'); ?>
         </div>
     </div>
 
