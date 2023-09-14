@@ -146,11 +146,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group text-left">
-                            <label for="patient_name">Patient Name:</label>
-                            <input type="text" name="patient_name" id="patient_name" list="patientList" class="form-control" placeholder="Enter Patient Name ">
-                            <?php require_once('../API/datalist/patient-list.php') ?>
-                        </div>
+                        <?php require_once('./components/patients.php') ?>
                         <div class="form-group text-left">
                             <label for="doctor_name">Requested By Name:</label>
                             <input type="text" name="doctor_name" id="doctor_name" class="form-control" list="employeeList" placeholder="Enter Requested by Name ">
