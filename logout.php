@@ -20,7 +20,7 @@
    $result1 = mysqli_query($conn1, $sql1);
    if ($result1) {
       // success
-      $_SESSION["alert_message"] = "Successfully Added an Employee";
+    
       $_SESSION["alert_message_success"] = true;
       unset($_SESSION['user']);
       header("Location: /Zarate/index.php"); // Change 'login.php' to your actual login page
