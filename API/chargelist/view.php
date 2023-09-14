@@ -9,7 +9,7 @@ $conn = connect();
 $baseTable = "sales_tb";
 
 // Define the base query
-$baseQuery = "SELECT * FROM $baseTable ORDER BY SalesID DESC";
+$baseQuery = "SELECT * FROM $baseTable";
 
 // Retrieve DataTables' request parameters
 $start = $_POST['start']; // Start index for pagination
@@ -21,18 +21,20 @@ $query = $baseQuery;
 if (!empty($searchValue)) {
     $query .= " WHERE
 SalesID LIKE '%$searchValue%'
-OR PatientAcct	LIKE '%$searchValue%'
+OR PatientAcct LIKE '%$searchValue%'
 OR RequestedName LIKE '%$searchValue%'
-OR EnteredName LIKE'%$searchValue%'
-OR billingID LIKE'%$searchValue%'
+OR EnteredName LIKE '%$searchValue%'
+OR billingID LIKE '%$searchValue%'
 OR PatientType LIKE '%$searchValue%'
 OR UnpaidPatientName LIKE '%$searchValue%'
-OR createDate	LIKE '%$searchValue%'
+OR createDate LIKE '%$searchValue%'
 ";
 }
 
 // Add the limit condition for all cases
-$query .= " LIMIT $start, $length";
+$query .= " 
+ORDER BY SalesID DESC
+LIMIT $start, $length";
 
 // Execute the query
 $result = $conn->query($query);

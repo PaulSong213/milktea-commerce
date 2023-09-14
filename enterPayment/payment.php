@@ -16,24 +16,17 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
 <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-    <style>
-        #parent {
-            background-color: <?= isset($_GET['type']) && $_GET['type'] === 'bill' ? "#262626" : "#000e1a" ?>;
-        }
-    </style>
 </head>
 
-<body class="fluid" id="parent">
-    <form method="POST" action="../API/payment/create.php" id="addItemForm" class="container-fluid p-3" autocomplete="off">
-        <div class="row text-white mb-4">
+<body class="fluid" id="parent" style="background-color: #f7f7f7">
+    <form method="POST" action="../API/paymbackground-color: #f7f7f7ent/create.php" id="addItemForm" class="container-fluid p-3" autocomplete="off">
+        <div class="row mb-4">
             <h3 class="text-uppercase my-4 text">
                 ENTER PAYMENT | <?= $_GET['type'] ?? 'CASH' ?>
             </h3>
 
             <div class="row">
-                <div class="col-12 col-lg-6">
-
+                <div class="col-12 col-lg-6 bg-white rounded shadow pb-4" style="height: max-content;">
                     <!-- Type -->
                     <div class="form-group row mt-3 pe-3">
                         <label class="form-label">Type</label>
@@ -44,7 +37,7 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
                                     <i class="material-icons d-inline mx-2">attach_money</i>NYP (Charge)</label>
                             </div>
                         </div>
-                        <div class="col radio-btn btn text-white border border-secondary ms-3">
+                        <div class="col radio-btn btn border border-secondary ms-3">
                             <div class="form-check d-flex">
                                 <input class="form-check-input billTypeRadio" type="radio" id="billRadio" name="type" value="bill" required />
                                 <label class="form-check-label h-full d-flex align-items-center" for="billRadio">
@@ -93,7 +86,7 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
                                     <i class="material-icons d-inline mx-2">attach_money</i>CASH</label>
                             </div>
                         </div>
-                        <div class="col radio-btn btn text-white border border-secondary ms-3">
+                        <div class="col radio-btn btn border border-secondary ms-3">
                             <div class="form-check d-flex">
                                 <input class="form-check-input" type="radio" id="checkRadio" name="modeOfPayment" value="check" required />
                                 <label class="form-check-label h-full d-flex align-items-center" for="checkRadio">
@@ -127,30 +120,30 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
                     require_once('./modeOfPayment/cash.php');
                     ?>
 
-                    <div id="chargeInfoParent" class="p-3 rounded d-none mb-3" style="background-color: #002240;">
+                    <div id="chargeInfoParent" class="p-3 rounded d-none mb-3 bg-white shadow" >
 
                         <!-- Charge to -->
                         <div class="mb-3">
                             <label class="form-label" for="chargedTo">Charged to</label>
-                            <input readonly type="text" id="chargedTo" name="chargedTo" class="form-control-plaintext text-white fw-bold fs-6 border border-white rounded px-2" value="Test">
+                            <input readonly type="text" id="chargedTo" name="chargedTo" class="form-control-plaintext fw-bold fs-6 border border-secondary rounded px-2" value="Test">
                         </div>
 
                         <!-- Bill Total -->
                         <div class="mb-3">
                             <label class="form-label" for="billTotal">Bill Total</label>
-                            <input readonly type="text" id="billTotal" name="billTotal" class="form-control-plaintext text-white fw-bold fs-6 border border-white rounded px-2">
+                            <input readonly type="text" id="billTotal" name="billTotal" class="form-control-plaintext fw-bold fs-6 border border-secondary rounded px-2">
                         </div>
 
                         <!-- Remaning Balance -->
                         <div class="mb-3">
                             <label class="form-label" for="remainingBalance">Remaining Balance</label>
-                            <input readonly type="text" id="remainingBalance" name="remainingBalance" class="form-control-plaintext text-danger  fw-bold fs-6 border border-white rounded px-2">
+                            <input readonly type="text" id="remainingBalance" name="remainingBalance" class="form-control-plaintext text-danger  fw-bold fs-6 border border-secondary rounded px-2">
                         </div>
 
                         <!-- Amount Paid -->
                         <div class="mt-3 mb-3">
                             <label class="form-label" for="amountPaid">Amount Paid</label>
-                            <input readonly type="text" id="amountPaid" name="amountPaid" class="form-control-plaintext text-white fw-bold fs-6 border border-white rounded px-2">
+                            <input readonly type="text" id="amountPaid" name="amountPaid" class="form-control-plaintext fw-bold fs-6 border border-secondary rounded px-2">
                         </div>
 
                     </div>
@@ -191,8 +184,8 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
         $("#timePaid").val(formattedTime);
 
         $(".radio-btn").click(function() {
-            $(this).parent().find(".radio-btn").removeClass("btn-dark").addClass("border border-secondary text-white");
-            $(this).removeClass("border border-secondary text-white").addClass("btn-dark");
+            $(this).parent().find(".radio-btn").removeClass("btn-dark").addClass("border border-secondary");
+            $(this).removeClass("border border-secondary").addClass("btn-dark");
             const radioInput = $(this).find("input");
             radioInput.prop("checked", true);
             radioInput.trigger("change");
