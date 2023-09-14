@@ -69,7 +69,7 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 
-    <script script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         async function showBill(billingID, appendToElement = null) {
             console.log(billingID);
@@ -237,7 +237,7 @@
         if (isset($_SESSION['printSalesInsertedId'])) {
             $printSalesInsertedId = $_SESSION['printSalesInsertedId'];
             echo "showBill(`" . $printSalesInsertedId . "`)";
-            // unset($_SESSION['printSalesInsertedId']);
+            unset($_SESSION['printSalesInsertedId']);
         }
         ?>
 
