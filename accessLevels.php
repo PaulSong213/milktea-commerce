@@ -5,9 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 if (!isset($_SESSION['user'])) header("Location: /Zarate/logout.php");
 $userData = json_decode($_SESSION['user'], true);
 $userLevel = $userData["AccessLevel"];
-
 $userFullName = $userData['lname'] . ', ' . $userData['fname'] .  ' ' . $userData['mname'];
-
 $levelOne = [
     [
         "name" => "Patient", //name of the link
@@ -33,7 +31,6 @@ $levelOne = [
         ] //list of links on dropdown
     ],
 ];
-
 // Employee Access
 $levelTwo = [
     [
@@ -83,7 +80,6 @@ $levelTwo = [
         ] //list of links on dropdown
     ],
 ];
-
 // Cashier Accer
 $levelThree = [
 
