@@ -1,7 +1,7 @@
 <?php
 // Include the connection file
 require_once '../php/connect.php';
-
+session_start();
 // Establish a database connection
 $conn = connect();
 
@@ -15,7 +15,6 @@ if (isset($_POST['SaveItem'])) {
     // Retrieve form data
     $services = $_POST['table'];
     $RequestedName = $_POST['doctor_name'];
-    $patientHospitalRecordNo = $_POST['patientHospitalRecordNo'];
     $remarks = $_POST['additional_info'];
     $department = $_POST['department'];
     $ChiefComplaint = $_POST['Chief_Complaint'];
@@ -23,14 +22,14 @@ if (isset($_POST['SaveItem'])) {
     $EnteredBy = $_POST['EnteredBy'];
     $ChargeNo = $_POST['ChargeNo'];
     $reason = $_POST['reason'];
+    $patientHospitalRecordNo = $_POST['patientHospitalRecordNo'];
 
     // Extract the last two digits from RequestedName
     $lastTwoDigits = substr($RequestedName, -2);
 
     // Check if the patient already exists
     if ($patientHospitalRecordNo) {
-        die();
-        $checkQuery = "SELECT hospitalRecordNo FROM patient_tb WHERE hospitalRecordNo = '$patientHospitalRecordNo'";
+        $checkQuery = "SELECT hospistalrecordNo  FROM patient_tb WHERE hospistalrecordNo = '$patientHospitalRecordNo'";
         $checkResult = mysqli_query($conn, $checkQuery);
         if (mysqli_num_rows($checkResult) <= 0) { // patient has no record
             // insert the new patient
@@ -40,9 +39,7 @@ if (isset($_POST['SaveItem'])) {
             $patientBdate = $_POST['patientBdate'];
             $patientAge = $_POST['patientAge'];
             $patientGender = $_POST['patientGender'];
-            $insertPatientQuery = "INSERT INTO `patient_tb` (`hospistalrecordNo`, `lname`, `fname`, `mname`, `age`, `gender`, `bDate`) VALUES ('$patientHospitalRecordNo','$patientLastname','$patientLastname','$patientMiddlename','$patientAge','$patientGender');";
-            $insertPatientResult = mysqli_query($conn, $insertPatientQuery);
-
+            $insertPatientQuery = "INSERT INTO `patient_tb` (`hospistalrecordNo`, `lname`, `fname`, `mname`, `age`, `gender`, `bDate`) VALUES ('$patientHospitalRecordNo','$patientLastname','$patientFirstname','$patientMiddlename','$patientAge','$patientGender','$patientBdate');";
             $resultInsertPatient = mysqli_query($conn, $insertPatientQuery);
             if (!$resultInsertPatient) {
                 $_SESSION["alert_message"] = "Failed to insert data into the database. Error Details: " . mysqli_error($conn);
@@ -53,11 +50,6 @@ if (isset($_POST['SaveItem'])) {
         }
     }
 
-
-
-    // Create the INSERT query
-    $insertQuery = "INSERT INTO services_tb ( Services, RequestedName, PatientName, remarks)
-                    VALUES ( '$selectedServices', '$lastTwoDigits', '$patientHospitalRecordNo', '$remarks')";
     // Define the SQL query
     $insertQuery = "INSERT INTO services_tb (Services, RequestedName, PatientName, remarks, departmentID, ChiefComplaint, WorkingDX, EnteredBy, ChargeNo, reason, Date)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
@@ -75,14 +67,15 @@ if (isset($_POST['SaveItem'])) {
     }
 
     // Bind parameters to the prepared statement
-    $stmt->bind_param("ssssisssss", $services, $RequestedName, $PatientName, $remarks, $department, $ChiefComplaint, $WorkingDX, $EnteredBy, $ChargeNo, $reason);
+    $stmt->bind_param("ssssisssss", $services, $RequestedName, $patientHospitalRecordNo, $remarks, $department, $ChiefComplaint, $WorkingDX, $EnteredBy, $ChargeNo, $reason);
 
     // Execute the statement
     if ($stmt->execute()) {
+
         // Success: Redirect with success message
         $_SESSION["alert_message"] = "Requested successfully.";
         $_SESSION["alert_message_success"] = true;
-
+        $_SESSION["printServiceFormId"] = $conn->insert_id;
         $stmt->close();
         $conn->close();
         header("Location: ../services/index.php");
@@ -103,6 +96,3 @@ if (isset($_POST['SaveItem'])) {
     header("Location: ../services/index.php");
     die();
 }
-
-// Close the database connection
-$conn->close();

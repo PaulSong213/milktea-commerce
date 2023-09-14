@@ -24,6 +24,7 @@
         <div class="d-block w-100">
             <?php include('../php/session-dialog.php') ?>
             <?php include('./services.php') ?>
+            <?php include('../billing_slip/templates/service-form.php') ?>
         </div>
     </div>
     <!-- end of main -->

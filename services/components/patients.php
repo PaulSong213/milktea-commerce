@@ -3,7 +3,7 @@
     <div class="row mb-1">
         <div class="col-6">
             <label for="patientHospitalRecordNo" class="form-label">Hospital #</label>
-            <input type="text" placeholder="Enter Patient Hospital No." class="form-select border border-secondary" id="patientHospitalRecordNo" name="patientHospitalRecordNo" list="patientList" correctData="patientsData" required autocomplete="off">
+            <input type="text" placeholder="Enter Patient Hospital No." class="form-select border border-secondary" id="patientHospitalRecordNo" name="patientHospitalRecordNo" list="patientList" required autocomplete="off">
             <?php require_once('../API/datalist/patient-list.php') ?>
             <small id="patientRecordIndicator" class="text-success fw-bold d-none">PATIENT HAS PREVIOUS RECORD</small>
         </div>

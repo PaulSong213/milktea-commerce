@@ -85,7 +85,7 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
     <div class="container-fluid mb-5">
         <div class="container-fluid py-5 form-container">
             <h1>Medical Services Request Form</h1>
-            <form method="post" action="process.php">
+            <form method="post" action="process.php" id="addItemForm">
                 <div class="row">
                     <div class="col-md-7">
                         <div class="row text-left">
@@ -167,14 +167,12 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
                             <?php require_once('../API/datalist/chargeNo.php') ?>
                         </div>
                         <div class="form-group text-left">
-                            <label for="patient_name">Patient Name:</label>
-                            <input type="text" name="patient_name" id="patient_name" list="patientList" class="form-control" placeholder="Enter Patient Name ">
-                            <?php require_once('../API/datalist/patient-list.php') ?>
-                        </div>
-                        <div class="form-group text-left">
                             <label for="doctor_name">Requested By Name:</label>
-                            <input type="text" name="doctor_name" id="doctor_name" class="form-control" list="employeeList" placeholder="Enter Requested by Name ">
+                            <input type="text" name="doctor_name" id="doctor_name" class="form-control" list="employeeList" placeholder="Enter Requested by Name" correctData="employeesData">
                             <?php require_once('../API/datalist/employee.php') ?>
+                            <small class="feedback d-none bg-danger p-1 rounded my-1">
+                                Please select a valid Requestor
+                            </small>
                         </div>
                         <div class="form-group text-left">
                             <label for="additional_info">Remarks/Special Instructions:</label>
@@ -317,6 +315,15 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
             document.getElementById("table").value = jsonData;
             console.log(document.getElementById("table").value);
         }
+    </script>
+
+    <script type="module">
+        import {
+            validateDataList
+        } from "../costum-js/datalist.js";
+        validateDataList({
+            employeesData: JSON.parse('<?= $employeesData ?>'),
+        });
     </script>
 
 </body>
