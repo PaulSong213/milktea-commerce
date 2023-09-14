@@ -52,11 +52,12 @@ $LastBillingID = getLastBillingID($conn);
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 
-<body class="fluid bg-dark" style="background-color: black;">
+<body class="fluid bg-light text-dark" >
     <form method="POST" action="databasefunctions.php" id="addItemForm" class="container-fluid p-3" autocomplete="off">
-        <div class="row text-white mb-4">
+        <div class="row text-dark mb-4 border border-dark rounded mr-3 p-3">
             <h3 class="app-title mt-4 text">CHARGE IPD BILLING /PATIENT INFORMATION</h3>
-            <div class="col-md-6 p-4">
+            
+            <div class="col-md-6 p-4 ">
                 <div class="row">
                     <div class="form-group fw-bold">
                         <label for="chargeSlipNumber">Charge Slip Number</label>
@@ -209,9 +210,9 @@ $LastBillingID = getLastBillingID($conn);
             </div>
         </div>
 
-        <div class="table-container">
+        <div class="table-container p-4  mr-3 bg-dark rounded">
             <h3 class="app-title mt-4 text-white">PRODUCT CART:</h3>
-            <div class="table-responsive p-2">
+            <div class="table-responsive ">
                 <table class="table table-bordered wide-table">
                     <thead class="thead-dark">
                         <tr>
@@ -253,7 +254,7 @@ $LastBillingID = getLastBillingID($conn);
                     </tbody>
                 </table>
             </div>
-            <button type="button" class="btn btn-primary add-button" id="addRow">ADD PRODUCT</button>
+            <button type="button" class="btn btn-primary add-button rounded" id="addRow">ADD PRODUCT</button>
         </div>
     </form>
     <script script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
