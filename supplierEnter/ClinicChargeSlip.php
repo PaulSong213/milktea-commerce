@@ -13,7 +13,7 @@ if ($conn->connect_error) {
 // Function to get the last SalesID
 function getLastSalesID($conn)
 {
-    $querySalesID = "SELECT MAX(SalesID) AS LastSalesID FROM clinicuse_tb";
+    $querySalesID = "SELECT MAX(supplier_ref) AS LastSalesID FROM supplier_enter";
     $result = $conn->query($querySalesID);
 
     if ($result->num_rows > 0) {
@@ -23,23 +23,8 @@ function getLastSalesID($conn)
         return 0; // If no records found
     }
 }
-// Get the last SalesID
 $lastSalesID = getLastSalesID($conn);
 
-function getLastBillingID($conn)
-{
-    $querySalesID = "SELECT MAX(SalesID) AS LastBillingID FROM clinicuse_tb";
-    $result = $conn->query($querySalesID);
-
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        return $row['LastBillingID'];
-    } else {
-        return 0; // If no records found
-    }
-}
-// Get the last SalesID
-$LastBillingID = getLastBillingID($conn);
 ?>
 
 <head>

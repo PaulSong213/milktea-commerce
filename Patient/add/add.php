@@ -1,5 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php
+require_once '../php/connect.php';
+$conn = connect();
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+$loggedInUser = isset($_SESSION['user']) ? json_decode($_SESSION['user']) : null;
+$currentLoggedInEncoder = $loggedInUser->title . ' ' . $loggedInUser->lname . ',' . $loggedInUser->fname . ' ' . $loggedInUser->mname . ' | ID: ' . $loggedInUser->DatabaseID;
+$currentLoggedInEncoderID = $loggedInUser->DatabaseID;
+
+// Function to get the last SalesID
+function getLastSalesID($conn)
+{
+    $querySalesID = "SELECT MAX(hospistalrecordNo) AS LastSalesID FROM patient_tb";
+    $result = $conn->query($querySalesID);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row['LastSalesID'];
+    } else {
+        return 0; // If no records found
+    }
+}
+// Get the last SalesID
+$lastSalesID = getLastSalesID($conn);
+
+function getLastBillingID($conn)
+{
+    $querySalesID = "SELECT MAX(billingID) AS LastBillingID FROM billing_tb";
+    $result = $conn->query($querySalesID);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row['LastBillingID'];
+    } else {
+        return 0; // If no records found
+    }
+}
+// Get the last SalesID
+$LastBillingID = getLastBillingID($conn);
+?>
+
+
 
 <head>
     <title>Suggested Input Text</title>
@@ -18,17 +62,32 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-4 border">
                                 <b><label class="form-label" for="lname">Patient Information<span class="text-danger mx-1">*</span></label></b>
                                 <!-- LastName -->
+
+                                <div class="mb-3">
+                                    <label for="chargeSlipNumber">Hospital Record No.</label>
+                                    <input type="text" class="form-control" name="chargeSlipNumber" placeholder="Enter Charge Slip Number" required value="<?php echo "00" . ($lastSalesID + 1); ?>" readonly>
+                                </div>
+
                                 <div class="mb-3">
                                     <label class="form-label" for="lname">Last Name<span class="text-danger mx-1">*</span></label>
-                                    <input type="text" id="lname" name="lname" class="form-control" placeholder="Enter Last Name" oninput="convertToUpperCase(this)" autocomplete="on" required>
+                                    <input type="text" id="lname" name="lname" class="form-control" placeholder="Enter Last Name" oninput="convertToUpperCase(this)" list="patientList" correctData="patientsData" required>
+                                    <?php
+                                    require_once('../API/datalist/patient-listinput.php');
+
+
+
+                                    ?>
                                 </div>
                                 <!-- FirstName -->
                                 <div class="mb-3">
-                                    <label class="form-label" for="fname">First Name<span class="text-danger mx-1">*</span></label>
-                                    <input type="text" id="fname" name="fname" class="form-control" placeholder="Enter First Name" oninput="convertToUpperCase(this)" autocomplete="on" required>
+                                    <label class="form-label" for="lname">Last Name<span class="text-danger mx-1">*</span></label>
+                                    <input type="text" id="fname" name="fname" class="form-control" placeholder="Enter Last Name" oninput="convertToUpperCase(this)" list="patientListF" correctData="patientsData" required>
+                                    <?php
+                                    require_once('../API/datalist/patient-listinputf.php');
+                                    ?>
                                 </div>
                                 <!-- Middle Name -->
                                 <div class="mb-3">
@@ -68,7 +127,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="phoneCell">Cellphone</label>
-                                    <input type="text" id="phoneCell" name="phoneCell" placeholder="Enter Phone No. (Cellphone)" class=" form-control" autocomplete="on" >
+                                    <input type="text" id="phoneCell" name="phoneCell" placeholder="Enter Phone No. (Cellphone)" class=" form-control" autocomplete="on">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="nationality">Nationality<span class="text-danger mx-1">*</span></label>
@@ -96,7 +155,7 @@
                                 <!-- Add more fields for the first column as needed -->
 
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 border">
 
 
                                 <div class="mb-3">
@@ -168,7 +227,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 border border-round">
 
                                 <div class="mb-3">
                                     <label class="form-label" for="certNo">Cert No.</label>
@@ -258,6 +317,29 @@
             }
         });
     });
+
+    $('#lname').on('input', function() {
+        var enteredLname = $(this).val();
+        $.ajax({
+            url: './validate_lastname.php', // Replace with the actual path to your PHP validation script
+            method: 'POST',
+            data: {
+                lname: enteredLname
+            },
+            success: function(response) {
+                if (response === 'already_exists') {
+                    // Data already exists in the database
+                    alert('Last name already exists in the database.');
+                } else if (response === 'not_exists') {
+                    // Data does not exist in the database
+                    // You can handle this case as needed
+                } else if (response === 'invalid_input') {
+                    // Handle invalid or missing input
+                    // You can display an error message or take appropriate action
+                }
+            }
+        });
+    });
 </script>
 
 <script>
@@ -265,3 +347,6 @@
         input.value = input.value.toUpperCase();
     }
 </script>
+
+<?php
+// Include your database connection code here
