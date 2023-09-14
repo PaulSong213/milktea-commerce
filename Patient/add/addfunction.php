@@ -55,12 +55,26 @@ if (isset($_POST['SaveItem'])) {
     $activeDiagnosis = $_POST['activeDiagnosis'];
     $activeMeds = $_POST['activeMeds'];
 
+  
+    $duplicateCheckSql = "SELECT * FROM patient_tb WHERE 
+                                        lname = '$lname' 
+                                        AND fname = '$fname' 
+                                       
+                                        ";
+    $duplicateCheckResult = mysqli_query($conn, $duplicateCheckSql);
 
-    
+    if (mysqli_num_rows($duplicateCheckResult) > 0) {
+        // Duplicate records exist
+        $_SESSION["alert_message"] = "Entered Patient has already record in the system.";
+        $_SESSION["alert_message_error"] = true;
+        header("Location: ../index.php");
+        die();
+    }
+
 
 
     $sql = "INSERT INTO patient_tb (lname, fname, mname, age, gender, bDate, address, phone_home, phone_work, cellNo, email, occupation, employerName, employerDetail, workAddress, nationality, religion, maritalStatus, spouseName, spouseContact, motherName, motherContact, fatherContact, phMember, phNo, HMO, typeHMO, CertNo, emergencyName, patientRelationship, emergencyAddress, emergencyHome, emergencyWork, emergencyCell, patientAllergies, patientsurgicalHistory, patientActiveDiag, patientActiveMed, createDate, modifiedDate, fatherName)
-    VALUES ('$lname','$fname','$mname','$age ','$gender',' $bdate','$address','$phone_home',' $phone_work','$phone_cell','$email','$occupation','$employerName','$employeeDetail','$workAddress','$nationality','$religion','$maritalStatus','$spouseName',' $spousecontactNo',' $MotherName','$mothercontactNo','$FatherName',' $philHealth','$phPin','$HMO','$typeHMO','$certNo','$emergencyname','$emergencyRelation','$emergencyAddress',' $emergencyphoneHome','$emergencyphoneWork','$emergencyCphone','$allergies','$surgicalHistory', '$activeDiagnosis', ' $activeMeds', NOW(),NOW(), '$fathercontactNo')";
+    VALUES ('$lname','$fname','$mname','$age ','$gender','$bdate','$address','$phone_home',' $phone_work','$phone_cell','$email','$occupation','$employerName','$employeeDetail','$workAddress','$nationality','$religion','$maritalStatus','$spouseName',' $spousecontactNo',' $MotherName','$mothercontactNo','$FatherName',' $philHealth','$phPin','$HMO','$typeHMO','$certNo','$emergencyname','$emergencyRelation','$emergencyAddress',' $emergencyphoneHome','$emergencyphoneWork','$emergencyCphone','$allergies','$surgicalHistory', '$activeDiagnosis', ' $activeMeds', NOW(),NOW(), '$fathercontactNo')";
 
     $result = mysqli_query($conn, $sql);
     if ($result) {
