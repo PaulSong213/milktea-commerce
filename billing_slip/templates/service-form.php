@@ -1,14 +1,10 @@
 <!doctype html>
 <html lang="en">
 
-<head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-</head>
-
 <body>
     <main class="modal fade" data-bs-backdrop="static" id="serviceModal" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
-            <div class="modal-content">
+            <div class="modal-content text-dark">
                 <div class="modal-header">
                     <div class="d-flex align-center">
                         <h5 class="modal-title" id="serviceModalLabel">Print Request Form</h5>
@@ -129,15 +125,24 @@
         </div>
     </main>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script type="module">
-        import {
-            formatDate
-        } from "/Zarate/costum-js/date.js";
-        window.formatDate = formatDate;
-    </script>
-    <script defer>
+
+    <script>
+        function formatDate(date, hasHours = true) {
+            const months = [
+                "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+            ];
+            const day = date.getDate();
+            const month = months[date.getMonth()];
+            const year = date.getFullYear();
+            const hours = date.getHours();
+            const minutes = date.getMinutes();
+            let formattedDate = `${month} ${day}, ${year}`;
+            if (hasHours) formattedDate += ` ${hours}:${minutes.toString().padStart(2, '0')}`;
+            return formattedDate;
+        }
+
         async function showServiceForm(serviceID, appendToElement = null) {
             try {
                 Swal.fire({
@@ -159,9 +164,10 @@
                 servicesAvailedContainer.html("");
                 const itemsAvailed = JSON.parse(service.Services);
                 for (let i = 0; i < itemsAvailed.length; i++) {
-                    const item = itemsAvailed[i];
+                    const item = itemsAvailed[i][0];
+                    if (!item) continue;
                     servicesAvailedContainer.append($(`
-                    <span>✓ ${item.product_desciption}</span>
+                    <span>✓ ${item}</span>
                     `));
                 }
                 console.log(service.departmentDescription);
@@ -188,7 +194,7 @@
                 $("#formCheifComplaint").text(`${service.ChiefComplaint}`);
                 $("#workingDXComplaint").text(`${service.WorkingDx}`);
                 if (service.remarks) $("#formRemarks").text(`${service.remarks}`);
-                $("#testReason").text(`${service.testReason}`);
+                $("#testReason").text(`${service.reason}`);
                 $("#formDate").text(`${window.formatDate(new Date(service.transactionDate))}`);
                 const dateTimeCollection = window.formatDate(new Date(service.dateTimeCollection));
                 $("#dateTimeCollection").text(`${service.dateTimeCollection ? dateTimeCollection : "" }`);
