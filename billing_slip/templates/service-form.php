@@ -97,7 +97,7 @@
                             <div class="d-flex flex-column mb-1 flex-grow-1 " id="servicesAvailedContainer"></div>
                             <div class="border border-dark h-max p-1 d-flex flex-column Ultrasound-only d-none" style="height: max-content; width: 35%">
                                 <span class="text-center" style="font-size: 12px;">Remarks/Special Instructions:</span>
-                                <span id="formRemarks" class="text-decoration-underline w-full d-block text-center" >None</span>
+                                <span id="formRemarks" class="text-decoration-underline w-full d-block text-center">None</span>
                             </div>
                         </div>
 
@@ -174,19 +174,24 @@
 
                 if (service.departmentDescription == "Ultrasound") $("#requestorType").text("REQUESTING MD");
 
-                $("#formRequestNo").text(`${service.transID}`);
                 $("#formHospitalNo").text(`${service.patientID}`);
-                $("#formPatientName").text(`${service.patientFirstName} ${service.patientMiddleName} ${service.patientLastName}`);
-                $("#formPatientBday").text(`${window.formatDate(new Date(service.patientBDate),false)}`);
-                $("#formPatientAge").text(`${service.patientAge}`);
-                $("#formPatientSex").text(`${service.patientGender}`);
-                $("#formCSNo").text(`${service.ChargeNo}`);
+                // user has patient record
+                if (service.patientFirstName && service.patientLastName) {
+                    $("#formPatientName").text(`${service.patientFirstName} ${service.patientMiddleName} ${service.patientLastName}`);
+                    $("#formPatientBday").text(`${window.formatDate(new Date(service.patientBDate),false)}`);
+                    $("#formPatientAge").text(`${service.patientAge}`);
+                    $("#formPatientSex").text(`${service.patientGender}`);
+
+                }
+                $("#formRequestNo").text(`${service.transID}`);
+                $("#formCSNo").text(`${service.ChargeNo > 0 ? service.ChargeNo : ""}`);
                 $("#formCheifComplaint").text(`${service.ChiefComplaint}`);
                 $("#workingDXComplaint").text(`${service.WorkingDx}`);
-                if(service.remarks)$("#formRemarks").text(`${service.remarks}`);
+                if (service.remarks) $("#formRemarks").text(`${service.remarks}`);
                 $("#testReason").text(`${service.testReason}`);
                 $("#formDate").text(`${window.formatDate(new Date(service.transactionDate))}`);
-                $("#dateTimeCollection").text(`${window.formatDate(new Date(service.dateTimeCollection))}`);
+                const dateTimeCollection = window.formatDate(new Date(service.dateTimeCollection));
+                $("#dateTimeCollection").text(`${service.dateTimeCollection ? dateTimeCollection : "" }`);
                 $("#dxCC").text(`${service.WorkingDx}`);
 
                 if (appendToElement) {
