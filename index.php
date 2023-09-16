@@ -1,170 +1,280 @@
 <!DOCTYPE html>
-<html>
-<?php
-require_once('./php/connect.php');
-session_start();
-if (isset($_SESSION['user'])) {
-	header("Location: /Zarate/redirect-account.php");
-}
-?>
+<html lang="es">
 
 <head>
-	<title>Login Page</title>
-	<link rel="icon" href="./img/logo.png" type="image/png">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-	<style type="text/css">
-		body {
-			margin: 0;
-			padding: 0;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			height: 100vh;
-			background-image: url(img/loginbg.jpg), linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4));
-			/* Background image and black gradient */
-			background-size: cover, cover;
-			background-blend-mode: multiply;
-			backdrop-filter: blur(5px);
-		}
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Romeo`s Coffee</title>
 
-		.login-container {
-			position: relative;
-			width: 320px;
-			padding: 40px;
-			border-radius: 15px;
-			box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
-			background-color: rgba(255, 255, 255, 0.9);
-			text-align: center;
-		}
+	<!-- SWIPER -->
+	<link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
 
-		.logo {
-			margin-top: -100px;
-			margin-bottom: 20px;
-			width: 140px;
-			height: 140px;
-			background-image: url(img/logo.png);
-			/* Replace with your logo URL */
-			background-size: cover;
-			border-radius: 50%;
-			box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-		}
+	<!-- Font Awesome CDN Link  -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-		.login-container h2 {
-			font-size: 24px;
-			margin-bottom: 20px;
-			color: #333;
-		}
+	<!-- Custom CSS File Link  -->
+	<link rel="stylesheet" href="css/style.css">
 
-		.login-container label {
-			color: #666;
-		}
-
-		.login-container input[type="text"],
-		.login-container input[type="password"] {
-			width: 100%;
-			padding: 10px;
-			margin-bottom: 20px;
-			border: 1px solid #ccc;
-			border-radius: 5px;
-		}
-
-		.login-container button[type="submit"] {
-			width: 100%;
-			padding: 12px;
-			background-color: #3498db;
-			border: none;
-			border-radius: 5px;
-			color: white;
-			font-weight: bold;
-			position: relative;
-			overflow: hidden;
-			cursor: pointer;
-			transform: translateZ(0);
-			transition: background-color 0.3s ease, transform 0.3s ease;
-		}
-
-		.login-container button[type="submit"]:hover {
-			background-color: #2980b9;
-			transform: translateY(-3px);
-		}
-	</style>
 </head>
 
 <body>
-	<div class="login-container">
-		<img src="img/logo.png" alt="Logo" class="logo">
-		<?php
-		if (isset($_POST['login-submit'])) {
-			$mailuid = $_POST['mailuid'];
-			$password = $_POST['pwd'];
 
+	<!-- HEADER -->
+	<header class="header">
+		<div id="menu-btn" class="fas fa-bars"></div>
 
-			$conn = connect();
+		<a href="#" class="logo">Romeo`s cafe <i class="fas fa-mug-hot"></i></a>
 
-			$sql = "SELECT * FROM employee_tb LEFT JOIN department_tb
-			ON department_tb.departmentID = employee_tb.departmentID WHERE userName = ?";
-			$stmt = mysqli_prepare($conn, $sql);
-			mysqli_stmt_bind_param($stmt, "s", $mailuid);
-			mysqli_stmt_execute($stmt);
-			$result = mysqli_stmt_get_result($stmt);
+		<nav class="navbar">
+			<a href="#home">home</a>
+			<a href="#about">about</a>
+			<a href="#menu">menu</a>
+			<a href="#review">review</a>
+			<a href="#book">Inquire</a>
+		</nav>
 
-			if ($result) {
-				$val = mysqli_fetch_assoc($result);
+		<a href="#" class="btn">Buy a Coffee Now</a>
+	</header>
 
-				if ($val) {
-					if (password_verify($password, $val["password"]) && $val["Status"] == 1) {
-						if ($val["isPassSet"] == 1) {
-							$_SESSION["user"] = json_encode($val);
-							$employee_id = $val["DatabaseID"];
-							$employeeName = $val["nickName"];
-							$action = "Log In";
-							$description = "User Log in";
-							
+	<!-- HOME -->
+	<section class="home" id="home">
+		<div class="row">
+			<div class="content">
+				<h3>fresh coffee & Tea in town</h3>
+				<a href="#" class="btn">buy one now</a>
+			</div>
 
-							$conn1 = connect();
-							$sql1 = "INSERT INTO backlog_tb (employeeID, action, description, timeStamp)
-        						VALUES ('$employee_id', '$action', '$description', NOW())";
+			<div class="image">
+				<img src="image/home-img-1.png" class="main-home-image" alt="">
+			</div>
+		</div>
 
-							$result1 = mysqli_query($conn1, $sql1);
-							if ($result) {
-								header("Location: /Zarate/redirect-account.php");
-							} else {
-								$_SESSION["alert_message"] = "Failed to Added an Employee. Error Details: " . mysqli_error($conn);
-								$_SESSION["alert_message_error"] = true;
-							}
-						} else if (password_verify($password, $val["password"]) && $val["Status"] == 0) {
-							echo "<p style='color:red'>Account currently disable</p>";
-							header("Location: ./index.php");
-						} else {
-							$_SESSION["user"] = json_encode($val);
-							header("Location: ./isSetPassword.php");
-							exit();
-						}
-					} else {
-						echo "<p style='color:red'>Invalid username or password</p>";
-					}
-				} else {
-					echo "<p style='color:red'>User not found</p>";
-				}
-			} else {
-				echo "<p style='color:red'>Database query error</p>";
-			}
+		<div class="image-slider">
+			<img src="image/home-img-1.png" alt="">
+			<img src="image/home-img-2.png" alt="">
+			<img src="image/home-img-3.png" alt="">
+		</div>
+	</section>
 
-			mysqli_stmt_close($stmt);
-			mysqli_close($conn);
-		}
-		?>
-		<form class="" action="" method="post">
-			<h2>LOGIN FORM</h2>
-			<label for="exampleInputEmail1">Email address</label>
-			<input type="text" class="form-control" id="exampleInputEmail1" name="mailuid" placeholder="Username/Email..." required>
-			<label for="exampleInputPassword1">Password</label>
-			<input type="password" class="form-control" id="exampleInputPassword1" name="pwd" placeholder="Password..." required>
-			<input type="hidden" name="depart" class="form-control" id="department"></input>
-			<button type="submit" class="btn btn-primary" name="login-submit">Login</button>
+	<!-- ABOUT -->
+	<section class="about" id="about">
+		<h1 class="heading">about us <span>why choose us</span></h1>
 
+		<div class="row">
+			<div class="image">
+				<img src="image/about-img.jpg" alt="">
+			</div>
+
+			<div class="content">
+				<h3 class="title">what's make our coffee special!</h3>
+				<p>Romeo's Café: Where Love Meets Brew! Savor the Town's Best Milk Tea and Coffee.</p>
+				<a href="#" class="btn">read more</a>
+				<div class="icons-container">
+					<div class="icons">
+						<img src="image/about-icon-1.png" alt="">
+						<h3>quality coffee and Tea</h3>
+					</div>
+					<div class="icons">
+						<img src="image/about-icon-2.png" alt="">
+						<h3>our branches</h3>
+					</div>
+					<div class="icons">
+						<img src="image/about-icon-3.png" alt="">
+						<h3>free delivery</h3>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- MENU -->
+	<section class="menu" id="menu">
+		<h1 class="heading">our menu <span>popular menu</span></h1>
+
+		<div class="box-container">
+			<a href="#" class="box">
+				<img src="image/menu-1.png" alt="">
+				<div class="content">
+					<h3>our special coffee</h3>
+					<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur, sed.</p>
+					<span>$8.99</span>
+				</div>
+			</a>
+
+			<a href="#" class="box">
+				<img src="image/menu-2.png" alt="">
+				<div class="content">
+					<h3>our special coffee</h3>
+					<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vel, fugit.</p>
+					<span>$8.99</span>
+				</div>
+			</a>
+
+			<a href="#" class="box">
+				<img src="image/menu-3.png" alt="">
+				<div class="content">
+					<h3>our special coffee</h3>
+					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, recusandae.</p>
+					<span>$8.99</span>
+				</div>
+			</a>
+
+			<a href="#" class="box">
+				<img src="image/menu-4.png" alt="">
+				<div class="content">
+					<h3>our special coffee</h3>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse, quas.</p>
+					<span>$8.99</span>
+				</div>
+			</a>
+
+			<a href="#" class="box">
+				<img src="image/menu-5.png" alt="">
+				<div class="content">
+					<h3>our special coffee</h3>
+					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, vitae.</p>
+					<span>$8.99</span>
+				</div>
+			</a>
+
+			<a href="#" class="box">
+				<img src="image/menu-6.png" alt="">
+				<div class="content">
+					<h3>our special coffee</h3>
+					<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Unde, expedita!</p>
+					<span>$8.99</span>
+				</div>
+			</a>
+		</div>
+	</section>
+
+	<!-- REVIEW -->
+	<section class="review" id="review">
+		<h1 class="heading">reviews <span>what people says</span></h1>
+
+		<div class="swiper review-slider">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide box">
+					<i class="fas fa-quote-left"></i>
+					<i class="fas fa-quote-right"></i>
+					<img src="image/pic-1.png" alt="">
+					<div class="stars">
+						<i class="fas fa-star"></i>
+						<i class="fas fa-star"></i>
+						<i class="fas fa-star"></i>
+						<i class="fas fa-star"></i>
+						<i class="fas fa-star"></i>
+					</div>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo, earum quis dolorem quaerat tenetur
+						illum.</p>
+					<h3>john deo</h3>
+					<span>satisfied client</span>
+				</div>
+
+				<div class="swiper-slide box">
+					<i class="fas fa-quote-left"></i>
+					<i class="fas fa-quote-right"></i>
+					<img src="image/pic-2.png" alt="">
+					<div class="stars">
+						<i class="fas fa-star"></i>
+						<i class="fas fa-star"></i>
+						<i class="fas fa-star"></i>
+						<i class="fas fa-star"></i>
+						<i class="fas fa-star"></i>
+					</div>
+					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum optio quasi ut, illo ipsam
+						assumenda.</p>
+					<h3>john deo</h3>
+					<span>satisfied client</span>
+				</div>
+
+				<div class="swiper-slide box">
+					<i class="fas fa-quote-left"></i>
+					<i class="fas fa-quote-right"></i>
+					<img src="image/pic-3.png" alt="">
+					<div class="stars">
+						<i class="fas fa-star"></i>
+						<i class="fas fa-star"></i>
+						<i class="fas fa-star"></i>
+						<i class="fas fa-star"></i>
+						<i class="fas fa-star"></i>
+					</div>
+					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius asperiores aliquam hic quis!
+						Eligendi, aliquam.</p>
+					<h3>john deo</h3>
+					<span>satisfied client</span>
+				</div>
+
+				<div class="swiper-slide box">
+					<i class="fas fa-quote-left"></i>
+					<i class="fas fa-quote-right"></i>
+					<img src="image/pic-4.png" alt="">
+					<div class="stars">
+						<i class="fas fa-star"></i>
+						<i class="fas fa-star"></i>
+						<i class="fas fa-star"></i>
+						<i class="fas fa-star"></i>
+						<i class="fas fa-star"></i>
+					</div>
+					<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eligendi modi perspiciatis distinctio
+						velit aliquid a.</p>
+					<h3>john deo</h3>
+					<span>satisfied client</span>
+				</div>
+			</div>
+			<div class="swiper-pagination"></div>
+		</div>
+	</section>
+
+	<!-- BOOK -->
+	<section class="book" id="book">
+		<h1 class="heading">booking <span>reserve a table</span></h1>
+
+		<form action="">
+			<input type="text" placeholder="Name" class="box">
+			<input type="email" placeholder="Email" class="box">
+			<input type="number" placeholder="Number" class="box">
+			<textarea name="" placeholder="Message" class="box" id="" cols="30" rows="10"></textarea>
+			<input type="submit" value="send message" class="btn">
 		</form>
-	</div>
-</body>
+	</section>
 
+	<!-- FOOTER -->
+	<section class="footer">
+		<div class="box-container">
+
+			<div class="box">
+				<h3>quick links</h3>
+				<a href="#home"><i class="fas fa-arrow-right"></i> home</a>
+				<a href="#about"><i class="fas fa-arrow-right"></i> about</a>
+				<a href="#menu"><i class="fas fa-arrow-right"></i> menu</a>
+				<a href="#review"><i class="fas fa-arrow-right"></i> review</a>
+				<a href="#book"><i class="fas fa-arrow-right"></i> book</a>
+			</div>
+
+			<div class="box">
+				<h3>contact info</h3>
+				<a href="#"><i class="fas fa-phone"></i> +123-456-7890</a>
+				<a href="#"><i class="fas fa-phone"></i> +111-222-3333</a>
+				<a href="#"><i class="fas fa-envelope"></i> coffee@gmail.com</a>
+				<a href="#"><i class="fas fa-envelope"></i> Perú, Lima</a>
+			</div>
+
+			<div class="box">
+				<h3>contact info</h3>
+				<a href="#"><i class="fab fa-facebook-f"></i> facebook</a>
+				<a href="#"><i class="fab fa-twitter"></i> twitter</a>
+				<a href="#"><i class="fab fa-instagram"></i> instagram</a>
+				<a href="#"><i class="fab fa-linkedin"></i> linkedin</a>
+				<a href="#"><i class="fab fa-twitter"></i> twitter</a>
+			</div>
+		</div>
+	</section>
+	<!-- SWIPER -->
+	<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+
+	<!-- Custom JS File Link  -->
+	<script src="js/script.js"></script>
+</body>
 </html>
