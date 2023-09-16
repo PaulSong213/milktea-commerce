@@ -34,7 +34,7 @@
 			<a href="#book">Inquire</a>
 		</nav>
 
-		<a href="#" class="btn">Buy a Coffee Now</a>
+		<a href="#" class="btn" >Place Order Now</a>
 	</header>
 
 	<!-- HOME -->
@@ -42,7 +42,7 @@
 		<div class="row">
 			<div class="content">
 				<h3>fresh coffee & Tea in town</h3>
-				<a href="#" class="btn">buy one now</a>
+				<a href="#" class="btn" style="color: white;" > buy one now</a>
 			</div>
 
 			<div class="image">
@@ -68,7 +68,12 @@
 
 			<div class="content">
 				<h3 class="title">what's make our coffee special!</h3>
-				<p>Romeo's Café: Where Love Meets Brew! Savor the Town's Best Milk Tea and Coffee.</p>
+				<p>Romeo's Café: Where Love Meets Brew! Savor the Town's Best Milk Tea and Coffee.
+					At Romeo's Café, we're not just brewing beverages; we're crafting moments of pure bliss and 
+					enchantment for every guest who walks through our doors. Nestled in the heart of our charming town, 
+					our café has become synonymous with exceptional quality, unparalleled taste, and an atmosphere that r
+					adiates warmth and affection.
+				</p>
 				<a href="#" class="btn">read more</a>
 				<div class="icons-container">
 					<div class="icons">
@@ -229,7 +234,7 @@
 
 	<!-- BOOK -->
 	<section class="book" id="book">
-		<h1 class="heading">booking <span>reserve a table</span></h1>
+		<h1 class="heading">message <span style="color:white" >Message Us Now</span></h1>
 
 		<form action="">
 			<input type="text" placeholder="Name" class="box">
@@ -277,4 +282,5 @@
 	<!-- Custom JS File Link  -->
 	<script src="js/script.js"></script>
 </body>
+
 </html>
