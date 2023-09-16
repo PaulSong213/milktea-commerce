@@ -34,7 +34,7 @@
 			<a href="#book">Inquire</a>
 		</nav>
 
-		<a href="#" class="btn" >Buy a Coffee Now</a>
+		<a href="#" class="btn" >Place Order Now</a>
 	</header>
 
 	<!-- HOME -->
