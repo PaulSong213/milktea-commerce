@@ -1,10 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap');
 
 :root {
-    --btn-color: white;
+    --white-color: white;
     --main-color: black;
     --border-radius: 95% 4% 97% 5% / 4% 94% 3% 95%;
     --border-radius-hover: 4% 95% 6% 95% / 95% 4% 92% 5%;
+    
+    --whiteborder: .2rem solid var(--white-color);
+    --whiteborder-hover: .2rem dashed var(--white-color);
+    
     --border: .2rem solid var(--main-color);
     --border-hover: .2rem dashed var(--main-color);
 }
@@ -12,7 +16,7 @@
 * {
     font-family: 'Poppins', sans-serif;
     margin: 0;
-    padding: 0;
+    padding: 0; 
     box-sizing: border-box;
     outline: none;
     border: none;
@@ -141,7 +145,7 @@ section {
 
 .home .row .image img {
     height: 35rem;
-    animation: float 4s linear infinite;
+    /* animation: float 4s linear infinite; */
 }
 
 @keyframes float {
@@ -165,6 +169,7 @@ section {
 .home .image-slider {
     text-align: center;
     padding: 3rem 0;
+    background-color: red;
 }
 
 .home .image-slider img {
@@ -192,8 +197,8 @@ section {
 }
 
 .about .row .image img {
-    width: 100%;
-    animation: aboutImage 4s linear infinite;
+    width: 75%;
+    border-radius: 5%;
 }
 
 @keyframes aboutImage {
@@ -467,33 +472,6 @@ section {
 .footer .credit span {
     border-bottom: var(--border-hover);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* MEDIA QUERIES */
 
 @media (max-width: 991px) {

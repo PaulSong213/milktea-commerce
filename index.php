@@ -14,7 +14,10 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 	<!-- Custom CSS File Link  -->
-	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="./landingpage/css/style.css">
+	
+	<!-- bootstrap css -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
 
@@ -26,12 +29,12 @@
 
 		<a href="#" class="logo">Romeo`s cafe <i class="fas fa-mug-hot"></i></a>
 
-		<nav class="navbar">
+		<nav class="navbar"  >
 			<a href="#home">home</a>
 			<a href="#about">about</a>
 			<a href="#menu">menu</a>
 			<a href="#review">review</a>
-			<a href="#book">Inquire</a>
+			<a href="#book">inquire</a>
 		</nav>
 
 		<a href="#" class="btn" >Place Order Now</a>
@@ -42,18 +45,18 @@
 		<div class="row">
 			<div class="content">
 				<h3>fresh coffee & Tea in town</h3>
-				<a href="#" class="btn" style="color: white;" > buy one now</a>
+				<a href="#" class="btn"> buy one now</a>
 			</div>
 
 			<div class="image">
-				<img src="image/home-img-1.png" class="main-home-image" alt="">
+				<img src="./landingpage/image/home-img-1.png" class="main-home-image" alt="">
 			</div>
 		</div>
 
 		<div class="image-slider">
-			<img src="image/home-img-1.png" alt="">
-			<img src="image/home-img-2.png" alt="">
-			<img src="image/home-img-3.png" alt="">
+			<img src="./landingpage/image/home-img-1.png" alt="">
+			<img src="./landingpage/image/home-img-2.png" alt="">
+			<img src="./landingpage/image/home-img-3.png" alt="">
 		</div>
 	</section>
 
@@ -63,7 +66,7 @@
 
 		<div class="row">
 			<div class="image">
-				<img src="image/about-img.jpg" alt="">
+				<img src="./landingpage/image/about-img.png" alt="">
 			</div>
 
 			<div class="content">
@@ -77,15 +80,15 @@
 				<a href="#" class="btn">read more</a>
 				<div class="icons-container">
 					<div class="icons">
-						<img src="image/about-icon-1.png" alt="">
+						<img src="./landingpage/image/about-icon-1.png" alt="">
 						<h3>quality coffee and Tea</h3>
 					</div>
 					<div class="icons">
-						<img src="image/about-icon-2.png" alt="">
+						<img src="./landingpage/image/about-icon-2.png" alt="">
 						<h3>our branches</h3>
 					</div>
 					<div class="icons">
-						<img src="image/about-icon-3.png" alt="">
+						<img src="./landingpage/image/about-icon-3.png" alt="">
 						<h3>free delivery</h3>
 					</div>
 				</div>
@@ -99,7 +102,7 @@
 
 		<div class="box-container">
 			<a href="#" class="box">
-				<img src="image/menu-1.png" alt="">
+				<img src="./landingpage/image/menu-1.png" alt="">
 				<div class="content">
 					<h3>our special coffee</h3>
 					<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur, sed.</p>
@@ -108,7 +111,7 @@
 			</a>
 
 			<a href="#" class="box">
-				<img src="image/menu-2.png" alt="">
+				<img src="./landingpage/image/menu-2.png" alt="">
 				<div class="content">
 					<h3>our special coffee</h3>
 					<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vel, fugit.</p>
@@ -117,7 +120,7 @@
 			</a>
 
 			<a href="#" class="box">
-				<img src="image/menu-3.png" alt="">
+				<img src="./landingpage/image/menu-3.png" alt="">
 				<div class="content">
 					<h3>our special coffee</h3>
 					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, recusandae.</p>
@@ -126,7 +129,7 @@
 			</a>
 
 			<a href="#" class="box">
-				<img src="image/menu-4.png" alt="">
+				<img src="./landingpage/image/menu-4.png" alt="">
 				<div class="content">
 					<h3>our special coffee</h3>
 					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse, quas.</p>
@@ -135,7 +138,7 @@
 			</a>
 
 			<a href="#" class="box">
-				<img src="image/menu-5.png" alt="">
+				<img src="./landingpage/image/menu-5.png" alt="">
 				<div class="content">
 					<h3>our special coffee</h3>
 					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, vitae.</p>
@@ -144,7 +147,7 @@
 			</a>
 
 			<a href="#" class="box">
-				<img src="image/menu-6.png" alt="">
+				<img src="./landingpage/image/menu-6.png" alt="">
 				<div class="content">
 					<h3>our special coffee</h3>
 					<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Unde, expedita!</p>
@@ -163,7 +166,7 @@
 				<div class="swiper-slide box">
 					<i class="fas fa-quote-left"></i>
 					<i class="fas fa-quote-right"></i>
-					<img src="image/pic-1.png" alt="">
+					<img src="./landingpage/image/pic-1.png" alt="">
 					<div class="stars">
 						<i class="fas fa-star"></i>
 						<i class="fas fa-star"></i>
@@ -180,7 +183,7 @@
 				<div class="swiper-slide box">
 					<i class="fas fa-quote-left"></i>
 					<i class="fas fa-quote-right"></i>
-					<img src="image/pic-2.png" alt="">
+					<img src="./landingpage/image/pic-2.png" alt="">
 					<div class="stars">
 						<i class="fas fa-star"></i>
 						<i class="fas fa-star"></i>
@@ -197,7 +200,7 @@
 				<div class="swiper-slide box">
 					<i class="fas fa-quote-left"></i>
 					<i class="fas fa-quote-right"></i>
-					<img src="image/pic-3.png" alt="">
+					<img src="./landingpage/image/pic-3.png" alt="">
 					<div class="stars">
 						<i class="fas fa-star"></i>
 						<i class="fas fa-star"></i>
@@ -214,7 +217,7 @@
 				<div class="swiper-slide box">
 					<i class="fas fa-quote-left"></i>
 					<i class="fas fa-quote-right"></i>
-					<img src="image/pic-4.png" alt="">
+					<img src="./landingpage/image/pic-4.png" alt="">
 					<div class="stars">
 						<i class="fas fa-star"></i>
 						<i class="fas fa-star"></i>
@@ -280,7 +283,7 @@
 	<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
 
 	<!-- Custom JS File Link  -->
-	<script src="js/script.js"></script>
+	<script src="./landingpage/js/script.js"></script>
 </body>
 
 </html>
