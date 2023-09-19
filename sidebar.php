@@ -530,7 +530,6 @@ require_once(__DIR__ . "/accessLevels.php");
 
 <body style="height: 100%; overflow-y: auto;">
     <div style="height: 100%; overflow-y: auto;">
-        <?php include __DIR__ . '/track-order/index.php'; ?>
         <nav id="sidebar" class="bg-light" style="height: 100%; overflow-y: auto;">
             <a href="../account/index.php">
                 <div class="sidebar-header">

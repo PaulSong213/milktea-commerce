@@ -19,7 +19,7 @@
 </head>
 
 <body>
-
+	<?php include __DIR__ . '/track-order/index.php'; ?>
 	<!-- HEADER -->
 	<header class="header">
 		<div id="menu-btn" class="fas fa-bars"></div>
@@ -34,7 +34,7 @@
 			<a href="#book">Inquire</a>
 		</nav>
 
-		<a href="#" class="btn" >Place Order Now</a>
+		<a href="#" class="btn">Place Order Now</a>
 	</header>
 
 	<!-- HOME -->
@@ -42,7 +42,7 @@
 		<div class="row">
 			<div class="content">
 				<h3>fresh coffee & Tea in town</h3>
-				<a href="#" class="btn" style="color: white;" > buy one now</a>
+				<a href="#" class="btn" style="color: white;"> buy one now</a>
 			</div>
 
 			<div class="image">
@@ -69,8 +69,8 @@
 			<div class="content">
 				<h3 class="title">what's make our coffee special!</h3>
 				<p>Romeo's Café: Where Love Meets Brew! Savor the Town's Best Milk Tea and Coffee.
-					At Romeo's Café, we're not just brewing beverages; we're crafting moments of pure bliss and 
-					enchantment for every guest who walks through our doors. Nestled in the heart of our charming town, 
+					At Romeo's Café, we're not just brewing beverages; we're crafting moments of pure bliss and
+					enchantment for every guest who walks through our doors. Nestled in the heart of our charming town,
 					our café has become synonymous with exceptional quality, unparalleled taste, and an atmosphere that r
 					adiates warmth and affection.
 				</p>
@@ -234,7 +234,7 @@
 
 	<!-- BOOK -->
 	<section class="book" id="book">
-		<h1 class="heading">message <span style="color:white" >Message Us Now</span></h1>
+		<h1 class="heading">message <span style="color:white">Message Us Now</span></h1>
 
 		<form action="">
 			<input type="text" placeholder="Name" class="box">

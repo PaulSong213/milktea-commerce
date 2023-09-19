@@ -30,7 +30,7 @@
         </div>
         <div class="d-flex">
             <div class="my-auto p-3">
-                <p class="mt-2" style="height: max-content;"><strong>Orders in Progress:</strong> <span id="orderCount">5</span></p>
+                <p class="mt-2" style="height: max-content;"><strong>Orders in Progress:</strong> <span>PREPARING</span></p>
             </div>
         </div>
     </div>

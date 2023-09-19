@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+
 <body>
     <main id="track-order">
         <?php include(__DIR__ . '/notification-modal.php') ?>
@@ -13,6 +23,7 @@
         $("#track-order").find('#order-notification-btn').click(function() {
             $("#track-order").find('#notificationModal').modal('show');
         });
+        // $("#track-order").find('#notificationModal').modal('show');
     });
 </script>
 
