@@ -15,9 +15,7 @@
 
 	<!-- Custom CSS File Link  -->
 	<link rel="stylesheet" href="./landingpage/css/style.css">
-	
-	<!-- bootstrap css -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 
 </head>
 
@@ -29,7 +27,7 @@
 
 		<a href="#" class="logo">Romeo`s cafe <i class="fas fa-mug-hot"></i></a>
 
-		<nav class="navbar"  >
+		<nav class="navbar">
 			<a href="#home">home</a>
 			<a href="#about">about</a>
 			<a href="#menu">menu</a>
@@ -37,7 +35,7 @@
 			<a href="#book">inquire</a>
 		</nav>
 
-		<a href="#" class="btn" >Place Order Now</a>
+		<button class="btn"  id="openModalBtn" >Place Order Now</button>
 	</header>
 
 	<!-- HOME -->
@@ -45,7 +43,7 @@
 		<div class="row">
 			<div class="content">
 				<h3>fresh coffee & Tea in town</h3>
-				<a href="#" class="btn"> buy one now</a>
+				<a href="#" class="btn"  id="openModalBtn"> buy one now</a>
 			</div>
 
 			<div class="image">
@@ -72,8 +70,8 @@
 			<div class="content">
 				<h3 class="title">what's make our coffee special!</h3>
 				<p>Romeo's Café: Where Love Meets Brew! Savor the Town's Best Milk Tea and Coffee.
-					At Romeo's Café, we're not just brewing beverages; we're crafting moments of pure bliss and 
-					enchantment for every guest who walks through our doors. Nestled in the heart of our charming town, 
+					At Romeo's Café, we're not just brewing beverages; we're crafting moments of pure bliss and
+					enchantment for every guest who walks through our doors. Nestled in the heart of our charming town,
 					our café has become synonymous with exceptional quality, unparalleled taste, and an atmosphere that r
 					adiates warmth and affection.
 				</p>
@@ -99,7 +97,6 @@
 	<!-- MENU -->
 	<section class="menu" id="menu">
 		<h1 class="heading">our menu <span>popular menu</span></h1>
-
 		<div class="box-container">
 			<a href="#" class="box">
 				<img src="./landingpage/image/menu-1.png" alt="">
@@ -237,7 +234,7 @@
 
 	<!-- BOOK -->
 	<section class="book" id="book">
-		<h1 class="heading">message <span style="color:white" >Message Us Now</span></h1>
+		<h1 class="heading">message <span style="color:white">Message Us Now</span></h1>
 
 		<form action="">
 			<input type="text" placeholder="Name" class="box">
@@ -279,6 +276,8 @@
 			</div>
 		</div>
 	</section>
+
+	
 	<!-- SWIPER -->
 	<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
 
