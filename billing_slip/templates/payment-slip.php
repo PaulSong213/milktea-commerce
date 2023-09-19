@@ -22,7 +22,7 @@
                         <!-- HEADER -->
                         <div class="d-flex justify-content-between border-bottom border-5 border-secondary py-3 w-100 m-0">
                             <div class="d-flex">
-                                <img style="height: 60px;" src="/Zarate/img/logo.png" alt="ZARATE LOGO">
+                                <img style="height: 60px;" src="/milktea-commerce/img/logo.png" alt="ZARATE LOGO">
                                 <div class="mx-3 d-flex flex-column justify-content-end ">
                                     <h5 class="fw-bold mb-1">E. Zarate Hospital</h5>
                                     <h6 class="text-muted">16 J. Aguilar Avenue, Talon, Las Piñas City, <br />Metro Manila, Philippines 1747</h6>
@@ -80,7 +80,7 @@
     <script type="module">
         import {
             showPaySlip
-        } from '/Zarate/billing_slip/templates/functions.js';
+        } from '/milktea-commerce/billing_slip/templates/functions.js';
 
         <?php
         if (isset($_SESSION['printPaymentInsertedId'])) {
@@ -91,4 +91,5 @@
         ?>
     </script>
 </body>
+
 </html>

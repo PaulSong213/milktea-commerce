@@ -2,7 +2,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-if (!isset($_SESSION['user'])) header("Location: /Zarate/logout.php");
+if (!isset($_SESSION['user'])) header("Location: /milktea-commerce/logout.php");
 $userData = json_decode($_SESSION['user'], true);
 $userLevel = $userData["AccessLevel"];
 $userFullName = $userData['lname'] . ', ' . $userData['fname'] .  ' ' . $userData['mname'];

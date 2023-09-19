@@ -30,7 +30,7 @@
 
         $("#patientAccountName").val("");
         $.ajax({
-            url: '/Zarate/API/patient/view-charge-slip.php',
+            url: '/milktea-commerce/API/patient/view-charge-slip.php',
             type: 'POST',
             success: function(response) {
                 $("#refresh-message").show();

@@ -244,7 +244,7 @@ $lastSalesID = getLastSalesID($conn);
             var datalist = document.getElementById('product_id_list');
 
             var xhr = new XMLHttpRequest();
-            xhr.open("GET", "/Zarate/billing_slip/getproductdetails.php?itemCode=" + selectedValue, true);
+            xhr.open("GET", "/milktea-commerce/billing_slip/getproductdetails.php?itemCode=" + selectedValue, true);
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (xhr.status === 200) {

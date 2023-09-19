@@ -102,7 +102,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '/Zarate/API/suppliers/view.php',
+                    url: '/milktea-commerce/API/suppliers/view.php',
                     dataType: 'JSON',
                     type: 'POST',
                     data: function(d) {
