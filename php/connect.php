@@ -15,12 +15,12 @@ function connect()
         $servername = "localhost";
         $username = "root";
         $Password = "IeUrXz+mL/6.";
-        $database = "zaratehospital";
+        $database = "milkteacommerce";
     } else {
         $servername = "localhost";
         $username = "root";
         $Password = "";
-        $database = "zaratehospital";
+        $database = "milkteacommerce";
     }
 
     $connection = new mysqli($servername, $username, $Password, $database);
