@@ -104,7 +104,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '/Zarate/API/patient/table.php',
+                    url: '/milktea-commerce/API/patient/table.php',
                     dataType: 'JSON',
                     type: 'POST',
                     data: function(d) {

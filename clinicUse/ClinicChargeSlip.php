@@ -56,6 +56,7 @@ $LastBillingID = getLastBillingID($conn);
         background-color: #006666;
     }
 </style>
+
 <body class="fluid body">
     <form method="POST" action="databasefunctions.php" id="addItemForm" class="container-fluid p-3" autocomplete="off">
         <div class="row text-white mb-4">
@@ -67,22 +68,21 @@ $LastBillingID = getLastBillingID($conn);
                         <input type="text" class="form-control text-light bg-secondary" name="chargeSlipNumber" placeholder="Enter Charge Slip Number" required value="<?php echo "00" . ($lastSalesID + 1); ?>" readonly>
                     </div>
                     <div class="form-group fw-bold">
-                    <label for="department">Hospital Department</label>
-                    <select class="form-control" name="department" required>
-                        <option value="" disabled selected>Select a Department</option>
-                        <?php
-                        require_once
-                        ('../API/department/department.php');
-                        // Assuming 'employeesData' is an array of department names
-                        foreach ($employeesData as $department) {
-                            echo '<option value="' . $department . '">' . $department . '</option>';
-                        }
-                        ?>
-                    </select>
-                    <small class="feedback d-none bg-danger p-1 rounded my-1">
-                        Please select a Department.
-                    </small>
-                </div>
+                        <label for="department">Hospital Department</label>
+                        <select class="form-control" name="department" required>
+                            <option value="" disabled selected>Select a Department</option>
+                            <?php
+                            require_once('../API/department/department.php');
+                            // Assuming 'employeesData' is an array of department names
+                            foreach ($employeesData as $department) {
+                                echo '<option value="' . $department . '">' . $department . '</option>';
+                            }
+                            ?>
+                        </select>
+                        <small class="feedback d-none bg-danger p-1 rounded my-1">
+                            Please select a Department.
+                        </small>
+                    </div>
                     <div class="form-group fw-bold">
                         <label for="requestedByName">Requested By </label>
                         <input type="text" class="form-control is-invalid" name="requestedByName" list="employeeList" correctData="employeesData" placeholder="Enter Requested By Name" required>
@@ -135,7 +135,7 @@ $LastBillingID = getLastBillingID($conn);
                                 <input autocomplete="off" class="form-control" list="productList" id="product_id_input" name="product_id[]" onchange="updateProductInfo(this)" />
                                 <datalist id="product_id_list">
                                     <?php require_once('../API/datalist/product-list.php') ?>
-                                    
+
                                 </datalist>
                             </td>
                             <td><input type="number" class="form-control text-light bg-secondary" readonly name="inv"></td>
@@ -157,7 +157,6 @@ $LastBillingID = getLastBillingID($conn);
     </form>
     <script script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
     <script>
-        
         function validateForm() {
             const form = document.getElementById('addItemForm');
             const inputFields = form.querySelectorAll('.form-control');
@@ -199,59 +198,59 @@ $LastBillingID = getLastBillingID($conn);
         });
 
         function updateProductInfo(input) {
-    var selectedValue = input.value;
-    var row = input.closest("tr");
-    var invInput = row.querySelector('[name="inv"]');
-    var unitInput = row.querySelector('[name="unit[]"]');
-    var priceInput = row.querySelector('[name="price[]"]');
-    var itemTypeInput = row.querySelector('[name="itemType[]"]');
-    var idInput = row.querySelector('[name="id[]"]');
-    var itemTypeIDInput = row.querySelector('[name="itemTypeID[]"]');
-    var datalist = document.getElementById('product_id_list');
+            var selectedValue = input.value;
+            var row = input.closest("tr");
+            var invInput = row.querySelector('[name="inv"]');
+            var unitInput = row.querySelector('[name="unit[]"]');
+            var priceInput = row.querySelector('[name="price[]"]');
+            var itemTypeInput = row.querySelector('[name="itemType[]"]');
+            var idInput = row.querySelector('[name="id[]"]');
+            var itemTypeIDInput = row.querySelector('[name="itemTypeID[]"]');
+            var datalist = document.getElementById('product_id_list');
 
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "/Zarate/billing_slip/getproductdetails.php?itemCode=" + selectedValue, true);
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                var response = JSON.parse(xhr.responseText);
-                console.log('itemTypeInput',itemTypeInput);
-                
-                if (invInput) {
-                    invInput.value = response.inv;
-                }
-                if (unitInput) {
-                    unitInput.value = response.unit;
-                }
-                if (priceInput) {
-                    priceInput.value = response.price;
-                }
-                if (itemTypeInput) {
-                    itemTypeInput.value = response.itemtype;
-                }
-                if (idInput) {
-                    idInput.value = response.id;
-                }
-                if (itemTypeIDInput) {
-                    itemTypeIDInput.value = response.itemTypeID;
-                }
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/milktea-commerce/billing_slip/getproductdetails.php?itemCode=" + selectedValue, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        console.log('itemTypeInput', itemTypeInput);
 
-                for (var i = 0; i < datalist.options.length; i++) {
-                    if (datalist.options[i].value === selectedValue) {
-                        datalist.options[i].disabled = true;
-                        CalculateValues(row);
-                        break;
+                        if (invInput) {
+                            invInput.value = response.inv;
+                        }
+                        if (unitInput) {
+                            unitInput.value = response.unit;
+                        }
+                        if (priceInput) {
+                            priceInput.value = response.price;
+                        }
+                        if (itemTypeInput) {
+                            itemTypeInput.value = response.itemtype;
+                        }
+                        if (idInput) {
+                            idInput.value = response.id;
+                        }
+                        if (itemTypeIDInput) {
+                            itemTypeIDInput.value = response.itemTypeID;
+                        }
+
+                        for (var i = 0; i < datalist.options.length; i++) {
+                            if (datalist.options[i].value === selectedValue) {
+                                datalist.options[i].disabled = true;
+                                CalculateValues(row);
+                                break;
+                            }
+                        }
+
+                        console.log("Response:", response);
+                    } else {
+                        console.error("Failed to fetch product details");
                     }
                 }
-
-                console.log("Response:", response);
-            } else {
-                console.error("Failed to fetch product details");
-            }
+            };
+            xhr.send();
         }
-    };
-    xhr.send();
-}
 
 
         function removeRow(button) {
@@ -318,15 +317,15 @@ $LastBillingID = getLastBillingID($conn);
                 if (!isNaN(subtotalValue)) {
                     netSale += subtotalValue;
                 }
-    });
+            });
 
-    // Calculate and update net amount based on additional discount
-    const netAmount = netSale;
+            // Calculate and update net amount based on additional discount
+            const netAmount = netSale;
 
-    const netSaleInput = document.querySelector('[name="netSale"]');
-    const netAmountInput = document.querySelector('[name="netAmount"]');
-    netAmountInput.value = netAmount.toFixed(2);
-}
+            const netSaleInput = document.querySelector('[name="netSale"]');
+            const netAmountInput = document.querySelector('[name="netAmount"]');
+            netAmountInput.value = netAmount.toFixed(2);
+        }
         document.addEventListener("DOMContentLoaded", function() {
             addRow();
 
@@ -363,10 +362,9 @@ $LastBillingID = getLastBillingID($conn);
         var formattedTime = hours + ':' + minutes;
         $("#dateAdmitted").val(formattedDate);
         $("#timeAdmitted").val(formattedTime);
-        
     </script>
 
-    
+
 </body>
 
 </html>
