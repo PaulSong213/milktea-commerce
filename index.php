@@ -6,6 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Romeo`s Coffee</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 
 	<!-- SWIPER -->
 	<link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
@@ -15,6 +16,8 @@
 
 	<!-- Custom CSS File Link  -->
 	<link rel="stylesheet" href="css/style.css">
+
+
 
 </head>
 

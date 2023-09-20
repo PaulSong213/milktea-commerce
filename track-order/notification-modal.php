@@ -52,12 +52,10 @@
 
         .main p {
             margin-bottom: 0;
-            font-size: 0.75rem
         }
 
         #sub-title p {
             margin: 1vh 0 2vh 0;
-            font-size: 1rem
         }
 
         .row-main {
@@ -69,21 +67,6 @@
             margin: 1rem -1vh;
             border-top: 1px solid rgb(214, 214, 214)
         }
-
-        .total {
-            font-size: 1rem
-        }
-
-        @media(height: 1366px) {
-            .main p {
-                margin-bottom: 0;
-                font-size: 1.2rem
-            }
-
-            .total {
-                font-size: 1.5rem
-            }
-        }
     </style>
 </head>
 <main>
@@ -92,8 +75,10 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="notificationModalLabel">Track Your Order</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h1 class="modal-title fs-1" id="notificationModalLabel">Track Your Order</h1>
+                    <button type="button" class="btn btn-close text-dark d-flex align-items-center justify-content-center" data-bs-dismiss="modal" aria-label="Close">
+                        <span>X</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <div class="card mt-50 mb-50">
@@ -112,49 +97,25 @@
                                 <div class="col-3"> <img class="img-fluid" src="https://i.imgur.com/qSnCFIS.png"> </div>
                                 <div class="col-6">
                                     <div class="row d-flex">
-                                        <p><b>iPhone XR</b></p>
+                                        <p class="fs-5 fw-bold">MILKTEA</p>
                                     </div>
                                     <div class="row d-flex">
-                                        <p class="text-muted">128GB White</p>
+                                        <p class="fs-6 fw-bold">12 ONZ</p>
                                     </div>
                                 </div>
                                 <div class="col-3 d-flex justify-content-end">
-                                    <p><b>$599</b></p>
-                                </div>
-                            </div>
-                            <div class="row row-main">
-                                <div class="col-3"> <img class="img-fluid" src="https://i.imgur.com/WuJwAJD.jpg"> </div>
-                                <div class="col-6">
-                                    <div class="row d-flex">
-                                        <p><b>Airpods</b></p>
-                                    </div>
-                                    <div class="row d-flex">
-                                        <p class="text-muted">With charging case</p>
-                                    </div>
-                                </div>
-                                <div class="col-3 d-flex justify-content-end">
-                                    <p><b>$199</b></p>
-                                </div>
-                            </div>
-                            <div class="row row-main">
-                                <div class="col-3 "> <img class="img-fluid" src="https://i.imgur.com/hOsIes2.png"> </div>
-                                <div class="col-6">
-                                    <div class="row d-flex">
-                                        <p><b>Belkin Boost Up</b></p>
-                                    </div>
-                                    <div class="row d-flex">
-                                        <p class="text-muted">Wireless charging pad</p>
-                                    </div>
-                                </div>
-                                <div class="col-3 d-flex justify-content-end">
-                                    <p><b>$49.95</b></p>
+                                    <p class="fs-6 fw-bold">12 ONZ</p>
                                 </div>
                             </div>
                             <hr>
                             <div class="total pb-3">
                                 <div class="row">
-                                    <div class="col"> <b> Total:</b> </div>
-                                    <div class="col d-flex justify-content-end"> <b>$847.95</b> </div>
+                                    <div class="col">
+                                        <p class="fs-4 fw-bold">TOTAL:</p>
+                                    </div>
+                                    <div class="col d-flex justify-content-end">
+                                        <p class="fs-4 fw-bold">9999</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -162,7 +123,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Understood</button>
                 </div>
             </div>
         </div>
