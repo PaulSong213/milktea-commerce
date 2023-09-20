@@ -262,6 +262,7 @@ section {
     background: url(../image/menu-bg.jpg) no-repeat;
     background-position: center;
     background-size: cover;
+    max-width: 100%;
 }
 
 .menu .box-container {
@@ -269,7 +270,9 @@ section {
     flex-wrap: wrap;
     gap: 2rem;
     justify-content: center; 
-
+    max-width:100% ;
+    overflow-x: auto;
+    height: 30%;
 }
 
 .menu .box-container .box {
