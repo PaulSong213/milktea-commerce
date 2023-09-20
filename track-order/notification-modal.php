@@ -27,7 +27,7 @@
         }
 
         .gap .col-2 {
-            background-color: rgb(213, 217, 233);
+            background-color: #402d26;
             width: 1.2rem;
             padding: 1.2rem;
             margin-top: -2.5rem;
@@ -101,7 +101,10 @@
                         <div class="gap">
                             <div class="col-2 d-flex mx-auto"> </div>
                         </div>
-                        <div class="title mx-auto"> Thank you for your order! </div>
+                        <h2 class="mx-auto my-3 mx-3"> Preparing your Order </h2>
+                        <div class="w-100 d-flex justify-content-center">
+                            <img class="w-75 mx-auto" src="/milktea-commerce/img/cooking.png">
+                        </div>
                         <div class="main"> <span id="sub-title">
                                 <p><b>Payment Summary</b></p>
                             </span>

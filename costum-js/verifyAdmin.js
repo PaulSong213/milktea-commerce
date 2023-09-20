@@ -16,7 +16,7 @@ export async function verifyAdmin() {
             confirmButtonText: 'Verify Admin',
             showLoaderOnConfirm: true,
             preConfirm: (password) => {
-                return fetch('/Zarate/API/admin/verify.php', {
+                return fetch('/milktea-commerce/API/admin/verify.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

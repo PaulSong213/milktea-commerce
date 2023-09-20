@@ -51,13 +51,13 @@
         <?php include './view/view.php'; ?>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
-                    <th>Billing Id</th>
-                    <th>Product Info</th>
-                    <th>Department</th>
-                    <th>Net Amount</th>
-                    <th>Requested By</th>
-                    <th>Create Date</th>
-                    <th class="action-column">Actions</th>
+                <th>Billing Id</th>
+                <th>Product Info</th>
+                <th>Department</th>
+                <th>Net Amount</th>
+                <th>Requested By</th>
+                <th>Create Date</th>
+                <th class="action-column">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -102,7 +102,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '/Zarate/API/ClinicUse/view.php',
+                    url: '/milktea-commerce/API/ClinicUse/view.php',
                     dataType: 'JSON',
                     type: 'POST',
                     data: function(d) {
@@ -185,7 +185,7 @@
                         text: 'Add Hospital Use',
                         className: 'btn btn-primary bg-primary text-white',
                         action: function(e, dt, node, config) {
-                            window.location.href = '/Zarate/clinicUse/index.php';
+                            window.location.href = '/milktea-commerce/clinicUse/index.php';
                         }
                     }
                 ],
@@ -219,7 +219,7 @@
                     [3, 'asc']
                 ]
             });
-            
+
 
             table.on('draw', function() {
                 $('.action-wrapper').each(function(i, e) {

@@ -100,7 +100,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '/Zarate/API/billing/view.php',
+                    url: '/milktea-commerce/API/billing/view.php',
                     dataType: 'JSON',
                     type: 'POST',
                     data: function(d) {
@@ -195,7 +195,7 @@
                         text: 'Create Billing',
                         className: 'btn btn-primary bg-primary text-white',
                         action: function(e, dt, node, config) {
-                            window.location.href = '/Zarate/billing-new-admission/index.php';
+                            window.location.href = '/milktea-commerce/billing-new-admission/index.php';
                         }
                     }
                 ],

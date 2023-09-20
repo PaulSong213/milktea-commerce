@@ -120,7 +120,7 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
                     require_once('./modeOfPayment/cash.php');
                     ?>
 
-                    <div id="chargeInfoParent" class="p-3 rounded d-none mb-3 bg-white shadow" >
+                    <div id="chargeInfoParent" class="p-3 rounded d-none mb-3 bg-white shadow">
 
                         <!-- Charge to -->
                         <div class="mb-3">
@@ -174,7 +174,7 @@ $currentLoggedInEncoderID = $loggedInUser->DatabaseID;
 <script type="module">
     import {
         showChargeSlip
-    } from "/Zarate/billing_slip/templates/functions.js";
+    } from "/milktea-commerce/billing_slip/templates/functions.js";
     $(document).ready(function() {
         // set default value of date and time admitted to current date and time
         const now = new Date();

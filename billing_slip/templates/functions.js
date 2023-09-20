@@ -1,6 +1,6 @@
 import {
     formatDate
-} from '/Zarate/costum-js/date.js'
+} from '/milktea-commerce/costum-js/date.js'
 
 export function showChargeSlip(salesID, appendToElement = null) {
     Swal.fire({
@@ -11,7 +11,7 @@ export function showChargeSlip(salesID, appendToElement = null) {
     swal.showLoading();
     // fetch data from api 
     $.ajax({
-        url: `/Zarate/API/sales/search.php?SalesID=${salesID}`,
+        url: `/milktea-commerce/API/sales/search.php?SalesID=${salesID}`,
         type: 'GET',
         success: function (data) {
             swal.close();
@@ -188,7 +188,7 @@ export function showPaySlip(paymentID, appendToElement = null) {
 
     // fetch data from api 
     $.ajax({
-        url: `/Zarate/API/payment/search.php?paymentID=${paymentID}`,
+        url: `/milktea-commerce/API/payment/search.php?paymentID=${paymentID}`,
         type: 'GET',
         success: function (data) {
             const paymentData = JSON.parse(data);
@@ -218,8 +218,8 @@ export function showPaySlip(paymentID, appendToElement = null) {
             paymentDetails += `<span>Change: ₱${paymentData.changeAmt}</span>`;
             $("#payDetails").html(paymentDetails);
 
-            var chargeBillRequestURL = `/Zarate/API/sales/search.php?SalesID=${paymentData.chargeID}`;
-            if (paymentData.type == "bill") chargeBillRequestURL = `/Zarate/API/billing/search.php?billingID=${paymentData.billID}`;
+            var chargeBillRequestURL = `/milktea-commerce/API/sales/search.php?SalesID=${paymentData.chargeID}`;
+            if (paymentData.type == "bill") chargeBillRequestURL = `/milktea-commerce/API/billing/search.php?billingID=${paymentData.billID}`;
 
             // get more info of charge/bill
             $.ajax({

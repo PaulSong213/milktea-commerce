@@ -17,7 +17,7 @@
                         <!-- HEADER -->
                         <div class="d-flex flex-column justify-content-center align-items-center py-3 w-100 m-0">
                             <div class="d-flex">
-                                <img style="height: 40px;" src="/Zarate/img/logo.png" alt="ZARATE LOGO">
+                                <img style="height: 40px;" src="/milktea-commerce/img/logo.png" alt="ZARATE LOGO">
                                 <div class="mx-3 d-flex flex-column justify-content-end ">
                                     <h5 class="fw-bold text-center my-0">E. Zarate Hospital</h5>
                                     <small class="fw-bold">DOH LICENSED & PHA - MEMBER PRIMARY SCHOOL</small>
@@ -153,7 +153,7 @@
                 swal.showLoading();
 
                 const response = await $.ajax({
-                    url: `/Zarate/API/services/search.php?serviceID=${serviceID}`,
+                    url: `/milktea-commerce/API/services/search.php?serviceID=${serviceID}`,
                     type: 'GET',
                 });
                 swal.close();

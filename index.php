@@ -20,7 +20,7 @@
 </head>
 
 <body>
-
+	<?php include __DIR__ . '/track-order/index.php'; ?>
 	<!-- HEADER -->
 	<header class="header">
 		<div id="menu-btn" class="fas fa-bars"></div>
@@ -34,7 +34,7 @@
 			<a href="#review">reviews</a>
 		</nav>
 
-		<button class="btn"  id="openModalBtn" >Place Order Now</button>
+		<a href="#" class="btn">Place Order Now</a>
 	</header>
 
 	<!-- HOME -->
@@ -42,7 +42,7 @@
 		<div class="row">
 			<div class="content">
 				<h3>fresh coffee & Tea in town</h3>
-				<a href="#" class="btn"  id="openModalBtn"> buy one now</a>
+				<a href="#" class="btn" style="color: white;" > buy one now</a>
 			</div>
 
 			<div class="image">
@@ -230,7 +230,51 @@
 			<div class="swiper-pagination"></div>
 		</div>
 	</section>
-	
+
+	<!-- BOOK -->
+	<section class="book" id="book">
+		<h1 class="heading">message <span style="color:white" >Message Us Now</span></h1>
+
+		<form action="">
+			<input type="text" placeholder="Name" class="box">
+			<input type="email" placeholder="Email" class="box">
+			<input type="number" placeholder="Number" class="box">
+			<textarea name="" placeholder="Message" class="box" id="" cols="30" rows="10"></textarea>
+			<input type="submit" value="send message" class="btn">
+		</form>
+	</section>
+
+	<!-- FOOTER -->
+	<section class="footer">
+		<div class="box-container">
+
+			<div class="box">
+				<h3>quick links</h3>
+				<a href="#home"><i class="fas fa-arrow-right"></i> home</a>
+				<a href="#about"><i class="fas fa-arrow-right"></i> about</a>
+				<a href="#menu"><i class="fas fa-arrow-right"></i> menu</a>
+				<a href="#review"><i class="fas fa-arrow-right"></i> review</a>
+				<a href="#book"><i class="fas fa-arrow-right"></i> book</a>
+			</div>
+
+			<div class="box">
+				<h3>contact info</h3>
+				<a href="#"><i class="fas fa-phone"></i> +123-456-7890</a>
+				<a href="#"><i class="fas fa-phone"></i> +111-222-3333</a>
+				<a href="#"><i class="fas fa-envelope"></i> coffee@gmail.com</a>
+				<a href="#"><i class="fas fa-envelope"></i> Perú, Lima</a>
+			</div>
+
+			<div class="box">
+				<h3>contact info</h3>
+				<a href="#"><i class="fab fa-facebook-f"></i> facebook</a>
+				<a href="#"><i class="fab fa-twitter"></i> twitter</a>
+				<a href="#"><i class="fab fa-instagram"></i> instagram</a>
+				<a href="#"><i class="fab fa-linkedin"></i> linkedin</a>
+				<a href="#"><i class="fab fa-twitter"></i> twitter</a>
+			</div>
+		</div>
+	</section>
 	<!-- SWIPER -->
 	<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
 

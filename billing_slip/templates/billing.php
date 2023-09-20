@@ -82,7 +82,7 @@
                 swal.showLoading();
 
                 const response = await $.ajax({
-                    url: `/Zarate/API/billing/search.php?billingID=${billingID}`,
+                    url: `/milktea-commerce/API/billing/search.php?billingID=${billingID}`,
                     type: 'GET',
                 });
 

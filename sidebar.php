@@ -8,10 +8,10 @@ if (isset($_SESSION['user'])) {
     $userDepartment = $userData['departmentName'];
     $userLevel = $userData['AccessLevel'];
 
-    $userFullName = $userData['lname'] . ', ' .$userData['fname'].  ' ' . $userData['mname'];
+    $userFullName = $userData['lname'] . ', ' . $userData['fname'] .  ' ' . $userData['mname'];
 } else {
     // Redirect back to the login page or handle the user not being logged in
-    header("Location: /Zarate/index.php");
+    header("Location: /milktea-commerce/index.php");
     exit();
 }
 if (isset($_GET['logout'])) {
@@ -67,7 +67,7 @@ $Level2 = [
         "link" => "/dashboard/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
     ],
-    
+
     [
         "name" => "Employee", //name of the link
         "icon" => "badge", //material icon name
@@ -533,12 +533,12 @@ require_once(__DIR__ . "/accessLevels.php");
         <nav id="sidebar" class="bg-light" style="height: 100%; overflow-y: auto;">
             <a href="../account/index.php">
                 <div class="sidebar-header">
-                    <h3><img src="/Zarate/img/logo.png" class="img-fluid" alt="Logo" /><span class="fw-bold company-title">E.Zarate Hospital</span></h3>
+                    <h3><img src="/milktea-commerce/img/logo.png" class="img-fluid" alt="Logo" /><span class="fw-bold company-title">E.Zarate Hospital</span></h3>
                 </div>
             </a>
             <ul class="list-unstyled components">
                 <?php
-                $root = "/Zarate";
+                $root = "/milktea-commerce";
                 for ($i = 0; $i < sizeof($LevelNav); $i++) {
                     $content = $LevelNav[$i];
                     $isDropdown = isset($content["navigations"]) && sizeof($content["navigations"]) > 0;
@@ -578,8 +578,10 @@ require_once(__DIR__ . "/accessLevels.php");
             </div>
 
         </nav>
+
     </div>
     <div class="container-fluid" id="content">
+
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>

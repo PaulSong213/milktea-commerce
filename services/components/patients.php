@@ -46,7 +46,7 @@
 <script type="module">
     import {
         extractID
-    } from '/Zarate/costum-js/datalist.js';
+    } from '/milktea-commerce/costum-js/datalist.js';
     $(document).ready(function() {
 
         const patientsData = JSON.parse('<?php echo $patientsData; ?>');

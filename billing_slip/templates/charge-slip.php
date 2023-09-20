@@ -107,7 +107,7 @@
     <script type="module">
         import {
             showChargeSlip
-        } from "/Zarate/billing_slip/templates/functions.js";
+        } from "/milktea-commerce/billing_slip/templates/functions.js";
         <?php
         if (isset($_SESSION['printSalesInsertedId'])) {
             $printSalesInsertedId = $_SESSION['printSalesInsertedId'];

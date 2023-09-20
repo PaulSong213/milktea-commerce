@@ -86,7 +86,7 @@ function updateProductInfo(input) {
                         icon: 'error',
                         title: `${selectedValue} is OUT OF STOCK`,
                         html: `
-                        Please update first the number of stock on <a href="/Zarate/inventory/index.php" target="_blank">Inventory</a>
+                        Please update first the number of stock on <a href="/milktea-commerce/inventory/index.php" target="_blank">Inventory</a>
                         `,
                     });
                     row.querySelector('[name="product_id[]"]').value = "";
@@ -120,7 +120,7 @@ function updateProductInfo(input) {
                             icon: 'error',
                             title: `MAXIMUM Stock is ${remainingInv}`,
                             html: `
-                            You can update number of stocks on <a href="/Zarate/inventory/index.php" target="_blank">Inventory</a>
+                            You can update number of stocks on <a href="/milktea-commerce/inventory/index.php" target="_blank">Inventory</a>
                             `,
                         });
                     }

@@ -20,7 +20,7 @@ if (isset($_SESSION['user'])) {
     $modifiedDate = $userData['modifiedDate'];
 } else {
     // Redirect back to the login page or handle the user not being logged in
-    header("Location: /Zarate/index.php");
+    header("Location: /milktea-commerce/index.php");
     exit();
 }
 
@@ -180,7 +180,7 @@ if (isset($_SESSION['user'])) {
                                 </div>
                             </div>
                             <hr>
-                                <div class="row">
+                            <div class="row">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Nick Name</h6>
                                 </div>
@@ -190,7 +190,7 @@ if (isset($_SESSION['user'])) {
                                 </div>
                             </div>
                             <hr>
-                         
+
                             <div class="row">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Title</h6>
