@@ -25,5 +25,33 @@
         $("#track-order").find('#notificationModal').modal('show');
     });
 </script>
+<script type="module">
+    import {
+        app
+    } from "/milktea-commerce/costum-js/firebase.js";
+    // insert test data to firebase realtime database
+    import {
+        getDatabase,
+        ref,
+        set,
+        onValue
+    } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+    const db = getDatabase();
+
+
+    // track order from firebase realtime database
+    function trackOrder() {
+        const COSTUMER_ID = 1; // TODO: get costumer id from session
+        const orderRef = ref(db, `/orders/${COSTUMER_ID}/`);
+        onValue(orderRef, (snapshot) => {
+            const data = snapshot.val();
+            console.log(data);
+        });
+    };
+
+    $(document).ready(function() {
+        trackOrder();
+    });
+</script>
 
 </html>
