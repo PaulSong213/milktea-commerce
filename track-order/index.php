@@ -8,23 +8,16 @@
             text-decoration: none;
         }
     </style>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 </head>
 
 <body>
     <main id="track-order">
-        <?php include(__DIR__ . '/notification-modal.php') ?>
         <?php include(__DIR__ . '/notification-btn.php') ?>
+        <?php include(__DIR__ . '/notification-modal.php') ?>
     </main>
 </body>
-<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<script>
-    $(document).ready(function() {
-        $("#track-order").find('#order-notification-btn').click(function() {
-            $("#track-order").find('#notificationModal').modal('show');
-        });
-        $("#track-order").find('#notificationModal').modal('show');
-    });
-</script>
+
 <script type="module">
     import {
         app
@@ -38,14 +31,24 @@
     } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
     const db = getDatabase();
 
-
     // track order from firebase realtime database
     function trackOrder() {
         const COSTUMER_ID = 1; // TODO: get costumer id from session
         const orderRef = ref(db, `/orders/${COSTUMER_ID}/`);
         onValue(orderRef, (snapshot) => {
-            const data = snapshot.val();
-            console.log(data);
+            $("#track-order").find("#notification-btn-container").html("");
+            snapshot.forEach((childSnapshot) => {
+                const orderNo = childSnapshot.key;
+                const orderData = childSnapshot.val();
+                // console.log(orderNo, orderData);
+                addNotificationModal(orderNo, orderData);
+                addNotificationBtn(orderNo, orderData.status);
+            });
+
+            // add event listener to notification button
+            // $("#track-order").find(".notif-btn").click(function() {
+            //     $("#notificationModal").modal("show");
+            // });
         });
     };
 
