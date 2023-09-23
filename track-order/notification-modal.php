@@ -67,6 +67,21 @@
             margin: 1rem -1vh;
             border-top: 1px solid rgb(214, 214, 214)
         }
+
+        /* Style for the stars */
+        .rating-stars {
+            display: inline-block;
+        }
+
+        .rating-stars .fa {
+            font-size: 24px;
+            color: gray;
+            cursor: pointer;
+        }
+
+        .rating-stars .fa.active {
+            color: #935c02;
+        }
     </style>
 </head>
 <main>
@@ -150,7 +165,7 @@
                 </div>
                 <h2 class="mx-auto my-3 mx-3"> ${orderStatusTitle} </h2>
                 <div class="w-100 d-flex justify-content-center">
-                    <img class="w-75 my-3 mx-auto" src="/milktea-commerce/img/order-status-banner/${orderData.status}.svg">
+                    <img class="w-50 my-3 mx-auto" src="/milktea-commerce/img/order-status-banner/${orderData.status}.svg">
                 </div>
                 ${actions}
                 <div class="main"> <span id="sub-title">
@@ -186,6 +201,15 @@
         `);
         orderModal.hide();
         $("#track-order").find("#order-modal-container").append(orderModal);
+
+        $('.rating-stars .fa').on('click', function() {
+            var rating = $(this).data('rating');
+            $('#ratingStars').val(rating);
+            console.log(rating);
+            $('.rating-stars .fa').removeClass('active');
+            $(this).addClass('active');
+            $(this).prevAll('.rating-stars .fa').addClass('active');
+        });
     }
 
     function generateActionElement(orderNo, orderData) {
@@ -199,16 +223,26 @@
                 break;
             case window.ORDER_STATUS["on-delivery-rider"]:
                 return `
-                    <div class="my-3 d-flex flex-column">
-                        <a href="/milktea-commerce/checkout/payment.php?orderNo=${orderNo}" class="bg-primary rounded d-block btn-secondary">Order Recieved</a>
+                    <div class="my-3 ">
+                        <a href="/milktea-commerce/payment/mark-as-received.php?orderNo=${orderNo}" class="bg-success text-white rounded text-center py-3 px-5 fs-5 btn-success mx-auto d-block text-uppercase fw-bold btn" style="width: max-content">MARK AS RECEIVED</a>
                     </div>
                 `;
                 break;
             case window.ORDER_STATUS["waiting-for-feedback"]:
                 return `
-                    <div class="my-3 d-flex flex-column">
-                        <a href="/milktea-commerce/checkout/payment.php?orderNo=${orderNo}" class="bg-primary rounded d-block btn-primary">Leave Feedbacl</a>
-                    </div>
+                    <form method="POST"  class="my-3 px-5 form-group d-flex flex-column" action="/milktea-commerce/payment/leave-feedback.php">
+                        <div class="rating-stars  mx-auto">
+                            <span class="fa fa-star active" data-rating="1"></span>
+                            <span class="fa fa-star active" data-rating="2"></span>
+                            <span class="fa fa-star active" data-rating="3"></span>
+                            <span class="fa fa-star active" data-rating="4"></span>
+                            <span class="fa fa-star active" data-rating="5"></span>
+                            <input type="hidden" name="ratingStars" id="ratingStars" value="5">
+                        </div>
+                        <input type="hidden" name="orderNo" value="${orderNo}">
+                        <textarea name="feedback" class="form-control my-3 fs-5" placeholder="Leave your feedback here" style="height: 70px"></textarea>
+                        <input type="submit" value="LEAVE FEEDBACK"  class="bg-primary text-white rounded text-center py-3 px-5 fs-5 btn-primary mx-auto d-block text-uppercase fw-bold btn" style="width: max-content">
+                    </form>
                 `;
                 break;
 
@@ -220,6 +254,7 @@
         // add event listener to on modal close
         $("#notificationModal").on("hidden.bs.modal", function() {
             $("#track-order").find(".order-card").hide();
+            window.OPENED_ORDER_NO = null;
         });
     });
 </script>

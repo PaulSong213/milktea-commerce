@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -17,11 +20,10 @@
 	<!-- Custom CSS File Link  -->
 	<link rel="stylesheet" href="css/style.css">
 
-
-
 </head>
 
 <body>
+	<?php include('./php/session-dialog.php') ?>
 	<?php include __DIR__ . '/track-order/index.php'; ?>
 	<!-- HEADER -->
 	<header class="header">
@@ -284,6 +286,7 @@
 
 	<!-- Custom JS File Link  -->
 	<script src="js/script.js"></script>
+
 </body>
 
 </html>

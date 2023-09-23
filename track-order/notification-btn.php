@@ -84,6 +84,7 @@
         newNotificationBtn.click(function() {
             $("#notificationModal").modal("show");
             $(`#order-card-${orderNo}`).show();
+            window.OPENED_ORDER_NO = orderNo;
         });
         $("#track-order").find("#notification-btn-container")
             .append(newNotificationBtn);

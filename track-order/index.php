@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,6 +20,14 @@
 </body>
 
 <script type="module">
+    <?php
+    if (isset($_SESSION["OPENED_ORDER_NO"])) {
+        $OPENED_ORDER_NO = $_SESSION["OPENED_ORDER_NO"];
+        echo "window.OPENED_ORDER_NO = $OPENED_ORDER_NO;";
+        unset($_SESSION["OPENED_ORDER_NO"]);
+    }
+    ?>
+
     import {
         app
     } from "/milktea-commerce/costum-js/firebase.js";
@@ -37,6 +46,7 @@
         const orderRef = ref(db, `/orders/${COSTUMER_ID}/`);
         onValue(orderRef, (snapshot) => {
             $("#track-order").find("#notification-btn-container").html("");
+            $("#track-order").find("#order-modal-container").html("");
             snapshot.forEach((childSnapshot) => {
                 const orderNo = childSnapshot.key;
                 const orderData = childSnapshot.val();
@@ -45,10 +55,11 @@
                 addNotificationBtn(orderNo, orderData.status);
             });
 
-            // add event listener to notification button
-            // $("#track-order").find(".notif-btn").click(function() {
-            //     $("#notificationModal").modal("show");
-            // });
+            // show notification modal if there is an opened order
+            if (window.OPENED_ORDER_NO) {
+                $("#notificationModal").modal("show");
+                $(`#order-card-${window.OPENED_ORDER_NO}`).show();
+            }
         });
     };
 
