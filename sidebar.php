@@ -438,8 +438,9 @@ require_once(__DIR__ . "/accessLevels.php");
         }
 
         .sidebar-header img {
-            width: 45px;
+            width: 60px;
             margin-right: 10px;
+            border-radius: 50%;
         }
 
         .list-unstyled.components {
@@ -533,7 +534,7 @@ require_once(__DIR__ . "/accessLevels.php");
         <nav id="sidebar" class="bg-light" style="height: 100%; overflow-y: auto;">
             <a href="../account/index.php">
                 <div class="sidebar-header">
-                    <h3><img src="/milktea-commerce/img/logo.png" class="img-fluid" alt="Logo" /><span class="fw-bold company-title">E.Zarate Hospital</span></h3>
+                    <h3><img src="/milktea-commerce/img/logo1.png" class="img-fluid" alt="Logo" /><span class="fw-bold company-title">ROMEO'S CAFE</span></h3>
                 </div>
             </a>
             <ul class="list-unstyled components">
