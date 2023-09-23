@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -17,14 +20,13 @@
 	<!-- Custom CSS File Link  -->
 	<link rel="stylesheet" href="./landingpage/css/style.css">
 
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-
-
 </head>
 
 <body>
-
+	<?php include('./php/session-dialog.php')
+	?>
+	<?php include __DIR__ . '/track-order/index.php';
+	?>
 	<!-- HEADER -->
 	<header class="header">
 		<div id="menu-btn" class="fas fa-bars"></div>
