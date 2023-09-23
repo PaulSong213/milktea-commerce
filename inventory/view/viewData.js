@@ -2,6 +2,7 @@ import { formatDate } from "../../costum-js/date.js";
 
 export function handleViewClick(table) {
     const viewDatas = [
+        
         {
             dataKey: "itemTypeCode",
             label: "Item Type"

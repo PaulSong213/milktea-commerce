@@ -16,32 +16,64 @@ if (isset($_SESSION['user'])) {
 
 if (isset($_POST['SaveItem'])) {
     $itemCode = $_POST['item_code'];
-    $UnitType = $_POST['UnitType'];
     $itemTypeID = $_POST['itemTypeID'];
-    $unit = $_POST['Unit'];
     $description = $_POST['description'];
-    $generic = $_POST['Generic'];
     $sugPrice = $_POST['Sugprice'];
-    $mwPrice = $_POST['MWprice'];
-    $ipdPrice = $_POST['IPDprice'];
-    $ppriceUse = $_POST['Ppriceuse'];
     $statusData = 1;
+    
 
-    $sql = "INSERT INTO inventory_tb (itemCode, UnitType, Unit, itemTypeID,Description, Generic, SugPrice, MWprice, IPDprice, Ppriceuse,createDate, Status, modifiedDate)
-    VALUES ('$itemCode', '$UnitType', '$unit', '$itemTypeID','$description', '$generic', '$sugPrice', '$mwPrice', '$ipdPrice', '$ppriceUse', now(),' $statusData', now())";
+    // Define the target directory for image uploads
+    $targetDir = 'image/'; // Make sure the path is correct, relative to this PHP file
 
-    $result = mysqli_query($conn, $sql);
-    if ($result) {
-        $act = "Add New Inventory Item";
-        $description = "Add Inventory Data: [$itemCode]";
-        $conn1 = connect();
-        $sql1 = "INSERT INTO backlog_tb (employeeID, action, description, timeStamp)
-        						VALUES ('$userID', '$act', '$description', NOW())";
-        $result1 = mysqli_query($conn1, $sql1);
-        $_SESSION["alert_message"] = "Successfully Added an Item";
-        $_SESSION["alert_message_success"] = true;
+    // Generate a unique filename for the uploaded image
+    $photo =  $targetDir . uniqid() . '_' . basename($_FILES['photo']['name']);
+
+    // Check if a file is selected
+    if (!empty($_FILES['photo']['tmp_name'])) {
+        // Allow certain image file formats (you can customize this list)
+        $allowedExtensions = array("jpg", "jpeg", "png", "gif");
+        $imageFileType = strtolower(pathinfo($photo, PATHINFO_EXTENSION));
+
+        if (in_array($imageFileType, $allowedExtensions)) {
+            if (move_uploaded_file($_FILES['photo']['tmp_name'], $photo)) {
+                // Image uploaded successfully
+                // Use prepared statements to avoid SQL injection
+                $stmt = $conn->prepare("INSERT INTO inventory_tb (image, itemCode, UnitType, itemTypeID, Description, SugPrice, Status, createDate, modifiedDate) 
+                                                          VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
+                $photo = 'add/' . $photo;
+                $stmt->bind_param("sssssdi", $photo, $itemCode, $UnitType, $itemTypeID,  $description, $sugPrice, $statusData);
+
+                if ($stmt->execute()) {
+                    $act = "Add New Inventory Item";
+                    $description = "Add Inventory Data: [$itemCode]";
+                    $conn1 = connect();
+                    $sql1 = "INSERT INTO backlog_tb (employeeID, action, description, timeStamp) VALUES (?, ?, ?, NOW())";
+                    $stmt1 = $conn1->prepare($sql1);
+                    $stmt1->bind_param("iss", $userID, $act, $description);
+                    $stmt1->execute();
+
+                    $_SESSION["alert_message"] = "Successfully Added an Item";
+                    $_SESSION["alert_message_success"] = true;
+                } else {
+                    $_SESSION["alert_message"] = "Failed to Add an Item. Error Details: " . $stmt->error;
+                    $_SESSION["alert_message_error"] = true;
+                }
+
+                $stmt->close();
+                $stmt1->close();
+            } else {
+                // Handle upload error
+                $_SESSION["alert_message"] = "Failed to upload the image.   $targetDir ";
+                $_SESSION["alert_message_error"] = true;
+            }
+        } else {
+            // Handle invalid file type
+            $_SESSION["alert_message"] = "Only JPG, JPEG, PNG, and GIF files are allowed.";
+            $_SESSION["alert_message_error"] = true;
+        }
     } else {
-        $_SESSION["alert_message"] = "Failed to Added an Item. Error Details: " . mysqli_error($conn);
+        // No file selected
+        $_SESSION["alert_message"] = "Please select an image to upload.";
         $_SESSION["alert_message_error"] = true;
     }
 

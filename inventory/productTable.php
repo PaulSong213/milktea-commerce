@@ -49,10 +49,9 @@
 
             <thead>
                 <tr>
-                    <th>Item Type</th>
-                    <th>Item Code</th>
-                    <th>Unit</th>
-                    <th>Generic</th>
+                    <th>Product Photo</th>
+                    <th>Product Type</th>
+                    <th>Product Name</th>
                     <th>Sug Price</th>
                     <th>Date Added</th>
                     <th>Modified Date</th>
@@ -107,16 +106,19 @@
                     }
                 },
                 columns: [{
+                        data: 'image', // Column 2: Image
+                        render: function(data, type, full, meta) {
+                            // Render the image tag
+                            return '<img src="'+ data +'" alt="Image" style="max-width: 80px; max-height: 80px; border-radius: 20px;">';
+                            console.log(data.image);
+                        }
+                    }
+                    ,
+                     {
                         data: 'itemTypeCode',
                     },
                     {
                         data: 'itemCode'
-                    },
-                    {
-                        data: 'Unit'
-                    },
-                    {
-                        data: 'Generic'
                     },
                     {
                         data: 'SugPrice'
