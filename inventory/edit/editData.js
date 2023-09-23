@@ -10,37 +10,19 @@ export function handleEditClick(table) {
                 dataKey: "itemCode",
                 inputName: "item_code"
             },
-            {
-                dataKey: "UnitType",
-                inputName: "UnitType"
-            },
+           
             {
                 dataKey: "itemTypeID",
                 inputName: "itemTypeID"
             },
-            {
-                dataKey: "Unit",
-                inputName: "Unit"
-            },
+         
             {
                 dataKey: "Description",
                 inputName: "description"
             },
             {
-                dataKey: "Generic",
-                inputName: "Generic"
-            },
-            {
                 dataKey: "SugPrice",
                 inputName: "Sugprice"
-            },
-            {
-                dataKey: "MWprice",
-                inputName: "MWprice"
-            },
-            {
-                dataKey: "IPDprice",
-                inputName: "IPDprice"
             },
             {
                 dataKey: "Ppriceuse",

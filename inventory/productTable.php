@@ -210,7 +210,7 @@
                         className: 'btn border border-info'
                     },
                     {
-                        text: 'Add Item',
+                        text: 'Add Product',
                         className: 'btn btn-primary bg-primary text-white',
                         action: function(e, dt, node, config) {
                             $('#addItemModal').modal('show');
