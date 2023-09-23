@@ -15,6 +15,7 @@
         <div id="paymentLoader" class="d-flex flex-column align-items-center justify-content-center">
             <h2 style="color: #734006" class="mb-3 fw-bold text-center">PLEASE COMPLETE THE PAYMENT PROCEDURE <br /> ON THE OPENED TAB</h2>
             <img style="max-width: 400px;" src="../img/pay-wait.gif" alt="Waiting for Payment" />
+            <a id="open-pay-link-btn" target="_blank" class="btn btn-primary text-decoration-none" href="#">OPEN PAYMENT PAGE</a>
         </div>
         <div id="paymentSucceed" class="d-flex flex-column align-items-center justify-content-center d-none">
             <h2 class="mb-3 fw-bold text-center text-success">PAYMENT SUCCEED</h2>
@@ -25,29 +26,49 @@
 
 </body>
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<script>
+<script type="module">
+    import {
+        app
+    } from "/milktea-commerce/costum-js/firebase.js";
+
+    import {
+        getDatabase,
+        ref,
+        set
+    } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+
     $(document).ready(function() {
+        const COSTUMER_ID = 1; // TODO: get costumer id from session
+        <?php
+        if (!isset($_GET["paymentID"])) {
+            echo "createPayLink();";
+        } else {
+            echo "openPayLink('" . $_GET["paymentID"] . "');";
+        }
+        ?>
         // create get request to create payment link
-        $.ajax({
-            url: "/milktea-commerce/payment/create-pay-link.php",
-            type: "GET", //send it through get method
-            data: {
-                amount: 10000,
-                description: "Milk Tea",
-                remarks: "Milk Tea"
-            },
-            success: function(data) {
-                var response = JSON.parse(data);
-                var data = response.data;
-                console.log(data);
-                const payURL = data.attributes.checkout_url;
-                window.open(payURL, '_blank');
-                watchPaymentSuccess(data.id);
-            },
-            error: function(xhr) {
-                alert(xhr.responseText);
-            }
-        });
+        function createPayLink() {
+            $.ajax({
+                url: "/milktea-commerce/payment/create-pay-link.php",
+                type: "GET", //send it through get method
+                data: {
+                    amount: 10000,
+                    description: "Milk Tea",
+                    remarks: "Milk Tea"
+                },
+                success: function(data) {
+                    var response = JSON.parse(data);
+                    var data = response.data;
+                    console.log(data);
+                    const payURL = data.attributes.checkout_url;
+                    window.open(payURL, '_blank');
+                    watchPaymentSuccess(data.id);
+                },
+                error: function(xhr) {
+                    alert(xhr.responseText);
+                }
+            });
+        }
 
         function watchPaymentSuccess(paymentLinkID) {
             // every 5 seconds, check if payment is successful
@@ -61,11 +82,9 @@
                     success: function(data) {
                         var response = JSON.parse(data);
                         var data = response.data;
-                        console.log(data);
                         if (data.attributes.status == "paid") {
                             clearInterval(paymentWatch);
-                            $("#paymentSucceed").removeClass("d-none");
-                            $("#paymentLoader").remove();
+                            markAsPaid(paymentLinkID);
                         }
                     },
                     error: function(xhr) {
@@ -73,7 +92,58 @@
                     }
                 });
             }, 5000);
+        }
 
+        function openPayLink(paymentLinkID) {
+            $.ajax({
+                url: "/milktea-commerce/payment/retrieve-pay-link.php",
+                type: "GET", //send it through get method
+                data: {
+                    pay_link_id: paymentLinkID
+                },
+                success: function(data) {
+                    var response = JSON.parse(data);
+                    var data = response.data;
+                    if (data.attributes.status == "paid") {
+                        markAsPaid(paymentLinkID);
+                    } else {
+                        paymentLinkID = data.id;
+                        $("#open-pay-link-btn").attr("href", data.attributes.checkout_url);
+                        window.open(data.attributes.checkout_url, '_blank');
+                        watchPaymentSuccess(paymentLinkID);
+                    }
+                },
+                error: function(xhr) {
+                    alert(xhr.responseText);
+                }
+            });
+        }
+
+        function markAsPaid(paymentLinkID) {
+            $.ajax({
+                url: "/milktea-commerce/payment/mark-as-paid.php",
+                type: "GET", //send it through get method
+                data: {
+                    paymentID: paymentLinkID
+                },
+                success: function(SalesID) {
+                    console.log(SalesID);
+                    const db = getDatabase();
+                    const ORDER_KEY = SalesID;
+                    // mark the order as preparing-food in firebase realtime database
+                    set(ref(db, `/orders/${COSTUMER_ID}/${ORDER_KEY}/status`), "preparing-food")
+                        .then(() => {
+                            $("#paymentLoader").addClass("d-none");
+                            $("#paymentSucceed").removeClass("d-none");
+                        })
+                        .catch((error) => {
+                            alert(error);
+                        });
+                },
+                error: function(xhr) {
+                    alert(xhr.responseText);
+                }
+            });
         }
     });
 </script>
