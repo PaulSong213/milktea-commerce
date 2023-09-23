@@ -27,11 +27,11 @@
                             <input class="form-control" type="file" name="photo" id="upload-input" accept=".jpg, .png, .jpeg">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="item_code">Item Code<span class="text-danger mx-1">*</span></label>
+                            <label class="form-label" for="item_code">Product Name<span class="text-danger mx-1">*</span></label>
                             <input type="text" id="item_code" name="item_code" class="form-control" placeholder="Enter item code" autocomplete="on" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="type">Item Type<span class="text-danger mx-1">*</span></label>
+                            <label class="form-label" for="type">Product Type<span class="text-danger mx-1">*</span></label>
                             <select class="form-select" id="type" name="itemTypeID">
                                 <?php
                                 $connectionType = connect();
@@ -51,7 +51,7 @@
                         </div>
                        
                         <div class="mb-3">
-                            <label for="Sugprice">Sug Price<span class="text-danger mx-1">*</span></label>
+                            <label for="Sugprice">Price<span class="text-danger mx-1">*</span></label>
                             <input type="number" step="0.01" id="Sugprice" class="form-control" name="Sugprice" placeholder="0.0000" required autocomplete="on">
                         </div>
                         

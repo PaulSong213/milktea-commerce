@@ -7,10 +7,6 @@ export function handleViewClick(table) {
             label: "Item Type Code"
         },
         {
-            dataKey: "is_consumable",
-            label: "Type"
-        },
-        {
             dataKey: "description",
             label: "Description"
         },

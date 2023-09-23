@@ -5,44 +5,21 @@ export function handleViewClick(table) {
         
         {
             dataKey: "itemTypeCode",
-            label: "Item Type"
+            label: "Product Type"
         },
         {
             dataKey: "itemCode",
-            label: "Item Code"
-        },
-        {
-            dataKey: "UnitType",
-            label: "Unit Type"
-        },
-        {
-            dataKey: "Unit",
-            label: "Unit"
+            label: "Product Name"
         },
         {
             dataKey: "Description",
             label: "Description"
         },
         {
-            dataKey: "Generic",
-            label: "Generic"
-        },
-        {
             dataKey: "SugPrice",
-            label: "Sugprice"
+            label: "Price"
         },
-        {
-            dataKey: "MWprice",
-            label: "MWprice"
-        },
-        {
-            dataKey: "IPDprice",
-            label: "IPDprice"
-        },
-        {
-            dataKey: "Ppriceuse",
-            label: "Ppriceuse"
-        },
+       
         {
             dataKey: "Status",
             label: "Status"

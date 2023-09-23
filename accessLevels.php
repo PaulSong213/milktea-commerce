@@ -147,7 +147,7 @@ $levelThree = [
                 "link" => "/supplierEnter/index.php", //link of the page
             ],
             [
-                "name" => "Item Types", //name of the link
+                "name" => "Product Category", //name of the link
                 "link" => "/itemType/index.php", //link of the page
             ],
             [
@@ -164,16 +164,16 @@ $levelThree = [
         ] //list of links on dropdown
     ],
     [
-        "name" => "Inventory", //name of the link
-        "icon" => "vaccines", //material icon name
+        "name" => "Product", //name of the link
+        "icon" => "local_drink", //material icon name
         "link" => "/inventory/index.php", //link of the page
         "navigations" => [
             [
-                "name" => "Inventory Items", //name of the link
+                "name" => "Product List", //name of the link
                 "link" => "/inventory/index.php", //link of the page
             ],
             [
-                "name" => "Item Types", //name of the link
+                "name" => "Product Category", //name of the link
                 "link" => "/itemType/index.php", //link of the page
             ],
             [
@@ -301,16 +301,16 @@ $levelFour = [
         ] //list of links on dropdown
     ],
     [
-        "name" => "Inventory", //name of the link
-        "icon" => "vaccines", //material icon name
+        "name" => "Product", //name of the link
+        "icon" => "local_drink", //material icon name
         "link" => "/inventory/index.php", //link of the page
         "navigations" => [
             [
-                "name" => "Inventory Items", //name of the link
+                "name" => "Product List", //name of the link
                 "link" => "/inventory/index.php", //link of the page
             ],
             [
-                "name" => "Item Types", //name of the link
+                "name" => "Product Category", //name of the link
                 "link" => "/itemType/index.php", //link of the page
             ],
             [

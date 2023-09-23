@@ -41,7 +41,7 @@
 
 <body>
     <div class="table w-100 p-4">
-        <h2 class="mt-4 mb-5">INVENTORY SYSTEM</h2>
+        <h2 class="mt-4 mb-5">PRODUCT LIST</h2>
         <?php include './add/add.php'; ?>
         <?php include './view/view.php'; ?>
         <table id="example" class="table table-striped" style="width:100%">
