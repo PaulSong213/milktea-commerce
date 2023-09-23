@@ -1,10 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap');
 
 :root {
-    --btn-color: white;
+    --white-color: white;
     --main-color: black;
     --border-radius: 95% 4% 97% 5% / 4% 94% 3% 95%;
     --border-radius-hover: 4% 95% 6% 95% / 95% 4% 92% 5%;
+    
+    --whiteborder: .2rem solid var(--white-color);
+    --whiteborder-hover: .2rem dashed var(--white-color);
+    
     --border: .2rem solid var(--main-color);
     --border-hover: .2rem dashed var(--main-color);
 }
@@ -12,7 +16,7 @@
 * {
     font-family: 'Poppins', sans-serif;
     margin: 0;
-    padding: 0;
+    padding: 0; 
     box-sizing: border-box;
     outline: none;
     border: none;
@@ -141,7 +145,7 @@ section {
 
 .home .row .image img {
     height: 35rem;
-    animation: float 4s linear infinite;
+    /* animation: float 4s linear infinite; */
 }
 
 @keyframes float {
@@ -192,8 +196,8 @@ section {
 }
 
 .about .row .image img {
-    width: 100%;
-    animation: aboutImage 4s linear infinite;
+    width: 75%;
+    border-radius: 5%;
 }
 
 @keyframes aboutImage {
@@ -258,13 +262,17 @@ section {
     background: url(../image/menu-bg.jpg) no-repeat;
     background-position: center;
     background-size: cover;
+    max-width: 100%;
 }
 
 .menu .box-container {
     display: flex;
     flex-wrap: wrap;
     gap: 2rem;
-    justify-content: center;
+    justify-content: center; 
+    max-width:100% ;
+    overflow-x: auto;
+    height: 30%;
 }
 
 .menu .box-container .box {
@@ -392,41 +400,11 @@ section {
     background: var(--main-color);
 }
 
-/* BOOK */
-
-.book {
+/* FOOTER */
+.footer{
     background: url(../image/book-bg.jpg);
     background-position: center;
     background-size: cover;
-}
-
-.book form {
-    margin: 0 auto 2rem auto;
-    max-width: 60rem;
-    border-radius: var(--border-radius-hover);
-    padding: 3rem;
-    border: var(--border);
-}
-
-.book form .box {
-    width: 100%;
-    padding: 1rem 1.2rem;
-    border-radius: .5rem;
-    font-size: 1.6rem;
-    background: none;
-    text-transform: none;
-    color: var(--main-color);
-    border: var(--border);
-    margin: .7rem 0;
-}
-
-.book form .box:focus {
-    border: var(--border-hover);
-}
-
-.book form textarea {
-    height: 15rem;
-    resize: none;
 }
 
 .footer .box-container {
@@ -467,33 +445,6 @@ section {
 .footer .credit span {
     border-bottom: var(--border-hover);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* MEDIA QUERIES */
 
 @media (max-width: 991px) {
@@ -578,3 +529,5 @@ section {
         width: 100%;
     }
 }
+
+
