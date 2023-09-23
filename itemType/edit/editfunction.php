@@ -13,15 +13,13 @@ if (isset($_POST['SaveItem'])) {
     $itemTypeID = $_POST['itemTypeID'];
     $description = $_POST['description'];
     $itemTypeCode = $_POST['itemTypeCode'];
-    $is_consumable = $_POST['is_consumable'] === "1"  ?  "1" : "0";
-    $departmentID = $_POST['departmentID'];
+    
+   
 
     $sql = "UPDATE itemtype_tb
     SET
         itemTypeCode = '$itemTypeCode',
         description = '$description',
-        departmentID = '$departmentID',
-        is_consumable = '$is_consumable',
         modifiedDate = now()
     WHERE
         itemTypeID = '$itemTypeID';

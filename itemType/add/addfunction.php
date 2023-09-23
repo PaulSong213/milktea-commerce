@@ -16,10 +16,8 @@ if ($conn->connect_error) {
 if (isset($_POST['SaveItem'])) {
     $itemTypeCode = $_POST['itemTypeCode'];
     $description = $_POST['description'];
-    $departmentID = $_POST['departmentID'];
-    $is_consumable = $_POST['is_consumable'] === "1"  ?  "1" : "0";
-    $sql = "INSERT INTO itemtype_tb (itemTypeCode, description, is_consumable, departmentID)
-    VALUES ('$itemTypeCode', '$description','$is_consumable', $departmentID)";
+    $sql = "INSERT INTO itemtype_tb (itemTypeCode, description)
+    VALUES ('$itemTypeCode', '$description')";
 
     $result = mysqli_query($conn, $sql);
     if ($result) {
