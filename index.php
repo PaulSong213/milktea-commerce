@@ -16,11 +16,12 @@
 	<!-- Custom CSS File Link  -->
 	<link rel="stylesheet" href="./landingpage/css/style.css">
 
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
 
 <body>
-	<?php include __DIR__ . '/track-order/index.php'; ?>
+
 	<!-- HEADER -->
 	<header class="header">
 		<div id="menu-btn" class="fas fa-bars"></div>
@@ -34,7 +35,7 @@
 			<a href="#review">reviews</a>
 		</nav>
 
-		<a href="#" class="btn">Place Order Now</a>
+		<a href="#" class="btn" data-toggle="modal" data-target="#categoryModal">Place Order Now</a>
 	</header>
 
 	<!-- HOME -->
@@ -42,7 +43,7 @@
 		<div class="row">
 			<div class="content">
 				<h3>fresh coffee & Tea in town</h3>
-				<a href="#" class="btn" style="color: white;" > buy one now</a>
+				<a href="#" class="btn" id="Place-Order"> buy one now</a>
 			</div>
 
 			<div class="image">
@@ -50,7 +51,7 @@
 			</div>
 		</div>
 
-		<div class="image-slider">
+		<div class="image-slider">`
 			<img src="./landingpage/image/home-img-1.png" alt="">
 			<img src="./landingpage/image/home-img-2.png" alt="">
 			<img src="./landingpage/image/home-img-3.png" alt="">
@@ -231,19 +232,6 @@
 		</div>
 	</section>
 
-	<!-- BOOK -->
-	<section class="book" id="book">
-		<h1 class="heading">message <span style="color:white" >Message Us Now</span></h1>
-
-		<form action="">
-			<input type="text" placeholder="Name" class="box">
-			<input type="email" placeholder="Email" class="box">
-			<input type="number" placeholder="Number" class="box">
-			<textarea name="" placeholder="Message" class="box" id="" cols="30" rows="10"></textarea>
-			<input type="submit" value="send message" class="btn">
-		</form>
-	</section>
-
 	<!-- FOOTER -->
 	<section class="footer">
 		<div class="box-container">
@@ -259,14 +247,6 @@
 
 			<div class="box">
 				<h3>contact info</h3>
-				<a href="#"><i class="fas fa-phone"></i> +123-456-7890</a>
-				<a href="#"><i class="fas fa-phone"></i> +111-222-3333</a>
-				<a href="#"><i class="fas fa-envelope"></i> coffee@gmail.com</a>
-				<a href="#"><i class="fas fa-envelope"></i> Perú, Lima</a>
-			</div>
-
-			<div class="box">
-				<h3>contact info</h3>
 				<a href="#"><i class="fab fa-facebook-f"></i> facebook</a>
 				<a href="#"><i class="fab fa-twitter"></i> twitter</a>
 				<a href="#"><i class="fab fa-instagram"></i> instagram</a>
@@ -275,6 +255,15 @@
 			</div>
 		</div>
 	</section>
+
+	<?php include './landingpage/cart/cart.php' ?>
+	<!-- Bootstrap and jQuery Scripts -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
 	<!-- SWIPER -->
 	<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
 
