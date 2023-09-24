@@ -73,14 +73,12 @@
                     <h2 class="modal-title">PRODUCT CART</h2>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-
                 <!-- Modal Body -->
                 <div class="modal-body row ">
                     <!-- Sidebar for Category selection -->
-                    <div class="col-3 category-sidebar bg-danger">
+                    <div class="col-3 category-sidebar">
                         <div class="form-check category-box" data-category="category1" >
                             <input class="form-check-input" type="radio" name="category" id="category1" value="category1">
-                            <label class="form-check-label" for="category1">MILK TEA</label>
                         </div>
                         <div class="form-check category-box" data-category="category2">
                             <input class="form-check-input" type="radio" name="category" id="category2" value="category2">
