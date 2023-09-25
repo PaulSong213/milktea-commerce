@@ -1,9 +1,10 @@
+<?php require_once '../php/connect.php'; ?>
 <!DOCTYPE html>
 
 <html lang="en">
 
 <head>
-    <title>Manage Online Orders</title>
+    <title></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
@@ -35,26 +36,20 @@
             font-size: 10px;
             margin-bottom: 5px;
         }
-
-        td:nth-child(2) {
-            max-width: 200px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
     </style>
 </head>
 
 <body>
     <div class="table w-100 p-4">
-        <h2 class="mt-4 mb-5">MANAGE ONLINE ORDERS</h2>
+        <h2 class="mt-4 mb-5">Room</h2>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>Item Type Code</th>
-                    <th>Description</th>
-                    <th>Date Added</th>
-                    <th>Modified Date</th>
+                    <th>Order #</th>
+                    <th>Status</th>
+                    <th>Orders</th>
+                    <th>Buyer Name</th>
+                    <th>Total Price</th>
                     <th class="action-column">Actions</th>
                 </tr>
             </thead>
@@ -77,69 +72,31 @@
         import {
             searchColumn,
             handleArchiveClick,
-            toFormattedDate
         } from "../costum-js/datatables.js";
+        import {
+            STATUS_COLOR
+        } from "/milktea-commerce/track-order/order-config.js";
+        import {
+            app
+        } from "/milktea-commerce/costum-js/firebase.js";
+        // insert test data to firebase realtime database
+        import {
+            getDatabase,
+            ref,
+            set,
+            onValue
+        } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+        const db = getDatabase();
+
+        const STATUS_SEQUENCE = [
+            "on-queue",
+            "preparing-food",
+            "on-delivery-rider",
+            "delivered"
+        ];
 
         $(document).ready(function() {
-
-            // clone header to add search by columns
-            $('#example thead tr')
-                .clone(true)
-                .addClass('filters')
-                .appendTo('#example thead');
-
             const table = $('#example').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: '/milktea-commerce/API/itemType/view.php',
-                    dataType: 'JSON',
-                    type: 'POST',
-                    data: function(d) {
-                        d.draw = d.draw || 1;
-                    }
-                },
-                columns: [{
-                        data: 'itemTypeCode',
-                    },
-                    {
-                        data: 'description'
-                    },
-                    {
-                        data: null,
-                        render: (data, type, row) => {
-                            return toFormattedDate(data.createDate);
-                        }
-                    },
-                    {
-                        data: null,
-                        render: (data, type, row) => {
-                            return toFormattedDate(data.modifiedDate);
-                        }
-                    },
-                    {
-                        data: null,
-                        render: (data, type, row) => {
-                            const id = data.InventoryID;
-                            return `
-                            <div class="dropdown dropstart d-flex">
-                                <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
-                                    <img class="mb-1" src="../img/icons/ellipsis-horizontal.svg">
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li class="mx-2">
-                                        <button class=" btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
-                                    </li>
-                                    <li class="mx-2">
-                                        <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
-                                    </li>
-                                </ul>
-                            </div>
-                            `
-                        },
-                        "searchable": false
-                    }
-                ],
                 orderCellsTop: true,
                 fixedHeader: true,
                 responsive: true,
@@ -173,68 +130,119 @@
                     {
                         extend: 'pageLength',
                         className: 'btn border border-info'
-                    },
-                    {
-                        text: 'Add Product Category',
-                        className: 'btn btn-primary bg-primary text-white',
-                        action: function(e, dt, node, config) {
-                            $('#addItemModal').modal('show');
-                        }
                     }
                 ],
-                initComplete: function() {
-                    searchColumn(this.api());
+                initComplete: () => {
+                    const orderRef = ref(db, `/orders/`);
+                    onValue(orderRef, (snapshot) => {
+                        $('#example').DataTable().clear().draw();
+                        snapshot.forEach((childSnapshot) => {
+                            const costumerID = childSnapshot.key;
+                            const orderData = childSnapshot.val();
+                            for (const orderNo in orderData) {
+                                const currentOrder = orderData[orderNo];
+                                // add data to 
+                                currentOrder.costumerID = costumerID;
+                                if (STATUS_SEQUENCE.indexOf(currentOrder.status) === -1) continue;
+                                const currentOrderStr = JSON.stringify(currentOrder);
+                                table.row.add([
+                                    orderNo,
+                                    currentOrder.status,
+                                    orderNo,
+                                    costumerID,
+                                    orderNo,
+                                    currentOrderStr,
+                                ]).draw(false);
+                            }
+                        });
+                    });
                 },
                 columnDefs: [{
                     targets: -1,
                     render: (d) => {
                         const data = JSON.parse(d);
-                        const id = data.InventoryID;
+                        const orderNo = data.sqlKey;
+                        const nextStatus = STATUS_SEQUENCE[STATUS_SEQUENCE.indexOf(data.status) + 1];
+                        const nextColor = STATUS_COLOR[nextStatus];
+                        if (!nextStatus) return '<small>No Action Required</small';
                         return `
-                        <div class="dropdown dropstart d-flex">
-                            <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
-                                <img class="mb-1" src="../img/icons/ellipsis-horizontal.svg">
+                            <button order-data='${JSON.stringify(data)}' class="btn action-btn text-white next-step-btn" style="background-color: ${nextColor}" >
+                                Mark as  ${nextStatus.replace(/-/g, " ").toUpperCase()}
                             </button>
-                            <ul class="dropdown-menu">
-                                <li class="mx-2">
-                                    <button class=" btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
-                                </li>
-                                <li class="mx-2">
-                                    <button class="btn action-btn btn-success w-100 mx-auto edit-btn" data-item='${JSON.stringify(data)}' id="edit_${id}">Edit</button>
-                                </li>
-                            </ul>
-                        </div>
                         `
                     },
                     "searchable": false
                 }],
+                order: [
+                    [1, 'asc']
+                ]
             });
-            handleEditClick(table);
-            handleViewClick(table);
 
-            table.on('draw', function() {
-                $('.action-wrapper').each(function(i, e) {
-                    $(this).removeClass('invisible');
+
+            // add click listener to mark to next step button
+            table.on('click', '.next-step-btn', function(e) {
+                const orderData = JSON.parse($(this).attr('order-data'));
+                const nextStatus = STATUS_SEQUENCE[STATUS_SEQUENCE.indexOf(orderData.status) + 1];
+                markToNextStep(orderData, `${nextStatus}`, e.target);
+            });
+
+            async function markToNextStep(orderData, nextStatus, button) {
+                // disable the button
+                button.disabled = true;
+                // save old button content
+                const oldButtonContent = button.innerHTML;
+                // add loading screen to button
+                button.innerHTML = `
+                    <div class="spinner-border spinner-border-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                `;
+
+                // show confirmation message
+                const confirmation = await Swal.fire({
+                    title: 'Confirmation',
+                    text: `Are you sure you want to mark order #${orderData.sqlKey} as ${nextStatus.replace(/-/g, " ").toUpperCase()}?`,
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No',
                 });
-            });
-            table.page(1).draw(true);
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('#saveItemButton').click(function() {
-                var itemCode = $('#itemCode').val();
-                var unit = $('#Unit').val();
-                var description = $('#description').val();
-                if (itemCode.trim() === "" || unit.trim() === "" || description.trim() === "") {
-                    return false; // Prevent closing modal and form submission
-                } else {
-                    $('#addItemModal').modal('hide'); // Close the modal after saving
+
+                // if user click yes
+                if (!confirmation.isConfirmed) {
+                    // enable the button
+                    button.disabled = false;
+                    // restore old button content
+                    button.innerHTML = oldButtonContent;
+                    return;
                 }
-            });
-        });
-        $('#Closemodal1, #Closemodal2').click(function() {
-            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
+
+                // update status to firebase
+                const orderRef = ref(db, `/orders/${orderData.costumerID}/${orderData.sqlKey}/status`);
+
+                // if next status is delivered mark it as waiting-for-feedback
+                if (nextStatus === 'delivered') nextStatus = 'waiting-for-feedback';
+
+                set(orderRef, nextStatus).then(() => {
+                    // show success message
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: `Order #${orderData.sqlKey} is now ${nextStatus.replace(/-/g, " ").toUpperCase()}`,
+                    });
+                }).catch((error) => {
+                    // show error message
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: `Something went wrong. Please try again later.`,
+                    });
+                    // enable the button
+                    button.disabled = false;
+                    // restore old button content
+                    button.innerHTML = oldButtonContent;
+                });
+            }
+
         });
     </script>
 </body>

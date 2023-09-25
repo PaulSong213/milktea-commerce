@@ -56,7 +56,7 @@
         onValue
     } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
     const db = getDatabase();
-    const TO_SKIP_STATUS = ["delivered", "pending-payment"];
+    const TO_SKIP_STATUS = ["delivered", "pending-payment", "waiting-for-feedback"];
 
     trackAllOrder();
     // track order from firebase realtime database
