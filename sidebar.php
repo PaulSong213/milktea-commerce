@@ -194,6 +194,7 @@ require_once(__DIR__ . "/accessLevels.php");
 </head>
 
 <body style="height: 100%; overflow-y: auto;">
+    <?php require_once __DIR__ . '/track-order/admin/notification-btn.php' ?>
     <div style="height: 100%; overflow-y: auto;">
         <nav class="rounded" id="sidebar" style="height: 100%; overflow-y: auto;">
             <a class="text-decoration-none" href="../account/index.php">
