@@ -109,12 +109,11 @@
                         data: 'image', // Column 2: Image
                         render: function(data, type, full, meta) {
                             // Render the image tag
-                            return '<img src="'+ data +'" alt="Image" style="max-width: 80px; max-height: 80px; border-radius: 20px;">';
+                            return '<img src="' + data + '" alt="Image" style="max-width: 80px; max-height: 80px; border-radius: 20px;">';
                             console.log(data.image);
                         }
-                    }
-                    ,
-                     {
+                    },
+                    {
                         data: 'itemTypeCode',
                     },
                     {
