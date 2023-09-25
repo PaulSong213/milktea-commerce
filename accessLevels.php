@@ -192,61 +192,31 @@ $levelThree = [
 ];
 $levelFour = [
     [
-        "name" => "Dashboard", //name of the link
-        "icon" => "dashboard", //material icon name
-        "link" => "/dashboard/index.php", //link of the page
-        "navigations" => [] //list of links on dropdown
-    ],
-    [
-        "name" => "Charge Slip", //name of the link
+        "name" => "Ordering", //name of the link
         "icon" => "point_of_sale", //material icon name
         "link" => "/billing_slip/index.php", //link of the page
         "navigations" => [
             [
-                "name" => "ChargeBilling/IPD/OPD", //name of the link
+                "name" => "Walk In Orders", //name of the link
                 "link" => "/billing_slip/index.php", //link of the page
             ],
             [
-                "name" => "Charge List", //name of the link
+                "name" => "Online Orders", //name of the link
+                "link" => "/online_orders/index.php", //link of the page
+            ],
+            [
+                "name" => "Transaction History", //name of the link
                 "link" => "/ChargeTable/index.php", //link of the page
             ],
-
-            [
-                "name" => "Billing List", //name of the link
-                "link" => "/billinglist/index.php", //link of the page
-            ],
-            [
-                "name" => "Hospital Use", //name of the link
-                "link" => "/clinicUse/index.php", //link of the page
-            ],
-            [
-                "name" => "Hospital Use Table", //name of the link
-                "link" => "/clinicUsetable/index.php", //link of the page
-            ],
-            [
-                "name" => "Print Closing Report", // include returns the included content
-                "link" => "/closingReport/index.php",
-            ],
+            // [
+            //     "name" => "Print Closing Report", // include returns the included content
+            //     "link" => "/closingReport/index.php",
+            // ],
             // [
             // "name" => "Print Montly Report", // include returns the included content
             // "link" => "/MontlyReport/index.php",
             // "id" => "openModalButton",
             // ],
-        ]
-    ],
-    [
-        "name" => "Enter Payment", //name of the link
-        "icon" => "paid", //material icon name
-        "link" => "/enterPayment/index.php?type=cash", //link of the page
-        "navigations" => [
-            [
-                "name" => "Enter Payment", //name of the link
-                "link" => "/enterPayment/index.php?type=cash", //link of the page
-            ],
-            [
-                "name" => "Payment History", //name of the link
-                "link" => "/enterPayment/history/index.php", //link of the page
-            ]
         ]
     ],
     [
@@ -267,37 +237,6 @@ $levelFour = [
                 "link" => "/Room/index.php", //link of the page
             ],
 
-        ] //list of links on dropdown
-    ],
-    [
-        "name" => "Patient", //name of the link
-        "icon" => "hotel", //material icon name
-        "link" => "/Patient/index.php", //link of the page
-        "navigations" => [
-            [
-                "name" => "Enter new Patient Record", //name of the link
-                "link" => "/Patient/index.php", //link of the page
-            ],
-            [
-                "name" => "Enter Billing (New Admission)", //name of the link
-                "link" => "/billing-new-admission/index.php", //link of the page
-            ],
-            [
-                "name" => "Request Services", //name of the linksub-link
-                "link" => "/services/index.php", //link of the page
-            ],
-            [
-                "name" => "Laboratory Result", //name of the linksub-link
-                "link" => "/resultLab/index.php", //link of the page
-            ],
-            [
-                "name" => "Ultrasound Result", //name of the linksub-link
-                "link" => "/resultUltrasound/index.php", //link of the page
-            ],
-            [
-                "name" => "X-Ray Result", //name of the linksub-link
-                "link" => "/resultXray/index.php", //link of the page
-            ],
         ] //list of links on dropdown
     ],
     [
