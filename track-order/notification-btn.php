@@ -42,25 +42,16 @@
     </div>
 
 </body>
-<script>
+<script type="module">
     // structure of order status object
-    const ORDER_STATUS = {
-        "pending-payment": "pending-payment",
-        "preparing-food": "preparing-food",
-        "on-delivery-rider": "on-delivery-rider",
-        "waiting-for-feedback": "waiting-for-feedback",
-        "delivered": "delivered",
-    };
+    import {
+        ORDER_STATUS,
+        STATUS_COLOR
+    } from "/milktea-commerce/track-order/order-config.js";
     window.ORDER_STATUS = ORDER_STATUS;
-
-    const STATUS_COLOR = {
-        [ORDER_STATUS["pending-payment"]]: "#991b1b",
-        [ORDER_STATUS["preparing-food"]]: "#1b4009",
-        [ORDER_STATUS["on-delivery-rider"]]: "#c9820d",
-        [ORDER_STATUS["waiting-for-feedback"]]: "#075985",
-    };
     window.STATUS_COLOR = STATUS_COLOR;
-
+</script>
+<script>
     function removeNotificationBtn(orderNo) {
         $("#track-order").find(`#notif-btn-${orderNo}`).hide(1000);
     }
