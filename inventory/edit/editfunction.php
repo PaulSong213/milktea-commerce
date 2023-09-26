@@ -18,7 +18,7 @@ if (isset($_POST['SaveItem'])) {
     $itemCode = $_POST['item_code'];
     $itemTypeID = $_POST['itemTypeID'];
     $description = $_POST['description'];
-    $sugPrice = $_POST['Sugprice'];
+    $sugPrice = $_POST['variant'];
     $statusData = 1;
 
     // Define the target directory for image uploads
@@ -64,7 +64,7 @@ if (isset($_POST['SaveItem'])) {
         $stmt->bind_param("ssssdii", $photo, $itemCode, $itemTypeID,  $description, $sugPrice, $statusData, $item_id);
     } else {
         $stmt = $conn->prepare("UPDATE inventory_tb 
-                                SET itemCode = ?, itemTypeID = ?, Description = ?, SugPrice = ?, Status = ?, modifiedDate = NOW()
+                                SET itemCode = ?, itemTypeID = ?, Description = ?, variantID = ?, Status = ?, modifiedDate = NOW()
                                 WHERE InventoryID = ?");
         $stmt->bind_param("sssdii", $itemCode, $itemTypeID,  $description, $sugPrice, $statusData, $item_id);
     }
