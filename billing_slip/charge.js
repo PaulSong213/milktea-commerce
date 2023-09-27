@@ -1,16 +1,4 @@
 
-document.addEventListener('DOMContentLoaded', () => {
-    const radioInput = document.getElementById('ipdRadio');
-    const radioInput2 = document.getElementById('opdRadio');
-    const additionalContent = document.getElementById('additionalContent');
-
-    const toggleAdditionalContent = () => {
-        additionalContent.style.display = radioInput.checked ? 'block' : 'none';
-    };
-    radioInput.addEventListener('change', toggleAdditionalContent);
-    radioInput2.addEventListener('change', toggleAdditionalContent);
-});
-
 
 function validateForm() {
     const form = document.getElementById('addItemForm');
@@ -86,7 +74,7 @@ function updateProductInfo(input) {
                         icon: 'error',
                         title: `${selectedValue} is OUT OF STOCK`,
                         html: `
-                        Please update first the number of stock on <a href="/milktea-commerce/inventory/index.php" target="_blank">Inventory</a>
+                        Please update first the number of stock on <a href="/Zarate/inventory/index.php" target="_blank">Inventory</a>
                         `,
                     });
                     row.querySelector('[name="product_id[]"]').value = "";
@@ -120,7 +108,7 @@ function updateProductInfo(input) {
                             icon: 'error',
                             title: `MAXIMUM Stock is ${remainingInv}`,
                             html: `
-                            You can update number of stocks on <a href="/milktea-commerce/inventory/index.php" target="_blank">Inventory</a>
+                            You can update number of stocks on <a href="/Zarate/inventory/index.php" target="_blank">Inventory</a>
                             `,
                         });
                     }
