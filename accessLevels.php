@@ -138,6 +138,12 @@ $levelThree = [
         ] //list of links on dropdown
     ],
     [
+        "name" => "Promo List", //name of the link
+        "icon" => "redeem", //material icon name
+        "link" => "/promo/index.php", //link of the page
+        "navigations" => [] //list of links on dropdown
+    ],
+    [
         "name" => "Enter Supplier", //name of the link
         "icon" => "local_shipping", //material icon name
         "link" => "/supplierEnter/index.php", //link of the page
@@ -151,9 +157,9 @@ $levelThree = [
                 "link" => "/itemType/index.php", //link of the page
             ],
             [
-                "name" => "Supplier", //name of the link
+                "name" => "Product Variant/Size", //name of the link
                 "icon" => "local_shipping", //material icon name
-                "link" => "/suppliers/index.php", //link of the page
+                "link" => "/variant/index.php", //link of the page
                 "navigations" => [] //list of links on dropdown
             ],
             [
@@ -177,9 +183,9 @@ $levelThree = [
                 "link" => "/itemType/index.php", //link of the page
             ],
             [
-                "name" => "Supplier", //name of the link
+                "name" => "Product Variant/Size", //name of the link
                 "icon" => "local_shipping", //material icon name
-                "link" => "/suppliers/index.php", //link of the page
+                "link" => "/variant/index.php", //link of the page
                 "navigations" => [] //list of links on dropdown
             ],
             [
@@ -240,6 +246,12 @@ $levelFour = [
         ] //list of links on dropdown
     ],
     [
+        "name" => "Promo List", //name of the link
+        "icon" => "redeem", //material icon name
+        "link" => "/promo/index.php", //link of the page
+        "navigations" => [] //list of links on dropdown
+    ],
+    [
         "name" => "Product", //name of the link
         "icon" => "local_drink", //material icon name
         "link" => "/inventory/index.php", //link of the page
@@ -253,9 +265,9 @@ $levelFour = [
                 "link" => "/itemType/index.php", //link of the page
             ],
             [
-                "name" => "Supplier", //name of the link
+                "name" => "Product Variant/Size", //name of the link
                 "icon" => "local_shipping", //material icon name
-                "link" => "/suppliers/index.php", //link of the page
+                "link" => "/variant/index.php", //link of the page
                 "navigations" => [] //list of links on dropdown
             ],
             [
