@@ -12,85 +12,49 @@
 
 <body>
     <div class="modal fade" data-bs-backdrop="static" id="printModal" tabindex="-1" aria-labelledby="printModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
+        <div class="modal-dialog ">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="printModalLabel">Print Charge Slip</h5>
+                    <h5 class="modal-title" id="printModalLabel">Print Order Reference</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div id="charge-slip-container" class="modal-body border p-4 m-4 shadow">
                     <div id="charge-slip">
                         <!-- HEADER -->
-                        <div class="d-flex justify-content-between border-bottom border-5 border-secondary py-3 w-100 m-0">
-                            <div class="d-flex">
-                                <img style="height: 60px;" src="../img/logo.png" alt="ZARATE LOGO">
-                                <div class="mx-3 d-flex flex-column justify-content-end ">
-                                    <h5 class="fw-bold mb-1">E. Zarate Hospital</h5>
-                                    <h6 class="text-muted">16 J. Aguilar Avenue, Talon, Las Piñas City, <br />Metro Manila, Philippines 1747</h6>
-                                </div>
-                            </div>
-                            <div class="mx-2 d-flex flex-column">
-                                <h5 class="fw-bold mb-1">Charge Slip # <span id="slipNumber"></span> </h5>
-                                <h6 class="text-muted mb-0"><span id="date"></span></h6>
-                                <h6 class="text-muted">Entered by: <span id="chargeEnteredBy"></span></h6>
-                            </div>
-                        </div>
-
-                        <!-- INFORMATION -->
-                        <div class="py-3 ">
-                            <div class="d-flex">
-                                <div style="margin-right: 12px;">
-                                    <h6 class="mb-1">PATIENT NAME:</h6>
-                                    <h6 class="mb-1">ACCOUNT OF:</h6>
-                                    <h6 class="mb-1">ATTACHED TO:</h6>
-                                </div>
-                                <div>
-                                    <h6 class="fw-bold mb-1"><span id="patientNameCharge"></span></h6>
-                                    <h6 class="fw-bold mb-1"><span id="accountOfCharge"></span></h6>
-                                    <h6 class="fw-bold mb-1"><span id="attachedToCharge"></span></h6>
-                                </div>
-                            </div>
+                        <div class=" d-flex flex-column text-center ">
+                            <h5 class="fw-bold mb-1">Romeo's Cafe</h5>
+                            <h6 class="fw-bold mb-1">Order # <span id="slipNumber"></span> </h6>
+                            <h6 class="text-muted mb-0"><span id="date"></span></h6>
+                            <h6 class="text-muted">Entered by: <span id="chargeEnteredBy"></span></h6>
                         </div>
 
                         <!-- ITEM LIST -->
                         <div id="productInfoContainer">
-                            <!-- <div id="itemTypeID">
-                                <div class="border border-3 d-flex  justify-content-between p-2 border-secondary w-100 align-items-center mb-2">
-                                    <h6 class="fw-bold my-auto">LABORATORY</h6>
-                                    <div class="col-3 d-flex align-items-center justify-content-between">
-                                        <h6 class="my-auto">TOTAL:</h6>
-                                        <h6 class="my-auto">₱9999</h6>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-end px-3">
-                                    <div class="row w-100">
-                                        <h6 class="col-6">test</h6>
-                                        <h6 class="col-2">999</h6>
-                                        <h6 class="col-1">1</h6>
-                                        <h6 class="col-1">Box</h6>
-                                        <h6 class="col-2 text-end">999</h6>
-                                    </div>
-                                </div>
-                            </div> -->
+                            <div class="d-flex justify-content-between border-bottom border-3 border-secondary pt-2 pb-1">
+                                <span class="fw-bold">Item</span>
+                                <span class="fw-bold">Price</span>
+                            </div>
+                            <div id="productInfoList">
+                                <!-- <div class="d-flex justify-content-between">
+                                    <span class="fw-bold">Item</span>
+                                    <span class="fw-bold">Quantity</span>
+                                    <span class="fw-bold">Price</span>
+                                </div> -->
+                            </div>
                         </div>
                         <div class="d-flex justify-content-end">
-                            <div class="border-top border-3 my-3 py-1 px-2 border-secondary w-max" style="min-width: 25%;">
-                                <h5 class="fw-bold">Total Amount: ₱<span id="totalAmount">0</span></h5>
+                            <div class="border-top border-3 my-3 py-1 px-2 border-secondary w-max text-end" style="min-width: 25%;">
+                                <span class="fw-bold">Total Amount: ₱<span id="totalAmount">0</span></span>
                                 <div class="d-flex flex-column">
                                     <span id="AmtTendered">Amount Tendered: ₱</span>
                                     <span id="ChangeAmt">Change: ₱</span>
                                     <span id="NetAmt">Net Amount: ₱</span>
                                     <span id="NetSale">Net Sale: ₱</span>
                                     <span id="AddDisc">Additional Discount(%): </span>
-                                    <span id="billRef">Bill Reference: </span>
-                                    <span id="patientType">Patient Type: </span>
-                                    <h5 id="paidIndicator" class="fs-6 fw-bold">
-                                        PAID
-                                    </h5>
                                 </div>
                             </div>
                         </div>
-                        <small class="fw-bold">*This receipt is provided for your reference and records. Please note that this is not an official receipt.</small>
+                        <small style="font-size: 10px;">*This Order Reference is given for your convenience and documentation purposes. Please be aware that it is not an official receipt.</small>
                     </div>
                 </div>
                 <div class="modal-footer">

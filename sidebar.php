@@ -194,7 +194,12 @@ require_once(__DIR__ . "/accessLevels.php");
 </head>
 
 <body style="height: 100%; overflow-y: auto;">
-    <?php require_once __DIR__ . '/track-order/admin/notification-btn.php' ?>
+    <?php
+    // check if the page is at /milktea-commerce/online_orders/index.php
+    if (!(strpos($_SERVER["REQUEST_URI"], "/milktea-commerce/online_orders/index.php") === 0)) {
+        require_once __DIR__ . '/track-order/admin/notification-btn.php';
+    }
+    ?>
     <div style="height: 100%; overflow-y: auto;">
         <nav class="rounded" id="sidebar" style="height: 100%; overflow-y: auto;">
             <a class="text-decoration-none" href="../account/index.php">
@@ -288,7 +293,6 @@ require_once(__DIR__ . "/accessLevels.php");
             var isSideBarOpened = $("#sidebar").hasClass("active");
             if (screen.width <= 768 && !isSideBarOpened) toggleSidebar();
             if (screen.width > 768 && isSideBarOpened) toggleSidebar();
-
         }
 
 

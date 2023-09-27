@@ -41,16 +41,20 @@
 
 <body>
     <div class="table w-100 p-4">
-        <h2 class="mt-4 mb-5">Room</h2>
+        <h2 class="mt-4 mb-3">ONLINE ORDERS</h2>
+        <div class="mb-3">
+            <a class="btn <?= isset($_GET["isNoActionNeeded"]) ? 'btn-secondary' : 'btn-primary' ?>" href="/milktea-commerce/online_orders/index.php">Pending Orders</a>
+            <a class="btn <?= isset($_GET["isNoActionNeeded"]) ? 'btn-primary' : 'btn-secondary' ?>" href="/milktea-commerce/online_orders/index.php?isNoActionNeeded=true">Show All Orders</a>
+        </div>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
+                    <th class="action-column">Actions</th>
                     <th>Order #</th>
                     <th>Status</th>
                     <th>Orders</th>
-                    <th>Buyer Name</th>
+                    <th>Buyer</th>
                     <th>Total Price</th>
-                    <th class="action-column">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -88,6 +92,7 @@
         } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
         const db = getDatabase();
 
+        // step by step sequence of status
         const STATUS_SEQUENCE = [
             "on-queue",
             "preparing-food",
@@ -136,48 +141,74 @@
                     const orderRef = ref(db, `/orders/`);
                     onValue(orderRef, (snapshot) => {
                         $('#example').DataTable().clear().draw();
-                        snapshot.forEach((childSnapshot) => {
+                        snapshot.forEach(async (childSnapshot) => {
                             const costumerID = childSnapshot.key;
                             const orderData = childSnapshot.val();
+
+
                             for (const orderNo in orderData) {
                                 const currentOrder = orderData[orderNo];
+
+                                // the current order does not need any action skip it
+                                const isNoActionNeeded = !(STATUS_SEQUENCE[STATUS_SEQUENCE.indexOf(currentOrder.status) + 1]);
+                                <?php
+                                if (!isset($_GET['isNoActionNeeded'])) {
+                                ?>
+                                    if (isNoActionNeeded) continue;
+                                <?php
+                                }
+                                ?>
+
+                                const orderDetails = await getOrderDetails(orderNo);
+                                const formattedOrderItemsStr = orderDetails.formattedOrderItemsStr || 'Failed to get order items. Reload the page to try again.';
                                 // add data to 
                                 currentOrder.costumerID = costumerID;
+                                const totalAmt = `₱${orderDetails.NetAmt}`;
                                 if (STATUS_SEQUENCE.indexOf(currentOrder.status) === -1) continue;
                                 const currentOrderStr = JSON.stringify(currentOrder);
                                 table.row.add([
+                                    currentOrderStr,
                                     orderNo,
                                     currentOrder.status,
-                                    orderNo,
+                                    formattedOrderItemsStr,
                                     costumerID,
-                                    orderNo,
-                                    currentOrderStr,
+                                    totalAmt,
                                 ]).draw(false);
                             }
                         });
                     });
                 },
                 columnDefs: [{
-                    targets: -1,
-                    render: (d) => {
-                        const data = JSON.parse(d);
-                        const orderNo = data.sqlKey;
-                        const nextStatus = STATUS_SEQUENCE[STATUS_SEQUENCE.indexOf(data.status) + 1];
-                        const nextColor = STATUS_COLOR[nextStatus];
-                        if (!nextStatus) return '<small>No Action Required</small';
-                        return `
-                            <button order-data='${JSON.stringify(data)}' class="btn action-btn text-white next-step-btn" style="background-color: ${nextColor}" >
+                        targets: 0,
+                        render: (d) => {
+                            const data = JSON.parse(d);
+                            const orderNo = data.sqlKey;
+                            const nextStatus = STATUS_SEQUENCE[STATUS_SEQUENCE.indexOf(data.status) + 1];
+                            const nextColor = STATUS_COLOR[nextStatus];
+                            if (!nextStatus) return '<small>No Action Required</small';
+                            return `
+                            <button order-data='${JSON.stringify(data)}' class="btn action-btn text-white next-step-btn w-100" style="background-color: ${nextColor}" >
                                 Mark as  ${nextStatus.replace(/-/g, " ").toUpperCase()}
                             </button>
                         `
+                        },
+                        "searchable": false
                     },
-                    "searchable": false
-                }],
+                    {
+                        targets: 2,
+                        render: (d) => {
+                            const color = STATUS_COLOR[d];
+                            return `<span class="badge w-100" style="background-color: ${color}">${d.replace(/-/g, " ").toUpperCase()}</span>`;
+                        },
+                    },
+                ],
                 order: [
                     [1, 'asc']
-                ]
+                ],
+                createdRow: function(row, data, dataIndex) {
+                    $('td:eq(3)', row).css('min-width', '400px');
+                }
             });
-
 
             // add click listener to mark to next step button
             table.on('click', '.next-step-btn', function(e) {
@@ -243,6 +274,26 @@
                 });
             }
 
+            async function getOrderDetails(orderNo) {
+                try {
+                    const response = await $.ajax({
+                        url: `/milktea-commerce/API/sales/min-search.php?SalesID=${orderNo}`,
+                    });
+
+                    const orderData = JSON.parse(response);
+                    const orderItems = JSON.parse(orderData.ProductInfo);
+                    let orderItemsStr = '';
+                    console.log(orderItems);
+                    for (const item of orderItems) {
+                        orderItemsStr += `${item.product_id} x ${item.qty} ${item.unit}<br>`;
+                    }
+                    orderData.formattedOrderItemsStr = orderItemsStr;
+                    return orderData;
+                } catch (error) {
+                    console.error(error);
+                }
+                return null;
+            }
         });
     </script>
 </body>

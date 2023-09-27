@@ -6,7 +6,6 @@ export function validateDataList(correctDataReference) {
             var isValidated = $(this).attr('isValidated');
             if (isValidated !== "true") {
                 console.log($(this));
-                e.preventDefault();
                 Swal.fire(
                     'Please correct the errors before submitting the form.',
                     '',
