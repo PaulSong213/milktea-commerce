@@ -20,51 +20,36 @@
                     <div class="modal-body">
                         <!-- Your modal content goes here -->
                         <div class="mb-3 d-flex justify-content-center align-items-center">
-                            <img id="uploaded-image" src="add/image/fast-food.png" alt="Uploaded Image" style="width: 130px; height: 130px; border-radius: 50%;">
+                            <img id="uploaded-image" src="add/image/promo.png" alt="Uploaded Image" style="width: 130px; height: 130px; border-radius: 50%;">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="item_code">Product Photo<span class="text-danger mx-1">*</span></label>
+                            <label class="form-label" for="photo">Product Photo<span class="text-danger mx-1">*</span></label>
                             <input class="form-control" type="file" name="photo" id="upload-input" accept=".jpg, .png, .jpeg">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="item_code">Product Name<span class="text-danger mx-1">*</span></label>
+                            <label class="form-label" for="item_code">Promo Name<span class="text-danger mx-1">*</span></label>
                             <input type="text" id="item_code" name="item_code" class="form-control" placeholder="Enter item code" autocomplete="on" required>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="type">Product Type<span class="text-danger mx-1">*</span></label>
-                            <select class="form-select" id="type" name="itemTypeID">
-                                <?php
-                                $connectionType = connect();
-                                $sqlType = "select * from itemtype_tb";
-                                $resultType = $connectionType->query($sqlType);
-                                if (!$resultType) die($connectionType->error);
-                                while ($rowType = $resultType->fetch_assoc()) {
-                                    echo '<option value="' . $rowType["itemTypeID"] . '">' . $rowType["itemTypeCode"] . '</option>';
-                                }
-                                ?>
-                            </select>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="minimum_spend">Minimum Spend<span class="text-danger mx-1">*</span></label>
+                                <input type="number" id="minimum_spend" name="minimum_spend" class="form-control" placeholder="Enter item code" autocomplete="on" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="percentage">Percentage<span class="text-danger mx-1">*</span></label>
+                                <input type="number" id="percentage" name="percentage" class="form-control" placeholder="Enter item code" autocomplete="on" required>
+                            </div>
                         </div>
 
                         <div class="mb-3">
                             <label for="description">Description<span class="text-danger mx-1">*</span></label>
                             <textarea class="form-control" id="description" name="description" placeholder="Enter description" required autocomplete="on"></textarea>
                         </div>
-
                         <div class="mb-3">
-                            <label class="form-label" for="variant">Department<span class="text-danger mx-1">*</span></label>
-                            <select class="form-select" id="variant" name="variant" required>
-                                <?php
-                                require_once '../php/connect.php';
-                                $connectionType = connect();
-                                $sqlDepartment = "select * from variant_tb";
-                                $resultDepartment = $connectionType->query($sqlDepartment);
-                                if (!$resultDepartment) die($connectionType->error);
-                                while ($rowType = $resultDepartment->fetch_assoc()) {
-                                    echo '<option value="' . $rowType["variantID"] . '">' . $rowType["variantName"] . ' | '. '₱'  .  $rowType["price"] . '</option>';
-                                }
-                                ?>
-                            </select>
+                            <label class="form-label" for="date">Promo Expiry<span class="text-danger mx-1">*</span></label>
+                            <input type="date" id="date" name="date" class="form-control" placeholder="Enter item code" autocomplete="on" required>
                         </div>
+
                         <!-- Add more fields as needed -->
                     </div>
                     <div class="modal-footer">

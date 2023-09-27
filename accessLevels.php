@@ -151,9 +151,9 @@ $levelThree = [
                 "link" => "/itemType/index.php", //link of the page
             ],
             [
-                "name" => "Supplier", //name of the link
+                "name" => "Product Variant/Size", //name of the link
                 "icon" => "local_shipping", //material icon name
-                "link" => "/suppliers/index.php", //link of the page
+                "link" => "/variant/index.php", //link of the page
                 "navigations" => [] //list of links on dropdown
             ],
             [
@@ -177,9 +177,9 @@ $levelThree = [
                 "link" => "/itemType/index.php", //link of the page
             ],
             [
-                "name" => "Supplier", //name of the link
+                "name" => "Product Variant/Size", //name of the link
                 "icon" => "local_shipping", //material icon name
-                "link" => "/suppliers/index.php", //link of the page
+                "link" => "/variant/index.php", //link of the page
                 "navigations" => [] //list of links on dropdown
             ],
             [
@@ -253,9 +253,9 @@ $levelFour = [
                 "link" => "/itemType/index.php", //link of the page
             ],
             [
-                "name" => "Supplier", //name of the link
+                "name" => "Product Variant/Size", //name of the link
                 "icon" => "local_shipping", //material icon name
-                "link" => "/suppliers/index.php", //link of the page
+                "link" => "/variant/index.php", //link of the page
                 "navigations" => [] //list of links on dropdown
             ],
             [
