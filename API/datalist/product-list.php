@@ -15,14 +15,7 @@
         $itemDescription = $row['description'];
         $is_consumable = $row['is_consumable'];
         $unit = $row['Unit'];
-        $unitText = "";
-        if ($is_consumable == "1") {
-            if ($unit <= 0) {
-                $unitText =  "| OUT OF STOCK";
-            } else {
-                $unitText = " | Unit: $unit";
-            }
-        }
+        $unitText = $unitText = " | Remaining: $unit";;
 
         if (!isset($productsData->$itemTypeCode)) {
             $productsData->$itemTypeCode = (object)array(
@@ -40,6 +33,8 @@
     $productsData = json_encode($productsData);
     ?>
 </datalist>
-<?php $conn->close(); ?>
+<?php
+print_r($productsData);
+$conn->close(); ?>
 
 </html>

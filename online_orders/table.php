@@ -187,7 +187,7 @@
                             const nextColor = STATUS_COLOR[nextStatus];
                             if (!nextStatus) return '<small>No Action Required</small';
                             return `
-                            <button order-data='${JSON.stringify(data)}' class="btn action-btn text-white next-step-btn" style="background-color: ${nextColor}" >
+                            <button order-data='${JSON.stringify(data)}' class="btn action-btn text-white next-step-btn w-100" style="background-color: ${nextColor}" >
                                 Mark as  ${nextStatus.replace(/-/g, " ").toUpperCase()}
                             </button>
                         `
@@ -198,7 +198,7 @@
                         targets: 2,
                         render: (d) => {
                             const color = STATUS_COLOR[d];
-                            return `<span class="badge" style="background-color: ${color}">${d.replace(/-/g, " ").toUpperCase()}</span>`;
+                            return `<span class="badge w-100" style="background-color: ${color}">${d.replace(/-/g, " ").toUpperCase()}</span>`;
                         },
                     },
                 ],
