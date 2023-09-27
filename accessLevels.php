@@ -138,6 +138,12 @@ $levelThree = [
         ] //list of links on dropdown
     ],
     [
+        "name" => "Promo List", //name of the link
+        "icon" => "redeem", //material icon name
+        "link" => "/promo/index.php", //link of the page
+        "navigations" => [] //list of links on dropdown
+    ],
+    [
         "name" => "Enter Supplier", //name of the link
         "icon" => "local_shipping", //material icon name
         "link" => "/supplierEnter/index.php", //link of the page
@@ -238,6 +244,12 @@ $levelFour = [
             ],
 
         ] //list of links on dropdown
+    ],
+    [
+        "name" => "Promo List", //name of the link
+        "icon" => "redeem", //material icon name
+        "link" => "/promo/index.php", //link of the page
+        "navigations" => [] //list of links on dropdown
     ],
     [
         "name" => "Product", //name of the link
