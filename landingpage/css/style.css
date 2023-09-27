@@ -5,10 +5,10 @@
     --main-color: black;
     --border-radius: 95% 4% 97% 5% / 4% 94% 3% 95%;
     --border-radius-hover: 4% 95% 6% 95% / 95% 4% 92% 5%;
-    
+
     --whiteborder: .2rem solid var(--white-color);
     --whiteborder-hover: .2rem dashed var(--white-color);
-    
+
     --border: .2rem solid var(--main-color);
     --border-hover: .2rem dashed var(--main-color);
 }
@@ -16,7 +16,7 @@
 * {
     font-family: 'Poppins', sans-serif;
     margin: 0;
-    padding: 0; 
+    padding: 0;
     box-sizing: border-box;
     outline: none;
     border: none;
@@ -257,22 +257,24 @@ section {
 }
 
 /* MENU */
-
 .menu {
     background: url(../image/menu-bg.jpg) no-repeat;
     background-position: center;
     background-size: cover;
     max-width: 100%;
+    max-height: 30%;
+    overflow-x: auto;
 }
 
 .menu .box-container {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap:inherit;
     gap: 2rem;
-    justify-content: center; 
-    max-width:100% ;
+    justify-content: flex-start;
+    width: 100%;
+    height: 20%;
+    box-sizing: border-box;
     overflow-x: auto;
-    height: 30%;
 }
 
 .menu .box-container .box {
@@ -284,6 +286,7 @@ section {
     align-items: center;
     gap: 1.5rem;
     margin-left: 6rem;
+    max-width: fit-content;
 }
 
 .menu .box-container .box:hover {
@@ -294,6 +297,8 @@ section {
 .menu .box-container .box img {
     height: 8rem;
     margin-left: -6rem;
+    border: var(--border);
+    border-radius: var(--border-radius);
 }
 
 .menu .box-container .box .content h3 {
@@ -401,7 +406,7 @@ section {
 }
 
 /* FOOTER */
-.footer{
+.footer {
     background: url(../image/book-bg.jpg);
     background-position: center;
     background-size: cover;
@@ -445,6 +450,7 @@ section {
 .footer .credit span {
     border-bottom: var(--border-hover);
 }
+
 /* MEDIA QUERIES */
 
 @media (max-width: 991px) {
@@ -529,5 +535,3 @@ section {
         width: 100%;
     }
 }
-
-

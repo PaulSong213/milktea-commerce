@@ -20,7 +20,7 @@ if (isset($_POST['SaveItem'])) {
     $description = $_POST['description'];
     $sugPrice = $_POST['variant'];
     $statusData = 1;
-    
+
 
     // Define the target directory for image uploads
     $targetDir = 'image/'; // Make sure the path is correct, relative to this PHP file

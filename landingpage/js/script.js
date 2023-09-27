@@ -39,12 +39,3 @@ var swiper = new Swiper(".review-slider", {
         },
     },
 });
-
-// JavaScript for modal functionality
-
-$(document).ready(function () {
-    $('#categorySelect').change(function () {
-        $('.category-content').hide();
-        $('#' + $(this).val()).show();
-    });
-});
