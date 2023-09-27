@@ -44,19 +44,27 @@
                                 ?>
                             </select>
                         </div>
-                       
+
                         <div class="mb-3">
                             <label for="description">Description<span class="text-danger mx-1">*</span></label>
                             <textarea class="form-control" id="description" name="description" placeholder="Enter description" required autocomplete="on"></textarea>
                         </div>
-                       
+
                         <div class="mb-3">
-                            <label for="Sugprice">Price<span class="text-danger mx-1">*</span></label>
-                            <input type="number" step="0.01" id="Sugprice" class="form-control" name="Sugprice" placeholder="0.0000" required autocomplete="on">
+                            <label class="form-label" for="variant">Department<span class="text-danger mx-1">*</span></label>
+                            <select class="form-select" id="variant" name="variant" required>
+                                <?php
+                                require_once '../php/connect.php';
+                                $connectionType = connect();
+                                $sqlDepartment = "select * from variant_tb";
+                                $resultDepartment = $connectionType->query($sqlDepartment);
+                                if (!$resultDepartment) die($connectionType->error);
+                                while ($rowType = $resultDepartment->fetch_assoc()) {
+                                    echo '<option value="' . $rowType["variantID"] . '">' . $rowType["variantName"] . '</option>';
+                                }
+                                ?>
+                            </select>
                         </div>
-                        
-                       
-                       
                         <!-- Add more fields as needed -->
                     </div>
                     <div class="modal-footer">
@@ -67,7 +75,7 @@
             </div>
         </div>
     </form>
-   
+
 </body>
 
 </html>
