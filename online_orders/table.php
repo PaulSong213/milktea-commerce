@@ -43,8 +43,8 @@
     <div class="table w-100 p-4">
         <h2 class="mt-4 mb-3">ONLINE ORDERS</h2>
         <div class="mb-3">
-            <a class="btn <?= isset($_GET["isNoActionNeeded"]) ? 'btn-secondary' : 'btn-primary' ?>" href="/milktea-commerce/online_orders/index.php">Pending Orders</a>
-            <a class="btn <?= isset($_GET["isNoActionNeeded"]) ? 'btn-primary' : 'btn-secondary' ?>" href="/milktea-commerce/online_orders/index.php?isNoActionNeeded=true">Show All Orders</a>
+            <a class="btn <?= isset($_GET["isNoActionNeeded"]) ? 'btn-secondary' : 'btn-coffee-active' ?>" href="/milktea-commerce/online_orders/index.php">Pending Orders</a>
+            <a class="btn <?= isset($_GET["isNoActionNeeded"]) ? 'btn-coffee-active' : 'btn-secondary' ?>" href="/milktea-commerce/online_orders/index.php?isNoActionNeeded=true">Show All Orders</a>
         </div>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
@@ -109,32 +109,32 @@
                 dom: 'Bfrtip',
                 buttons: [{
                         extend: 'excelHtml5',
-                        className: 'btn border border-info',
+                        className: 'btn btn-coffee',
                         exportOptions: {
                             columns: ':not(.action-column)'
                         }
                     },
                     {
                         extend: 'pdfHtml5',
-                        className: 'btn border border-info',
+                        className: 'btn btn-coffee',
                         exportOptions: {
                             columns: ':not(.action-column)'
                         }
                     },
                     {
                         extend: 'print',
-                        className: 'btn border border-info',
+                        className: 'btn btn-coffee',
                         exportOptions: {
                             columns: ':not(.action-column)'
                         }
                     },
                     {
                         extend: 'colvis',
-                        className: 'btn border border-info'
+                        className: 'btn btn-coffee'
                     },
                     {
                         extend: 'pageLength',
-                        className: 'btn border border-info'
+                        className: 'btn btn-coffee'
                     }
                 ],
                 initComplete: () => {

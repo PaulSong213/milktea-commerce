@@ -54,6 +54,7 @@ function updateProductInfo(input) {
     var selectedValue = input.value;
     var row = input.closest("tr");
     var invInput = row.querySelector('[name="inv"]');
+    var image = row.querySelector('[name="image[]"]');
     var product_desciption = row.querySelector('[name="product_desciption[]"]');
     var unitInput = row.querySelector('[name="unit[]"]');
     var priceInput = row.querySelector('[name="price[]"]');
@@ -88,6 +89,7 @@ function updateProductInfo(input) {
                 itemTypeInput.value = response.itemtype;
                 idInput.value = response.id;
                 itemTypeIDInput.value = response.itemTypeID;
+                image.value = response.image;
 
                 for (var i = 0; i < datalist.options.length; i++) {
                     if (datalist.options[i].value === selectedValue) {

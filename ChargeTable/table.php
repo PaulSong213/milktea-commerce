@@ -47,31 +47,34 @@
 
 <body>
     <div class="table w-100 p-4">
-        <h2 class="mt-4 mb-5">CHARGE LIST TABLE</h2>
-        <?php include './view/view.php'; ?>
+        <h2 class="mt-4 mb-5">TRANSACTION HISTORY</h2>
+        <div class="mb-3">
+            <?php
+            $historyType = "all";
+            if (isset($_GET["historyType"])) $historyType = $_GET["historyType"];
+            ?>
+            <a class="btn <?= $historyType == "all" ? 'btn-coffee-active' : 'btn-secondary' ?>" href="/milktea-commerce/ChargeTable/index.php">All Transactions</a>
+            <a class="btn <?= $historyType == "online" ? 'btn-coffee-active' : 'btn-secondary' ?>" href="/milktea-commerce/ChargeTable/index.php?historyType=online">Online Transactions</a>
+            <a class="btn <?= $historyType == "walkin" ? 'btn-coffee-active' : 'btn-secondary' ?>" href="/milktea-commerce/ChargeTable/index.php?historyType=walkin">Walk In Transactions</a>
+        </div>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>Sales Code</th>
-                    <th>NetSale</th>
-                    <th>AddDiscAmt</th>
-                    <th>AmtTendered </th>
-                    <th>ChangeAmt</th>
-                    <th>PatientAcct</th>
-                    <th>RequestedName</th>
-                    <th>EnteredName</th>
-                    <th>PatientType</th>
-                    <th>Created Date</th>
-                    <th>Modified Date</th>
+                    <th>Order #</th>
+                    <th>Transaction Type</th>
+                    <th>Status</th>
+                    <th>Costumer</th>
+                    <th>Entered By</th>
+                    <th>Transaction Date</th>
                     <th class="action-column">Actions</th>
                 </tr>
             </thead>
             <tbody>
             </tbody>
         </table>
-
-
     </div>
+    <?php include '../billing_slip/templates/charge-slip.php'; ?>
+
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
@@ -89,9 +92,10 @@
             handleArchiveClick,
             toFormattedDate
         } from "../costum-js/datatables.js";
+
         import {
-            showChargeSlip
-        } from '../billing_slip/templates/functions.js';
+            STATUS_COLOR
+        } from "/milktea-commerce/track-order/order-config.js";
 
         $(document).ready(function() {
 
@@ -100,45 +104,55 @@
                 .clone(true)
                 .addClass('filters')
                 .appendTo('#example thead');
-
+            <?php
+            $APIparameter = "";
+            if (isset($_GET["historyType"])) $APIparameter = "?modeOfPaymentType=" . $_GET["historyType"];
+            ?>
             const table = $('#example').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '/milktea-commerce/API/chargelist/view.php',
+                    url: '/milktea-commerce/API/orders/view.php<?= $APIparameter ?>',
                     dataType: 'JSON',
                     type: 'POST',
                     data: function(d) {
                         d.draw = d.draw || 1;
                     }
                 },
-
                 columns: [{
-                        data: 'SalesID',
+                        data: 'orderID',
                     },
                     {
-                        data: 'NetSale',
+                        data: null,
+                        render: (data, type, row) => {
+                            const bgColor = data.modeOfPayment == "walk-in" ? "#f5b7b1" : "#d7bde2";
+                            const title = data.modeOfPayment.replace(/-/g, " ").toUpperCase();
+                            return `<span class="badge text-dark" style="background-color:${bgColor}">${title}</span>`;
+                        }
                     },
                     {
-                        data: 'AddDiscAmt',
+                        data: null,
+                        render: (data, type, row) => {
+                            const bgColor = STATUS_COLOR[data.status];
+                            const title = data.status.replace(/-/g, " ").toUpperCase();
+                            return `<span class="badge text-white" style="background-color:${bgColor}">${title}</span>`;
+                        }
                     },
                     {
-                        data: 'AmtTendered',
+                        data: null,
+                        render: (data, type, row) => {
+                            // TODO: Fix this when there is already costumer table
+                            if (data.CostumerName) {
+                                return data.CostumerName;
+                            }
+                            return data.CostumerName;
+                        }
                     },
                     {
-                        data: 'ChangeAmt'
-                    },
-                    {
-                        data: 'PatientAcct'
-                    },
-                    {
-                        data: 'RequestedName'
-                    },
-                    {
-                        data: 'EnteredName'
-                    },
-                    {
-                        data: 'PatientType'
+                        data: null,
+                        render: (data, type, row) => {
+                            return `${data.EnteredEmployeeFirstName} ${data.EnteredEmployeeLastName}`;
+                        }
                     },
                     {
                         data: null,
@@ -149,13 +163,7 @@
                     {
                         data: null,
                         render: (data, type, row) => {
-                            return toFormattedDate(data.modifiedDate);
-                        }
-                    },
-                    {
-                        data: null,
-                        render: (data, type, row) => {
-                            const id = data.SalesID;
+                            const id = data.billingID;
                             return `
                             <div class="dropdown dropstart d-flex">
                                 <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
@@ -163,9 +171,8 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li class="mx-2">
-                                        <button class=" btn action-btn btn-primary w-100 mx-auto view-charge" data-item='${JSON.stringify(data)}' >View</button>
+                                        <button class=" btn action-btn btn-primary w-100 mx-auto view-btn view-bill"  data-item='${JSON.stringify(data)}' >View</button>
                                     </li>
-                        
                                 </ul>
                             </div>
                             `
@@ -180,59 +187,39 @@
                 dom: 'Bfrtip',
                 buttons: [{
                         extend: 'excelHtml5',
-                        className: 'btn col-1 border border-info',
+                        className: 'btn btn-coffee',
                         exportOptions: {
                             columns: ':not(.action-column)'
                         }
                     },
                     {
                         extend: 'pdfHtml5',
-                        className: 'btn  col-1 border border-info',
+                        className: 'btn btn-coffee',
                         exportOptions: {
                             columns: ':not(.action-column)'
                         }
                     },
                     {
                         extend: 'print',
-                        className: 'btn col-1 border border-info',
+                        className: 'btn btn-coffee',
                         exportOptions: {
                             columns: ':not(.action-column)'
                         }
                     },
                     {
                         extend: 'colvis',
-                        className: 'btn col-2 border border-info'
+                        className: 'btn btn-coffee'
                     },
                     {
                         extend: 'pageLength',
-                        className: 'btn col-1 border border-info'
-                    },
+                        className: 'btn btn-coffee'
+                    }
                 ],
                 initComplete: function() {
                     searchColumn(this.api());
                 },
-                columnDefs: [{
-                    targets: -1,
-                    render: (d) => {
-                        const data = JSON.parse(d);
-                        const id = data.SalesID;
-                        return `
-                        <div class="dropdown dropstart d-flex">
-                            <button class="btn btn-secondary bg-white text-secondary position-relative mx-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 35px" >
-                                <img class="mb-1" src="../img/icons/ellipsis-horizontal.svg">
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li class="mx-2">
-                                    <button class=" btn action-btn btn-primary w-100 mx-auto view-btn"  data-item='${JSON.stringify(data)}' >View</button>
-                                </li>
-                            </ul>
-                        </div>
-                        `
-                    },
-                    "searchable": false
-                }],
                 order: [
-                    [3, 'asc']
+                    ['0', 'desc']
                 ]
             });
 
@@ -241,12 +228,28 @@
                     $(this).removeClass('invisible');
                 });
             });
-            table.on('click', '.view-charge', function(e) {
-                let bill = JSON.parse($(this).attr("data-item"));
-                console.log(bill.SalesID);
-                showChargeSlip(bill.SalesID);
-            });
             table.page(1).draw(true);
+            table.on('click', '.view-bill', function(e) {
+                let bill = JSON.parse($(this).attr("data-item"));
+                showChargeSlip(bill.orderID);
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#saveItemButton').click(function() {
+                var itemCode = $('#itemCode').val();
+                var unit = $('#Unit').val();
+                var description = $('#description').val();
+                if (itemCode.trim() === "" || unit.trim() === "" || description.trim() === "") {
+                    return false; // Prevent closing modal and form submission
+                } else {
+                    $('#addItemModal').modal('hide'); // Close the modal after saving
+                }
+            });
+        });
+        $('#Closemodal1, #Closemodal2').click(function() {
+            $('#addItemModal').modal('hide'); // Close the modal when the close button is clicked
         });
     </script>
 </body>

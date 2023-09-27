@@ -23,6 +23,7 @@ if (isset($_POST['SaveItem'])) {
     // Create the array for ProductInfo column
     $productInfoArray = [];
     $unit = $_POST['unit'];
+    $image = $_POST['image'];
     $subtotal = $_POST['subtotal'];
     $product_id = $_POST['product_id'];
     $qty = $_POST['qty'];
@@ -45,6 +46,7 @@ if (isset($_POST['SaveItem'])) {
             "price" => $price[$i],
             "id" => $id[$i],
             "unit" => $unit[$i],
+            "image" => $image[$i],
             "itemType" => $ItemType[$i],
             "itemTypeID" => $ItemTypeID[$i],
             "product_desciption" => $product_desciption[$i]

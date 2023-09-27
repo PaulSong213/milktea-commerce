@@ -109,12 +109,11 @@
                         data: 'image', // Column 2: Image
                         render: function(data, type, full, meta) {
                             // Render the image tag
-                            return '<img src="'+ data +'" alt="Image" style="max-width: 80px; max-height: 80px; border-radius: 20px;">';
+                            return '<img src="' + data + '" alt="Image" style="max-width: 80px; max-height: 80px; border-radius: 20px;">';
                             console.log(data.image);
                         }
-                    }
-                    ,
-                     {
+                    },
+                    {
                         data: 'itemTypeCode',
                     },
                     {
@@ -182,32 +181,32 @@
                 dom: 'Bfrtip',
                 buttons: [{
                         extend: 'excelHtml5',
-                        className: 'btn border border-info',
+                        className: 'btn btn-coffee',
                         exportOptions: {
                             columns: ':not(.action-column)'
                         }
                     },
                     {
                         extend: 'pdfHtml5',
-                        className: 'btn border border-info',
+                        className: 'btn btn-coffee',
                         exportOptions: {
                             columns: ':not(.action-column)'
                         }
                     },
                     {
                         extend: 'print',
-                        className: 'btn border border-info',
+                        className: 'btn btn-coffee',
                         exportOptions: {
                             columns: ':not(.action-column)'
                         }
                     },
                     {
                         extend: 'colvis',
-                        className: 'btn border border-info'
+                        className: 'btn btn-coffee'
                     },
                     {
                         extend: 'pageLength',
-                        className: 'btn border border-info'
+                        className: 'btn btn-coffee'
                     },
                     {
                         text: 'Add Product',

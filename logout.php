@@ -23,7 +23,7 @@
 
       $_SESSION["alert_message_success"] = true;
       unset($_SESSION['user']);
-      header("Location: /milktea-commerce/index.php"); // Change 'login.php' to your actual login page
+      header("Location: /milktea-commerce/login.php"); // Change 'login.php' to your actual login page
       exit();
    } else {
       $_SESSION["alert_message"] = "Failed to Added an Employee. Error Details: " . mysqli_error($conn);

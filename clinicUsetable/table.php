@@ -154,32 +154,32 @@
                 dom: 'Bfrtip',
                 buttons: [{
                         extend: 'excelHtml5',
-                        className: 'btn border border-info',
+                        className: 'btn btn-coffee',
                         exportOptions: {
                             columns: ':not(.action-column)'
                         }
                     },
                     {
                         extend: 'pdfHtml5',
-                        className: 'btn border border-info',
+                        className: 'btn btn-coffee',
                         exportOptions: {
                             columns: ':not(.action-column)'
                         }
                     },
                     {
                         extend: 'print',
-                        className: 'btn border border-info',
+                        className: 'btn btn-coffee',
                         exportOptions: {
                             columns: ':not(.action-column)'
                         }
                     },
                     {
                         extend: 'colvis',
-                        className: 'btn border border-info'
+                        className: 'btn btn-coffee'
                     },
                     {
                         extend: 'pageLength',
-                        className: 'btn border border-info'
+                        className: 'btn btn-coffee'
                     },
                     {
                         text: 'Add Hospital Use',
