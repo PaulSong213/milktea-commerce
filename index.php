@@ -1,8 +1,13 @@
-<?php
-session_start();
-?>
 <!DOCTYPE html>
 <html lang="es">
+<?php
+require_once '././php/connect.php';
+// Establish a database connection
+$conn = connect();
+// Check connection status
+if ($conn->connect_error) {
+	die("Connection failed: " . $conn->connect_error);
+} ?>
 
 <head>
 	<meta charset="UTF-8">
@@ -10,22 +15,27 @@ session_start();
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Romeo`s Coffee</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+	<!-- Bootstrap JS -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	<!-- SWIPER -->
 	<link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
-
 	<!-- Font Awesome CDN Link  -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 	<!-- Custom CSS File Link  -->
 	<link rel="stylesheet" href="./landingpage/css/style.css">
 
 </head>
 
 <body>
-	<?php include('./php/session-dialog.php')
-	?>
-	<?php include __DIR__ . '/track-order/index.php';
+	<?php
+	include('./php/session-dialog.php');
+	include __DIR__ . '/track-order/index.php';
 	?>
 	<!-- HEADER -->
 	<header class="header">
@@ -40,7 +50,9 @@ session_start();
 			<a href="#review">reviews</a>
 		</nav>
 
-		<a href="#" class="btn" data-toggle="modal" data-target="#categoryModal">Place Order Now</a>
+		<a href="#" class="btn" data-toggle="modal" data-target="#categoryModal">
+			<i class="fas fa-shopping-cart"></i> View Cart
+		</a>
 	</header>
 
 	<!-- HOME -->
@@ -48,7 +60,7 @@ session_start();
 		<div class="row">
 			<div class="content">
 				<h3>fresh coffee & Tea in town</h3>
-				<a href="#" class="btn" id="Place-Order"> buy one now</a>
+				<a href="#menu" class="btn" id="Place-Order"> buy one now</a>
 			</div>
 
 			<div class="image">
@@ -101,63 +113,67 @@ session_start();
 
 	<!-- MENU -->
 	<section class="menu" id="menu">
-		<h1 class="heading">our menu <span>popular menu</span></h1>
-		<div class="box-container">
-			<a href="#" class="box">
-				<img src="./landingpage/image/menu-1.png" alt="">
-				<div class="content">
-					<h3>our special coffee</h3>
-					<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur, sed.</p>
-					<span>$8.99</span>
-				</div>
-			</a>
+		<h1 class="heading">Our Menu <span>Popular Menu</span></h1>
+		<div class="row">
+			<div class="container-fluid d-flex justify-content-center">
+				<!-- Categories filter here where itemTypeID values -->
+				<?php
+				$query = "SELECT DISTINCT itemTypeID,description FROM itemtype_tb";
+				$result = $conn->query($query);
+				if ($result->num_rows > 0) {
+					while ($row = $result->fetch_assoc()) {
+						echo '<button class="btn costum-btn-primary m-2 sort-button" data-category="' . $row["itemTypeID"] . '">' . $row["description"] . '</button>';
+					}
+				}
+				?>
+			</div>
 
-			<a href="#" class="box">
-				<img src="./landingpage/image/menu-2.png" alt="">
-				<div class="content">
-					<h3>our special coffee</h3>
-					<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vel, fugit.</p>
-					<span>$8.99</span>
+			<div id="box-container" class="box-container mt-5">
+				<!-- Add this line where you want the loader to appear -->
+				<div id="loader" class="spinner-grow text-primary" role="status" style="display: none;">
+					<span class="sr-only">Loading...</span>
 				</div>
-			</a>
-
-			<a href="#" class="box">
-				<img src="./landingpage/image/menu-3.png" alt="">
-				<div class="content">
-					<h3>our special coffee</h3>
-					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, recusandae.</p>
-					<span>$8.99</span>
-				</div>
-			</a>
-
-			<a href="#" class="box">
-				<img src="./landingpage/image/menu-4.png" alt="">
-				<div class="content">
-					<h3>our special coffee</h3>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse, quas.</p>
-					<span>$8.99</span>
-				</div>
-			</a>
-
-			<a href="#" class="box">
-				<img src="./landingpage/image/menu-5.png" alt="">
-				<div class="content">
-					<h3>our special coffee</h3>
-					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, vitae.</p>
-					<span>$8.99</span>
-				</div>
-			</a>
-
-			<a href="#" class="box">
-				<img src="./landingpage/image/menu-6.png" alt="">
-				<div class="content">
-					<h3>our special coffee</h3>
-					<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Unde, expedita!</p>
-					<span>$8.99</span>
-				</div>
-			</a>
+			</div>
 		</div>
+		<script>
+			$(document).ready(function() {
+				// Function to load menu content
+				function loadMenu(category) {
+					$.ajax({
+						url: 'menu.php', // Replace 'get_items.php' with the actual URL of your PHP script
+						type: 'GET',
+						data: {
+							category: category
+						},
+						beforeSend: function() {
+							$('#loader').show(); // Show loader
+							$('#box-container').css('opacity', '0'); // Set box container opacity to 0
+						},
+						success: function(data) {
+							setTimeout(function() {
+								$('#loader').hide(); // Hide loader
+								$('#box-container').html(data).css('opacity', '1'); // Show and fade in the HTML of the box container
+							}, 500); // Delay of 0.5 seconds (500 milliseconds)
+						},
+						error: function() {
+							console.log('Error loading menu.');
+						}
+					});
+				}
+
+				// Initial page load
+				loadMenu('');
+
+				// Handle category filter clicks
+				$('.sort-button').on('click', function(e) {
+					e.preventDefault();
+					var category = $(this).data('category');
+					loadMenu(category);
+				});
+			});
+		</script>
 	</section>
+
 
 	<!-- REVIEW -->
 	<section class="review" id="review">
@@ -263,7 +279,7 @@ session_start();
 
 	<?php include './landingpage/cart/cart.php' ?>
 	<!-- Bootstrap and jQuery Scripts -->
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js" type="text/javascript"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 

@@ -4,47 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Category Selection Modal</title>
+    <title>Shopping Cart</title>
 
-    <!-- Include Bootstrap CSS (you may need to update the path) -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
     <!-- Custom CSS -->
+
     <style>
         /* CSS for Category Boxes */
         .category-sidebar {
-            background: url(./image/home-bg.jpg) no-repeat;
-            background-position: center;
-            background-size: cover;
             overflow-y: auto;
             height: 500px;
-            /* Set a fixed height with vertical overflow */
             border-right: 1px solid #ccc;
-        }
-
-        .category-box {
-            padding: 10px;
-            border: 1px solid #ccc;
-            margin: 10px 0;
-            height: 150px;
-            width: 150px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .category-box:hover {
-            background-color: #f0f0f0;
         }
 
         /* CSS for Category Content */
         .category-content-container {
-            background-image: url('category_background.jpg');
-            /* Set your background image URL here */
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
             padding: 20px;
-            color: #fff;
+            color: #000;
+            /* Change text color to black */
         }
 
         .category-content {
@@ -60,83 +36,166 @@
                 opacity: 1;
             }
         }
+
+        /* Additional Styles for Shopping Cart */
+        .modal-content {
+            border-radius: 0;
+        }
+
+        .modal-header {
+            background-color: #f8f9fa;
+            border-bottom: none;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .table {
+            border: 1px solid #dee2e6;
+        }
+
+        .table th,
+        .table td {
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: #ff5722;
+            /* Change to a prominent color */
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #ff4500;
+            /* Darker shade on hover */
+        }
+
+        .btn-secondary {
+            background-color: #fff;
+            border: none;
+            color: #000;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f0f0f0;
+        }
+
+        .close {
+            font-size: 24px;
+            color: #000;
+        }
+
+        h5 {
+            font-size: 18px;
+        }
     </style>
 </head>
 
 <body>
     <!-- The Modal -->
-    <div class="modal fade rounded mt-5" id="categoryModal">
-        <div class="modal-dialog modal-lg p-3">
+    <div class="modal fade" data-bs-keyboard="false" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true" id="categoryModal">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <!-- Modal Header -->
-                <div class="modal-header">
-                    <h2 class="modal-title">PRODUCT CART</h2>
+                <div class="modal-header text-center">
+                    <h2 class="modal-title"> <i class="fas fa-shopping-cart"></i> Shopping Cart </h2>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <!-- Modal Body -->
-                <div class="modal-body row ">
-                    <!-- Sidebar for Category selection -->
-                    <div class="col-3 category-sidebar">
-                        <div class="form-check category-box" data-category="category1" >
-                            <input class="form-check-input" type="radio" name="category" id="category1" value="category1">
+                <div class="modal-body row">
+                    <div class="container-fluid p-3">
+                        <div class="col-12" style="overflow-y: auto;" id="cartTable">
+                            <table class="table mt-4 rounded">
+                                <thead>
+                                    <tr>
+                                        <th>Product Image</th>
+                                        <th>Product</th>
+                                        <th>Size</th>
+                                        <th>Qty</th>
+                                        <th>Price</th> <!-- Added price column -->
+                                        <th>Action</th> <!-- Added remove action column -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Product Image</td>
+                                        <td>Product Name</td>
+                                        <td>Size</td>
+                                        <td>1</td>
+                                        <td>$19.99</td>
+                                        <td><button class="btn-danger btn-sm">Remove</button></td>
+                                    </tr>
+                                    <!-- Add more rows for additional items -->
+                                </tbody>
+                            </table>
+
                         </div>
-                        <div class="form-check category-box" data-category="category2">
-                            <input class="form-check-input" type="radio" name="category" id="category2" value="category2">
-                            <label class="form-check-label" for="category2">COFFEE</label>
+                    </div>
+                    <div class="container-fluid">
+                        <!-- Add the following code inside your modal-body div, after the cart table -->
+                        <!-- Payment Method -->
+                        <div class="form-group">
+                            <label for="paymentMethod">Payment Method</label>
+                            <select class="form-control" id="paymentMethod" name="paymentMethod">
+                                <option value="Cash">Cash</option>
+                                <option value="Gcash">Gcash</option>
+                                <option value="bank">Bank Transfer</option>
+                            </select>
                         </div>
-                        <div class="form-check category-box" data-category="category3">
-                            <input class="form-check-input" type="radio" name="category" id="category3" value="category3">
-                            <label class="form-check-label" for="category3">BURGERS</label>
+                        <!-- Standard Shipping Price -->
+                        <div class="form-group row">
+                            <label for="shippingPrice" class="col-sm-6">Standard Shipping Price</label>
+                            <div class="col-sm-6">
+                                <p id="shippingPrice" class="text-right">$5.00</p>
+                            </div>
                         </div>
-                        <div class="form-check category-box" data-category="category3">
-                            <input class="form-check-input" type="radio" name="category" id="category3" value="category3">
-                            <label class="form-check-label" for="category3">BURGERS</label>
+                        <!-- Address Section -->
+                        <div class="form-group">
+                            <label for="address">Shipping Address</label>
+                            <textarea class="form-control" id="address" name="address" rows="4"></textarea>
                         </div>
-                        <div class="form-check category-box" data-category="category3">
-                            <input class="form-check-input" type="radio" name="category" id="category3" value="category3">
-                            <label class="form-check-label" for="category3">BURGERS</label>
-                        </div>
+                    </div>
+                    <!-- Total Amount -->
+                    <div class="form-group row text-right">
+                        <h5>Total Amount: <span>$19.99</span></h5>
                     </div>
 
-                    <!-- Content forms -->
-                    <div class="col-7 category-content-container">
-                        <div id="category1" class="category-content" style="display:none;">
-                            <form>
-                                <div class="form-group">
-                                    <label for="content1">Content 1:</label>
-                                    <input type="text" class="form-control" id="content1" name="content1">
-                                </div>
-                            </form>
-                        </div>
-                        <div id="category2" class="category-content" style="display:none;">
-                            <form>
-                                <div class="form-group">
-                                    <label for="content2">Content 2:</label>
-                                    <input type="text" class="form-control" id="content2" name="content2">
-                                </div>
-                            </form>
-                        </div>
-                        <div id="category3" class="category-content" style="display:none;">
-                            <form>
-                                <div class="form-group">
-                                    <label for="content3">Content 3:</label>
-                                    <input type="text" class="form-control" id="content3" name="content3">
-                                </div>
-                            </form>
-                        </div>
-                    </div>
                 </div>
                 <!-- Modal Footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save Changes</button>
+                    <!-- hidden value --> to submit
+                    <input type="hidden" name="order" id="order" value="">
+                    <input type="hidden" name="total" id="total" value="">
+                    <input type="hidden" name="category" id="category" value="">
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue Shopping</button>
+                    <button type="button" class="btn btn-primary">Proceed to Checkout</button>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Include Bootstrap JS (you may need to update the path) -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#categoryModal').modal('show'); // Show the modal when the page loads
+    });
+
+    function showButtonId(buttonId) {
+        document.getElementById('category').value = buttonId;
+        let category = document.getElementById('category').value;
+        alert(buttonId + category);
+    }
+</script>
 
 </html>
