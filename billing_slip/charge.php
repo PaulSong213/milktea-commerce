@@ -48,9 +48,8 @@ $LastBillingID = getLastBillingID($conn);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ordering System</title>
     <!-- Add this to your HTML <head> section -->
-    <script src="/Zarate/dependency/DataTables/jQuery-3.7.0/jquery-3.7.0.min.js"></script>
-    <link rel="stylesheet" href="/Zarate/dependency/sweetalert/sweetalert2.min.css">
-    <link rel="stylesheet" href="/Zarate/dependency/bootstrap-5.3.2-dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         .custom-readonly-input {
             background-color: rgba(52, 53, 65, 0.5) !important;
@@ -163,6 +162,7 @@ $LastBillingID = getLastBillingID($conn);
                                     <td class="d-none"><input type="number" class="form-control text-light custom-readonly-input" name="disc_amt[]" readonly></td>
                                     <td><input type="text" class="form-control text-light custom-readonly-input" name="subtotal[]" readonly></td>
                                     <td class="d-flex h-100"><button class="btn btn-danger btn-sm fw-bold my-auto" style="font-size: 10px" onclick="removeRow(this)"> Remove Item </button></td>
+                                    <td class="d-none"><input type="hidden" class="form-control text-light custom-readonly-input" name="image[]" readonly></td>
                                 </tr>
                             </tbody>
                         </table>

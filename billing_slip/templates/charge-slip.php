@@ -5,9 +5,6 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
 </head>
 
 <body>
@@ -67,11 +64,105 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
-
     <script type="module">
         import {
-            showChargeSlip
-        } from "/milktea-commerce/billing_slip/templates/functions.js";
+            formatDate
+        } from '/milktea-commerce/costum-js/date.js'
+        window.formatDate = formatDate;
+    </script>
+    <script>
+        function showChargeSlip(orderID, appendToElement = null) {
+            Swal.fire({
+                title: 'Generating Print Report',
+                html: 'Please Wait!', // add html attribute if you want or remove
+                allowOutsideClick: false,
+            });
+            swal.showLoading();
+            // fetch data from api 
+            $.ajax({
+                url: `/milktea-commerce/API/orders/search.php?orderID=${orderID}`,
+                type: 'GET',
+                success: function(data) {
+                    swal.close();
+                    const chargeSlip = JSON.parse(data);
+                    const slipNumber = chargeSlip.orderID;
+                    const attachedToCharge = `${chargeSlip.RequestedEmployeeFirstName} ${chargeSlip.RequestedEmployeeMiddleName} ${chargeSlip.RequestedEmployeeLastName}`;
+
+                    const date = chargeSlip.createDate;
+                    const productInfoStr = chargeSlip.ProductInfo;
+                    const chargeEnteredBy = `${chargeSlip.EnteredEmployeeFirstName} ${chargeSlip.EnteredEmployeeMiddleName} ${chargeSlip.EnteredEmployeeLastName}`;
+                    const totalAmount = chargeSlip.NetAmt;
+                    const ChangeAmt = chargeSlip.ChangeAmt;
+
+                    $("#patientType").text(`Patient Type: ${chargeSlip.PatientType}`);
+                    $("#AmtTendered").text(`Amount Tendered: ₱${chargeSlip.AmtTendered}`);
+                    $("#ChangeAmt").text(`Change: ₱${chargeSlip.ChangeAmt >= 0 ? chargeSlip.ChangeAmt : 0}`);
+                    $("#NetAmt").text(`Net Amount: ₱${chargeSlip.NetAmt}`);
+                    $("#NetSale").text(`Net Sale: ₱${chargeSlip.NetSale}`);
+                    $("#AddDisc").text(`Additional Discount(%): ${chargeSlip.AddDisc}`);
+
+                    // fill up the charge slip information
+                    $('#slipNumber').text(slipNumber);
+                    console.log($('#slipNumber'));
+                    $('#attachedToCharge').text(attachedToCharge);
+                    $('#date').text(date);
+                    $('#chargeEnteredBy').text(chargeEnteredBy);
+                    $('#totalAmount').text(totalAmount);
+
+                    //render product rows to productInfoContainer
+                    var productInfo = JSON.parse(productInfoStr);
+                    console.log("productInfo", productInfo);
+                    for (let i = 0; i < productInfo.length; i++) {
+                        const product = productInfo[i];
+                        $("#productInfoList").append(`
+                    <div class="d-flex justify-content-between">
+                        <span>${product.product_id} x ${product.qty} ${product.unit}</span>
+                        <span>${product.subtotal}</span>
+                    </div>
+                `);
+                    }
+
+
+                    if (appendToElement) {
+                        console.log($("#charge-slip-container"));
+                        $(appendToElement).html("");
+                        $(appendToElement).append($("#charge-slip-container").html());
+                    } else {
+                        var exampleModalPopup = new bootstrap.Modal($('#printModal'), {});
+                        exampleModalPopup.show();
+                    }
+                    $("#print-charge-slip").click(function() {
+                        printChargeSlip();
+                    });
+                },
+                error: function(error) {
+                    console.log(error);
+                    console.log(error);
+                    swal.close();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'There was something wrong printing the report.',
+                        text: error,
+                    });
+                }
+            });
+        }
+
+        function printChargeSlip() {
+            var divToPrint = document.getElementById('charge-slip').outerHTML;
+            var newWin = window.open('', '_blank');
+
+            newWin.document.write('<html><head><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"></head><body>');
+            newWin.document.write(divToPrint);
+            newWin.document.write('</body></html>');
+
+            newWin.document.close();
+
+            newWin.onload = function() {
+                newWin.print();
+                newWin.close();
+            };
+        }
         <?php
         if (isset($_SESSION['printSalesInsertedId'])) {
             $printSalesInsertedId = $_SESSION['printSalesInsertedId'];

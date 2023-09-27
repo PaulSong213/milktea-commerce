@@ -190,6 +190,22 @@ require_once(__DIR__ . "/accessLevels.php");
                 /* Adjust font size for smaller screens */
             }
         }
+
+        .btn-coffee {
+            border-color: #804428 !important;
+        }
+
+        .btn-coffee:hover {
+            border-color: #804428 !important;
+            background-color: #804428 !important;
+            color: #fff !important;
+        }
+
+        .btn-coffee-active {
+            border-color: #804428 !important;
+            background-color: #804428 !important;
+            color: #fff !important;
+        }
     </style>
 </head>
 
