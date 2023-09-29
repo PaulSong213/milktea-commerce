@@ -13,7 +13,6 @@ export function searchColumn(api) {
             // Set the header cell to contain the input element
             var cell = $(".filters th").eq($(api.column(colIdx).header()).index());
             cell.hide();
-            // TODO: add a working search by column
         });
     $("#example_filter").html(`
     <div class="searchDiv  d-flex justify-content-start ">

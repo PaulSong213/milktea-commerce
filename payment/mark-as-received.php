@@ -1,4 +1,14 @@
 <?php
+
+// check if user is logged in
+require_once("../php/auth.php");
+$costumer = allowCostumerOnly();
+if (!$costumer) {
+    echo "User is not logged in";
+    http_response_code(422);
+    exit();
+}
+
 // check if the parameter orderNo is set
 if (!isset($_GET['orderNo'])) {
     echo "orderNo is not set";
@@ -31,7 +41,7 @@ $_SESSION["OPENED_ORDER_NO"] = $orderNo;
 ?>
 
 <script type="module">
-    const COSTUMER_ID = 1; // TODO: get costumer id from session
+    const COSTUMER_ID = <?= $costumer["costumerID"] ?>;
     import {
         app
     } from "/milktea-commerce/costum-js/firebase.js";
