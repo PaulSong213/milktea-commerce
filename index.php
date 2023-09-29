@@ -50,9 +50,26 @@ if ($conn->connect_error) {
 			<a href="#review">reviews</a>
 		</nav>
 
-		<a href="#" class="btn" data-toggle="modal" data-target="#categoryModal">
-			<i class="fas fa-shopping-cart"></i> View Cart
-		</a>
+		<div class="d-flex">
+			<a href="#" class="btn d-block" data-toggle="modal" data-target="#categoryModal">
+				<i class="fas fa-shopping-cart"></i> View Cart
+			</a>
+			<?php if (isset($_SESSION['costumer'])) :
+				$costumer = json_decode($_SESSION['costumer']);
+			?>
+				<div class="dropdown bg-danger my-auto ms-2">
+					<button class="fs-2 dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+						<?= $costumer->firstName . " " . $costumer->lastName ?>
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+						<li><a class="dropdown-item fs-2" href="/milktea-commerce/costumer/logout.php">Log out</a></li>
+					</ul>
+				</div>
+			<?php else : ?>
+				<a href="./costumer/login.php" class="btn">Login</a>
+			<?php endif; ?>
+		</div>
+
 	</header>
 
 	<!-- HOME -->
