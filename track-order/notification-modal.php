@@ -151,7 +151,6 @@
         "waiting-for-feedback": "#075985",
     };
 
-    // TODO: add firebase event listner to track order
     function addNotificationModal(orderNo, orderData) {
         const orderStatusTitle = orderData.status.split("-").map((word) => word[0].toUpperCase() + word.slice(1)).join(" ");
 
@@ -171,19 +170,8 @@
                 <div class="main"> <span id="sub-title">
                         <p><b>Payment Summary</b></p>
                     </span>
-                    <div class="row row-main">
-                        <div class="col-3"> <img class="img-fluid" src="https://i.imgur.com/qSnCFIS.png"> </div>
-                        <div class="col-6">
-                            <div class="row d-flex">
-                                <p class="fs-5 fw-bold">MILKTEA</p>
-                            </div>
-                            <div class="row d-flex">
-                                <p class="fs-6 fw-bold">12 ONZ</p>
-                            </div>
-                        </div>
-                        <div class="col-3 d-flex justify-content-end">
-                            <p class="fs-6 fw-bold">12 ONZ</p>
-                        </div>
+                    <div id="payment-summary-${orderNo}">
+                        Fetching order summary...
                     </div>
                     <hr>
                     <div class="total pb-3">
@@ -192,7 +180,7 @@
                                 <p class="fs-4 fw-bold">TOTAL:</p>
                             </div>
                             <div class="col d-flex justify-content-end">
-                                <p class="fs-4 fw-bold">9999</p>
+                                <p class="fs-4 fw-bold" id="total-payment-${orderNo}">Loading</p>
                             </div>
                         </div>
                     </div>
@@ -248,6 +236,48 @@
 
         }
         return "";
+    }
+
+    function fetchOrderDetails(orderNo) {
+        console.log(orderNo);
+        $.ajax({
+            url: "/milktea-commerce/api/orders/search.php",
+            data: {
+                orderID: orderNo
+            },
+            success: function(response) {
+                const orderData = JSON.parse(response);
+                const productInfo = JSON.parse(orderData.ProductInfo);
+                console.log(productInfo);
+                const paymentSummary = $(`#payment-summary-${orderNo}`);
+                paymentSummary.html("");
+                $(`#total-payment-${orderNo}`).html(`₱${orderData.NetAmt}`);
+                for (let i = 0; i < productInfo.length; i++) {
+                    const product = productInfo[i];
+                    paymentSummary.append(`
+                        <div class="row row-main">
+                            <div class="col-3"> <img class="img-fluid shadow-sm" src="/milktea-commerce/inventory/${product.image}"> </div>
+                            <div class="col-6">
+                                <div class="row d-flex">
+                                    <p class="fs-5 fw-bold">${product.product_id}</p>
+                                </div>
+                                <div class="row d-flex">
+                                    <p class="fs-6 fw-bold">${product.qty} ${product.unit}</p>
+                                </div>
+                            </div>
+                            <div class="col-3 d-flex justify-content-end">
+                                <p class="fs-5 fw-bold">₱${product.subtotal}</p>
+                            </div>
+                        </div>
+                    `);
+
+                }
+
+            },
+            error: function(xhr, status, msg) {
+                console.log(xhr.responseText);
+            }
+        });
     }
 
     $(document).ready(function() {

@@ -30,7 +30,7 @@ require_once '../php/connect.php';
 session_start();
 $conn = connect();
 
-$sql = "UPDATE sales_tb
+$sql = "UPDATE orders_tb
     SET
         status = 'preparing-food'
     WHERE
@@ -39,22 +39,22 @@ $sql = "UPDATE sales_tb
 
 $result = mysqli_query($conn, $sql);
 if (!$result) {
-    echo "Failed to update sales table";
+    echo "Failed to update orders table";
     http_response_code(500);
     exit();
 }
 
-// return the sales ID
-$sql = "SELECT SalesID 
-    FROM sales_tb 
+// return the orders ID
+$sql = "SELECT orderID 
+    FROM orders_tb 
     WHERE paymentID = '$paymentID'";
 
 $result = mysqli_query($conn, $sql);
 if (!$result) {
-    echo "Failed to Fetch the Sales ID. Sales has been updated to preparing-food";
+    echo "Failed to Fetch the ORDERS ID. ORDERS has been updated to preparing-food";
     http_response_code(500);
     exit();
 }
-$SalesID = mysqli_fetch_assoc($result)['SalesID'];
-echo $SalesID;
-$_SESSION["OPENED_ORDER_NO"] = $SalesID;
+$orderID = mysqli_fetch_assoc($result)['orderID'];
+echo $orderID;
+$_SESSION["OPENED_ORDER_NO"] = $orderID;

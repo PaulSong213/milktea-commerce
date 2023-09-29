@@ -1,4 +1,5 @@
-<?php session_start() ?>
+<?php session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,7 +43,17 @@
 
     // track order from firebase realtime database
     function trackOrder() {
-        const COSTUMER_ID = 1; // TODO: get costumer id from session
+        <?php
+        // validate if user is logged in
+        if (!isset($_SESSION["costumer"])) {
+            echo "return null;";
+        } else {
+            $costumer = json_decode($_SESSION["costumer"], true);
+            $costumerID = $costumer["costumerID"];
+        }
+        ?>
+        const COSTUMER_ID = '<?= $costumerID ?>';
+        console.log(COSTUMER_ID);
         const orderRef = ref(db, `/orders/${COSTUMER_ID}/`);
         onValue(orderRef, (snapshot) => {
             $("#track-order").find("#notification-btn-container").html("");

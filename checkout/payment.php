@@ -1,4 +1,11 @@
-<?php session_start(); ?>
+<?php session_start();
+require_once("../php/auth.php");
+$costumer = allowCostumerOnly();
+if (!$costumer) {
+    header("Location: /milktea-commerce/login.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,7 +45,7 @@
     } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
 
     $(document).ready(function() {
-        const COSTUMER_ID = 1; // TODO: get costumer id from session
+        const COSTUMER_ID = <?= $costumer["costumerID"] ?>;
         <?php
         if (!isset($_GET["paymentID"])) {
             echo "createPayLink();";

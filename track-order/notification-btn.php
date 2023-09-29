@@ -76,6 +76,7 @@
             $("#notificationModal").modal("show");
             $(`#order-card-${orderNo}`).show();
             window.OPENED_ORDER_NO = orderNo;
+            fetchOrderDetails(orderNo);
         });
         $("#track-order").find("#notification-btn-container")
             .append(newNotificationBtn);

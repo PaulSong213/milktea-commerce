@@ -1,5 +1,14 @@
 <?php
 
+// check if user is logged in
+require_once("../php/auth.php");
+$costumer = allowCostumerOnly();
+if (!$costumer) {
+    echo "User is not logged in";
+    http_response_code(422);
+    exit();
+}
+
 // check if parameters are set
 if (
     !isset($_POST['ratingStars'])
@@ -57,7 +66,7 @@ $_SESSION["alert_message_success"] = true;
 
 <script type="module">
     // mark order status as delivered in firebase database
-    const COSTUMER_ID = 1; // TODO: get costumer id from session
+    const COSTUMER_ID = $costumer["costumerID"];
     import {
         app
     } from "/milktea-commerce/costum-js/firebase.js";
