@@ -27,17 +27,17 @@ if ($result->num_rows > 0) {
         $SugPrice = $row["SugPrice"];
         $itemTypeID = $row["itemTypeID"];
 
-        echo '<a href="#" class="box" data-category="' . $itemTypeID . '">';
+        echo '<div class="box" data-category="' . $itemTypeID . '">';
         echo '<img src="' . $image . '" alt="Menu products">';
         echo '<div class="content">';
         echo '<h3>' . $itemCode . '</h3>';
         echo '<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur, sed.</p>';
         echo '<div style="display: flex; justify-content: space-between;">';
         echo '  <span>₱ ' . $SugPrice . '</span>';
-        echo '<button class="btn costum-btn-primary m-2"  >Add to Cart</button>';
+        echo '<button class="btn costum-btn-primary m-2 addToCartBtn">Add to Cart</button>';
         echo '</div>';
         echo '</div>';
-        echo '</a>';
+        echo '</div>';
     }
 } else {
     echo '<div class="no-products">No Products Available</div>';
