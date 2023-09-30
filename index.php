@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="es">
 <?php
@@ -66,7 +67,8 @@ if ($conn->connect_error) {
 					</ul>
 				</div>
 			<?php else : ?>
-				<a href="./costumer/login.php" class="btn">Login</a>
+				<a href="./costumer/login.php" class="btn mx-2">Log in</a>
+				<a href="./costumer/register.php" class="btn">Register</a>
 			<?php endif; ?>
 		</div>
 
@@ -164,10 +166,17 @@ if ($conn->connect_error) {
 							$('#loader').show(); // Show loader
 							$('#box-container').css('opacity', '0'); // Set box container opacity to 0
 						},
-						success: function(data) {
-							setTimeout(function() {
+						success: (data) => {
+							setTimeout(() => {
 								$('#loader').hide(); // Hide loader
 								$('#box-container').html(data).css('opacity', '1'); // Show and fade in the HTML of the box container
+
+								// cart button click
+								$(".addToCartBtn").click(async function() {
+									const isLoggedIn = await validateLoggedIn();
+									if (!isLoggedIn) return;
+									console.log('ADD YOUR INSERT TO CART FUNCTION BELOW THIS LINE');
+								});
 							}, 500); // Delay of 0.5 seconds (500 milliseconds)
 						},
 						error: function() {
@@ -184,6 +193,21 @@ if ($conn->connect_error) {
 					var category = $(this).data('category');
 					loadMenu(category);
 				});
+
+				async function validateLoggedIn() {
+					const isLoggedIn = <?= isset($_SESSION['costumer']) == true ? 'true' : 'false' ?>;
+					if (!isLoggedIn) {
+						Swal.fire({
+							title: "Log in first before adding to cart!",
+							showDenyButton: false,
+							showCancelButton: true,
+							confirmButtonText: `<a class="text-white" href="/milktea-commerce/costumer/login.php">Log In</a>`,
+							denyButtonText: "Cancel"
+						});
+					}
+					return isLoggedIn;
+				}
+
 			});
 		</script>
 	</section>
@@ -271,49 +295,11 @@ if ($conn->connect_error) {
 	<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
 
 	<!-- Custom JS File Link  -->
-	<script>
-		let menu = document.querySelector("#menu-btn");
-		let navbar = document.querySelector(".navbar");
+	<script src="./landingpage/js/script.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-		menu.onclick = () => {
-			menu.classList.toggle("fa-times");
-			navbar.classList.toggle("active");
-		};
 
-		window.onscroll = () => {
-			menu.classList.remove("fa-times");
-			navbar.classList.remove("active");
-		};
 
-		document.querySelectorAll(".image-slider img").forEach((images) => {
-			images.onclick = () => {
-				var src = images.getAttribute("src");
-				document.querySelector(".main-home-image").src = src;
-			};
-		});
-
-		var swiper = new Swiper(".review-slider", {
-			spaceBetween: 20,
-			pagination: {
-				el: ".swiper-pagination",
-				clickable: true,
-			},
-			loop: true,
-			grabCursor: true,
-			autoplay: {
-				delay: 7500,
-				disableOnInteraction: false,
-			},
-			breakpoints: {
-				0: {
-					slidesPerView: 1,
-				},
-				768: {
-					slidesPerView: 2,
-				},
-			},
-		});
-	</script>
 </body>
 
 </html>
