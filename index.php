@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="es">
 <?php
@@ -66,7 +67,8 @@ if ($conn->connect_error) {
 					</ul>
 				</div>
 			<?php else : ?>
-				<a href="./costumer/login.php" class="btn">Login</a>
+				<a href="./costumer/login.php" class="btn mx-2">Log in</a>
+				<a href="./costumer/register.php" class="btn">Register</a>
 			<?php endif; ?>
 		</div>
 
@@ -166,10 +168,18 @@ if ($conn->connect_error) {
 							$('#loader').show(); // Show loader
 							$('#box-container').css('opacity', '0'); // Set box container opacity to 0
 						},
-						success: function(data) {
-							setTimeout(function() {
+						success: (data) => {
+							setTimeout(() => {
 								$('#loader').hide(); // Hide loader
 								$('#box-container').html(data).css('opacity', '1'); // Show and fade in the HTML of the box container
+
+								// cart button click
+								$(".addToCartBtn").click(async function() {
+									const isLoggedIn = await validateLoggedIn();
+									console.log(isLoggedIn);
+									if (!isLoggedIn) return;
+									console.log('added to cart');
+								});
 							}, 500); // Delay of 0.5 seconds (500 milliseconds)
 						},
 						error: function() {
@@ -187,6 +197,21 @@ if ($conn->connect_error) {
 					var category = $(this).data('category');
 					loadMenu(category);
 				});
+
+				async function validateLoggedIn() {
+					const isLoggedIn = <?= isset($_SESSION['costumer']) == true ? 'true' : 'false' ?>;
+					if (!isLoggedIn) {
+						Swal.fire({
+							title: "Log in first before adding to cart!",
+							showDenyButton: false,
+							showCancelButton: true,
+							confirmButtonText: `<a class="text-white" href="/milktea-commerce/costumer/login.php">Log In</a>`,
+							denyButtonText: "Cancel"
+						});
+					}
+					return isLoggedIn;
+				}
+
 			});
 		</script>
 	</section>
@@ -307,6 +332,10 @@ if ($conn->connect_error) {
 
 	<!-- Custom JS File Link  -->
 	<script src="./landingpage/js/script.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
 </body>
 
 </html>
