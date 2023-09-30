@@ -114,6 +114,7 @@
                             <table class="table mt-4 rounded">
                                 <thead>
                                     <tr>
+                                        <th>Product ID</th>
                                         <th>Product Image</th>
                                         <th>Product</th>
                                         <th>Size</th>
@@ -124,10 +125,11 @@
                                 </thead>
                                 <tbody>
                                     <tr>
+                                        <td style></td>
                                         <td>Product Image</td>
                                         <td>Product Name</td>
-                                        <td>Size</td>
-                                        <td>1</td>
+                                        <td><input type="text" name="size"></td>
+                                        <td><input type="text" name="quantity" value="1"></td>
                                         <td>$19.99</td>
                                         <td><button class="btn-danger btn-sm">Remove</button></td>
                                     </tr>
@@ -169,7 +171,7 @@
                 </div>
                 <!-- Modal Footer -->
                 <div class="modal-footer">
-                    <!-- hidden value --> to submit
+                    <!-- hidden value -->
                     <input type="hidden" name="order" id="order" value="">
                     <input type="hidden" name="total" id="total" value="">
                     <input type="hidden" name="category" id="category" value="">

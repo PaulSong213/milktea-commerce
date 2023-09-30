@@ -95,12 +95,10 @@ if ($conn->connect_error) {
 	<!-- ABOUT -->
 	<section class="about" id="about">
 		<h1 class="heading">about us <span>why choose us</span></h1>
-
 		<div class="row">
 			<div class="image">
 				<img src="./landingpage/image/about-img.png" alt="">
 			</div>
-
 			<div class="content">
 				<h3 class="title">what's make our coffee special!</h3>
 				<p>Romeo's Café: Where Love Meets Brew! Savor the Town's Best Milk Tea and Coffee.
@@ -177,7 +175,6 @@ if ($conn->connect_error) {
 						}
 					});
 				}
-
 				// Initial page load
 				loadMenu('');
 
@@ -198,22 +195,7 @@ if ($conn->connect_error) {
 
 		<div class="swiper review-slider">
 			<div class="swiper-wrapper">
-				<div class="swiper-slide box">
-					<i class="fas fa-quote-left"></i>
-					<i class="fas fa-quote-right"></i>
-					<img src="./landingpage/image/pic-1.png" alt="">
-					<div class="stars">
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-					</div>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo, earum quis dolorem quaerat tenetur
-						illum.</p>
-					<h3>john deo</h3>
-					<span>satisfied client</span>
-				</div>
+				
 
 				<div class="swiper-slide box">
 					<i class="fas fa-quote-left"></i>
@@ -245,23 +227,6 @@ if ($conn->connect_error) {
 					</div>
 					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius asperiores aliquam hic quis!
 						Eligendi, aliquam.</p>
-					<h3>john deo</h3>
-					<span>satisfied client</span>
-				</div>
-
-				<div class="swiper-slide box">
-					<i class="fas fa-quote-left"></i>
-					<i class="fas fa-quote-right"></i>
-					<img src="./landingpage/image/pic-4.png" alt="">
-					<div class="stars">
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-					</div>
-					<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eligendi modi perspiciatis distinctio
-						velit aliquid a.</p>
 					<h3>john deo</h3>
 					<span>satisfied client</span>
 				</div>
@@ -306,7 +271,49 @@ if ($conn->connect_error) {
 	<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
 
 	<!-- Custom JS File Link  -->
-	<script src="./landingpage/js/script.js"></script>
+	<script>
+		let menu = document.querySelector("#menu-btn");
+		let navbar = document.querySelector(".navbar");
+
+		menu.onclick = () => {
+			menu.classList.toggle("fa-times");
+			navbar.classList.toggle("active");
+		};
+
+		window.onscroll = () => {
+			menu.classList.remove("fa-times");
+			navbar.classList.remove("active");
+		};
+
+		document.querySelectorAll(".image-slider img").forEach((images) => {
+			images.onclick = () => {
+				var src = images.getAttribute("src");
+				document.querySelector(".main-home-image").src = src;
+			};
+		});
+
+		var swiper = new Swiper(".review-slider", {
+			spaceBetween: 20,
+			pagination: {
+				el: ".swiper-pagination",
+				clickable: true,
+			},
+			loop: true,
+			grabCursor: true,
+			autoplay: {
+				delay: 7500,
+				disableOnInteraction: false,
+			},
+			breakpoints: {
+				0: {
+					slidesPerView: 1,
+				},
+				768: {
+					slidesPerView: 2,
+				},
+			},
+		});
+	</script>
 </body>
 
 </html>
