@@ -176,9 +176,8 @@ if ($conn->connect_error) {
 								// cart button click
 								$(".addToCartBtn").click(async function() {
 									const isLoggedIn = await validateLoggedIn();
-									console.log(isLoggedIn);
 									if (!isLoggedIn) return;
-									console.log('added to cart');
+									console.log('ADD YOUR INSERT TO CART FUNCTION BELOW THIS LINE');
 								});
 							}, 500); // Delay of 0.5 seconds (500 milliseconds)
 						},
