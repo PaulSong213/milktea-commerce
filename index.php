@@ -97,12 +97,10 @@ if ($conn->connect_error) {
 	<!-- ABOUT -->
 	<section class="about" id="about">
 		<h1 class="heading">about us <span>why choose us</span></h1>
-
 		<div class="row">
 			<div class="image">
 				<img src="./landingpage/image/about-img.png" alt="">
 			</div>
-
 			<div class="content">
 				<h3 class="title">what's make our coffee special!</h3>
 				<p>Romeo's Café: Where Love Meets Brew! Savor the Town's Best Milk Tea and Coffee.
@@ -155,6 +153,7 @@ if ($conn->connect_error) {
 			</div>
 		</div>
 		<script>
+			// Function to add to cart
 			$(document).ready(function() {
 				// Function to load menu content
 				function loadMenu(category) {
@@ -178,6 +177,38 @@ if ($conn->connect_error) {
 									const isLoggedIn = await validateLoggedIn();
 									if (!isLoggedIn) return;
 									console.log('ADD YOUR INSERT TO CART FUNCTION BELOW THIS LINE');
+									const image = $(this).data('image');
+									const inventoryID = $(this).data('inventory-id');
+									const itemCode = $(this).data('item-code');
+									const itemTypeID = $(this).data('item-id');
+									const newRow = `
+										<tr>
+											<td style="display:none;">${inventoryID}</td>
+											<td><img src="${image}" alt="Product Image" width="50"></td>
+											<td>${itemCode}</td>
+											<td><input type="text" name="size" placeholder="Select Variant"></td>
+											<td><input type="number" name="qty" value="1" ></td>
+											<td>$19.99</td>
+											<td><button class="btn-danger btn-sm removeItem">Remove</button></td>
+										</tr>
+									`;
+									// Append the new row to the cart table
+									$("#cartTable tbody").append(newRow);
+									// Add a click event handler to the "Remove" button
+									$(".removeItem").click(function() {
+										$(this).closest("tr").remove();
+									});
+									// Show a success message using Swal with enhanced content
+									Swal.fire({
+										title: "Successfully Added to Cart!",
+										text: itemCode + " has been added to the cart",
+										confirmButtonText: "Okay",
+									}).then((result) => {
+										if (result.isConfirmed) {
+											// Show the Bootstrap modal
+											$('#categoryModal').modal('show');
+										}
+									});
 								});
 							}, 500); // Delay of 0.5 seconds (500 milliseconds)
 						},
@@ -186,7 +217,6 @@ if ($conn->connect_error) {
 						}
 					});
 				}
-
 				// Initial page load
 				loadMenu('');
 
@@ -222,22 +252,7 @@ if ($conn->connect_error) {
 
 		<div class="swiper review-slider">
 			<div class="swiper-wrapper">
-				<div class="swiper-slide box">
-					<i class="fas fa-quote-left"></i>
-					<i class="fas fa-quote-right"></i>
-					<img src="./landingpage/image/pic-1.png" alt="">
-					<div class="stars">
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-					</div>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo, earum quis dolorem quaerat tenetur
-						illum.</p>
-					<h3>john deo</h3>
-					<span>satisfied client</span>
-				</div>
+
 
 				<div class="swiper-slide box">
 					<i class="fas fa-quote-left"></i>
@@ -269,23 +284,6 @@ if ($conn->connect_error) {
 					</div>
 					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius asperiores aliquam hic quis!
 						Eligendi, aliquam.</p>
-					<h3>john deo</h3>
-					<span>satisfied client</span>
-				</div>
-
-				<div class="swiper-slide box">
-					<i class="fas fa-quote-left"></i>
-					<i class="fas fa-quote-right"></i>
-					<img src="./landingpage/image/pic-4.png" alt="">
-					<div class="stars">
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-					</div>
-					<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eligendi modi perspiciatis distinctio
-						velit aliquid a.</p>
 					<h3>john deo</h3>
 					<span>satisfied client</span>
 				</div>
@@ -323,14 +321,9 @@ if ($conn->connect_error) {
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js" type="text/javascript"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-
-
 	<!-- SWIPER -->
 	<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
-
 	<!-- Custom JS File Link  -->
-	<script src="./landingpage/js/script.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
