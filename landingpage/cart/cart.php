@@ -111,10 +111,10 @@
                 <div class="modal-body row">
                     <div class="container-fluid p-3">
                         <div class="col-12" style="overflow-y: auto;" id="cartTable">
-                            <table class="table mt-4 rounded">
+                            <table class="table mt-4 rounded" id="cartTable">
                                 <thead>
                                     <tr>
-                                        <th>Product ID</th>
+                                        <th style="display:none;">Product ID</th>
                                         <th>Product Image</th>
                                         <th>Product</th>
                                         <th>Size</th>
@@ -125,13 +125,6 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td style></td>
-                                        <td>Product Image</td>
-                                        <td>Product Name</td>
-                                        <td><input type="text" name="size"></td>
-                                        <td><input type="text" name="quantity" value="1"></td>
-                                        <td>$19.99</td>
-                                        <td><button class="btn-danger btn-sm">Remove</button></td>
                                     </tr>
                                     <!-- Add more rows for additional items -->
                                 </tbody>
@@ -190,14 +183,8 @@
 
 <script>
     $(document).ready(function() {
-        $('#categoryModal').modal('show'); // Show the modal when the page loads
+        // $('#categoryModal').modal('show'); // Show the modal when the page loads
     });
-
-    function showButtonId(buttonId) {
-        document.getElementById('category').value = buttonId;
-        let category = document.getElementById('category').value;
-        alert(buttonId + category);
-    }
 </script>
 
 </html>

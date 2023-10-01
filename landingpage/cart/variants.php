@@ -1,28 +1,30 @@
-<datalist id="VariantList">
-    <?php
-    require_once '../php/connect.php';
-    $conn = connect();
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+<?php
+require_once '../php/connect.php';
+$conn = connect();
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$query = "SELECT * FROM variant_tb";
+$variantResult = $conn->query($query);
+$VariantData = (object)array(); // Create an empty object
+
+while ($row = $variantResult->fetch_assoc()) {
+    $variantID = $row['variantID'];
+    $variantName = $row['variantName'];
+    $price = $row['price'];
+
+    if (!isset($chargeData->$SalesID)) {
+        $VariantData->$variantID = (object)array(
+            "id" => $variantID,
+            "data" => $row
+        );
     }
-    $query = "SELECT * FROM product ";
-    $variantResult = $conn->query($query);
-    $chargeData = (object)array(); // Create an empty object
+}
 
-    while ($row = $variantResult->fetch_assoc()) {
-        if (!isset($chargeData->$SalesID)) {
-            $chargeData->$SalesID = (object)array(
-                "id" => $SalesID,
-                "data" => $row
-            );
-        }
+$VariantData = json_encode($VariantData);
+$conn->close();
 
-        $patientFullName = $lname . ',' . $fname . ' ' . $mname;
-        $chargeValue = $type . " | No.: " . $SalesID;
-
-        echo "<option value='$chargeValue'>$patientFullName</option>";
-    }
-    $chargeData = json_encode($chargeData);
-    ?>
-</datalist>
-<?php $conn->close(); ?>
+// Return the JSON data
+echo $VariantData;
+?>

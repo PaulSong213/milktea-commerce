@@ -34,9 +34,9 @@ $result = $conn->query($query);
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $image = '././inventory/' . $row["image"];
-        $inventoryID = $row["inventoryID"];
-        $itemCode = $row["itemCode"];
+        $image = '././inventory/' . $row["image"]; // product image
+        $inventoryID = $row["inventoryID"]; // product id
+        $itemCode = $row["itemCode"]; // product name
         $SugPrice = $row["SugPrice"];
         $itemTypeID = $row["itemTypeID"];
 
@@ -47,7 +47,12 @@ if ($result->num_rows > 0) {
         echo '<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur, sed.</p>';
         echo '<div style="display: flex; justify-content: space-between;">';
         echo '  <span>₱ ' . $SugPrice . '</span>';
-        echo '<button class="btn costum-btn-primary m-2 addToCartBtn">Add to Cart</button>';
+        echo '<button class="btn costum-btn-primary m-2 addToCartBtn" 
+        data-image="' . $image . '" 
+        data-inventory-id="' . $inventoryID . '" 
+        data-item-code="' . $itemCode . '"
+        data-item-id="' . $itemTypeID . '"
+        >Add to Cart</button>';
         echo '</div>';
         echo '</div>';
         echo '</div>';
