@@ -44,14 +44,27 @@ if ($result->num_rows > 0) {
         echo '<img src="' . $image . '" alt="Menu products">';
         echo '<div class="content">';
         echo '<h3>' . $itemCode . '</h3>';
-        echo '<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur, sed.</p>';
+        // Fetch variants for the current product
+        $variantQuery = "SELECT * FROM variant_tb WHERE ProductID = '$itemTypeID'";
+        $variantResult = $conn->query($variantQuery);
+
+        while ($variantRow = $variantResult->fetch_assoc()) {
+            $variantName = $variantRow["variantName"];
+            $price = $variantRow["price"];
+            $variantID = $variantRow["variantID"];
+
+        
+            echo '<span><span style="font-weight: bold;"> ₱ ' . $price . '</span> ' . $variantName . '</span> <br>';
+        }
+
         echo '<div style="display: flex; justify-content: space-between;">';
-        echo '  <span>₱ ' . $SugPrice . '</span>';
         echo '<button class="btn costum-btn-primary m-2 addToCartBtn" 
         data-image="' . $image . '" 
         data-inventory-id="' . $inventoryID . '" 
         data-item-code="' . $itemCode . '"
         data-item-id="' . $itemTypeID . '"
+        data-item-variantName="' . $variantName . '"
+        data-item-variantPrice="' . $price . '"
         >Add to Cart</button>';
         echo '</div>';
         echo '</div>';
@@ -63,3 +76,11 @@ if ($result->num_rows > 0) {
 
 // Close the database connection
 $conn->close();
+?>
+<script>
+			$(document).ready(function() {
+
+
+            
+            });
+</script>

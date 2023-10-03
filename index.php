@@ -78,7 +78,7 @@ if ($conn->connect_error) {
 	<section class="home" id="home">
 		<div class="row">
 			<div class="content">
-				<h3>fresh coffee & Tea in town</h3>
+				<h3>Brewing happiness one cup at a time.</h3>
 				<a href="#menu" class="btn" id="Place-Order"> buy one now</a>
 			</div>
 
@@ -88,10 +88,40 @@ if ($conn->connect_error) {
 		</div>
 
 		<div class="image-slider">`
-			<img src="./landingpage/image/home-img-1.png" alt="">
-			<img src="./landingpage/image/home-img-2.png" alt="">
-			<img src="./landingpage/image/home-img-3.png" alt="">
+		
 		</div>
+		<script>
+			$(document).ready(function() {
+				// Make an AJAX request to promolist.php
+				$.ajax({
+					url: 'promolist.php',
+					type: 'GET',
+					dataType: 'json', // Expect JSON response
+					success: function(data) {
+						if (data.length > 0) {
+							// If there are promo images, populate the image slider div
+							var imageSliderDiv = $('.image-slider');
+							var imageHome = $('.image');
+							// Clear any existing images
+							imageSliderDiv.empty();
+							// Loop through the data and create image elements
+							for (var i = 0; i < data.length; i++) {
+								var imageUrl = data[i];
+								var imgElement = '<img src="' + imageUrl + '" alt="Promo Image">';
+								imageSliderDiv.append(imgElement);
+							}
+						} else {
+							// If no promo images are available, display a message
+							$('.image-slider').html('<div class="no-products">No Promos Available</div>');
+						}
+					},
+					error: function() {
+						// Handle AJAX error here
+						console.log('Error fetching promo images.');
+					}
+				});
+			});
+		</script>
 	</section>
 
 	<!-- ABOUT -->
@@ -131,7 +161,7 @@ if ($conn->connect_error) {
 	<!-- MENU -->
 	<section class="menu" id="menu">
 		<h1 class="heading">Our Menu <span>Popular Menu</span></h1>
-		<div class="row">
+		<div class="fluid row w-100">
 			<div class="container-fluid d-flex justify-content-center">
 				<!-- Categories filter here where itemTypeID values -->
 				<?php
@@ -145,7 +175,7 @@ if ($conn->connect_error) {
 				?>
 			</div>
 
-			<div id="box-container" class="box-container mt-5">
+			<div id="box-container" class="container-fluid mt-5">
 				<!-- Add this line where you want the loader to appear -->
 				<div id="loader" class="spinner-grow text-primary" role="status" style="display: none;">
 					<span class="sr-only">Loading...</span>
@@ -176,22 +206,34 @@ if ($conn->connect_error) {
 								$(".addToCartBtn").click(async function() {
 									const isLoggedIn = await validateLoggedIn();
 									if (!isLoggedIn) return;
-									console.log('ADD YOUR INSERT TO CART FUNCTION BELOW THIS LINE');
+
+									// Find the checked radio button with the name "variant"
 									const image = $(this).data('image');
 									const inventoryID = $(this).data('inventory-id');
 									const itemCode = $(this).data('item-code');
 									const itemTypeID = $(this).data('item-id');
+									const variantName = $(this).data('item-variantName');
+									const price = $(this).data('item-VariantPrice');
+									console.log(variantName + price);
 									const newRow = `
-										<tr>
-											<td style="display:none;">${inventoryID}</td>
-											<td><img src="${image}" alt="Product Image" width="50"></td>
-											<td>${itemCode}</td>
-											<td><input type="text" name="size" placeholder="Select Variant"></td>
-											<td><input type="number" name="qty" value="1" ></td>
-											<td>$19.99</td>
-											<td><button class="btn-danger btn-sm removeItem">Remove</button></td>
-										</tr>
-									`;
+												<tr>
+													<td style="display:none;">${inventoryID}</td>
+													<td><img src="${image}" alt="Product Image" width="50"></td>
+													<td>${itemCode}</td>
+													<td>
+														<input type="text" name="size" list="sizeOptions">
+															<datalist id="sizeOptions">
+																<option value="Small">
+																<option value="Medium">
+																<option value="Large">
+															</datalist>
+													</td>
+													<td><input type="number" name="qty" value="1"></td>
+													<td>${price}</td>
+													<td><button class="btn-danger btn-sm removeItem">Remove</button></td>
+												</tr>
+											`;
+
 									// Append the new row to the cart table
 									$("#cartTable tbody").append(newRow);
 									// Add a click event handler to the "Remove" button
@@ -327,6 +369,50 @@ if ($conn->connect_error) {
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
+	<!-- sliders functions -->
+	<script>
+		let menu = document.querySelector('#menu-btn');
+		let navbar = document.querySelector('.navbar');
+
+		menu.onclick = () => {
+			menu.classList.toggle('fa-times');
+			navbar.classList.toggle('active');
+		};
+
+		window.onscroll = () => {
+			menu.classList.remove('fa-times');
+			navbar.classList.remove('active');
+		};
+
+		document.querySelectorAll('.image-slider img').forEach(images => {
+			images.onclick = () => {
+				var src = images.getAttribute('src');
+				document.querySelector('.main-home-image').src = src;
+			};
+		});
+
+		var swiper = new Swiper(".review-slider", {
+			spaceBetween: 20,
+			pagination: {
+				el: ".swiper-pagination",
+				clickable: true,
+			},
+			loop: true,
+			grabCursor: true,
+			autoplay: {
+				delay: 7500,
+				disableOnInteraction: false,
+			},
+			breakpoints: {
+				0: {
+					slidesPerView: 1
+				},
+				768: {
+					slidesPerView: 2
+				}
+			},
+		});
+	</script>
 
 </body>
 
