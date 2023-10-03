@@ -15,11 +15,11 @@ if (isset($_SESSION['user'])) {
 }
 
 if (isset($_POST['SaveItem'])) {
-    $itemCode = $_POST['item_code'];
-    $expiry = date('Y-m-d H:i:s', strtotime($_POST['date']));
-    $minimumspend = $_POST['minimum_spend'];
+    $promoName = $_POST['item_code'];
     $description = $_POST['description'];
-    $percentage = $_POST['percentage'];
+    $promoPer = $_POST['percentage'];
+    $mspend = $_POST['minimum_spend'];
+    $expiry = $_POST['date'];
     $statusData = 1;
 
     // Define the target directory for image uploads
@@ -60,24 +60,21 @@ if (isset($_POST['SaveItem'])) {
     // Modify the SQL update query based on whether an image is uploaded or not
     if (!empty($_FILES['photo']['tmp_name'])) {
         $stmt = $conn->prepare("UPDATE promo_tb 
-                                SET promoImage = ?, promoName = , description = ?, promoPercentage = ?, minimumSpend = ?, expiryDate = ?,  modifiedDate = NOW()
-                                WHERE promoID =  $item_id");
-
-        $stmt->bind_param("sssssdii", $photo, $itemCode, $description, $percentage, $minimum_spend, $minimum_spend, $date);
+                                SET promoImage = ?, promoName = ?, description = ?, promoPercentage = ?, minimumSpend = ?, expiryDate = ?,  status = ?, modifiedDate = NOW()
+                                WHERE promoID = ?");
+        $stmt->bind_param("sssssdii", $photo, $promoName, $description, $promoPer, $mspend, $expiry, $statusData, $item_id);
     } else {
         $stmt = $conn->prepare("UPDATE promo_tb 
-                        SET promoName = ?, description = ?, promoPercentage = ?, minimumSpend = ?, expiryDate = ?, modifiedDate = NOW()
-                        WHERE promoID =  '$item_id'");
-
-        $stmt->bind_param("ssddd", $itemCode, $description, $percentage, $minimumspend, $expiry);
-
+                                SET promoName = ?, description = ?, promoPercentage = ?, minimumSpend = ?, expiryDate = ?,  status = ?, modifiedDate = NOW()
+                                WHERE promoID = ?");
+        $stmt->bind_param("ssssdii", $promoName, $description, $promoPer, $mspend, $expiry, $statusData, $item_id);
     }
 
     $item_id = $_POST['item_id'];
 
     if ($stmt->execute()) {
         $act = "Edit Inventory Item";
-        $description = "Edit Inventory Data: [$itemCode] [$item_id] [$date]";
+        $description = "Edit Inventory Data: [$itemCode]";
         $conn1 = connect();
         $sql1 = "INSERT INTO backlog_tb (employeeID, action, description, timeStamp) VALUES (?, ?, ?, NOW())";
         $stmt1 = $conn1->prepare($sql1);
