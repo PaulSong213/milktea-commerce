@@ -40,7 +40,6 @@
                                 <input type="number" id="percentage" name="percentage" class="form-control" placeholder="Enter item code" autocomplete="on" required>
                             </div>
                         </div>
-
                         <div class="mb-3">
                             <label for="description">Description<span class="text-danger mx-1">*</span></label>
                             <textarea class="form-control" id="description" name="description" placeholder="Enter description" required autocomplete="on"></textarea>
