@@ -76,52 +76,29 @@ if ($conn->connect_error) {
 
 	<!-- HOME -->
 	<section class="home" id="home">
-		<div class="row">
-			<div class="content">
-				<h3>Brewing happiness one cup at a time.</h3>
-				<a href="#menu" class="btn" id="Place-Order"> buy one now</a>
-			</div>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="content">
+						<h3>Brewing happiness one cup at a time.</h3>
+						<a href="#menu" class="btn" id="Place-Order">Buy One Now</a> <!-- Improved button text -->
+					</div>
+				</div>
 
-			<div class="image">
-				<img src="./landingpage/image/home-img-1.png" class="main-home-image" alt="">
+				<div class="col-md-5">
+					<div class="image">
+						<div class="swiper review-slider">
+							<div class="swiper-wrapper">
+								<div class="swiper-slide box">
+									<img src="./landingpage/image/pic-2.png" alt="">
+								</div>
+							</div>
+							<div class="swiper-pagination"></div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-
-		<div class="image-slider">`
-		
-		</div>
-		<script>
-			$(document).ready(function() {
-				// Make an AJAX request to promolist.php
-				$.ajax({
-					url: 'promolist.php',
-					type: 'GET',
-					dataType: 'json', // Expect JSON response
-					success: function(data) {
-						if (data.length > 0) {
-							// If there are promo images, populate the image slider div
-							var imageSliderDiv = $('.image-slider');
-							var imageHome = $('.image');
-							// Clear any existing images
-							imageSliderDiv.empty();
-							// Loop through the data and create image elements
-							for (var i = 0; i < data.length; i++) {
-								var imageUrl = data[i];
-								var imgElement = '<img src="' + imageUrl + '" alt="Promo Image">';
-								imageSliderDiv.append(imgElement);
-							}
-						} else {
-							// If no promo images are available, display a message
-							$('.image-slider').html('<div class="no-products">No Promos Available</div>');
-						}
-					},
-					error: function() {
-						// Handle AJAX error here
-						console.log('Error fetching promo images.');
-					}
-				});
-			});
-		</script>
 	</section>
 
 	<!-- ABOUT -->
@@ -180,6 +157,7 @@ if ($conn->connect_error) {
 				<div id="loader" class="spinner-grow text-primary" role="status" style="display: none;">
 					<span class="sr-only">Loading...</span>
 				</div>
+				<input type="hidden" name="" id="">
 			</div>
 		</div>
 		<script>
@@ -212,9 +190,6 @@ if ($conn->connect_error) {
 									const inventoryID = $(this).data('inventory-id');
 									const itemCode = $(this).data('item-code');
 									const itemTypeID = $(this).data('item-id');
-									const variantName = $(this).data('item-variantName');
-									const price = $(this).data('item-VariantPrice');
-									console.log(variantName + price);
 									const newRow = `
 												<tr>
 													<td style="display:none;">${inventoryID}</td>
@@ -229,7 +204,7 @@ if ($conn->connect_error) {
 															</datalist>
 													</td>
 													<td><input type="number" name="qty" value="1"></td>
-													<td>${price}</td>
+													<td></td>
 													<td><button class="btn-danger btn-sm removeItem">Remove</button></td>
 												</tr>
 											`;
@@ -245,6 +220,11 @@ if ($conn->connect_error) {
 										title: "Successfully Added to Cart!",
 										text: itemCode + " has been added to the cart",
 										confirmButtonText: "Okay",
+										imageUrl: image, // Display the product image in the notification
+										imageWidth: 100, // Set the width of the image
+										imageHeight: 100, // Set the height of the image
+										showCancelButton: true, // Display a "Continue Shopping" button
+										cancelButtonText: "Continue Shopping",
 									}).then((result) => {
 										if (result.isConfirmed) {
 											// Show the Bootstrap modal
@@ -294,8 +274,6 @@ if ($conn->connect_error) {
 
 		<div class="swiper review-slider">
 			<div class="swiper-wrapper">
-
-
 				<div class="swiper-slide box">
 					<i class="fas fa-quote-left"></i>
 					<i class="fas fa-quote-right"></i>
@@ -384,12 +362,7 @@ if ($conn->connect_error) {
 			navbar.classList.remove('active');
 		};
 
-		document.querySelectorAll('.image-slider img').forEach(images => {
-			images.onclick = () => {
-				var src = images.getAttribute('src');
-				document.querySelector('.main-home-image').src = src;
-			};
-		});
+
 
 		var swiper = new Swiper(".review-slider", {
 			spaceBetween: 20,
@@ -407,9 +380,7 @@ if ($conn->connect_error) {
 				0: {
 					slidesPerView: 1
 				},
-				768: {
-					slidesPerView: 2
-				}
+				
 			},
 		});
 	</script>
