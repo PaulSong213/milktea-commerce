@@ -78,20 +78,17 @@ if ($conn->connect_error) {
 	<section class="home" id="home">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-6 ">
 					<div class="content">
 						<h3>Brewing happiness one cup at a time.</h3>
-						<a href="#menu" class="btn" id="Place-Order">Buy One Now</a> <!-- Improved button text -->
+						<a href="#menu" class="btn" id="Place-Order">Buy One Now</a>
 					</div>
 				</div>
-
-				<div class="col-md-5">
+				<div class="col-5">
 					<div class="image">
 						<div class="swiper review-slider">
-							<div class="swiper-wrapper">
-								<div class="swiper-slide box">
-									<img src="./landingpage/image/pic-2.png" alt="">
-								</div>
+							<div class="swiper-wrapper" id="imageSlider">
+								<!-- Images will be dynamically loaded here -->
 							</div>
 							<div class="swiper-pagination"></div>
 						</div>
@@ -99,6 +96,58 @@ if ($conn->connect_error) {
 				</div>
 			</div>
 		</div>
+		<script>
+			$(document).ready(function() {
+				function loadImages() {
+					$.ajax({
+						url: 'promolist.php',
+						type: 'GET',
+						dataType: 'json',
+						success: function(data) {
+							if (data.length > 0) {
+								var imageSlider = $('#imageSlider');
+								imageSlider.empty();
+
+								for (var i = 0; i < data.length; i++) {
+									var imageUrl = data[i];
+									var swiperSlide = $('<div class="swiper-slide box">');
+									var image = $('<img>').attr('src', imageUrl).attr('alt', 'Promo Image');
+
+									// Set the desired width and height to make the images larger
+									// Set the desired width and height to make the images larger and add creative styles
+									image.css('width', '100%');
+									image.css('height', '100%');
+									image.css('border', '2px solid #e3e3e3'); // Add a border
+									image.css('border-radius', '10px'); // Add rounded corners
+									image.css('box-shadow', '0 4px 8px rgba(0, 0, 0, 0.2)'); // Add a shadow
+									image.css('transition', 'transform 0.3s ease-in-out'); // Add a hover effect
+
+									// Add a hover effect for scaling the image
+									image.hover(
+										function() {
+											$(this).css('transform', 'scale(1.05)'); // Scale the image on hover
+										},
+										function() {
+											$(this).css('transform', 'scale(1)'); // Reset the scale when not hovering
+										}
+									);
+
+									swiperSlide.append(image);
+									imageSlider.append(swiperSlide);
+								}
+							} else {
+								console.log('No promo images available.');
+							}
+						},
+						error: function() {
+							console.log('Error fetching promo images.');
+						}
+					});
+				}
+
+				loadImages();
+			});
+		</script>
 	</section>
 
 	<!-- ABOUT -->
@@ -267,7 +316,6 @@ if ($conn->connect_error) {
 		</script>
 	</section>
 
-
 	<!-- REVIEW -->
 	<section class="review" id="review">
 		<h1 class="heading">reviews <span>what people says</span></h1>
@@ -380,7 +428,7 @@ if ($conn->connect_error) {
 				0: {
 					slidesPerView: 1
 				},
-				
+
 			},
 		});
 	</script>
