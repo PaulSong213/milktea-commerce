@@ -21,7 +21,7 @@ $imageUrls = array();
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $imageUrls[] = '././inventory/'. $row["promoImage"];
+        $imageUrls[] = '././promo/'. $row["promoImage"];
     }
 }
 

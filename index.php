@@ -76,50 +76,76 @@ if ($conn->connect_error) {
 
 	<!-- HOME -->
 	<section class="home" id="home">
-		<div class="row">
-			<div class="content">
-				<h3>Brewing happiness one cup at a time.</h3>
-				<a href="#menu" class="btn" id="Place-Order"> buy one now</a>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-6 ">
+					<div class="content">
+						<h3>Brewing happiness one cup at a time.</h3>
+						<a href="#menu" class="btn" id="Place-Order">Buy One Now</a>
+					</div>
+				</div>
+				<div class="col-5">
+					<div class="image">
+						<div class="swiper review-slider">
+							<div class="swiper-wrapper" id="imageSlider">
+								<!-- Images will be dynamically loaded here -->
+							</div>
+							<div class="swiper-pagination"></div>
+						</div>
+					</div>
+				</div>
 			</div>
-
-			<div class="image">
-				<img src="./landingpage/image/home-img-1.png" class="main-home-image" alt="">
-			</div>
-		</div>
-
-		<div class="image-slider">`
-		
 		</div>
 		<script>
 			$(document).ready(function() {
-				// Make an AJAX request to promolist.php
-				$.ajax({
-					url: 'promolist.php',
-					type: 'GET',
-					dataType: 'json', // Expect JSON response
-					success: function(data) {
-						if (data.length > 0) {
-							// If there are promo images, populate the image slider div
-							var imageSliderDiv = $('.image-slider');
-							var imageHome = $('.image');
-							// Clear any existing images
-							imageSliderDiv.empty();
-							// Loop through the data and create image elements
-							for (var i = 0; i < data.length; i++) {
-								var imageUrl = data[i];
-								var imgElement = '<img src="' + imageUrl + '" alt="Promo Image">';
-								imageSliderDiv.append(imgElement);
+				function loadImages() {
+					$.ajax({
+						url: 'promolist.php',
+						type: 'GET',
+						dataType: 'json',
+						success: function(data) {
+							if (data.length > 0) {
+								var imageSlider = $('#imageSlider');
+								imageSlider.empty();
+
+								for (var i = 0; i < data.length; i++) {
+									var imageUrl = data[i];
+									var swiperSlide = $('<div class="swiper-slide box">');
+									var image = $('<img>').attr('src', imageUrl).attr('alt', 'Promo Image');
+
+									// Set the desired width and height to make the images larger
+									// Set the desired width and height to make the images larger and add creative styles
+									image.css('width', '100%');
+									image.css('height', '100%');
+									image.css('border', '2px solid #e3e3e3'); // Add a border
+									image.css('border-radius', '10px'); // Add rounded corners
+									image.css('box-shadow', '0 4px 8px rgba(0, 0, 0, 0.2)'); // Add a shadow
+									image.css('transition', 'transform 0.3s ease-in-out'); // Add a hover effect
+
+									// Add a hover effect for scaling the image
+									image.hover(
+										function() {
+											$(this).css('transform', 'scale(1.05)'); // Scale the image on hover
+										},
+										function() {
+											$(this).css('transform', 'scale(1)'); // Reset the scale when not hovering
+										}
+									);
+
+									swiperSlide.append(image);
+									imageSlider.append(swiperSlide);
+								}
+							} else {
+								console.log('No promo images available.');
 							}
-						} else {
-							// If no promo images are available, display a message
-							$('.image-slider').html('<div class="no-products">No Promos Available</div>');
+						},
+						error: function() {
+							console.log('Error fetching promo images.');
 						}
-					},
-					error: function() {
-						// Handle AJAX error here
-						console.log('Error fetching promo images.');
-					}
-				});
+					});
+				}
+
+				loadImages();
 			});
 		</script>
 	</section>
@@ -180,6 +206,7 @@ if ($conn->connect_error) {
 				<div id="loader" class="spinner-grow text-primary" role="status" style="display: none;">
 					<span class="sr-only">Loading...</span>
 				</div>
+				<input type="hidden" name="" id="">
 			</div>
 		</div>
 		<script>
@@ -212,9 +239,6 @@ if ($conn->connect_error) {
 									const inventoryID = $(this).data('inventory-id');
 									const itemCode = $(this).data('item-code');
 									const itemTypeID = $(this).data('item-id');
-									const variantName = $(this).data('item-variantName');
-									const price = $(this).data('item-VariantPrice');
-									console.log(variantName + price);
 									const newRow = `
 												<tr>
 													<td style="display:none;">${inventoryID}</td>
@@ -229,7 +253,7 @@ if ($conn->connect_error) {
 															</datalist>
 													</td>
 													<td><input type="number" name="qty" value="1"></td>
-													<td>${price}</td>
+													<td></td>
 													<td><button class="btn-danger btn-sm removeItem">Remove</button></td>
 												</tr>
 											`;
@@ -245,6 +269,11 @@ if ($conn->connect_error) {
 										title: "Successfully Added to Cart!",
 										text: itemCode + " has been added to the cart",
 										confirmButtonText: "Okay",
+										imageUrl: image, // Display the product image in the notification
+										imageWidth: 100, // Set the width of the image
+										imageHeight: 100, // Set the height of the image
+										showCancelButton: true, // Display a "Continue Shopping" button
+										cancelButtonText: "Continue Shopping",
 									}).then((result) => {
 										if (result.isConfirmed) {
 											// Show the Bootstrap modal
@@ -287,15 +316,12 @@ if ($conn->connect_error) {
 		</script>
 	</section>
 
-
 	<!-- REVIEW -->
 	<section class="review" id="review">
 		<h1 class="heading">reviews <span>what people says</span></h1>
 
 		<div class="swiper review-slider">
 			<div class="swiper-wrapper">
-
-
 				<div class="swiper-slide box">
 					<i class="fas fa-quote-left"></i>
 					<i class="fas fa-quote-right"></i>
@@ -384,12 +410,7 @@ if ($conn->connect_error) {
 			navbar.classList.remove('active');
 		};
 
-		document.querySelectorAll('.image-slider img').forEach(images => {
-			images.onclick = () => {
-				var src = images.getAttribute('src');
-				document.querySelector('.main-home-image').src = src;
-			};
-		});
+
 
 		var swiper = new Swiper(".review-slider", {
 			spaceBetween: 20,
@@ -407,9 +428,7 @@ if ($conn->connect_error) {
 				0: {
 					slidesPerView: 1
 				},
-				768: {
-					slidesPerView: 2
-				}
+
 			},
 		});
 	</script>
