@@ -9,30 +9,20 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Check if it's an AJAX request
-if(isset($_POST['itemTypeID'])) {
-    // Fetch variants based on the item type ID received via AJAX
-    $itemTypeID = $_POST['itemTypeID'];
-    $variantQuery = "SELECT * FROM variant_tb WHERE ProductID = :itemTypeID";
+// Assuming you have a database connection established
+$variantQuery = "SELECT * FROM variant_tb WHERE ProductID = :itemTypeID";
+$itemTypeID = $_POST['itemTypeID']; // You can pass the itemTypeID through AJAX
 
-    // Execute the query and fetch data as an array
-    $statement = $conn->prepare($variantQuery);
-    $statement->bindParam(':itemTypeID', $itemTypeID, PDO::PARAM_INT);
-    $statement->execute();
-    $variants = $statement->fetchAll(PDO::FETCH_ASSOC);
+// Execute the query and fetch data as an array
+// Replace 'your_database_connection' with your actual database connection code
+$statement = $your_database_connection->prepare($variantQuery);
+$statement->bindParam(':itemTypeID', $itemTypeID, PDO::PARAM_INT);
+$statement->execute();
+$variants = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-    // Prepare the options as an HTML string
-    $optionsHTML = '';
-    foreach ($variants as $variant) {
-        $optionsHTML .= "<option value='{$variant['Size']}'>{$variant['Size']}</option>";
-    }
+// Prepare the options as JSON
+$options = json_encode(array_column($variants, 'Size')); // Assuming 'Size' is the column name
 
-    // Return the options HTML
-    header('Content-Type: text/html');
-    echo $optionsHTML;
-} else {
-    // Handle non-AJAX requests or invalid requests
-    header('HTTP/1.1 400 Bad Request');
-    echo "Invalid request.";
-}
-?>
+// Return JSON response
+header('Content-Type: application/json');
+echo $options;

@@ -1,4 +1,3 @@
-<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="es">
 <?php
@@ -8,7 +7,11 @@ $conn = connect();
 // Check connection status
 if ($conn->connect_error) {
 	die("Connection failed: " . $conn->connect_error);
-} ?>
+}
+session_start();
+if (isset($_SESSION['costumer'])) {
+}
+?>
 
 <head>
 	<meta charset="UTF-8">
@@ -78,13 +81,13 @@ if ($conn->connect_error) {
 	<section class="home" id="home">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-6 ">
+				<div class="col-md-6 ">
 					<div class="content">
 						<h3>Brewing happiness one cup at a time.</h3>
 						<a href="#menu" class="btn" id="Place-Order">Buy One Now</a>
 					</div>
 				</div>
-				<div class="col-5">
+				<div class="col-md-5">
 					<div class="image">
 						<div class="swiper review-slider">
 							<div class="swiper-wrapper" id="imageSlider">
@@ -118,7 +121,7 @@ if ($conn->connect_error) {
 									image.css('width', '100%');
 									image.css('height', '100%');
 									image.css('border', '2px solid #e3e3e3'); // Add a border
-									image.css('border-radius', '10px'); // Add rounded corners
+									image.css('border-radius', '30px'); // Add rounded corners
 									image.css('box-shadow', '0 4px 8px rgba(0, 0, 0, 0.2)'); // Add a shadow
 									image.css('transition', 'transform 0.3s ease-in-out'); // Add a hover effect
 
@@ -165,7 +168,6 @@ if ($conn->connect_error) {
 					our café has become synonymous with exceptional quality, unparalleled taste, and an atmosphere that r
 					adiates warmth and affection.
 				</p>
-				<a href="#" class="btn">read more</a>
 				<div class="icons-container">
 					<div class="icons">
 						<img src="./landingpage/image/about-icon-1.png" alt="">
@@ -206,92 +208,56 @@ if ($conn->connect_error) {
 				<div id="loader" class="spinner-grow text-primary" role="status" style="display: none;">
 					<span class="sr-only">Loading...</span>
 				</div>
-				<input type="hidden" name="" id="">
 			</div>
 		</div>
 		<script>
-			// Function to add to cart
+			let image;
+			let inventoryID;
+			let itemCode;
+			let itemTypeID;
+			let variantsJSON;
+			let variantPrice;
+
+
 			$(document).ready(function() {
-				// Function to load menu content
 				function loadMenu(category) {
 					$.ajax({
-						url: 'menu.php', // Replace 'get_items.php' with the actual URL of your PHP script
+						url: 'menu.php',
 						type: 'GET',
 						data: {
 							category: category
 						},
 						beforeSend: function() {
-							$('#loader').show(); // Show loader
-							$('#box-container').css('opacity', '0'); // Set box container opacity to 0
+							$('#loader').show();
+							$('#box-container').css('opacity', '0');
 						},
 						success: (data) => {
 							setTimeout(() => {
-								$('#loader').hide(); // Hide loader
-								$('#box-container').html(data).css('opacity', '1'); // Show and fade in the HTML of the box container
+								$('#loader').hide();
+								$('#box-container').html(data).css('opacity', '1');
 
-								// cart button click
 								$(".addToCartBtn").click(async function() {
 									const isLoggedIn = await validateLoggedIn();
 									if (!isLoggedIn) return;
 
-									// Find the checked radio button with the name "variant"
-									const image = $(this).data('image');
-									const inventoryID = $(this).data('inventory-id');
-									const itemCode = $(this).data('item-code');
-									const itemTypeID = $(this).data('item-id');
-									const newRow = `
-												<tr>
-													<td style="display:none;">${inventoryID}</td>
-													<td><img src="${image}" alt="Product Image" width="50"></td>
-													<td>${itemCode}</td>
-													<td>
-														<input type="text" name="size" list="sizeOptions">
-															<datalist id="sizeOptions">
-																<option value="Small">
-																<option value="Medium">
-																<option value="Large">
-															</datalist>
-													</td>
-													<td><input type="number" name="qty" value="1"></td>
-													<td></td>
-													<td><button class="btn-danger btn-sm removeItem">Remove</button></td>
-												</tr>
-											`;
+									image = $(this).data('image');
+									inventoryID = $(this).data('inventory-id');
+									itemCode = $(this).data('item-code');
+									itemTypeID = $(this).data('item-id');
+									variantsJSON = $(this).data('variants');
+									$('#addonsmodal').modal('show');
 
-									// Append the new row to the cart table
-									$("#cartTable tbody").append(newRow);
-									// Add a click event handler to the "Remove" button
-									$(".removeItem").click(function() {
-										$(this).closest("tr").remove();
-									});
-									// Show a success message using Swal with enhanced content
-									Swal.fire({
-										title: "Successfully Added to Cart!",
-										text: itemCode + " has been added to the cart",
-										confirmButtonText: "Okay",
-										imageUrl: image, // Display the product image in the notification
-										imageWidth: 100, // Set the width of the image
-										imageHeight: 100, // Set the height of the image
-										showCancelButton: true, // Display a "Continue Shopping" button
-										cancelButtonText: "Continue Shopping",
-									}).then((result) => {
-										if (result.isConfirmed) {
-											// Show the Bootstrap modal
-											$('#categoryModal').modal('show');
-										}
-									});
 								});
-							}, 500); // Delay of 0.5 seconds (500 milliseconds)
+							}, 500);
 						},
 						error: function() {
 							console.log('Error loading menu.');
 						}
 					});
 				}
-				// Initial page load
+
 				loadMenu('');
 
-				// Handle category filter clicks
 				$('.sort-button').on('click', function(e) {
 					e.preventDefault();
 					var category = $(this).data('category');
@@ -311,10 +277,109 @@ if ($conn->connect_error) {
 					}
 					return isLoggedIn;
 				}
+			});
+		</script>
+		<!-- script for addons -->
+		<script>
+			document.addEventListener("DOMContentLoaded", function() {
+				// Get a reference to the "Done" button
+				var doneButton = document.getElementById("doneButton");
+
+				// Add a click event listener to the "Done" button
+				doneButton.addEventListener("click", function() {
+					// Get all the checkboxes with the name "addon[]"
+					var checkboxes = document.querySelectorAll('input[name="addon[]"]:checked');
+
+					// Create an array to store the selected addon data
+					var selectedAddonsData = [];
+
+					// Loop through the selected checkboxes and extract their values, description, and price
+					checkboxes.forEach(function(checkbox) {
+						var addonId = checkbox.value;
+						var addonDescription = document.querySelector('#addon' + addonId + ' .description-text').textContent;
+						var addonPrice = document.querySelector('#addon' + addonId + ' .price-text').textContent;
+
+						selectedAddonsData.push({
+							id: addonId,
+							description: addonDescription,
+							price: addonPrice
+						});
+					});
+
+					var totalAmount = 0;
+					var descriptions = "";
+
+					selectedAddonsData.forEach(function(addon) {
+						// Extract addonPrice and parse it as a floating-point number
+						var addonPrice = parseFloat(addon.price.replace(/[^\d.]/g, ''));
+						// Check if addonPrice is a valid number before adding it to totalAmount
+						if (!isNaN(addonPrice)) {
+							totalAmount += addonPrice;
+						}
+
+						descriptions += addon.description + ", ";
+					});
+
+					// Remove the trailing comma and space
+					descriptions = descriptions.slice(0, -2);
+
+					// Log the selected addon data and totalAmount to the console
+					console.log(selectedAddonsData);
+					console.log(descriptions);
+					// total amount of the addons
+					console.log(totalAmount);
+					// Add to cart append
+					const newRow = `
+                <tr>
+                    <td style="display:none;">${inventoryID}</td>
+                    <td><img src="${image}" alt="Product Image" width="50"></td>
+                    <td>${itemCode}</td>
+                    <td>
+                        <input type="text" name="size" list="sizeOptions" placeholder="Select Size">
+                        <datalist id="sizeOptions">
+                        </datalist>
+                    </td>
+                    <td><input type="number" name="qty" value="1"></td>
+                    <td id="addonsDescription">${descriptions}</td>
+                    <td id="price">${totalAmount.toFixed(2)}</td>
+                    <td><button class="btn-danger btn-sm removeItem">Remove</button></td>
+                </tr>
+            `;
+
+					// Append newRow to the DOM
+					$("#cartTable tbody").append(newRow);
+
+					// Now that newRow is in the DOM, get the datalist element
+					const dataList = document.getElementById('sizeOptions');
+
+					// Remove any existing options
+					while (dataList.firstChild) {
+						dataList.removeChild(dataList.firstChild);
+					}
+
+					// Add an option for each variant
+					variantsJSON.forEach(variant => {
+						const option = document.createElement('option');
+						option.value = variant.variantName;
+						dataList.appendChild(option);
+
+					});
+
+					// Add click event listener to remove items
+					$(".removeItem").click(function() {
+						$(this).closest("tr").remove();
+					});
+
+					// Hide/show modals
+					$('#addonsmodal').modal('hide');
+					$('#categoryModal').modal('show');
+				});
 
 			});
 		</script>
+
 	</section>
+
 
 	<!-- REVIEW -->
 	<section class="review" id="review">
@@ -385,6 +450,7 @@ if ($conn->connect_error) {
 	</section>
 
 	<?php include './landingpage/cart/cart.php' ?>
+	<?php include './landingpage/cart/addons.php' ?>
 	<!-- Bootstrap and jQuery Scripts -->
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js" type="text/javascript"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
@@ -421,7 +487,7 @@ if ($conn->connect_error) {
 			loop: true,
 			grabCursor: true,
 			autoplay: {
-				delay: 7500,
+				delay: 5000,
 				disableOnInteraction: false,
 			},
 			breakpoints: {

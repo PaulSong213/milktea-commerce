@@ -48,14 +48,20 @@ if ($result->num_rows > 0) {
         $variantQuery = "SELECT * FROM variant_tb WHERE ProductID = '$itemTypeID'";
         $variantResult = $conn->query($variantQuery);
 
+        $variantsArray = array();
         while ($variantRow = $variantResult->fetch_assoc()) {
             $variantName = $variantRow["variantName"];
             $price = $variantRow["price"];
             $variantID = $variantRow["variantID"];
-
-        
+            $variantsArray[] = array(
+                'variantName' => $variantName,
+                'price' => $price,
+            );
             echo '<span><span style="font-weight: bold;"> ₱ ' . $price . '</span> ' . $variantName . '</span> <br>';
         }
+
+        $variantsJSON = json_encode($variantsArray);
+
 
         echo '<div style="display: flex; justify-content: space-between;">';
         echo '<button class="btn costum-btn-primary m-2 addToCartBtn" 
@@ -63,8 +69,7 @@ if ($result->num_rows > 0) {
         data-inventory-id="' . $inventoryID . '" 
         data-item-code="' . $itemCode . '"
         data-item-id="' . $itemTypeID . '"
-        data-item-variantName="' . $variantName . '"
-        data-item-variantPrice="' . $price . '"
+        data-variants="' . htmlspecialchars($variantsJSON) . '" 
         >Add to Cart</button>';
         echo '</div>';
         echo '</div>';
@@ -78,9 +83,9 @@ if ($result->num_rows > 0) {
 $conn->close();
 ?>
 <script>
-			$(document).ready(function() {
+    $(document).ready(function() {
 
 
-            
-            });
+
+    });
 </script>
