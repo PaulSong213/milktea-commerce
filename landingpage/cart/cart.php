@@ -1,5 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php
+require_once '././php/connect.php';
+// Establish a database connection
+$conn = connect();
+// Check connection status
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+session_start();
+if (isset($_SESSION['costumer'])) 
+
+{
+}
+?>
 
 <head>
     <meta charset="UTF-8">
@@ -119,6 +133,7 @@
                                         <th>Product</th>
                                         <th>Size</th>
                                         <th>Qty</th>
+                                        <th>addOns</th>
                                         <th>Price</th> <!-- Added price column -->
                                         <th>Action</th> <!-- Added remove action column -->
                                     </tr>
@@ -143,17 +158,13 @@
                                 <option value="bank">Bank Transfer</option>
                             </select>
                         </div>
-                        <!-- Standard Shipping Price -->
-                        <div class="form-group row">
-                            <label for="shippingPrice" class="col-sm-6">Standard Shipping Price</label>
-                            <div class="col-sm-6">
-                                <p id="shippingPrice" class="text-right">$5.00</p>
-                            </div>
-                        </div>
+
                         <!-- Address Section -->
                         <div class="form-group">
                             <label for="address">Shipping Address</label>
-                            <textarea class="form-control" id="address" name="address" rows="4"></textarea>
+                            <textarea class="form-control" id="address" name="address" rows="4">
+
+                            </textarea>
                         </div>
                     </div>
                     <!-- Total Amount -->
@@ -182,7 +193,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-
+    
 </script>
 
 </html>
