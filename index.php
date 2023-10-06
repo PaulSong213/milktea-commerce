@@ -307,6 +307,7 @@ if (isset($_SESSION['costumer'])) {
 					});
 
 					var totalAmount = 0;
+					var PartialAmount = 0;
 					var descriptions = "";
 
 					selectedAddonsData.forEach(function(addon) {
@@ -316,7 +317,7 @@ if (isset($_SESSION['costumer'])) {
 						if (!isNaN(addonPrice)) {
 							totalAmount += addonPrice;
 						}
-
+						PartialAmount = totalAmount;
 						descriptions += addon.description + ", ";
 					});
 
@@ -325,6 +326,7 @@ if (isset($_SESSION['costumer'])) {
 
 					// Log the selected addon data and totalAmount to the console
 					console.log(selectedAddonsData);
+					console.log(variantsJSON);
 					console.log(descriptions);
 					// total amount of the addons
 					console.log(totalAmount);
@@ -335,11 +337,11 @@ if (isset($_SESSION['costumer'])) {
                     <td><img src="${image}" alt="Product Image" width="50"></td>
                     <td>${itemCode}</td>
                     <td>
-                        <input type="text" name="size" list="sizeOptions" placeholder="Select Size">
+                        <input type="text" name="size" id="size" list="sizeOptions" placeholder="Select Size">
                         <datalist id="sizeOptions">
                         </datalist>
                     </td>
-                    <td><input type="number" name="qty" value="1"></td>
+                    <td><input type="number" name="qty" id="qty" value="1"></td>
                     <td id="addonsDescription">${descriptions}</td>
                     <td id="price">${totalAmount.toFixed(2)}</td>
                     <td><button class="btn-danger btn-sm removeItem">Remove</button></td>
@@ -349,27 +351,65 @@ if (isset($_SESSION['costumer'])) {
 					// Append newRow to the DOM
 					$("#cartTable tbody").append(newRow);
 
-					// Now that newRow is in the DOM, get the datalist element
 					const dataList = document.getElementById('sizeOptions');
+					const sizeInput = document.getElementById('size');
+					const qtyInput = document.getElementById('qty');
+					let option;
+					const priceElement = document.getElementById('price');
 
-					// Remove any existing options
+					// Remove any existing options and set the 'readonly' attribute
 					while (dataList.firstChild) {
 						dataList.removeChild(dataList.firstChild);
 					}
 
 					// Add an option for each variant
 					variantsJSON.forEach(variant => {
-						const option = document.createElement('option');
+						option = document.createElement('option');
 						option.value = variant.variantName;
 						dataList.appendChild(option);
+					});
+
+					sizeInput.addEventListener('change', function() {
+						// Get the selected value from the input
+						const selectedSize = sizeInput.value;
+
+						// Find the variant that matches the selected size
+						const selectedVariant = variantsJSON.find(variant => variant.variantName === selectedSize);
+
+						// Check if a matching variant was found
+						if (selectedVariant) {
+							const selectedPrice = parseFloat(selectedVariant.price);
+							totalAmount = PartialAmount;
+							// Log the selected size and its corresponding price
+							console.log("Selected Size:", selectedSize);
+							console.log("Selected Price:", selectedPrice);
+							totalAmount += selectedPrice;
+							priceElement.textContent = totalAmount.toFixed(2);
+							console.log(totalAmount);
+
+
+							// Now you can use the selectedPrice as needed
+						} else {
+							// Handle the case where no matching variant was found
+							Swal.fire({
+								icon: 'error',
+								title: 'No variant found',
+								text: 'Please Select a Variant Size',
+							});
+						}
+					});
+
+					qtyInput.addEventListener('change', function() {
+						const qtyValue = parseFloat(qtyInput.value);
+						const qtyTotalAmt =  qtyValue *totalAmount; 
 
 					});
+
 
 					// Add click event listener to remove items
 					$(".removeItem").click(function() {
 						$(this).closest("tr").remove();
 					});
-
 					// Hide/show modals
 					$('#addonsmodal').modal('hide');
 					$('#categoryModal').modal('show');

@@ -176,12 +176,11 @@ if (isset($_SESSION['costumer']))
                 <!-- Modal Footer -->
                 <div class="modal-footer">
                     <!-- hidden value -->
-                    <input type="hidden" name="order" id="order" value="">
+                    <input type="hidden" name="orders" id="orders" value="">
                     <input type="hidden" name="total" id="total" value="">
                     <input type="hidden" name="category" id="category" value="">
-
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue Shopping</button>
-                    <button type="button" class="btn btn-primary">Proceed to Checkout</button>
+                    <button type="button" class="btn btn-secondary" onclick="Close()">Continue Shopping</button>
+                    <button type="button" class="btn btn-primary text-white">Proceed to Checkout</button>
                 </div>
             </div>
         </div>
@@ -193,7 +192,9 @@ if (isset($_SESSION['costumer']))
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-    
+function Close(){
+    $('#categoryModal').modal('hide');
+}
 </script>
 
 </html>
