@@ -31,6 +31,20 @@
                             <input type="text" id="item_code" name="item_code" class="form-control" placeholder="Enter item code" autocomplete="on" required>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label" for="type">Product Type<span class="text-danger mx-1">*</span></label>
+                            <select class="form-select" id="type" name="itemTypeID">
+                                <?php
+                                $connectionType = connect();
+                                $sqlType = "select * from itemtype_tb";
+                                $resultType = $connectionType->query($sqlType);
+                                if (!$resultType) die($connectionType->error);
+                                while ($rowType = $resultType->fetch_assoc()) {
+                                    echo '<option value="' . $rowType["itemTypeID"] . '">' . $rowType["itemTypeCode"] . '</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
                             <label for="price">Price<span class="text-danger mx-1">*</span></label>
                             <input class="form-control" id="price" name="price" placeholder="Enter Price" required autocomplete="on"></input>
                         </div>

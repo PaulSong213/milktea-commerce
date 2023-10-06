@@ -7,7 +7,7 @@ require_once '../../php/connect.php';
 $conn = connect();
 
 // Define the base query
-$baseQuery = "SELECT * FROM addOns_tb";
+$baseQuery = "SELECT * FROM addOns_tb  LEFT JOIN itemtype_tb ON addOns_tb.itemTypeID = itemtype_tb.itemTypeID";
 
 // Retrieve DataTables' request parameters
 $start = $_POST['start']; // Start index for pagination
