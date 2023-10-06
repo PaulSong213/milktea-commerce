@@ -52,6 +52,7 @@
                     <th>Product Photo</th>
                     <th>Product Name</th>
                     <th>Price</th>
+                    <th>Item Type</th>
                     <th>Date Added</th>
                     <th>Modified Date</th>
                     <th>Status</th>
@@ -117,6 +118,9 @@
                     },
                     {
                         data: 'price'
+                    },
+                    {
+                       data: 'itemTypeCode'    
                     },
                     {
                         data: null,

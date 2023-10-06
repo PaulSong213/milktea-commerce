@@ -16,7 +16,8 @@ if (isset($_SESSION['user'])) {
 
 if (isset($_POST['SaveItem'])) {
     $itemCode = $_POST['item_code'];
-    $itemTypeID = $_POST['price'];
+    $itemTypeID = $_POST['itemTypeID'];
+    $price = $_POST['price'];
     $description = $_POST['description'];
     
     $statusData = 1;
@@ -59,14 +60,14 @@ if (isset($_POST['SaveItem'])) {
     // Modify the SQL update query based on whether an image is uploaded or not
     if (!empty($_FILES['photo']['tmp_name'])) {
         $stmt = $conn->prepare("UPDATE addons_tb 
-                                SET addImage = ?, addName = ?, price = ?, description = ?, status = ?, modifiedDate = NOW()
+                                SET addImage = ?, addName = ?, itemTypeID = ?, price = ?, description = ?, status = ?, modifiedDate = NOW()
                                 WHERE addID = ?");
-        $stmt->bind_param("ssssdi", $photo, $itemCode, $itemTypeID,  $description, $statusData, $item_id);
+        $stmt->bind_param("sssssdi", $photo, $itemCode, $itemTypeID, $price, $description, $statusData, $item_id);
     } else {
         $stmt = $conn->prepare("UPDATE addons_tb 
-                                SET addName = ?, price = ?, description = ?, status = ?, modifiedDate = NOW()
+                                SET addName = ?, itemTypeID = ?, price = ?, description = ?, status = ?, modifiedDate = NOW()
                                 WHERE addID = ?");
-        $stmt->bind_param("sssdi", $itemCode, $itemTypeID,  $description, $statusData, $item_id);
+        $stmt->bind_param("ssssdi", $itemCode, $itemTypeID, $price, $description, $statusData, $item_id);
     }
 
     $item_id = $_POST['item_id'];

@@ -17,6 +17,7 @@ if (isset($_SESSION['user'])) {
 if (isset($_POST['SaveItem'])) {
     $itemCode = $_POST['item_code'];
     $description = $_POST['description'];
+    $itemTypeID = $_POST['itemTypeID'];
     $sugPrice = $_POST['price'];
     $statusData = 1;
 
@@ -37,10 +38,10 @@ if (isset($_POST['SaveItem'])) {
             if (move_uploaded_file($_FILES['photo']['tmp_name'], $photo)) {
                 // Image uploaded successfully
                 // Use prepared statements to avoid SQL injection
-                $stmt = $conn->prepare("INSERT INTO addons_tb (addImage, addName, description, price, status, createdDate, modifiedDate) 
-                                                          VALUES (?, ?, ?, ?, ?, NOW(), NOW())");
+                $stmt = $conn->prepare("INSERT INTO addons_tb (addImage, addName, description, itemTypeID, price, status, createdDate, modifiedDate) 
+                                                          VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())");
                 $photo = 'add/' . $photo;
-                $stmt->bind_param("sssss", $photo, $itemCode, $description, $sugPrice, $statusData);
+                $stmt->bind_param("ssssss", $photo, $itemCode, $description, $itemTypeID, $sugPrice, $statusData);
 
                 if ($stmt->execute()) {
                     $act = "Add New Inventory Item";
