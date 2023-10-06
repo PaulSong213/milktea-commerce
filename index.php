@@ -7,7 +7,11 @@ $conn = connect();
 // Check connection status
 if ($conn->connect_error) {
 	die("Connection failed: " . $conn->connect_error);
-} ?>
+}
+session_start();
+if (isset($_SESSION['costumer'])) {
+}
+?>
 
 <head>
 	<meta charset="UTF-8">
@@ -66,7 +70,8 @@ if ($conn->connect_error) {
 					</ul>
 				</div>
 			<?php else : ?>
-				<a href="./costumer/login.php" class="btn">Login</a>
+				<a href="./costumer/login.php" class="btn mx-2">Log in</a>
+				<a href="./costumer/register.php" class="btn">Register</a>
 			<?php endif; ?>
 		</div>
 
@@ -74,33 +79,87 @@ if ($conn->connect_error) {
 
 	<!-- HOME -->
 	<section class="home" id="home">
-		<div class="row">
-			<div class="content">
-				<h3>fresh coffee & Tea in town</h3>
-				<a href="#menu" class="btn" id="Place-Order"> buy one now</a>
-			</div>
-
-			<div class="image">
-				<img src="./landingpage/image/home-img-1.png" class="main-home-image" alt="">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-6 ">
+					<div class="content">
+						<h3>Brewing happiness one cup at a time.</h3>
+						<a href="#menu" class="btn" id="Place-Order">Buy One Now</a>
+					</div>
+				</div>
+				<div class="col-md-5">
+					<div class="image">
+						<div class="swiper review-slider">
+							<div class="swiper-wrapper" id="imageSlider">
+								<!-- Images will be dynamically loaded here -->
+							</div>
+							<div class="swiper-pagination"></div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
+		<script>
+			$(document).ready(function() {
+				function loadImages() {
+					$.ajax({
+						url: 'promolist.php',
+						type: 'GET',
+						dataType: 'json',
+						success: function(data) {
+							if (data.length > 0) {
+								var imageSlider = $('#imageSlider');
+								imageSlider.empty();
 
-		<div class="image-slider">`
-			<img src="./landingpage/image/home-img-1.png" alt="">
-			<img src="./landingpage/image/home-img-2.png" alt="">
-			<img src="./landingpage/image/home-img-3.png" alt="">
-		</div>
+								for (var i = 0; i < data.length; i++) {
+									var imageUrl = data[i];
+									var swiperSlide = $('<div class="swiper-slide box">');
+									var image = $('<img>').attr('src', imageUrl).attr('alt', 'Promo Image');
+
+									// Set the desired width and height to make the images larger
+									// Set the desired width and height to make the images larger and add creative styles
+									image.css('width', '100%');
+									image.css('height', '100%');
+									image.css('border', '2px solid #e3e3e3'); // Add a border
+									image.css('border-radius', '30px'); // Add rounded corners
+									image.css('box-shadow', '0 4px 8px rgba(0, 0, 0, 0.2)'); // Add a shadow
+									image.css('transition', 'transform 0.3s ease-in-out'); // Add a hover effect
+
+									// Add a hover effect for scaling the image
+									image.hover(
+										function() {
+											$(this).css('transform', 'scale(1.05)'); // Scale the image on hover
+										},
+										function() {
+											$(this).css('transform', 'scale(1)'); // Reset the scale when not hovering
+										}
+									);
+
+									swiperSlide.append(image);
+									imageSlider.append(swiperSlide);
+								}
+							} else {
+								console.log('No promo images available.');
+							}
+						},
+						error: function() {
+							console.log('Error fetching promo images.');
+						}
+					});
+				}
+
+				loadImages();
+			});
+		</script>
 	</section>
 
 	<!-- ABOUT -->
 	<section class="about" id="about">
 		<h1 class="heading">about us <span>why choose us</span></h1>
-
 		<div class="row">
 			<div class="image">
 				<img src="./landingpage/image/about-img.png" alt="">
 			</div>
-
 			<div class="content">
 				<h3 class="title">what's make our coffee special!</h3>
 				<p>Romeo's Café: Where Love Meets Brew! Savor the Town's Best Milk Tea and Coffee.
@@ -109,7 +168,6 @@ if ($conn->connect_error) {
 					our café has become synonymous with exceptional quality, unparalleled taste, and an atmosphere that r
 					adiates warmth and affection.
 				</p>
-				<a href="#" class="btn">read more</a>
 				<div class="icons-container">
 					<div class="icons">
 						<img src="./landingpage/image/about-icon-1.png" alt="">
@@ -131,7 +189,7 @@ if ($conn->connect_error) {
 	<!-- MENU -->
 	<section class="menu" id="menu">
 		<h1 class="heading">Our Menu <span>Popular Menu</span></h1>
-		<div class="row">
+		<div class="fluid row w-100">
 			<div class="container-fluid d-flex justify-content-center">
 				<!-- Categories filter here where itemTypeID values -->
 				<?php
@@ -145,7 +203,7 @@ if ($conn->connect_error) {
 				?>
 			</div>
 
-			<div id="box-container" class="box-container mt-5">
+			<div id="box-container" class="container-fluid mt-5">
 				<!-- Add this line where you want the loader to appear -->
 				<div id="loader" class="spinner-grow text-primary" role="status" style="display: none;">
 					<span class="sr-only">Loading...</span>
@@ -153,24 +211,44 @@ if ($conn->connect_error) {
 			</div>
 		</div>
 		<script>
+			let image;
+			let inventoryID;
+			let itemCode;
+			let itemTypeID;
+			let variantsJSON;
+			let variantPrice;
+
+
 			$(document).ready(function() {
-				// Function to load menu content
 				function loadMenu(category) {
 					$.ajax({
-						url: 'menu.php', // Replace 'get_items.php' with the actual URL of your PHP script
+						url: 'menu.php',
 						type: 'GET',
 						data: {
 							category: category
 						},
 						beforeSend: function() {
-							$('#loader').show(); // Show loader
-							$('#box-container').css('opacity', '0'); // Set box container opacity to 0
+							$('#loader').show();
+							$('#box-container').css('opacity', '0');
 						},
-						success: function(data) {
-							setTimeout(function() {
-								$('#loader').hide(); // Hide loader
-								$('#box-container').html(data).css('opacity', '1'); // Show and fade in the HTML of the box container
-							}, 500); // Delay of 0.5 seconds (500 milliseconds)
+						success: (data) => {
+							setTimeout(() => {
+								$('#loader').hide();
+								$('#box-container').html(data).css('opacity', '1');
+
+								$(".addToCartBtn").click(async function() {
+									const isLoggedIn = await validateLoggedIn();
+									if (!isLoggedIn) return;
+
+									image = $(this).data('image');
+									inventoryID = $(this).data('inventory-id');
+									itemCode = $(this).data('item-code');
+									itemTypeID = $(this).data('item-id');
+									variantsJSON = $(this).data('variants');
+									$('#addonsmodal').modal('show');
+
+								});
+							}, 500);
 						},
 						error: function() {
 							console.log('Error loading menu.');
@@ -178,17 +256,168 @@ if ($conn->connect_error) {
 					});
 				}
 
-				// Initial page load
 				loadMenu('');
 
-				// Handle category filter clicks
 				$('.sort-button').on('click', function(e) {
 					e.preventDefault();
 					var category = $(this).data('category');
 					loadMenu(category);
 				});
+
+				async function validateLoggedIn() {
+					const isLoggedIn = <?= isset($_SESSION['costumer']) == true ? 'true' : 'false' ?>;
+					if (!isLoggedIn) {
+						Swal.fire({
+							title: "Log in first before adding to cart!",
+							showDenyButton: false,
+							showCancelButton: true,
+							confirmButtonText: `<a class="text-white" href="/milktea-commerce/costumer/login.php">Log In</a>`,
+							denyButtonText: "Cancel"
+						});
+					}
+					return isLoggedIn;
+				}
 			});
 		</script>
+		<!-- script for addons -->
+		<script>
+			document.addEventListener("DOMContentLoaded", function() {
+				// Get a reference to the "Done" button
+				var doneButton = document.getElementById("doneButton");
+
+				// Add a click event listener to the "Done" button
+				doneButton.addEventListener("click", function() {
+					// Get all the checkboxes with the name "addon[]"
+					var checkboxes = document.querySelectorAll('input[name="addon[]"]:checked');
+
+					// Create an array to store the selected addon data
+					var selectedAddonsData = [];
+
+					// Loop through the selected checkboxes and extract their values, description, and price
+					checkboxes.forEach(function(checkbox) {
+						var addonId = checkbox.value;
+						var addonDescription = document.querySelector('#addon' + addonId + ' .description-text').textContent;
+						var addonPrice = document.querySelector('#addon' + addonId + ' .price-text').textContent;
+
+						selectedAddonsData.push({
+							id: addonId,
+							description: addonDescription,
+							price: addonPrice
+						});
+					});
+
+					var totalAmount = 0;
+					var PartialAmount = 0;
+					var descriptions = "";
+
+					selectedAddonsData.forEach(function(addon) {
+						// Extract addonPrice and parse it as a floating-point number
+						var addonPrice = parseFloat(addon.price.replace(/[^\d.]/g, ''));
+						// Check if addonPrice is a valid number before adding it to totalAmount
+						if (!isNaN(addonPrice)) {
+							totalAmount += addonPrice;
+						}
+						PartialAmount = totalAmount;
+						descriptions += addon.description + ", ";
+					});
+
+					// Remove the trailing comma and space
+					descriptions = descriptions.slice(0, -2);
+
+					// Log the selected addon data and totalAmount to the console
+					console.log(selectedAddonsData);
+					console.log(variantsJSON);
+					console.log(descriptions);
+					// total amount of the addons
+					console.log(totalAmount);
+					// Add to cart append
+					const newRow = `
+                <tr>
+                    <td style="display:none;">${inventoryID}</td>
+                    <td><img src="${image}" alt="Product Image" width="50"></td>
+                    <td>${itemCode}</td>
+                    <td>
+                        <input type="text" name="size" id="size" list="sizeOptions" placeholder="Select Size">
+                        <datalist id="sizeOptions">
+                        </datalist>
+                    </td>
+                    <td><input type="number" name="qty" id="qty" value="1"></td>
+                    <td id="addonsDescription">${descriptions}</td>
+                    <td id="price">${totalAmount.toFixed(2)}</td>
+                    <td><button class="btn-danger btn-sm removeItem">Remove</button></td>
+                </tr>
+            `;
+
+					// Append newRow to the DOM
+					$("#cartTable tbody").append(newRow);
+
+					const dataList = document.getElementById('sizeOptions');
+					const sizeInput = document.getElementById('size');
+					const qtyInput = document.getElementById('qty');
+					let option;
+					const priceElement = document.getElementById('price');
+
+					// Remove any existing options and set the 'readonly' attribute
+					while (dataList.firstChild) {
+						dataList.removeChild(dataList.firstChild);
+					}
+
+					// Add an option for each variant
+					variantsJSON.forEach(variant => {
+						option = document.createElement('option');
+						option.value = variant.variantName;
+						dataList.appendChild(option);
+					});
+
+					sizeInput.addEventListener('change', function() {
+						// Get the selected value from the input
+						const selectedSize = sizeInput.value;
+
+						// Find the variant that matches the selected size
+						const selectedVariant = variantsJSON.find(variant => variant.variantName === selectedSize);
+
+						// Check if a matching variant was found
+						if (selectedVariant) {
+							const selectedPrice = parseFloat(selectedVariant.price);
+							totalAmount = PartialAmount;
+							// Log the selected size and its corresponding price
+							console.log("Selected Size:", selectedSize);
+							console.log("Selected Price:", selectedPrice);
+							totalAmount += selectedPrice;
+							priceElement.textContent = totalAmount.toFixed(2);
+							console.log(totalAmount);
+
+
+							// Now you can use the selectedPrice as needed
+						} else {
+							// Handle the case where no matching variant was found
+							Swal.fire({
+								icon: 'error',
+								title: 'No variant found',
+								text: 'Please Select a Variant Size',
+							});
+						}
+					});
+
+					qtyInput.addEventListener('change', function() {
+						const qtyValue = parseFloat(qtyInput.value);
+						const qtyTotalAmt =  qtyValue *totalAmount; 
+
+					});
+
+
+					// Add click event listener to remove items
+					$(".removeItem").click(function() {
+						$(this).closest("tr").remove();
+					});
+					// Hide/show modals
+					$('#addonsmodal').modal('hide');
+					$('#categoryModal').modal('show');
+				});
+
+			});
+		</script>
+
 	</section>
 
 
@@ -198,23 +427,6 @@ if ($conn->connect_error) {
 
 		<div class="swiper review-slider">
 			<div class="swiper-wrapper">
-				<div class="swiper-slide box">
-					<i class="fas fa-quote-left"></i>
-					<i class="fas fa-quote-right"></i>
-					<img src="./landingpage/image/pic-1.png" alt="">
-					<div class="stars">
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-					</div>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo, earum quis dolorem quaerat tenetur
-						illum.</p>
-					<h3>john deo</h3>
-					<span>satisfied client</span>
-				</div>
-
 				<div class="swiper-slide box">
 					<i class="fas fa-quote-left"></i>
 					<i class="fas fa-quote-right"></i>
@@ -248,23 +460,6 @@ if ($conn->connect_error) {
 					<h3>john deo</h3>
 					<span>satisfied client</span>
 				</div>
-
-				<div class="swiper-slide box">
-					<i class="fas fa-quote-left"></i>
-					<i class="fas fa-quote-right"></i>
-					<img src="./landingpage/image/pic-4.png" alt="">
-					<div class="stars">
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-					</div>
-					<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eligendi modi perspiciatis distinctio
-						velit aliquid a.</p>
-					<h3>john deo</h3>
-					<span>satisfied client</span>
-				</div>
 			</div>
 			<div class="swiper-pagination"></div>
 		</div>
@@ -295,18 +490,55 @@ if ($conn->connect_error) {
 	</section>
 
 	<?php include './landingpage/cart/cart.php' ?>
+	<?php include './landingpage/cart/addons.php' ?>
 	<!-- Bootstrap and jQuery Scripts -->
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js" type="text/javascript"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-
-
 	<!-- SWIPER -->
 	<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
-
 	<!-- Custom JS File Link  -->
-	<script src="./landingpage/js/script.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+	<!-- sliders functions -->
+	<script>
+		let menu = document.querySelector('#menu-btn');
+		let navbar = document.querySelector('.navbar');
+
+		menu.onclick = () => {
+			menu.classList.toggle('fa-times');
+			navbar.classList.toggle('active');
+		};
+
+		window.onscroll = () => {
+			menu.classList.remove('fa-times');
+			navbar.classList.remove('active');
+		};
+
+
+
+		var swiper = new Swiper(".review-slider", {
+			spaceBetween: 20,
+			pagination: {
+				el: ".swiper-pagination",
+				clickable: true,
+			},
+			loop: true,
+			grabCursor: true,
+			autoplay: {
+				delay: 5000,
+				disableOnInteraction: false,
+			},
+			breakpoints: {
+				0: {
+					slidesPerView: 1
+				},
+
+			},
+		});
+	</script>
+
 </body>
 
 </html>

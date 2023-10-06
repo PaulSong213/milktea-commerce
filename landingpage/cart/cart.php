@@ -1,5 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php
+require_once '././php/connect.php';
+// Establish a database connection
+$conn = connect();
+// Check connection status
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+session_start();
+if (isset($_SESSION['costumer'])) 
+
+{
+}
+?>
 
 <head>
     <meta charset="UTF-8">
@@ -111,25 +125,21 @@
                 <div class="modal-body row">
                     <div class="container-fluid p-3">
                         <div class="col-12" style="overflow-y: auto;" id="cartTable">
-                            <table class="table mt-4 rounded">
+                            <table class="table mt-4 rounded" id="cartTable">
                                 <thead>
                                     <tr>
+                                        <th style="display:none;">Product ID</th>
                                         <th>Product Image</th>
                                         <th>Product</th>
                                         <th>Size</th>
                                         <th>Qty</th>
+                                        <th>addOns</th>
                                         <th>Price</th> <!-- Added price column -->
                                         <th>Action</th> <!-- Added remove action column -->
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Product Image</td>
-                                        <td>Product Name</td>
-                                        <td>Size</td>
-                                        <td>1</td>
-                                        <td>$19.99</td>
-                                        <td><button class="btn-danger btn-sm">Remove</button></td>
                                     </tr>
                                     <!-- Add more rows for additional items -->
                                 </tbody>
@@ -148,17 +158,13 @@
                                 <option value="bank">Bank Transfer</option>
                             </select>
                         </div>
-                        <!-- Standard Shipping Price -->
-                        <div class="form-group row">
-                            <label for="shippingPrice" class="col-sm-6">Standard Shipping Price</label>
-                            <div class="col-sm-6">
-                                <p id="shippingPrice" class="text-right">$5.00</p>
-                            </div>
-                        </div>
+
                         <!-- Address Section -->
                         <div class="form-group">
                             <label for="address">Shipping Address</label>
-                            <textarea class="form-control" id="address" name="address" rows="4"></textarea>
+                            <textarea class="form-control" id="address" name="address" rows="4">
+
+                            </textarea>
                         </div>
                     </div>
                     <!-- Total Amount -->
@@ -169,13 +175,12 @@
                 </div>
                 <!-- Modal Footer -->
                 <div class="modal-footer">
-                    <!-- hidden value --> to submit
-                    <input type="hidden" name="order" id="order" value="">
+                    <!-- hidden value -->
+                    <input type="hidden" name="orders" id="orders" value="">
                     <input type="hidden" name="total" id="total" value="">
                     <input type="hidden" name="category" id="category" value="">
-
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue Shopping</button>
-                    <button type="button" class="btn btn-primary">Proceed to Checkout</button>
+                    <button type="button" class="btn btn-secondary" onclick="Close()">Continue Shopping</button>
+                    <button type="button" class="btn btn-primary text-white">Proceed to Checkout</button>
                 </div>
             </div>
         </div>
@@ -187,15 +192,9 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-    $(document).ready(function() {
-        $('#categoryModal').modal('show'); // Show the modal when the page loads
-    });
-
-    function showButtonId(buttonId) {
-        document.getElementById('category').value = buttonId;
-        let category = document.getElementById('category').value;
-        alert(buttonId + category);
-    }
+function Close(){
+    $('#categoryModal').modal('hide');
+}
 </script>
 
 </html>

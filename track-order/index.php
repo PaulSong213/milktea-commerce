@@ -1,5 +1,3 @@
-<?php session_start();
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,8 +50,7 @@
             $costumerID = $costumer["costumerID"];
         }
         ?>
-        const COSTUMER_ID = '<?= $costumerID ?>';
-        console.log(COSTUMER_ID);
+        const COSTUMER_ID = '<?= $costumerID ?? "" ?>';
         const orderRef = ref(db, `/orders/${COSTUMER_ID}/`);
         onValue(orderRef, (snapshot) => {
             $("#track-order").find("#notification-btn-container").html("");
