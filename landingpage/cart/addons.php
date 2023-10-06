@@ -30,13 +30,15 @@ $result = $conn->query($query);
                     $description = $row["description"];
                     $price = $row["price"];
                     ?>
+                    <div class="container" id="Product Preview"> 
+                    </div>
                     <div class="row">
                         <div class="col-6">
                             <label class="custom-checkbox d-flex align-items-center mb-3">
                                 <input type="checkbox" name="addon[]" value="<?php echo $addid; ?>" id="addon<?php echo $addid; ?>">
                                 <span class="checkmark me-2"></span>
                                 <div id="addon<?php echo $addid; ?>" class="addon-description">
-                                    <span class="price-text fw-bold"><?php echo '₱ ' . $price ." - " ;?></span>
+                                    <span class="price-text fw-bold"><?php echo '₱ ' . $price . " - "; ?></span>
                                     <span class="description-text"><?php echo $description; ?></span>
                                     <img src="<?php echo $image; ?>" alt="<?php echo $description; ?>" class="addon-image">
                                 </div>
@@ -46,7 +48,7 @@ $result = $conn->query($query);
                 <?php endwhile; ?>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="doneButton">Done</button>
+                <button type="button" class="btn btn-secondary" id="doneButton">Add To cart</button>
             </div>
 
         </div>
