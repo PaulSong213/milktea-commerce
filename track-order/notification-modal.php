@@ -241,13 +241,13 @@
     }
 
     function fetchOrderDetails(orderNo) {
-        console.log(orderNo);
         $.ajax({
             url: "/milktea-commerce/api/orders/search.php",
             data: {
                 orderID: orderNo
             },
             success: function(response) {
+                console.log(response);
                 const orderData = JSON.parse(response);
                 const productInfo = JSON.parse(orderData.ProductInfo);
                 console.log(productInfo);
