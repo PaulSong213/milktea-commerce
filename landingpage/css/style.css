@@ -85,7 +85,7 @@ section {
     align-items: center;
     justify-content: space-between;
     z-index: 1000;
-    background: #fff;
+    background:#D5C0AC;
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
     padding: 2rem 9%;
 }

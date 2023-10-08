@@ -69,6 +69,7 @@
             if (window.OPENED_ORDER_NO) {
                 $("#notificationModal").modal("show");
                 $(`#order-card-${window.OPENED_ORDER_NO}`).show();
+                fetchOrderDetails(window.OPENED_ORDER_NO);
             }
         });
     };
