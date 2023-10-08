@@ -18,7 +18,8 @@ $query = "SELECT
     inv.image as image, 
     inv.itemCode as itemCode,
     inv.SugPrice as SugPrice,
-    inv.itemTypeID as itemTypeID
+    inv.itemTypeID as itemTypeID,
+    inv.Status as Status
 FROM inventory_tb inv";
 
 if ($category) {
@@ -27,7 +28,7 @@ if ($category) {
 
     $query .= " WHERE inv.itemTypeID = '$category'";
 } else {
-    $query .= " WHERE inv.itemTypeID = '7'";
+    $query .= " WHERE inv.itemTypeID = '7' AND  Status = 1";
 }
 
 $result = $conn->query($query);

@@ -11,14 +11,6 @@ if ($conn->connect_error) {
 session_start();
 
 
-if (isset($_SESSION['costumer'])) {
-	$userData = json_decode($_SESSION['costumer'], true);
-	$shippingAddress = $userData['shippingAddress'];
-} else {
-	// Redirect back to the login page or handle the user not being logged in
-	header("Location: /milktea-commerce/index.php");
-	exit();
-}
 ?>
 
 <head>
