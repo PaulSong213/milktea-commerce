@@ -25,7 +25,9 @@ $ratingStars = $_POST['ratingStars'];
 $feedback = $_POST['feedback'];
 $orderNo = $_POST['orderNo'];
 require_once '../php/connect.php';
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 $conn = connect();
 
 // insert feedback into mysql database
@@ -66,7 +68,7 @@ $_SESSION["alert_message_success"] = true;
 
 <script type="module">
     // mark order status as delivered in firebase database
-    const COSTUMER_ID = $costumer["costumerID"];
+    const COSTUMER_ID = <?= $costumer["costumerID"] ?>;
     import {
         app
     } from "/milktea-commerce/costum-js/firebase.js";

@@ -198,6 +198,8 @@
             $(this).addClass('active');
             $(this).prevAll('.rating-stars .fa').addClass('active');
         });
+
+        if (window.OPENED_ORDER_NO === orderNo) fetchOrderDetails(orderNo);
     }
 
     function generateActionElement(orderNo, orderData) {

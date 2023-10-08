@@ -20,7 +20,9 @@ $orderNo = $_GET['orderNo'];
 
 // modify sales table status to delivered
 require_once '../php/connect.php';
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 $conn = connect();
 
 $sql = "UPDATE sales_tb
