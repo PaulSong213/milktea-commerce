@@ -9,7 +9,15 @@ if ($conn->connect_error) {
 	die("Connection failed: " . $conn->connect_error);
 }
 session_start();
+
+
 if (isset($_SESSION['costumer'])) {
+	$userData = json_decode($_SESSION['costumer'], true);
+	$shippingAddress = $userData['shippingAddress'];
+} else {
+	// Redirect back to the login page or handle the user not being logged in
+	header("Location: /milktea-commerce/index.php");
+	exit();
 }
 ?>
 
@@ -55,17 +63,17 @@ if (isset($_SESSION['costumer'])) {
 		</nav>
 
 		<div class="d-flex">
-			<a href="#" class="btn d-block" data-toggle="modal" data-target="#categoryModal">
+			<a href="#" class="btn d-block " data-toggle="modal" data-target="#categoryModal">
 				<i class="fas fa-shopping-cart"></i> View Cart
 			</a>
 			<?php if (isset($_SESSION['costumer'])) :
 				$costumer = json_decode($_SESSION['costumer']);
 			?>
-				<div class="dropdown bg-danger my-auto ms-2">
-					<button class="fs-2 dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+				<div class="dropdown my-auto ms-2 rounded">
+					<button class="fs-2 dropdown-toggle rounded"  style="background-color: #D5C0AC;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
 						<?= $costumer->firstName . " " . $costumer->lastName ?>
 					</button>
-					<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+					<ul class="dropdown-menu rounded" aria-labelledby="dropdownMenuButton1">
 						<li><a class="dropdown-item fs-2" href="/milktea-commerce/costumer/logout.php">Log out</a></li>
 					</ul>
 				</div>
@@ -325,11 +333,10 @@ if (isset($_SESSION['costumer'])) {
 					descriptions = descriptions.slice(0, -2);
 
 					// Log the selected addon data and totalAmount to the console
-					console.log(selectedAddonsData);
-					console.log(variantsJSON);
-					console.log(descriptions);
-					// total amount of the addons
-					console.log(totalAmount);
+					console.log("Selected Addons Data:", selectedAddonsData);
+					console.log("Total Amount of Addons:", totalAmount);
+					console.log("Descriptions:", descriptions);
+
 					// Add to cart append
 					const newRow = `
                 <tr>
@@ -344,7 +351,7 @@ if (isset($_SESSION['costumer'])) {
                     <td><input type="number" name="qty" id="qty" value="1"></td>
                     <td id="addonsDescription">${descriptions}</td>
                     <td id="price">${totalAmount.toFixed(2)}</td>
-                    <td><button class="btn-danger btn-sm removeItem">Remove</button></td>
+                    <td><button class=" btn-danger btn-sm removeItem">Remove</button></td>
                 </tr>
             `;
 
@@ -354,7 +361,6 @@ if (isset($_SESSION['costumer'])) {
 					const dataList = document.getElementById('sizeOptions');
 					const sizeInput = document.getElementById('size');
 					const qtyInput = document.getElementById('qty');
-					let option;
 					const priceElement = document.getElementById('price');
 
 					// Remove any existing options and set the 'readonly' attribute
@@ -364,7 +370,7 @@ if (isset($_SESSION['costumer'])) {
 
 					// Add an option for each variant
 					variantsJSON.forEach(variant => {
-						option = document.createElement('option');
+						var option = document.createElement('option');
 						option.value = variant.variantName;
 						dataList.appendChild(option);
 					});
@@ -372,7 +378,6 @@ if (isset($_SESSION['costumer'])) {
 					sizeInput.addEventListener('change', function() {
 						// Get the selected value from the input
 						const selectedSize = sizeInput.value;
-
 						// Find the variant that matches the selected size
 						const selectedVariant = variantsJSON.find(variant => variant.variantName === selectedSize);
 
@@ -385,8 +390,6 @@ if (isset($_SESSION['costumer'])) {
 							console.log("Selected Price:", selectedPrice);
 							totalAmount += selectedPrice;
 							priceElement.textContent = totalAmount.toFixed(2);
-							console.log(totalAmount);
-
 
 							// Now you can use the selectedPrice as needed
 						} else {
@@ -397,26 +400,52 @@ if (isset($_SESSION['costumer'])) {
 								text: 'Please Select a Variant Size',
 							});
 						}
+						calculateTotalPrice();
 					});
 
 					qtyInput.addEventListener('change', function() {
 						const qtyValue = parseFloat(qtyInput.value);
-						const qtyTotalAmt =  qtyValue *totalAmount; 
-
+						const qtyTotalAmt = qtyValue * totalAmount;
+						calculateTotalPrice();
 					});
-
 
 					// Add click event listener to remove items
 					$(".removeItem").click(function() {
 						$(this).closest("tr").remove();
+						calculateTotalPrice();
 					});
+
 					// Hide/show modals
 					$('#addonsmodal').modal('hide');
 					$('#categoryModal').modal('show');
-				});
 
+					
+					function calculateTotalPrice() {
+						let totalnetsale = 0;
+						rows.forEach(row => {
+							const priceCell = row.querySelector("td:nth-child(7)"); // 7th column is the Price column
+							if (priceCell) {
+								const priceText = priceCell.textContent.trim();
+								const priceValue = parseFloat(priceText.replace(/[^\d.]/g, '')); // Extract numeric value
+								if (!isNaN(priceValue)) {
+									totalnetsale += priceValue;
+								}
+							}
+						});
+
+						// Update the total netsale in the <span> element
+						const totalValue = document.getElementById('totalValue');
+						if (totalValue) {
+							totalValue.textContent = totalnetsale.toFixed(2);
+						}
+
+						// You can also log the total netsale to the console for debugging
+						console.log("Total Netsale:", totalnetsale.toFixed(2));
+					}
+				});
 			});
 		</script>
+
 
 	</section>
 

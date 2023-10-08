@@ -2,16 +2,22 @@
 <html lang="en">
 <?php
 require_once '././php/connect.php';
+
 // Establish a database connection
 $conn = connect();
+
 // Check connection status
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-session_start();
-if (isset($_SESSION['costumer'])) 
 
-{
+if (isset($_SESSION['costumer'])) {
+    $userData = json_decode($_SESSION['costumer'], true);
+    $shippingAddress = $userData['shippingAddress'];
+} else {
+    // Redirect back to the login page or handle the user not being logged in
+    header("Location: /milktea-commerce/index.php");
+    exit();
 }
 ?>
 
@@ -23,91 +29,7 @@ if (isset($_SESSION['costumer']))
     <!-- Custom CSS -->
 
     <style>
-        /* CSS for Category Boxes */
-        .category-sidebar {
-            overflow-y: auto;
-            height: 500px;
-            border-right: 1px solid #ccc;
-        }
-
-        /* CSS for Category Content */
-        .category-content-container {
-            padding: 20px;
-            color: #000;
-            /* Change text color to black */
-        }
-
-        .category-content {
-            animation: fade-in 0.5s ease-in-out;
-        }
-
-        @keyframes fade-in {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        /* Additional Styles for Shopping Cart */
-        .modal-content {
-            border-radius: 0;
-        }
-
-        .modal-header {
-            background-color: #f8f9fa;
-            border-bottom: none;
-        }
-
-        .modal-title {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .modal-body {
-            padding: 20px;
-        }
-
-        .table {
-            border: 1px solid #dee2e6;
-        }
-
-        .table th,
-        .table td {
-            border: none;
-        }
-
-        .btn-primary {
-            background-color: #ff5722;
-            /* Change to a prominent color */
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background-color: #ff4500;
-            /* Darker shade on hover */
-        }
-
-        .btn-secondary {
-            background-color: #fff;
-            border: none;
-            color: #000;
-        }
-
-        .btn-secondary:hover {
-            background-color: #f0f0f0;
-        }
-
-        .close {
-            font-size: 24px;
-            color: #000;
-        }
-
-        h5 {
-            font-size: 18px;
-        }
+        /* Your CSS styles here */
     </style>
 </head>
 
@@ -123,64 +45,67 @@ if (isset($_SESSION['costumer']))
                 </div>
                 <!-- Modal Body -->
                 <div class="modal-body row">
-                    <div class="container-fluid p-3">
-                        <div class="col-12" style="overflow-y: auto;" id="cartTable">
-                            <table class="table mt-4 rounded" id="cartTable">
-                                <thead>
-                                    <tr>
-                                        <th style="display:none;">Product ID</th>
-                                        <th>Product Image</th>
-                                        <th>Product</th>
-                                        <th>Size</th>
-                                        <th>Qty</th>
-                                        <th>addOns</th>
-                                        <th>Price</th> <!-- Added price column -->
-                                        <th>Action</th> <!-- Added remove action column -->
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                    </tr>
-                                    <!-- Add more rows for additional items -->
-                                </tbody>
-                            </table>
-
+                    <form method="post" action="databasefunction.php" id="addItemForm">
+                        <div class="container-fluid p-3">
+                            <div class="col-12" style="overflow-y: auto;" id="cartTable">
+                                <table class="table mt-4 rounded" id="cartTable">
+                                    <thead>
+                                        <tr>
+                                            <th style="display:none;">Product ID</th>
+                                            <th>Product Image</th>
+                                            <th>Product</th>
+                                            <th>Size</th>
+                                            <th>Qty</th>
+                                            <th>addOns</th>
+                                            <th>Price</th> <!-- Added price column -->
+                                            <th>Action</th> <!-- Added remove action column -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                        </tr>
+                                        <!-- Add more rows for additional items -->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                    <div class="container-fluid">
-                        <!-- Add the following code inside your modal-body div, after the cart table -->
-                        <!-- Payment Method -->
-                        <div class="form-group">
-                            <label for="paymentMethod">Payment Method</label>
-                            <select class="form-control" id="paymentMethod" name="paymentMethod">
-                                <option value="Cash">Cash</option>
-                                <option value="Gcash">Gcash</option>
-                                <option value="bank">Bank Transfer</option>
-                            </select>
+                        <div class="container-fluid">
+                            <!-- Payment Method -->
+                            <div class="form-group">
+                                <label for="paymentMethod">Payment Method</label>
+                                <select class="form-control" id="paymentMethod" name="paymentMethod">
+                                    <option value="Cash">Cash</option>
+                                    <option value="Gcash">Gcash</option>
+                                    <option value="bank">Bank Transfer</option>
+                                </select>
+                            </div>
+
+                            <!-- Address Section -->
+                            <div class="form-group">
+                                <label for="address">Shipping Address</label>
+                                <textarea class="form-control" id="shippingAddress" name="shippingAddress" rows="4">
+                                    <?php
+                                    if (isset($_SESSION['customer'])) {
+                                        echo $shippingAddress;
+                                    } else {
+                                        echo "Address not available. Please login or register.";
+                                    }
+                                    ?>
+                                </textarea>
+                            </div>
                         </div>
-
-                        <!-- Address Section -->
-                        <div class="form-group">
-                            <label for="address">Shipping Address</label>
-                            <textarea class="form-control" id="address" name="address" rows="4">
-
-                            </textarea>
+                        <!-- Total Amount -->
+                        <div class="container text-right">
+                            <h3>TOTAL: <span name="totalValue" id="totalValue">0.00</span></h3>
                         </div>
-                    </div>
-                    <!-- Total Amount -->
-                    <div class="form-group row text-right">
-                        <h5>Total Amount: <span>$19.99</span></h5>
-                    </div>
-
+                    </form>
                 </div>
                 <!-- Modal Footer -->
                 <div class="modal-footer">
                     <!-- hidden value -->
                     <input type="hidden" name="orders" id="orders" value="">
-                    <input type="hidden" name="total" id="total" value="">
-                    <input type="hidden" name="category" id="category" value="">
                     <button type="button" class="btn btn-secondary" onclick="Close()">Continue Shopping</button>
-                    <button type="button" class="btn btn-primary text-white">Proceed to Checkout</button>
+                    <button type="submit" name="submit" id="submit" class="btn btn-primary " onclick="collectAndSendDataToServer()">Proceed to Checkout</button>
                 </div>
             </div>
         </div>
@@ -192,9 +117,39 @@ if (isset($_SESSION['costumer']))
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-function Close(){
-    $('#categoryModal').modal('hide');
-}
+    function Close() {
+        $('#categoryModal').modal('hide');
+    }
+
+    const orders = document.getElementById('orders');
+    const shippingAddress = document.getElementById('shippingAddress');
+    const table = document.getElementById("cartTable");
+    const tbody = table.querySelector("tbody");
+    const rows = tbody.querySelectorAll("tr");
+
+    function collectAndSendDataToServer() {
+        const data = [];
+        rows.forEach(row => {
+            const cells = row.getElementsByTagName("td");
+            if (cells.length > 0) {
+                const rowData = [];
+                cells.forEach(cell => {
+                    rowData.push(cell.textContent.trim());
+                });
+                data.push(rowData);
+            }
+        });
+
+        // Remove null rows from the data array
+        const filteredData = data.filter(row => row.length > 0);
+
+        // Convert the data array to a JSON string
+        const jsonData = JSON.stringify(filteredData);
+
+        // You can send the jsonData to the server here using an AJAX request or other methods.
+        console.log(jsonData);
+        orders.value = jsonData;
+    }
 </script>
 
 </html>
