@@ -63,9 +63,18 @@ if ($conn->connect_error) {
                         <div class="container-fluid">
 
                             <div class="form-group">
-                                <label for="paymentMethod">Promo</label>
-                                <input type="text" id="Promo" name="Promo" value="" placeholder="Select Promo Code">
+                                <label for="Promo" style="font-weight: bold; color: #333;">Promo Code:</label>
+                                <div style="position: relative;">
+                                    <input list="promoOptions" id="Promo" name="Promo" value="" placeholder="Enter Promo Code" class="form-control" style="padding-right: 40px;">
+                                    <datalist id="promoOptions">
+                                        <!-- Add more promo options here -->
+                                    </datalist>
+                                    <span style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%);">
+                                        <i class="fa fa-gift" style="color: #888; font-size: 20px;"></i>
+                                    </span>
+                                </div>
                             </div>
+
 
                             <!-- Payment Method -->
                             <div class="form-group">
@@ -158,10 +167,12 @@ if ($conn->connect_error) {
         orders.value = jsonData;
     }
 
+    let totalnetsale;
+
     function calculateTotalPrice() {
         // Get the table element by its ID
         const salesTable = document.getElementById('cartTable');
-        let totalnetsale = 0;
+        totalnetsale = 0;
         // Get all the rows in the table
         const rows = salesTable.querySelectorAll('tr');
 
@@ -183,6 +194,39 @@ if ($conn->connect_error) {
         console.log("Total Netsale:", totalnetsale.toFixed(2));
         collectTableData();
     }
+
+    $(document).ready(function() {
+        function loadPromoNames() {
+            $.ajax({
+                url: 'promolist.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    if (data.length > 0) {
+                        var promoOptions = $('#promoOptions');
+                        promoOptions.empty();
+
+                        for (var i = 0; i < data.length; i++) {
+                            var promoInfo = data[i];
+                            var promoName = promoInfo.promoName;
+                            var minimumSpend = promoInfo.minimumSpend;
+                            var promoPercentage = promoInfo.promoPercentage;
+
+                            // Create a new option element for each promo name
+                            var option = $('<option>').attr('value', promoName);
+                            promoOptions.append(option);
+                        }
+                    } else {
+                        console.log('No promo names available.');
+                    }
+                },
+                error: function() {
+                    console.log('Error fetching promo names.');
+                }
+            });
+        }
+        loadPromoNames();
+    });
 </script>
 
 </html>
