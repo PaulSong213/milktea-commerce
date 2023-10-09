@@ -130,7 +130,7 @@ $LastBillingID = getLastBillingID($conn);
                             <thead style="background-color: #987554" class="rounded">
                                 <tr class="">
                                     <th class="col-3 text-white">Product Name</th>
-                                    <th class="col-1 text-white">Unit</th>
+                                    <th class="col-2 text-white">Size</th>
                                     <th class="col-1 text-white">Price</th>
                                     <th class="col-1 text-white">Type</th>
                                     <th class="col-1 text-white" style="display:none">ID</th>
@@ -152,7 +152,11 @@ $LastBillingID = getLastBillingID($conn);
                                         </datalist>
                                     </td>
                                     <td class="d-none"><input type="hidden" class="form-control text-light custom-readonly-input" readonly name="inv"></td>
-                                    <td><input type="text" class="form-control text-light custom-readonly-input" name="unit[]" readonly></td>
+                                    <td class="sizeSelect">
+                                        <select class="form-select" name="size[]">
+                                            <option value="0">Select Size</option>
+                                        </select>
+                                    </td>
                                     <td><input type="number" class="form-control text-light custom-readonly-input" name="price[]" readonly step="0.01"></td>
                                     <td><input type="text" class="form-control text-light custom-readonly-input" name="itemType[]" readonly></td>
                                     <td style="display:none"><input type="number" style="display:none" class="form-control text-light custom-readonly-input" name="id[]" readonly></td>
