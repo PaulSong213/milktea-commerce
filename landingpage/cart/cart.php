@@ -55,7 +55,6 @@ if ($conn->connect_error) {
                                     <tbody>
                                         <tr>
                                         </tr>
-                                        <!-- Add more rows for additional items -->
                                     </tbody>
                                 </table>
                             </div>
@@ -64,7 +63,7 @@ if ($conn->connect_error) {
 
                             <div class="form-group">
                                 <label for="paymentMethod">Promo</label>
-                                <input type="text" id="cash" name="payment" value="Cash">
+                                <input type="text" id="cash" name="payment" value="" placeholder="Select Promo Code">
                             </div>
 
                             <!-- Payment Method -->
@@ -83,7 +82,7 @@ if ($conn->connect_error) {
                                 <textarea class="form-control" id="shippingAddress" name="shippingAddress" rows="4">
                                     <?php
                                     if (isset($_SESSION['costumer'])) {
-                                        $costumer = json_decode($_SESSION['costumer'],true);
+                                        $costumer = json_decode($_SESSION['costumer'], true);
                                         $shippingAddress = $costumer['shippingAddress'];
 
                                         echo $shippingAddress;
@@ -96,7 +95,7 @@ if ($conn->connect_error) {
                         </div>
                         <!-- Total Amount -->
                         <div class="container text-right">
-                            <h3>TOTAL: <span name="totalValue" id="totalValue">0.00</span></h3>
+                            <h3>TOTAL: ₱ <span name="totalValue" id="totalValue">0.00</span> </h3>
                         </div>
                     </form>
                 </div>
@@ -123,32 +122,65 @@ if ($conn->connect_error) {
 
     const orders = document.getElementById('orders');
     const shippingAddress = document.getElementById('shippingAddress');
-    const table = document.getElementById("cartTable");
-    const tbody = table.querySelector("tbody");
-    const rows = tbody.querySelectorAll("tr");
 
-    function collectAndSendDataToServer() {
+    function collectTableData() {
+        // Get the table element
+        const table = document.getElementById("cartTable");
+        const tbody = table.querySelector("tbody");
+        const rows = tbody.querySelectorAll("tr");
+
+        // Create an array to store the table data
         const data = [];
+
         rows.forEach(row => {
-            const cells = row.getElementsByTagName("td");
+            const cells = row.querySelectorAll("td");
             if (cells.length > 0) {
-                const rowData = [];
-                cells.forEach(cell => {
-                    rowData.push(cell.textContent.trim());
-                });
+                const rowData = {
+                    productId: cells[0].textContent.trim(),
+                    productImage: cells[1].textContent.trim(),
+                    productName: cells[2].textContent.trim(),
+                    size: cells[3].textContent.trim() || "", // Include 'size' with empty value
+                    quantity: cells[4].textContent.trim() || "", // Include 'quantity' with empty value
+                    addOns: cells[5].textContent.trim(),
+                    price: cells[6].textContent.trim(),
+                };
                 data.push(rowData);
             }
         });
 
-        // Remove null rows from the data array
-        const filteredData = data.filter(row => row.length > 0);
-
         // Convert the data array to a JSON string
-        const jsonData = JSON.stringify(filteredData);
+        const jsonData = JSON.stringify(data);
 
-        // You can send the jsonData to the server here using an AJAX request or other methods.
-        console.log(jsonData);
-        orders.value = jsonData;
+        // Log the JSON data for debugging (you can remove this in production)
+        console.log("JSON Data:", jsonData);
+
+        // Optionally, you can use the JSON data as needed, for example, sending it to the server.
+    }
+
+    function calculateTotalPrice() {
+        // Get the table element by its ID
+        const salesTable = document.getElementById('cartTable');
+        let totalnetsale = 0;
+        // Get all the rows in the table
+        const rows = salesTable.querySelectorAll('tr');
+
+        rows.forEach(row => {
+            const priceCell = row.querySelector("td:nth-child(7)"); // 7th column is the Price column
+            if (priceCell) {
+                const priceText = priceCell.textContent.trim();
+                const priceValue = parseFloat(priceText.replace(/[^\d.]/g, '')); // Extract numeric value
+                if (!isNaN(priceValue)) {
+                    totalnetsale += priceValue;
+                }
+            }
+        });
+        // Update the total netsale in the <span> element
+        const totalValue = document.getElementById('totalValue');
+        totalValue.textContent = totalnetsale.toFixed(2);
+
+        // You can also log the total netsale to the console for debugging
+        console.log("Total Netsale:", totalnetsale.toFixed(2));
+        collectTableData();
     }
 </script>
 

@@ -241,10 +241,14 @@ session_start();
 									if (!isLoggedIn) return;
 
 									image = $(this).data('image');
-									inventoryID = $(this).data('inventory-id');
 									itemCode = $(this).data('item-code');
+									inventoryID = $(this).data('inventory-id');
 									itemTypeID = $(this).data('item-id');
 									variantsJSON = $(this).data('variants');
+									// Set the values for the image and HTML elements
+									$('#AddonsProdimage').attr('src', image);
+									$('#AddonsProdName').text(itemCode);
+								 // Log itemCode to check its value
 									$('#addonsmodal').modal('show');
 
 								});
@@ -287,6 +291,7 @@ session_start();
 
 				// Add a click event listener to the "Done" button
 				doneButton.addEventListener("click", function() {
+
 					// Get all the checkboxes with the name "addon[]"
 					var checkboxes = document.querySelectorAll('input[name="addon[]"]:checked');
 
@@ -414,34 +419,6 @@ session_start();
 					$('#addonsmodal').modal('hide');
 					$('#categoryModal').modal('show');
 					calculateTotalPrice();
-
-
-					function calculateTotalPrice() {
-						// Get the table element by its ID
-						const salesTable = document.getElementById('cartTable');
-						let totalnetsale = 0;
-						// Get all the rows in the table
-						const rows = salesTable.querySelectorAll('tr');
-
-						rows.forEach(row => {
-							const priceCell = row.querySelector("td:nth-child(7)"); // 7th column is the Price column
-							if (priceCell) {
-								const priceText = priceCell.textContent.trim();
-								const priceValue = parseFloat(priceText.replace(/[^\d.]/g, '')); // Extract numeric value
-								if (!isNaN(priceValue)) {
-									totalnetsale += priceValue;
-								}
-							}
-						});
-
-						// Update the total netsale in the <span> element
-						const totalValue = document.getElementById('totalValue');
-						totalValue.textContent = totalnetsale.toFixed(2);
-
-						// You can also log the total netsale to the console for debugging
-						console.log("Total Netsale:", totalnetsale.toFixed(2));
-					}
-
 				});
 			});
 		</script>
