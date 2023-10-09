@@ -8,7 +8,7 @@ $conn = connect();
 if ($conn->connect_error) {
 	die("Connection failed: " . $conn->connect_error);
 }
-session_start();
+//session_start();
 
 
 ?>
@@ -447,48 +447,47 @@ session_start();
 
 	<!-- REVIEW -->
 	<section class="review" id="review">
-		<h1 class="heading">reviews <span>what people says</span></h1>
+		<h1 class="heading">reviews <span>what people say</span></h1>
 
 		<div class="swiper review-slider">
 			<div class="swiper-wrapper">
-				<div class="swiper-slide box">
-					<i class="fas fa-quote-left"></i>
-					<i class="fas fa-quote-right"></i>
-					<img src="./landingpage/image/pic-2.png" alt="">
-					<div class="stars">
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-					</div>
-					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum optio quasi ut, illo ipsam
-						assumenda.</p>
-					<h3>john deo</h3>
-					<span>satisfied client</span>
-				</div>
+				<?php
+				$sql = "SELECT * FROM feedback_tb";
+				$result = $conn->query($sql);
 
-				<div class="swiper-slide box">
-					<i class="fas fa-quote-left"></i>
-					<i class="fas fa-quote-right"></i>
-					<img src="./landingpage/image/pic-3.png" alt="">
-					<div class="stars">
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-					</div>
-					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius asperiores aliquam hic quis!
-						Eligendi, aliquam.</p>
-					<h3>john deo</h3>
-					<span>satisfied client</span>
-				</div>
+				if ($result->num_rows > 0) {
+					while ($row = $result->fetch_assoc()) {
+				?>
+						<div class="swiper-slide box">
+							<i class="fas fa-quote-left"></i>
+							<i class="fas fa-quote-right"></i>
+							
+							<img src="img/user.jpg">
+							<!-- <img src="<?php echo $row['image_path']; ?>" alt=""> -->
+							<div class="stars">
+								<?php
+								// Assuming the star rating is stored in the 'rating' column
+								$rating = $row['ratingStars'];
+								for ($i = 0; $i < $rating; $i++) {
+									echo '<i class="fas fa-star"></i>';
+								}
+								?>
+							</div>
+							
+							<p><?php echo $row['SalesID']; ?></p>
+						
+							<span><?php echo $row['feedback']; ?></span>
+						</div>
+				<?php
+					}
+				} else {
+					echo "No reviews found.";
+				}
+				?>
 			</div>
 			<div class="swiper-pagination"></div>
 		</div>
 	</section>
-
 	<!-- FOOTER -->
 	<section class="footer">
 		<div class="box-container">
