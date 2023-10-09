@@ -25,9 +25,9 @@ if ($category) {
     // Sanitize input to prevent SQL injection (consider using prepared statements)
     $category = $conn->real_escape_string($category);
 
-    $query .= " WHERE inv.itemTypeID = '$category' AND  Status =1";
+    $query .= " WHERE inv.itemTypeID = '$category' AND Status = '1' ";
 } else {
-    $query .= " WHERE inv.itemTypeID = '7'  AND  Status =1";
+    $query .= " WHERE inv.itemTypeID = '7' AND Status = '1' ";
 }
 
 $result = $conn->query($query);
@@ -44,7 +44,7 @@ if ($result->num_rows > 0) {
         echo '<div class="content">';
         echo '<h3>' . $itemCode . '</h3>';
         // Fetch variants for the current product
-        $variantQuery = "SELECT * FROM variant_tb WHERE variantID = '$itemTypeID'";
+        $variantQuery = "SELECT * FROM variant_tb WHERE ProductID = '$itemTypeID'";
         $variantResult = $conn->query($variantQuery);
 
         $variantsArray = array();
@@ -62,7 +62,7 @@ if ($result->num_rows > 0) {
         $variantsJSON = json_encode($variantsArray);
 
 
-        echo '<div style="display: flex; justify-content: space-between;">';
+        echo '<div style="display:flex; justify-content: space-between;">';
         echo '<button class="btn costum-btn-primary m-2 addToCartBtn" 
         data-image="' . $image . '" 
         data-inventory-id="' . $inventoryID . '" 

@@ -203,7 +203,7 @@ session_start();
 				?>
 			</div>
 
-			<div id="box-container" class="container-fluid mt-5">
+			<div id="box-container" class="container-fluid my-5">
 				<!-- Add this line where you want the loader to appear -->
 				<div id="loader" class="spinner-grow text-primary" role="status" style="display: none;">
 					<span class="sr-only">Loading...</span>

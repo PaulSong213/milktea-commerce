@@ -1,7 +1,6 @@
 <?php
 // Include the connection file
 require_once '../php/connect.php';
-session_start();
 
 // Establish a database connection
 $conn = connect();
