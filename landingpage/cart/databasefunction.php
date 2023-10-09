@@ -14,6 +14,7 @@ if ($conn->connect_error) {
 if (isset($_POST['submit'])) {
     // Retrieve form data
     $orders = $_POST['orders'];
+    $totalValue = $_POST['totalValue'];
     $shippingAddress = $_POST['shippingAddress'];
     $paymentMethod = $_POST['paymentMethod'];
     
