@@ -359,16 +359,16 @@ session_start();
 									<tr>
 										<td style="display:none;">${inventoryID}</td>
 										<td><img src="${image}" alt="Product Image" width="50"></td>
-										<td>${itemCode}</td>
+										<td class="text-wrap">${itemCode}</td>
 										<td>
 											<input class="sizeSelect" type="text" name="size" id="size" list="sizeOptions" placeholder="Select Size">
 											<datalist id="sizeOptions">
 											</datalist>
 										</td>
-										<td><input type="number" class="qtySelect" name="qty" id="qty" value="1"></td>
+										<td><input type="number" class="qtySelect mw-1" name="qty" id="qty" value="1"></td>
 										<td id="sugarLeveel">${selectedValue}</td>
-										<td id="addonsDescription">${descriptions}</td>
-										<td class="priceRow" id="price">${totalAmount.toFixed(2)}</td>
+										<td id="addonsDescription" class="text-wrap">${descriptions}</td>
+										<td class="priceRow text-wrap" id="price">${totalAmount.toFixed(2)}</td>
 										<td><button class=" btn-danger btn-sm removeItem">Remove</button></td>
 									</tr>
 								`;
