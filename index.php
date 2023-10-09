@@ -11,14 +11,6 @@ if ($conn->connect_error) {
 session_start();
 
 
-if (isset($_SESSION['costumer'])) {
-	$userData = json_decode($_SESSION['costumer'], true);
-	$shippingAddress = $userData['shippingAddress'];
-} else {
-	// Redirect back to the login page or handle the user not being logged in
-	header("Location: /milktea-commerce/index.php");
-	exit();
-}
 ?>
 
 <head>
@@ -70,7 +62,7 @@ if (isset($_SESSION['costumer'])) {
 				$costumer = json_decode($_SESSION['costumer']);
 			?>
 				<div class="dropdown my-auto ms-2 rounded">
-					<button class="fs-2 dropdown-toggle rounded"  style="background-color: #D5C0AC;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+					<button class="fs-2 dropdown-toggle rounded" style="background-color: #D5C0AC;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
 						<?= $costumer->firstName . " " . $costumer->lastName ?>
 					</button>
 					<ul class="dropdown-menu rounded" aria-labelledby="dropdownMenuButton1">
@@ -344,13 +336,13 @@ if (isset($_SESSION['costumer'])) {
                     <td><img src="${image}" alt="Product Image" width="50"></td>
                     <td>${itemCode}</td>
                     <td>
-                        <input type="text" name="size" id="size" list="sizeOptions" placeholder="Select Size">
+                        <input class="sizeSelect" type="text" name="size" id="size" list="sizeOptions" placeholder="Select Size">
                         <datalist id="sizeOptions">
                         </datalist>
                     </td>
-                    <td><input type="number" name="qty" id="qty" value="1"></td>
+                    <td><input type="number" class="qtySelect" name="qty" id="qty" value="1"></td>
                     <td id="addonsDescription">${descriptions}</td>
-                    <td id="price">${totalAmount.toFixed(2)}</td>
+                    <td class="priceRow" id="price">${totalAmount.toFixed(2)}</td>
                     <td><button class=" btn-danger btn-sm removeItem">Remove</button></td>
                 </tr>
             `;
@@ -375,9 +367,10 @@ if (isset($_SESSION['costumer'])) {
 						dataList.appendChild(option);
 					});
 
-					sizeInput.addEventListener('change', function() {
+					$(".sizeSelect").on('change', function() {
 						// Get the selected value from the input
-						const selectedSize = sizeInput.value;
+						const selectedSize = $(this).val();
+
 						// Find the variant that matches the selected size
 						const selectedVariant = variantsJSON.find(variant => variant.variantName === selectedSize);
 
@@ -389,7 +382,8 @@ if (isset($_SESSION['costumer'])) {
 							console.log("Selected Size:", selectedSize);
 							console.log("Selected Price:", selectedPrice);
 							totalAmount += selectedPrice;
-							priceElement.textContent = totalAmount.toFixed(2);
+							// priceElement.textContent = totalAmount.toFixed(2);
+							$(this).closest("tr").find(".priceRow").text(totalAmount.toFixed(2));
 
 							// Now you can use the selectedPrice as needed
 						} else {
@@ -403,9 +397,10 @@ if (isset($_SESSION['costumer'])) {
 						calculateTotalPrice();
 					});
 
-					qtyInput.addEventListener('change', function() {
-						const qtyValue = parseFloat(qtyInput.value);
+					$(".qtySelect").on('change', function() {
+						const qtyValue = parseFloat($(this).val());
 						const qtyTotalAmt = qtyValue * totalAmount;
+						$(this).closest("tr").find(".priceRow").text(qtyTotalAmt.toFixed(2));
 						calculateTotalPrice();
 					});
 
@@ -419,7 +414,7 @@ if (isset($_SESSION['costumer'])) {
 					$('#addonsmodal').modal('hide');
 					$('#categoryModal').modal('show');
 
-					
+
 					function calculateTotalPrice() {
 						let totalnetsale = 0;
 						rows.forEach(row => {

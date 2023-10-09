@@ -10,15 +10,6 @@ $conn = connect();
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
-if (isset($_SESSION['costumer'])) {
-    $userData = json_decode($_SESSION['costumer'], true);
-    $shippingAddress = $userData['shippingAddress'];
-} else {
-    // Redirect back to the login page or handle the user not being logged in
-    header("Location: /milktea-commerce/index.php");
-    exit();
-}
 ?>
 
 <head>
@@ -70,6 +61,12 @@ if (isset($_SESSION['costumer'])) {
                             </div>
                         </div>
                         <div class="container-fluid">
+
+                            <div class="form-group">
+                                <label for="paymentMethod">Promo</label>
+                                <input type="text" id="cash" name="payment" value="Cash">
+                            </div>
+
                             <!-- Payment Method -->
                             <div class="form-group">
                                 <label for="paymentMethod">Payment Method</label>
@@ -85,7 +82,10 @@ if (isset($_SESSION['costumer'])) {
                                 <label for="address">Shipping Address</label>
                                 <textarea class="form-control" id="shippingAddress" name="shippingAddress" rows="4">
                                     <?php
-                                    if (isset($_SESSION['customer'])) {
+                                    if (isset($_SESSION['costumer'])) {
+                                        $costumer = json_decode($_SESSION['costumer'],true);
+                                        $shippingAddress = $costumer['shippingAddress'];
+
                                         echo $shippingAddress;
                                     } else {
                                         echo "Address not available. Please login or register.";

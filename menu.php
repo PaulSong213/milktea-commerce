@@ -14,20 +14,20 @@ $category = isset($_GET['category']) ? $_GET['category'] : null;
 
 // Construct the SQL query based on the selected category (if any)
 $query = "SELECT 
-    inv.inventoryID as inventoryID, 
+    inv.InventoryID as InventoryID, 
     inv.image as image, 
     inv.itemCode as itemCode,
-    inv.SugPrice as SugPrice,
-    inv.itemTypeID as itemTypeID
+    inv.itemTypeID as itemTypeID,
+    inv.Status as Status
 FROM inventory_tb inv";
 
 if ($category) {
     // Sanitize input to prevent SQL injection (consider using prepared statements)
     $category = $conn->real_escape_string($category);
 
-    $query .= " WHERE inv.itemTypeID = '$category'";
+    $query .= " WHERE inv.itemTypeID = '$category' AND  Status =1";
 } else {
-    $query .= " WHERE inv.itemTypeID = '7'";
+    $query .= " WHERE inv.itemTypeID = '7'  AND  Status =1";
 }
 
 $result = $conn->query($query);
@@ -35,9 +35,8 @@ $result = $conn->query($query);
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $image = '././inventory/' . $row["image"]; // product image
-        $inventoryID = $row["inventoryID"]; // product id
+        $inventoryID = $row["InventoryID"]; // product id
         $itemCode = $row["itemCode"]; // product name
-        $SugPrice = $row["SugPrice"];
         $itemTypeID = $row["itemTypeID"];
 
         echo '<div class="box" data-category="' . $itemTypeID . '">';
