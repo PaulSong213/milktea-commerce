@@ -413,10 +413,16 @@ session_start();
 					// Hide/show modals
 					$('#addonsmodal').modal('hide');
 					$('#categoryModal').modal('show');
+					calculateTotalPrice();
 
 
 					function calculateTotalPrice() {
+						// Get the table element by its ID
+						const salesTable = document.getElementById('cartTable');
 						let totalnetsale = 0;
+						// Get all the rows in the table
+						const rows = salesTable.querySelectorAll('tr');
+
 						rows.forEach(row => {
 							const priceCell = row.querySelector("td:nth-child(7)"); // 7th column is the Price column
 							if (priceCell) {
@@ -430,13 +436,12 @@ session_start();
 
 						// Update the total netsale in the <span> element
 						const totalValue = document.getElementById('totalValue');
-						if (totalValue) {
-							totalValue.textContent = totalnetsale.toFixed(2);
-						}
+						totalValue.textContent = totalnetsale.toFixed(2);
 
 						// You can also log the total netsale to the console for debugging
 						console.log("Total Netsale:", totalnetsale.toFixed(2));
 					}
+
 				});
 			});
 		</script>
@@ -461,7 +466,7 @@ session_start();
 						<div class="swiper-slide box">
 							<i class="fas fa-quote-left"></i>
 							<i class="fas fa-quote-right"></i>
-							
+
 							<img src="img/user.jpg">
 							<!-- <img src="<?php echo $row['image_path']; ?>" alt=""> -->
 							<div class="stars">
@@ -473,9 +478,9 @@ session_start();
 								}
 								?>
 							</div>
-							
+
 							<p><?php echo $row['SalesID']; ?></p>
-						
+
 							<span><?php echo $row['feedback']; ?></span>
 						</div>
 				<?php
