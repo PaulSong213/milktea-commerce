@@ -359,7 +359,7 @@ session_start();
 									<tr>
 										<td style="display:none;">${inventoryID}</td>
 										<td><img src="${image}" alt="Product Image" width="50"></td>
-										<td class="text-wrap">${itemCode}</td>
+										<td>${itemCode}</td>
 										<td>
 											<input class="sizeSelect" type="text" name="size" id="size" list="sizeOptions" placeholder="Select Size">
 											<datalist id="sizeOptions">
@@ -367,8 +367,8 @@ session_start();
 										</td>
 										<td><input type="number" class="qtySelect" name="qty" id="qty" value="1"></td>
 										<td id="sugarLeveel">${selectedValue}</td>
-										<td id="addonsDescription" class="text-wrap">${descriptions}</td>
-										<td class="priceRow text-wrap" id="price">${totalAmount.toFixed(2)}</td>
+										<td id="addonsDescription">${descriptions}</td>
+										<td class="priceRow" id="price">${totalAmount.toFixed(2)}</td>
 										<td><button class=" btn-danger btn-sm removeItem">Remove</button></td>
 									</tr>
 								`;
@@ -424,7 +424,7 @@ session_start();
 							calculateTotalPrice();
 						});
 
-						$(".qtySelect").on('change', function() {
+						$(".qtySelect").on('input', function() {
 							const qtyValue = parseFloat($(this).val());
 							const qtyTotalAmt = qtyValue * totalAmount;
 							$(this).closest("tr").find(".priceRow").text(qtyTotalAmt.toFixed(2));
