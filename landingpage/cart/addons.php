@@ -30,7 +30,7 @@ $result = $conn->query($query);
                                 <img src="#" alt="Product Image" id="AddonsProdimage" name="AddonsProdimage">
                             </div>
                             <div class="product-details">
-                                <h3 class="product-name">PRODUCT NAME: <span name="AddonsProdName" id="AddonsProdName"></span></h3>
+                                <h3 class="product-name">PRODUCT:  <span name="AddonsProdName" id="AddonsProdName"></span></h3>
                                 <div class="sugar-level">
                                     <label for="sugarLevel">Sugar Level:</label>
                                     <select id="sugarLevel" name="sugarLevel">
