@@ -30,13 +30,11 @@ $result = $conn->query($query);
                                 <img src="#" alt="Product Image" id="AddonsProdimage" name="AddonsProdimage">
                             </div>
                             <div class="product-details">
-                                <h3 class="product-name">PRODUCT:  <span name="AddonsProdName" id="AddonsProdName"></span></h3>
+                                <h3 class="product-name">PRODUCT: <span name="AddonsProdName" id="AddonsProdName"></span></h3>
                                 <div class="sugar-level">
                                     <label for="sugarLevel">Sugar Level:</label>
                                     <select id="sugarLevel" name="sugarLevel">
-                                        <option value="10%">Low</option>
-                                        <option value="20%">Medium</option>
-                                        <option value="30%">High</option>
+                                        <option value="">Select Sugar Level</option>
                                     </select>
                                 </div>
                             </div>
@@ -81,6 +79,14 @@ $result = $conn->query($query);
 
 
 <script>
+    var select = document.getElementById("sugarLevel");
+
+    for (var i = 10; i <= 100; i += 10) {
+        var option = document.createElement("option");
+        option.value = i + "%";
+        option.text = i + "%";
+        select.appendChild(option);
+    }
 </script>
 
 <style>

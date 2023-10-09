@@ -248,7 +248,7 @@ session_start();
 									// Set the values for the image and HTML elements
 									$('#AddonsProdimage').attr('src', image);
 									$('#AddonsProdName').text(itemCode);
-								 // Log itemCode to check its value
+									// Log itemCode to check its value
 									$('#addonsmodal').modal('show');
 
 								});
@@ -287,139 +287,155 @@ session_start();
 		<script>
 			document.addEventListener("DOMContentLoaded", function() {
 				// Get a reference to the "Done" button
-				var doneButton = document.getElementById("doneButton");
 
+
+				var doneButton = document.getElementById("doneButton");
+				let rowAdded = false;
+				const cartTableBody = document.querySelector("#cartTable tbody");
 				// Add a click event listener to the "Done" button
 				doneButton.addEventListener("click", function() {
-
-					// Get all the checkboxes with the name "addon[]"
-					var checkboxes = document.querySelectorAll('input[name="addon[]"]:checked');
-
-					// Create an array to store the selected addon data
-					var selectedAddonsData = [];
-
-					// Loop through the selected checkboxes and extract their values, description, and price
-					checkboxes.forEach(function(checkbox) {
-						var addonId = checkbox.value;
-						var addonDescription = document.querySelector('#addon' + addonId + ' .description-text').textContent;
-						var addonPrice = document.querySelector('#addon' + addonId + ' .price-text').textContent;
-
-						selectedAddonsData.push({
-							id: addonId,
-							description: addonDescription,
-							price: addonPrice
+					var select = document.getElementById("sugarLevel");
+					var selectedValue = select.value;
+					if (selectedValue == "") {
+						Swal.fire({
+							title: "Please select sugar level!",
+							icon: "warning", // Adding an error icon
 						});
-					});
+						console.log(selectedValue);
+					} else if (!rowAdded) {
+						// Set the flag to true to prevent adding more rows
+						rowAdded = true;
 
-					var totalAmount = 0;
-					var PartialAmount = 0;
-					var descriptions = "";
+						// Get all the checkboxes with the name "addon[]"
+						const checkboxes = document.querySelectorAll('input[name="addon[]"]:checked');
 
-					selectedAddonsData.forEach(function(addon) {
-						// Extract addonPrice and parse it as a floating-point number
-						var addonPrice = parseFloat(addon.price.replace(/[^\d.]/g, ''));
-						// Check if addonPrice is a valid number before adding it to totalAmount
-						if (!isNaN(addonPrice)) {
-							totalAmount += addonPrice;
-						}
-						PartialAmount = totalAmount;
-						descriptions += addon.description + ", ";
-					});
+						// Create an array to store the selected addon data
+						const selectedAddonsData = [];
 
-					// Remove the trailing comma and space
-					descriptions = descriptions.slice(0, -2);
+						// Loop through the selected checkboxes and extract their values, description, and price
+						checkboxes.forEach(function(checkbox) {
+							const addonId = checkbox.value;
+							const addonDescription = document.querySelector(`#addon${addonId} .description-text`).textContent;
+							const addonPrice = document.querySelector(`#addon${addonId} .price-text`).textContent;
 
-					// Log the selected addon data and totalAmount to the console
-					console.log("Selected Addons Data:", selectedAddonsData);
-					console.log("Total Amount of Addons:", totalAmount);
-					console.log("Descriptions:", descriptions);
-
-					// Add to cart append
-					const newRow = `
-                <tr>
-                    <td style="display:none;">${inventoryID}</td>
-                    <td><img src="${image}" alt="Product Image" width="50"></td>
-                    <td>${itemCode}</td>
-                    <td>
-                        <input class="sizeSelect" type="text" name="size" id="size" list="sizeOptions" placeholder="Select Size">
-                        <datalist id="sizeOptions">
-                        </datalist>
-                    </td>
-                    <td><input type="number" class="qtySelect" name="qty" id="qty" value="1"></td>
-                    <td id="addonsDescription">${descriptions}</td>
-                    <td class="priceRow" id="price">${totalAmount.toFixed(2)}</td>
-                    <td><button class=" btn-danger btn-sm removeItem">Remove</button></td>
-                </tr>
-            `;
-
-					// Append newRow to the DOM
-					$("#cartTable tbody").append(newRow);
-
-					const dataList = document.getElementById('sizeOptions');
-					const sizeInput = document.getElementById('size');
-					const qtyInput = document.getElementById('qty');
-					const priceElement = document.getElementById('price');
-
-					// Remove any existing options and set the 'readonly' attribute
-					while (dataList.firstChild) {
-						dataList.removeChild(dataList.firstChild);
-					}
-
-					// Add an option for each variant
-					variantsJSON.forEach(variant => {
-						var option = document.createElement('option');
-						option.value = variant.variantName;
-						dataList.appendChild(option);
-					});
-
-					$(".sizeSelect").on('change', function() {
-						// Get the selected value from the input
-						const selectedSize = $(this).val();
-
-						// Find the variant that matches the selected size
-						const selectedVariant = variantsJSON.find(variant => variant.variantName === selectedSize);
-
-						// Check if a matching variant was found
-						if (selectedVariant) {
-							const selectedPrice = parseFloat(selectedVariant.price);
-							totalAmount = PartialAmount;
-							// Log the selected size and its corresponding price
-							console.log("Selected Size:", selectedSize);
-							console.log("Selected Price:", selectedPrice);
-							totalAmount += selectedPrice;
-							// priceElement.textContent = totalAmount.toFixed(2);
-							$(this).closest("tr").find(".priceRow").text(totalAmount.toFixed(2));
-
-							// Now you can use the selectedPrice as needed
-						} else {
-							// Handle the case where no matching variant was found
-							Swal.fire({
-								icon: 'error',
-								title: 'No variant found',
-								text: 'Please Select a Variant Size',
+							selectedAddonsData.push({
+								id: addonId,
+								description: addonDescription,
+								price: addonPrice
 							});
+						});
+
+						// Calculate totalAmount and descriptions
+						let totalAmount = 0;
+						let PartialAmount = 0;
+						let descriptions = "";
+
+						selectedAddonsData.forEach(function(addon) {
+							// Extract addonPrice and parse it as a floating-point number
+							const addonPrice = parseFloat(addon.price.replace(/[^\d.]/g, ''));
+
+							// Check if addonPrice is a valid number before adding it to totalAmount
+							if (!isNaN(addonPrice)) {
+								totalAmount += addonPrice;
+							}
+							PartialAmount = totalAmount;
+							descriptions += addon.description + ", ";
+						});
+
+						// Remove the trailing comma and space
+						descriptions = descriptions.slice(0, -2);
+						console.log(selectedValue);
+
+						const newRow = `
+									<tr>
+										<td style="display:none;">${inventoryID}</td>
+										<td><img src="${image}" alt="Product Image" width="50"></td>
+										<td>${itemCode}</td>
+										<td>
+											<input class="sizeSelect" type="text" name="size" id="size" list="sizeOptions" placeholder="Select Size">
+											<datalist id="sizeOptions">
+											</datalist>
+										</td>
+										<td><input type="number" class="qtySelect" name="qty" id="qty" value="1"></td>
+										<td id="sugarLeveel">${selectedValue}</td>
+										<td id="addonsDescription">${descriptions}</td>
+										<td class="priceRow" id="price">${totalAmount.toFixed(2)}</td>
+										<td><button class=" btn-danger btn-sm removeItem">Remove</button></td>
+									</tr>
+								`;
+
+						// Append newRow to the cart table
+						cartTableBody.insertAdjacentHTML("beforeend", newRow);
+
+
+						// Create a new row HTML string
+
+
+						const dataList = document.getElementById('sizeOptions');
+						const sizeInput = document.getElementById('size');
+						const qtyInput = document.getElementById('qty');
+						const priceElement = document.getElementById('price');
+						// Remove any existing options and set the 'readonly' attribute
+						while (dataList.firstChild) {
+							dataList.removeChild(dataList.firstChild);
 						}
-						calculateTotalPrice();
-					});
+						// Add an option for each variant
+						variantsJSON.forEach(variant => {
+							var option = document.createElement('option');
+							option.value = variant.variantName;
+							dataList.appendChild(option);
+						});
+						$(".sizeSelect").on('change', function() {
+							// Get the selected value from the input
+							const selectedSize = $(this).val();
 
-					$(".qtySelect").on('change', function() {
-						const qtyValue = parseFloat($(this).val());
-						const qtyTotalAmt = qtyValue * totalAmount;
-						$(this).closest("tr").find(".priceRow").text(qtyTotalAmt.toFixed(2));
-						calculateTotalPrice();
-					});
+							// Find the variant that matches the selected size
+							const selectedVariant = variantsJSON.find(variant => variant.variantName === selectedSize);
 
-					// Add click event listener to remove items
-					$(".removeItem").click(function() {
-						$(this).closest("tr").remove();
-						calculateTotalPrice();
-					});
+							// Check if a matching variant was found
+							if (selectedVariant) {
+								const selectedPrice = parseFloat(selectedVariant.price);
+								totalAmount = PartialAmount;
+								// Log the selected size and its corresponding price
+								console.log("Selected Size:", selectedSize);
+								console.log("Selected Price:", selectedPrice);
+								totalAmount += selectedPrice;
+								// priceElement.textContent = totalAmount.toFixed(2);
+								$(this).closest("tr").find(".priceRow").text(totalAmount.toFixed(2));
 
-					// Hide/show modals
-					$('#addonsmodal').modal('hide');
-					$('#categoryModal').modal('show');
-					calculateTotalPrice();
+								// Now you can use the selectedPrice as needed
+							} else {
+								// Handle the case where no matching variant was found
+								Swal.fire({
+									icon: 'error',
+									title: 'No variant found',
+									text: 'Please Select a Variant Size',
+								});
+							}
+							calculateTotalPrice();
+						});
+
+						$(".qtySelect").on('change', function() {
+							const qtyValue = parseFloat($(this).val());
+							const qtyTotalAmt = qtyValue * totalAmount;
+							$(this).closest("tr").find(".priceRow").text(qtyTotalAmt.toFixed(2));
+							calculateTotalPrice();
+						});
+
+						// Add click event listener to remove items
+						$(".removeItem").click(function() {
+							$(this).closest("tr").remove();
+							calculateTotalPrice();
+						});
+
+						// Hide/show modals
+						$('#addonsmodal').modal('hide');
+						$('#categoryModal').modal('show');
+						calculateTotalPrice();
+						rowAdded = false;
+					}
 				});
+
 			});
 		</script>
 

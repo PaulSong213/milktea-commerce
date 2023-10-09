@@ -47,6 +47,7 @@ if ($conn->connect_error) {
                                             <th>Product</th>
                                             <th>Size</th>
                                             <th>Qty</th>
+                                            <th>Sugar Level</th>
                                             <th>addOns</th>
                                             <th>Price</th> <!-- Added price column -->
                                             <th>Action</th> <!-- Added remove action column -->
@@ -63,7 +64,7 @@ if ($conn->connect_error) {
 
                             <div class="form-group">
                                 <label for="paymentMethod">Promo</label>
-                                <input type="text" id="cash" name="payment" value="" placeholder="Select Promo Code">
+                                <input type="text" id="Promo" name="Promo" value="" placeholder="Select Promo Code">
                             </div>
 
                             <!-- Payment Method -->
@@ -97,7 +98,6 @@ if ($conn->connect_error) {
                         <div class="container text-right">
                             <h3>TOTAL: ₱ <span name="totalValue" id="totalValue">0.00</span> </h3>
                         </div>
-                    </form>
                 </div>
                 <!-- Modal Footer -->
                 <div class="modal-footer">
@@ -107,6 +107,7 @@ if ($conn->connect_error) {
                     <button type="submit" name="submit" id="submit" class="btn btn-primary " onclick="collectAndSendDataToServer()">Proceed to Checkout</button>
                 </div>
             </div>
+            </form>
         </div>
     </div>
 </body>
@@ -140,9 +141,10 @@ if ($conn->connect_error) {
                     productImage: cells[1].textContent.trim(),
                     productName: cells[2].textContent.trim(),
                     size: cells[3].textContent.trim() || "", // Include 'size' with empty value
-                    quantity: cells[4].textContent.trim() || "", // Include 'quantity' with empty value
-                    addOns: cells[5].textContent.trim(),
-                    price: cells[6].textContent.trim(),
+                    quantity: cells[4].textContent.trim() || "",
+                    sugarLevel: cells[5].textContent.trim() || "",
+                    addOns: cells[6].textContent.trim(),
+                    price: cells[7].textContent.trim(),
                 };
                 data.push(rowData);
             }
@@ -153,8 +155,7 @@ if ($conn->connect_error) {
 
         // Log the JSON data for debugging (you can remove this in production)
         console.log("JSON Data:", jsonData);
-
-        // Optionally, you can use the JSON data as needed, for example, sending it to the server.
+        orders.value = jsonData;
     }
 
     function calculateTotalPrice() {
@@ -165,7 +166,7 @@ if ($conn->connect_error) {
         const rows = salesTable.querySelectorAll('tr');
 
         rows.forEach(row => {
-            const priceCell = row.querySelector("td:nth-child(7)"); // 7th column is the Price column
+            const priceCell = row.querySelector("td:nth-child(8)"); // 7th column is the Price column
             if (priceCell) {
                 const priceText = priceCell.textContent.trim();
                 const priceValue = parseFloat(priceText.replace(/[^\d.]/g, '')); // Extract numeric value
