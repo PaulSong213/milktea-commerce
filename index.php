@@ -88,12 +88,14 @@ session_start();
 					</div>
 				</div>
 				<div class="col-md-5">
-					<div class="image">
-						<div class="swiper review-slider">
-							<div class="swiper-wrapper" id="imageSlider">
-								<!-- Images will be dynamically loaded here -->
+					<div style="max-width: 500px; margin: auto; max-height: 500px;">
+						<div class="image">
+							<div class="swiper review-slider">
+								<div class="swiper-wrapper" id="imageSlider">
+									<!-- Images will be dynamically loaded here -->
+								</div>
+								<div class="swiper-pagination"></div>
 							</div>
-							<div class="swiper-pagination"></div>
 						</div>
 					</div>
 				</div>
@@ -110,13 +112,21 @@ session_start();
 							if (data.length > 0) {
 								var imageSlider = $('#imageSlider');
 								imageSlider.empty();
-
 								for (var i = 0; i < data.length; i++) {
-									var imageUrl = data[i];
+									var promoInfo = data[i];
+									var imageUrl = promoInfo.imageUrl;
+									var promoName = promoInfo.promoName;
+									var promoPercentage = promoInfo.promoPercentage;
+									var minimumSpend = promoInfo.minimumSpend;
+
+									console.log('Image URL:', imageUrl);
+									console.log('Promo Name:', promoName);
+									console.log('Promo Percentage:', promoPercentage);
+									console.log('Minimum Spend:', minimumSpend);
+
 									var swiperSlide = $('<div class="swiper-slide box">');
 									var image = $('<img>').attr('src', imageUrl).attr('alt', 'Promo Image');
 
-									// Set the desired width and height to make the images larger
 									// Set the desired width and height to make the images larger and add creative styles
 									image.css('width', '100%');
 									image.css('height', '100%');
@@ -147,7 +157,6 @@ session_start();
 						}
 					});
 				}
-
 				loadImages();
 			});
 		</script>
@@ -438,8 +447,6 @@ session_start();
 
 			});
 		</script>
-
-
 	</section>
 
 

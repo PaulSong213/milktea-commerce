@@ -17,18 +17,23 @@ $query = "SELECT * FROM promo_tb";
 
 $result = $conn->query($query);
 
-$imageUrls = array();
+$promoData = array();
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $imageUrls[] = '././promo/'. $row["promoImage"];
+        $promoData[] = array(
+            'imageUrl' => '././promo/'. $row["promoImage"],
+            'promoName' => $row["promoName"],
+            'promoPercentage' => $row["promoPercentage"],
+            'minimumSpend' => $row["minimumSpend"]
+        );
     }
 }
 
 // Close the database connection
 $conn->close();
 
-// Return the image URLs as JSON
+// Return the promo data as JSON
 header('Content-Type: application/json');
-echo json_encode($imageUrls);
+echo json_encode($promoData);
 ?>
