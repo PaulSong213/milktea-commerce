@@ -1,132 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="sidebar.js"></script>
+
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Crud Dashboard</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-       
-<style>
-    /* Sidebar Styles */
-#sidebar {
-    position: fixed;
-    width: 250px;
-    height: 100vh;
-    transition: all 0.3s;
-    background-color: #293241;
-    color: #e0fbfc;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
-    overflow-y: auto; /* Add scrollbar for vertical overflow */
-}
 
-#sidebar.active {
-    width: 0;
-}
+        <style>
+            /* Sidebar Styles */
+            #sidebar {
+                position: fixed;
+                width: 250px;
+                height: 100vh;
+                transition: all 0.3s;
+                background-color: #293241;
+                color: #e0fbfc;
+                box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+                overflow-y: auto;
+                /* Add scrollbar for vertical overflow */
+            }
 
-    /* Reset and General Styles */
-    body {
-        font-family: 'Poppins', sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f5f5f5;
-    }
+            #sidebar.active {
+                width: 0;
+            }
 
-    /* Sidebar Styles */
-    #sidebar {
-        position: fixed;
-        width: 250px;
-        height: 100vh;
-        transition: all 0.3s;
-        background-color: #293241;
-        color: #e0fbfc;
-        box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
-    }
+            /* Reset and General Styles */
+            body {
+                font-family: 'Poppins', sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f5f5f5;
+            }
 
-    #sidebar.active {
-        width: 0;
-    }
+            /* Sidebar Styles */
+            #sidebar {
+                position: fixed;
+                width: 250px;
+                height: 100vh;
+                transition: all 0.3s;
+                background-color: #293241;
+                color: #e0fbfc;
+                box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+            }
 
-    #content {
-            width: calc(100% - 260px);
-            margin-left: 260px;
-            transition: all 0.3s;
-        }
+            #sidebar.active {
+                width: 0;
+            }
 
-    #content.active {
-            margin-left: 0;
-            width: 100%;
-        }
+            #content {
+                width: calc(100% - 260px);
+                margin-left: 260px;
+                transition: all 0.3s;
+            }
 
-    .sidebar-header {
-        padding: 12px;
-        text-align: left;
-    }
+            #content.active {
+                margin-left: 0;
+                width: 100%;
+            }
 
-    .sidebar-header h3 {
-        font-size: 18px;
-        margin: 0;
-        color: #e0fbfc;
-    }
-    
-    .sidebar-header img {
-            width: 50px;
-            margin-right: 10px;
-        }
+            .sidebar-header {
+                padding: 12px;
+                text-align: left;
+            }
 
-    .list-unstyled.components {
-        padding: 5px;
-    }
+            .sidebar-header h3 {
+                font-size: 18px;
+                margin: 0;
+                color: #e0fbfc;
+            }
 
-    .list-unstyled.components li a {
-        padding: 10px 20px;
-        color: #e0fbfc;
-        display: block;
-        transition: background-color 0.3s, color 0.3s;
-    }
+            .sidebar-header img {
+                width: 50px;
+                margin-right: 10px;
+            }
 
-    .list-unstyled.components li.active a {
-        background-color: #4f758b;
-    }
+            .list-unstyled.components {
+                padding: 5px;
+            }
 
-    .list-unstyled.components li a:hover {
-        background-color: #4f758b;
-    }
-    .dropdown-toggle::after {
-            content: "\f105";
-            font-family: "Material Icons";
-            position: absolute;
-            right: 30px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #777;
-            transition: transform 0.3s;
-        }
+            .list-unstyled.components li a {
+                padding: 10px 20px;
+                color: #e0fbfc;
+                display: block;
+                transition: background-color 0.3s, color 0.3s;
+            }
 
-    .dropdown.show .dropdown-toggle::after {
-            transform: translateY(-50%) rotate(180deg);
-        }
+            .list-unstyled.components li.active a {
+                background-color: #4f758b;
+            }
 
-    /* Icons */
-    .material-icons {
-        font-size: 18px;
-        vertical-align: middle;
-        margin-right: 10px;
-    }
-    
-</style>
+            .list-unstyled.components li a:hover {
+                background-color: #4f758b;
+            }
 
-</head>
+            .dropdown-toggle::after {
+                content: "\f105";
+                font-family: "Material Icons";
+                position: absolute;
+                right: 30px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #777;
+                transition: transform 0.3s;
+            }
+
+            .dropdown.show .dropdown-toggle::after {
+                transform: translateY(-50%) rotate(180deg);
+            }
+
+            /* Icons */
+            .material-icons {
+                font-size: 18px;
+                vertical-align: middle;
+                margin-right: 10px;
+            }
+        </style>
+
+    </head>
 
 <body>
     <nav id="sidebar">
-        
+
         <div class="sidebar-header">
             <h3><img src="\zarate\Zarate\img\logo.png" class="img-fluid" alt="Logo" /><span class="fw-bold">E.Zarate
                     Hospital</span></h3>
@@ -277,12 +280,12 @@
         <!-- Your content here -->
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $("#toggleSidebar").on("click", function () {
+        $(document).ready(function() {
+            $("#toggleSidebar").on("click", function() {
                 $("#sidebar").toggleClass("active");
                 $("#content").toggleClass("active");
             });

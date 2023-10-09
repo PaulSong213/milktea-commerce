@@ -36,7 +36,7 @@ if ($conn->connect_error) {
                 </div>
                 <!-- Modal Body -->
                 <div class="modal-body row">
-                    <form method="post" action="databasefunction.php" id="addItemForm">
+                    <form method="POST" action="/milktea-commerce/landingpage/cart/databasefunction.php" id="addItemForm">
                         <div class="container-fluid p-3">
                             <div class="col-12" style="overflow-y: auto;" id="cartTable">
                                 <table class="table mt-4 rounded" id="cartTable">
@@ -70,10 +70,9 @@ if ($conn->connect_error) {
                             <!-- Payment Method -->
                             <div class="form-group">
                                 <label for="paymentMethod">Payment Method</label>
-                                <select class="form-control" id="paymentMethod" name="paymentMethod">
-                                    <option value="Cash">Cash</option>
-                                    <option value="Gcash">Gcash</option>
-                                    <option value="bank">Bank Transfer</option>
+                                <select class="form-select" id="paymentMethod" name="paymentMethod">
+                                    <option value="online">Online Payment</option>
+                                    <option value="cash-on-delivery">Cash on Delivery</option>
                                 </select>
                             </div>
 
@@ -83,7 +82,7 @@ if ($conn->connect_error) {
                                 <textarea class="form-control" id="shippingAddress" name="shippingAddress" rows="4">
                                     <?php
                                     if (isset($_SESSION['costumer'])) {
-                                        $costumer = json_decode($_SESSION['costumer'],true);
+                                        $costumer = json_decode($_SESSION['costumer'], true);
                                         $shippingAddress = $costumer['shippingAddress'];
 
                                         echo $shippingAddress;
@@ -98,12 +97,15 @@ if ($conn->connect_error) {
                         <div class="container text-right">
                             <h3>TOTAL: <span name="totalValue" id="totalValue">0.00</span></h3>
                         </div>
+                        <input type="text" name="costumerID" id="costumerID" value='<?= json_decode($_SESSION["costumer"])->costumerID ?>'>
+                        <input type="hidden" name="orders" id="orders" value="">
+
                     </form>
                 </div>
                 <!-- Modal Footer -->
                 <div class="modal-footer">
                     <!-- hidden value -->
-                    <input type="hidden" name="orders" id="orders" value="">
+
                     <button type="button" class="btn btn-secondary" onclick="Close()">Continue Shopping</button>
                     <button type="submit" name="submit" id="submit" class="btn btn-primary " onclick="collectAndSendDataToServer()">Proceed to Checkout</button>
                 </div>
@@ -112,7 +114,7 @@ if ($conn->connect_error) {
     </div>
 </body>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
@@ -129,26 +131,32 @@ if ($conn->connect_error) {
 
     function collectAndSendDataToServer() {
         const data = [];
-        rows.forEach(row => {
-            const cells = row.getElementsByTagName("td");
+        $(".cartRow").each(function() {
+            const cells = $(this).children("td");
             if (cells.length > 0) {
-                const rowData = [];
-                cells.forEach(cell => {
-                    rowData.push(cell.textContent.trim());
-                });
+                const rowData = {};
+                rowData.productId = cells[0].innerHTML;
+                rowData.productName = cells[2].innerHTML;
+                rowData.size = $(cells[3]).find("input").val();
+                rowData.qty = $(cells[4]).find("input").val();
+                console.log(cells[3], cells[4]);
+                rowData.addOns = cells[5].innerHTML;
+                rowData.subTotal = cells[6].innerHTML;
+                console.log(rowData);
                 data.push(rowData);
             }
         });
 
-        // Remove null rows from the data array
-        const filteredData = data.filter(row => row.length > 0);
 
         // Convert the data array to a JSON string
-        const jsonData = JSON.stringify(filteredData);
+        const jsonData = JSON.stringify(data);
 
         // You can send the jsonData to the server here using an AJAX request or other methods.
-        console.log(jsonData);
+        console.log(JSON.parse(jsonData));
         orders.value = jsonData;
+
+        // Submit the form
+        document.getElementById("addItemForm").submit();
     }
 </script>
 

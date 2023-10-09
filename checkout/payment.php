@@ -55,13 +55,15 @@ if (!$costumer) {
         ?>
         // create get request to create payment link
         function createPayLink() {
+            const amount = Number(<?= $_GET["NetAmt"] ?>) * 100;
             $.ajax({
                 url: "/milktea-commerce/payment/create-pay-link.php",
                 type: "GET", //send it through get method
                 data: {
-                    amount: 10000,
-                    description: "Milk Tea",
-                    remarks: "Milk Tea"
+                    orderNo: <?= $_GET["orderID"] ?>,
+                    amount: amount,
+                    description: '<?= $_GET["description"] ?>',
+                    remarks: ""
                 },
                 success: function(data) {
                     var response = JSON.parse(data);

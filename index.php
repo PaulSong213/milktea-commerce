@@ -331,21 +331,21 @@ session_start();
 
 					// Add to cart append
 					const newRow = `
-                <tr>
-                    <td style="display:none;">${inventoryID}</td>
-                    <td><img src="${image}" alt="Product Image" width="50"></td>
-                    <td>${itemCode}</td>
-                    <td>
-                        <input class="sizeSelect" type="text" name="size" id="size" list="sizeOptions" placeholder="Select Size">
-                        <datalist id="sizeOptions">
-                        </datalist>
-                    </td>
-                    <td><input type="number" class="qtySelect" name="qty" id="qty" value="1"></td>
-                    <td id="addonsDescription">${descriptions}</td>
-                    <td class="priceRow" id="price">${totalAmount.toFixed(2)}</td>
-                    <td><button class=" btn-danger btn-sm removeItem">Remove</button></td>
-                </tr>
-            `;
+						<tr class="cartRow">
+							<td style="display:none;">${inventoryID}</td>
+							<td><img src="${image}" alt="Product Image" width="50"></td>
+							<td>${itemCode}</td>
+							<td>
+								<input required class="sizeSelect" type="text" name="size" id="size" list="sizeOptions" placeholder="Select Size">
+								<datalist id="sizeOptions">
+								</datalist>
+							</td>
+							<td><input type="number" class="qtySelect" name="qty" id="qty" min="1" value="1"></td>
+							<td id="addonsDescription">${descriptions}</td>
+							<td class="priceRow" id="price">${totalAmount.toFixed(2)}</td>
+							<td><button class=" btn-danger btn-sm removeItem">Remove</button></td>
+						</tr>
+					`;
 
 					// Append newRow to the DOM
 					$("#cartTable tbody").append(newRow);
@@ -417,14 +417,12 @@ session_start();
 
 					function calculateTotalPrice() {
 						let totalnetsale = 0;
-						rows.forEach(row => {
-							const priceCell = row.querySelector("td:nth-child(7)"); // 7th column is the Price column
-							if (priceCell) {
-								const priceText = priceCell.textContent.trim();
-								const priceValue = parseFloat(priceText.replace(/[^\d.]/g, '')); // Extract numeric value
-								if (!isNaN(priceValue)) {
-									totalnetsale += priceValue;
-								}
+						$(".cartRow").each(function() {
+							const priceCell = $(this).find(".priceRow");
+							const priceText = priceCell.text().trim();
+							const priceValue = parseFloat(priceText.replace(/[^\d.]/g, '')); // Extract numeric value
+							if (!isNaN(priceValue)) {
+								totalnetsale += priceValue;
 							}
 						});
 
@@ -433,11 +431,13 @@ session_start();
 						if (totalValue) {
 							totalValue.textContent = totalnetsale.toFixed(2);
 						}
-
 						// You can also log the total netsale to the console for debugging
 						console.log("Total Netsale:", totalnetsale.toFixed(2));
 					}
+					calculateTotalPrice();
 				});
+
+				$("")
 			});
 		</script>
 
