@@ -8,7 +8,7 @@ $conn = connect();
 if ($conn->connect_error) {
 	die("Connection failed: " . $conn->connect_error);
 }
-//session_start();
+session_start();
 
 
 ?>
