@@ -19,7 +19,7 @@ $result = $conn->query($query);
     <div class="modal-dialog modal-dialog-centered modal-lg rounded">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Choose Add-ons</h5>
+                <h5 class="modal-title">Choose Add-Ons and Sugar Level</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -52,16 +52,21 @@ $result = $conn->query($query);
 
                                     <div class="row">
                                         <div class="col-12 mb-3">
-                                            <label class="custom-checkbox d-flex align-items-center mb-3">
+                                            <label class="custom-checkbox d-flex align-items-center mb-3 border border-5 rounded py-2">
                                                 <input type="checkbox" name="addon[]" value="<?php echo $addid; ?>" id="addon<?php echo $addid; ?>">
                                                 <span class="checkmark me-2"></span>
-                                                <div id="addon<?php echo $addid; ?>" class="addon-description">
-                                                    <span class="price-text fw-bold"><?php echo '₱ ' . $price . " - "; ?></span>
-                                                    <span class="description-text"><?php echo $description; ?></span>
-                                                    <img src="<?php echo $image; ?>" alt="<?php echo $description; ?>" class="addon-image">
+                                                <div id="addon<?php echo $addid; ?>" class="addon-description d-flex align-items-center">
+                                                    <div class="addon-info">
+                                                        <span class="price-text fw-bold"><?php echo '₱ ' . $price; ?></span>
+                                                        <span class="description-text"><?php echo $description; ?></span>
+                                                    </div>
+                                                    <div class="addon-image-container">
+                                                        <img src="<?php echo $image; ?>" alt="<?php echo $description; ?>" class="addon-image">
+                                                    </div>
                                                 </div>
                                             </label>
                                         </div>
+
                                     </div>
                                 <?php endwhile; ?>
 
