@@ -65,15 +65,16 @@ if ($conn->connect_error) {
                             <div class="form-group">
                                 <label for="Promo" style="font-weight: bold; color: #333;">Promo Code:</label>
                                 <div style="position: relative;">
-                                    <input list="promoOptions" id="Promo" name="Promo" value="" placeholder="Enter Promo Code" class="form-control" style="padding-right: 40px;">
+                                    <input list="promoOptions" id="Promo" name="Promo" value="" placeholder="Select Promo Code" class="form-control" style="padding-right: 40px;">
                                     <datalist id="promoOptions">
-                                        <!-- Add more promo options here -->
+                                        <!-- Add more options as needed -->
                                     </datalist>
                                     <span style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%);">
                                         <i class="fa fa-gift" style="color: #888; font-size: 20px;"></i>
                                     </span>
                                 </div>
                             </div>
+
 
 
                             <!-- Payment Method -->
@@ -168,6 +169,7 @@ if ($conn->connect_error) {
     }
 
     let totalnetsale;
+    const totalValue = document.getElementById('totalValue');
 
     function calculateTotalPrice() {
         // Get the table element by its ID
@@ -187,45 +189,70 @@ if ($conn->connect_error) {
             }
         });
         // Update the total netsale in the <span> element
-        const totalValue = document.getElementById('totalValue');
         totalValue.textContent = totalnetsale.toFixed(2);
-
         // You can also log the total netsale to the console for debugging
         console.log("Total Netsale:", totalnetsale.toFixed(2));
         collectTableData();
+        loadPromoNames();
     }
 
-    $(document).ready(function() {
-        function loadPromoNames() {
-            $.ajax({
-                url: 'promolist.php',
-                type: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    if (data.length > 0) {
-                        var promoOptions = $('#promoOptions');
-                        promoOptions.empty();
+    var promoName;
+    var minimumSpend;
+    var promoPercentage;
 
-                        for (var i = 0; i < data.length; i++) {
-                            var promoInfo = data[i];
-                            var promoName = promoInfo.promoName;
-                            var minimumSpend = promoInfo.minimumSpend;
-                            var promoPercentage = promoInfo.promoPercentage;
+    function loadPromoNames() {
+        $.ajax({
+            url: 'promolist.php',
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                if (data.length > 0) {
+                    var promoOptions = $('#promoOptions');
+                    promoOptions.empty();
 
-                            // Create a new option element for each promo name
-                            var option = $('<option>').attr('value', promoName);
-                            promoOptions.append(option);
+                    // Use map function to create an array of option elements
+                    var options = data.map(function(promoInfo) {
+                        promoName = promoInfo.promoName;
+                        minimumSpend = promoInfo.minimumSpend;
+                        promoPercentage = promoInfo.promoPercentage;
+
+                        // Create a new option element for each promo name
+                        var option = $('<option>').attr('value', promoName);
+
+                        // Disable the option if minimumSpend is less than or equal to totalnetsale
+                        if (minimumSpend >= totalnetsale) {
+                            option.prop('disabled', true);
                         }
-                    } else {
-                        console.log('No promo names available.');
-                    }
-                },
-                error: function() {
-                    console.log('Error fetching promo names.');
+                        return option;
+                    });
+
+                    // Append all options to the select element at once
+                    promoOptions.append(options);
+                } else {
+                    console.log('No promo names available.');
                 }
-            });
-        }
-        loadPromoNames();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log('Error fetching promo names. Status: ' + textStatus + '. Error: ' + errorThrown);
+            }
+        });
+    }
+    // Add event listener for promoOptions select element
+    $('#Promo').on('input', function() {
+        // Get the selected promo name
+        const selectedPromo = $(this).val();
+        const selectedPromoPercentage = parseFloat(promoPercentage);
+
+        // Calculate the discount amount
+        const discountAmount = totalnetsale - ((selectedPromoPercentage / 100) * totalnetsale);
+
+        // Log the discount amount to the console
+        console.log("selectedPromo Amount:", selectedPromo);
+        console.log("selectedPromoPercentage Amount:", selectedPromoPercentage);
+        console.log('Selected promo:', selectedPromo);
+        console.log("Discount Amount:", discountAmount);
+        totalValue.textContent = discountAmount.toFixed(2);
+        // You can add more code here to handle the selected promo
     });
 </script>
 
