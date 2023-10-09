@@ -365,7 +365,7 @@ session_start();
 											<datalist id="sizeOptions">
 											</datalist>
 										</td>
-										<td><input type="number" class="qtySelect mw-1" name="qty" id="qty" value="1"></td>
+										<td><input type="number" class="qtySelect" name="qty" id="qty" value="1"></td>
 										<td id="sugarLeveel">${selectedValue}</td>
 										<td id="addonsDescription" class="text-wrap">${descriptions}</td>
 										<td class="priceRow text-wrap" id="price">${totalAmount.toFixed(2)}</td>
