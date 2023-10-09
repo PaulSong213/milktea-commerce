@@ -64,7 +64,7 @@ if ($conn->connect_error) {
 
                             <div class="form-group">
                                 <label for="paymentMethod">Promo</label>
-                                <input type="text" id="cash" name="payment" value="" placeholder="Select Promo Code">
+                                <input type="text" id="Promo" name="Promo" value="" placeholder="Select Promo Code">
                             </div>
 
                             <!-- Payment Method -->
@@ -98,7 +98,6 @@ if ($conn->connect_error) {
                         <div class="container text-right">
                             <h3>TOTAL: ₱ <span name="totalValue" id="totalValue">0.00</span> </h3>
                         </div>
-                    </form>
                 </div>
                 <!-- Modal Footer -->
                 <div class="modal-footer">
@@ -108,6 +107,7 @@ if ($conn->connect_error) {
                     <button type="submit" name="submit" id="submit" class="btn btn-primary " onclick="collectAndSendDataToServer()">Proceed to Checkout</button>
                 </div>
             </div>
+            </form>
         </div>
     </div>
 </body>
@@ -155,8 +155,7 @@ if ($conn->connect_error) {
 
         // Log the JSON data for debugging (you can remove this in production)
         console.log("JSON Data:", jsonData);
-
-        // Optionally, you can use the JSON data as needed, for example, sending it to the server.
+        orders.value = jsonData;
     }
 
     function calculateTotalPrice() {

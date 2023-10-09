@@ -2,6 +2,7 @@
 // Include the connection file
 require_once '../php/connect.php';
 session_start();
+
 // Establish a database connection
 $conn = connect();
 
@@ -17,33 +18,29 @@ if (isset($_POST['submit'])) {
     $totalValue = $_POST['totalValue'];
     $shippingAddress = $_POST['shippingAddress'];
     $paymentMethod = $_POST['paymentMethod'];
+
+    // Your SQL query for inserting data into the database
+    // Replace this query with your actual database insert query
+    $insertQuery = "INSERT INTO your_table_name (orders, totalValue, shippingAddress, paymentMethod) 
     
-    // Define the SQL query
-    $insertQuery = "INSERT INTO services_tb (Services, RequestedName, PatientName, remarks, departmentID, ChiefComplaint, WorkingDX, EnteredBy, ChargeNo, reason, Date)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+    VALUES (?, ?, ?, ?)";
 
     // Prepare the SQL statement
     $stmt = $conn->prepare($insertQuery);
 
-
     // Check if the statement was prepared successfully
     if (!$stmt) {
         die("Error in preparing the statement: " . $conn->error);
-    } else {
-        $_SESSION["alert_message"] = "Requested Inserted successfully.";
-        $_SESSION["alert_message_success"] = true;
     }
 
     // Bind parameters to the prepared statement
-    $stmt->bind_param("ssssisssss", $services, $RequestedName, $patientHospitalRecordNo, $remarks, $department, $ChiefComplaint, $WorkingDX, $EnteredBy, $ChargeNo, $reason);
+    $stmt->bind_param("ssss", $orders, $totalValue, $shippingAddress, $paymentMethod);
 
     // Execute the statement
     if ($stmt->execute()) {
-
         // Success: Redirect with success message
-        $_SESSION["alert_message"] = "Requested successfully.";
+        $_SESSION["alert_message"] = "Data inserted successfully.";
         $_SESSION["alert_message_success"] = true;
-        $_SESSION["printServiceFormId"] = $conn->insert_id;
         $stmt->close();
         $conn->close();
         header("Location: ../services/index.php");
