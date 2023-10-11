@@ -25,9 +25,9 @@ if ($category) {
     // Sanitize input to prevent SQL injection (consider using prepared statements)
     $category = $conn->real_escape_string($category);
 
-    $query .= " WHERE inv.itemTypeID = '$category' AND  Status =1";
+    $query .= " WHERE inv.itemTypeID = '$category' AND Status = '1' ";
 } else {
-    $query .= " WHERE inv.itemTypeID = '7'  AND  Status =1";
+    $query .= " WHERE inv.itemTypeID = '7' AND Status = '1' ";
 }
 
 $result = $conn->query($query);
@@ -62,7 +62,7 @@ if ($result->num_rows > 0) {
         $variantsJSON = json_encode($variantsArray);
 
 
-        echo '<div style="display: flex; justify-content: space-between;">';
+        echo '<div style="display:flex; justify-content: space-between;">';
         echo '<button class="btn costum-btn-primary m-2 addToCartBtn" 
         data-image="' . $image . '" 
         data-inventory-id="' . $inventoryID . '" 

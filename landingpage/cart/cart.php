@@ -47,6 +47,7 @@ if ($conn->connect_error) {
                                             <th>Product</th>
                                             <th>Size</th>
                                             <th>Qty</th>
+                                            <th>Sugar Level</th>
                                             <th>addOns</th>
                                             <th>Price</th> <!-- Added price column -->
                                             <th>Action</th> <!-- Added remove action column -->
@@ -55,7 +56,6 @@ if ($conn->connect_error) {
                                     <tbody>
                                         <tr>
                                         </tr>
-                                        <!-- Add more rows for additional items -->
                                     </tbody>
                                 </table>
                             </div>
@@ -63,9 +63,19 @@ if ($conn->connect_error) {
                         <div class="container-fluid">
 
                             <div class="form-group">
-                                <label for="paymentMethod">Promo</label>
-                                <input type="text" id="cash" name="payment" value="Cash">
+                                <label for="Promo" style="font-weight: bold; color: #333;">Promo Code:</label>
+                                <div style="position: relative;">
+                                    <input list="promoOptions" id="Promo" name="Promo" value="" placeholder="Select Promo Code" class="form-control" style="padding-right: 40px;">
+                                    <datalist id="promoOptions">
+                                        <!-- Add more options as needed -->
+                                    </datalist>
+                                    <span style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%);">
+                                        <i class="fa fa-gift" style="color: #888; font-size: 20px;"></i>
+                                    </span>
+                                </div>
                             </div>
+
+
 
                             <!-- Payment Method -->
                             <div class="form-group">
@@ -95,7 +105,7 @@ if ($conn->connect_error) {
                         </div>
                         <!-- Total Amount -->
                         <div class="container text-right">
-                            <h3>TOTAL: <span name="totalValue" id="totalValue">0.00</span></h3>
+                            <h3>TOTAL: ₱ <span name="totalValue" id="totalValue">0.00</span> </h3>
                         </div>
                         <input type="text" name="costumerID" id="costumerID" value='<?= json_decode($_SESSION["costumer"])->costumerID ?>'>
                         <input type="hidden" name="orders" id="orders" value="">
@@ -110,6 +120,7 @@ if ($conn->connect_error) {
                     <button type="submit" name="submit" id="submit" class="btn btn-primary " onclick="collectAndSendDataToServer()">Proceed to Checkout</button>
                 </div>
             </div>
+            </form>
         </div>
     </div>
 </body>
@@ -125,11 +136,14 @@ if ($conn->connect_error) {
 
     const orders = document.getElementById('orders');
     const shippingAddress = document.getElementById('shippingAddress');
-    const table = document.getElementById("cartTable");
-    const tbody = table.querySelector("tbody");
-    const rows = tbody.querySelectorAll("tr");
 
-    function collectAndSendDataToServer() {
+    function collectTableData() {
+        // Get the table element
+        const table = document.getElementById("cartTable");
+        const tbody = table.querySelector("tbody");
+        const rows = tbody.querySelectorAll("tr");
+
+        // Create an array to store the table data
         const data = [];
         $(".cartRow").each(function() {
             const cells = $(this).children("td");
@@ -158,6 +172,93 @@ if ($conn->connect_error) {
         // Submit the form
         document.getElementById("addItemForm").submit();
     }
+
+    let totalnetsale;
+    const totalValue = document.getElementById('totalValue');
+
+    function calculateTotalPrice() {
+        // Get the table element by its ID
+        const salesTable = document.getElementById('cartTable');
+        totalnetsale = 0;
+        // Get all the rows in the table
+        const rows = salesTable.querySelectorAll('tr');
+
+        rows.forEach(row => {
+            const priceCell = row.querySelector("td:nth-child(8)"); // 7th column is the Price column
+            if (priceCell) {
+                const priceText = priceCell.textContent.trim();
+                const priceValue = parseFloat(priceText.replace(/[^\d.]/g, '')); // Extract numeric value
+                if (!isNaN(priceValue)) {
+                    totalnetsale += priceValue;
+                }
+            }
+        });
+        // Update the total netsale in the <span> element
+        totalValue.textContent = totalnetsale.toFixed(2);
+        // You can also log the total netsale to the console for debugging
+        console.log("Total Netsale:", totalnetsale.toFixed(2));
+        collectTableData();
+        loadPromoNames();
+    }
+
+    var promoName;
+    var minimumSpend;
+    var promoPercentage;
+
+    function loadPromoNames() {
+        $.ajax({
+            url: 'promolist.php',
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                if (data.length > 0) {
+                    var promoOptions = $('#promoOptions');
+                    promoOptions.empty();
+
+                    // Use map function to create an array of option elements
+                    var options = data.map(function(promoInfo) {
+                        promoName = promoInfo.promoName;
+                        minimumSpend = promoInfo.minimumSpend;
+                        promoPercentage = promoInfo.promoPercentage;
+
+                        // Create a new option element for each promo name
+                        var option = $('<option>').attr('value', promoName);
+
+                        // Disable the option if minimumSpend is less than or equal to totalnetsale
+                        if (minimumSpend >= totalnetsale) {
+                            option.prop('disabled', true);
+                        }
+                        return option;
+                    });
+
+                    // Append all options to the select element at once
+                    promoOptions.append(options);
+                } else {
+                    console.log('No promo names available.');
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log('Error fetching promo names. Status: ' + textStatus + '. Error: ' + errorThrown);
+            }
+        });
+    }
+    // Add event listener for promoOptions select element
+    $('#Promo').on('input', function() {
+        // Get the selected promo name
+        const selectedPromo = $(this).val();
+        const selectedPromoPercentage = parseFloat(promoPercentage);
+
+        // Calculate the discount amount
+        const discountAmount = totalnetsale - ((selectedPromoPercentage / 100) * totalnetsale);
+
+        // Log the discount amount to the console
+        console.log("selectedPromo Amount:", selectedPromo);
+        console.log("selectedPromoPercentage Amount:", selectedPromoPercentage);
+        console.log('Selected promo:', selectedPromo);
+        console.log("Discount Amount:", discountAmount);
+        totalValue.textContent = discountAmount.toFixed(2);
+        // You can add more code here to handle the selected promo
+    });
 </script>
 
 </html>

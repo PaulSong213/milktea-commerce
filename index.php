@@ -88,12 +88,14 @@ session_start();
 					</div>
 				</div>
 				<div class="col-md-5">
-					<div class="image">
-						<div class="swiper review-slider">
-							<div class="swiper-wrapper" id="imageSlider">
-								<!-- Images will be dynamically loaded here -->
+					<div style="max-width: 500px; margin: auto; max-height: 500px;">
+						<div class="image">
+							<div class="swiper review-slider">
+								<div class="swiper-wrapper" id="imageSlider">
+									<!-- Images will be dynamically loaded here -->
+								</div>
+								<div class="swiper-pagination"></div>
 							</div>
-							<div class="swiper-pagination"></div>
 						</div>
 					</div>
 				</div>
@@ -110,13 +112,21 @@ session_start();
 							if (data.length > 0) {
 								var imageSlider = $('#imageSlider');
 								imageSlider.empty();
-
 								for (var i = 0; i < data.length; i++) {
-									var imageUrl = data[i];
+									var promoInfo = data[i];
+									var imageUrl = promoInfo.imageUrl;
+									var promoName = promoInfo.promoName;
+									var promoPercentage = promoInfo.promoPercentage;
+									var minimumSpend = promoInfo.minimumSpend;
+
+									console.log('Image URL:', imageUrl);
+									console.log('Promo Name:', promoName);
+									console.log('Promo Percentage:', promoPercentage);
+									console.log('Minimum Spend:', minimumSpend);
+
 									var swiperSlide = $('<div class="swiper-slide box">');
 									var image = $('<img>').attr('src', imageUrl).attr('alt', 'Promo Image');
 
-									// Set the desired width and height to make the images larger
 									// Set the desired width and height to make the images larger and add creative styles
 									image.css('width', '100%');
 									image.css('height', '100%');
@@ -147,7 +157,6 @@ session_start();
 						}
 					});
 				}
-
 				loadImages();
 			});
 		</script>
@@ -203,7 +212,7 @@ session_start();
 				?>
 			</div>
 
-			<div id="box-container" class="container-fluid mt-5">
+			<div id="box-container" class="container-fluid my-5">
 				<!-- Add this line where you want the loader to appear -->
 				<div id="loader" class="spinner-grow text-primary" role="status" style="display: none;">
 					<span class="sr-only">Loading...</span>
@@ -241,10 +250,14 @@ session_start();
 									if (!isLoggedIn) return;
 
 									image = $(this).data('image');
-									inventoryID = $(this).data('inventory-id');
 									itemCode = $(this).data('item-code');
+									inventoryID = $(this).data('inventory-id');
 									itemTypeID = $(this).data('item-id');
 									variantsJSON = $(this).data('variants');
+									// Set the values for the image and HTML elements
+									$('#AddonsProdimage').attr('src', image);
+									$('#AddonsProdName').text(itemCode);
+									// Log itemCode to check its value
 									$('#addonsmodal').modal('show');
 
 								});
@@ -284,211 +297,200 @@ session_start();
 			document.addEventListener("DOMContentLoaded", function() {
 				// Get a reference to the "Done" button
 				var doneButton = document.getElementById("doneButton");
-
+				let rowAdded = false;
+				const cartTableBody = document.querySelector("#cartTable tbody");
 				// Add a click event listener to the "Done" button
-				doneButton.addEventListener("click", function() {
-					// Get all the checkboxes with the name "addon[]"
-					var checkboxes = document.querySelectorAll('input[name="addon[]"]:checked');
+				// doneButton.addEventListener("click", function() {
+				// 	var select = document.getElementById("sugarLevel");
+				// 	var selectedValue = select.value;
+				// 	if (selectedValue == "") {
+				// 		Swal.fire({
+				// 			title: "Please select sugar level!",
+				// 			icon: "warning", // Adding an error icon
+				// 		});
+				// 		console.log(selectedValue);
+				// 	} else if (!rowAdded) {
+				// 		// Set the flag to true to prevent adding more rows
+				// 		rowAdded = true;
 
-					// Create an array to store the selected addon data
-					var selectedAddonsData = [];
+				// 		// Get all the checkboxes with the name "addon[]"
+				// 		const checkboxes = document.querySelectorAll('input[name="addon[]"]:checked');
 
-					// Loop through the selected checkboxes and extract their values, description, and price
-					checkboxes.forEach(function(checkbox) {
-						var addonId = checkbox.value;
-						var addonDescription = document.querySelector('#addon' + addonId + ' .description-text').textContent;
-						var addonPrice = document.querySelector('#addon' + addonId + ' .price-text').textContent;
+				// 		// Create an array to store the selected addon data
+				// 		const selectedAddonsData = [];
 
-						selectedAddonsData.push({
-							id: addonId,
-							description: addonDescription,
-							price: addonPrice
-						});
-					});
+				// 		// Loop through the selected checkboxes and extract their values, description, and price
+				// 		checkboxes.forEach(function(checkbox) {
+				// 			const addonId = checkbox.value;
+				// 			const addonDescription = document.querySelector(`#addon${addonId} .description-text`).textContent;
+				// 			const addonPrice = document.querySelector(`#addon${addonId} .price-text`).textContent;
 
-					var totalAmount = 0;
-					var PartialAmount = 0;
-					var descriptions = "";
+				// 			selectedAddonsData.push({
+				// 				id: addonId,
+				// 				description: addonDescription,
+				// 				price: addonPrice
+				// 			});
+				// 		});
 
-					selectedAddonsData.forEach(function(addon) {
-						// Extract addonPrice and parse it as a floating-point number
-						var addonPrice = parseFloat(addon.price.replace(/[^\d.]/g, ''));
-						// Check if addonPrice is a valid number before adding it to totalAmount
-						if (!isNaN(addonPrice)) {
-							totalAmount += addonPrice;
-						}
-						PartialAmount = totalAmount;
-						descriptions += addon.description + ", ";
-					});
+				// 		// Calculate totalAmount and descriptions
+				// 		let totalAmount = 0;
+				// 		let PartialAmount = 0;
+				// 		let descriptions = "";
 
-					// Remove the trailing comma and space
-					descriptions = descriptions.slice(0, -2);
+				// 		selectedAddonsData.forEach(function(addon) {
+				// 			// Extract addonPrice and parse it as a floating-point number
+				// 			const addonPrice = parseFloat(addon.price.replace(/[^\d.]/g, ''));
 
-					// Log the selected addon data and totalAmount to the console
-					console.log("Selected Addons Data:", selectedAddonsData);
-					console.log("Total Amount of Addons:", totalAmount);
-					console.log("Descriptions:", descriptions);
+				// 			// Check if addonPrice is a valid number before adding it to totalAmount
+				// 			if (!isNaN(addonPrice)) {
+				// 				totalAmount += addonPrice;
+				// 			}
+				// 			PartialAmount = totalAmount;
+				// 			descriptions += addon.description + ", ";
+				// 		});
 
-					// Add to cart append
-					const newRow = `
-						<tr class="cartRow">
-							<td style="display:none;">${inventoryID}</td>
-							<td><img src="${image}" alt="Product Image" width="50"></td>
-							<td>${itemCode}</td>
-							<td>
-								<input required class="sizeSelect" type="text" name="size" id="size" list="sizeOptions" placeholder="Select Size">
-								<datalist id="sizeOptions">
-								</datalist>
-							</td>
-							<td><input type="number" class="qtySelect" name="qty" id="qty" min="1" value="1"></td>
-							<td id="addonsDescription">${descriptions}</td>
-							<td class="priceRow" id="price">${totalAmount.toFixed(2)}</td>
-							<td><button class=" btn-danger btn-sm removeItem">Remove</button></td>
-						</tr>
-					`;
+				// 		// Remove the trailing comma and space
+				// 		descriptions = descriptions.slice(0, -2);
+				// 		console.log(selectedValue);
 
-					// Append newRow to the DOM
-					$("#cartTable tbody").append(newRow);
+				// 		const newRow = `
+				// 					<tr>
+				// 						<td style="display:none;">${inventoryID}</td>
+				// 						<td><img src="${image}" alt="Product Image" width="50"></td>
+				// 						<td>${itemCode}</td>
+				// 						<td>
+				// 							<input class="sizeSelect" type="text" name="size" id="size" list="sizeOptions" placeholder="Select Size">
+				// 							<datalist id="sizeOptions">
+				// 							</datalist>
+				// 						</td>
+				// 						<td><input type="number" class="qtySelect" name="qty" id="qty" value="1"></td>
+				// 						<td id="sugarLeveel">${selectedValue}</td>
+				// 						<td id="addonsDescription">${descriptions}</td>
+				// 						<td class="priceRow" id="price">${totalAmount.toFixed(2)}</td>
+				// 						<td><button class=" btn-danger btn-sm removeItem">Remove</button></td>
+				// 					</tr>
+				// 				`;
 
-					const dataList = document.getElementById('sizeOptions');
-					const sizeInput = document.getElementById('size');
-					const qtyInput = document.getElementById('qty');
-					const priceElement = document.getElementById('price');
-
-					// Remove any existing options and set the 'readonly' attribute
-					while (dataList.firstChild) {
-						dataList.removeChild(dataList.firstChild);
-					}
-
-					// Add an option for each variant
-					variantsJSON.forEach(variant => {
-						var option = document.createElement('option');
-						option.value = variant.variantName;
-						dataList.appendChild(option);
-					});
-
-					$(".sizeSelect").on('change', function() {
-						// Get the selected value from the input
-						const selectedSize = $(this).val();
-
-						// Find the variant that matches the selected size
-						const selectedVariant = variantsJSON.find(variant => variant.variantName === selectedSize);
-
-						// Check if a matching variant was found
-						if (selectedVariant) {
-							const selectedPrice = parseFloat(selectedVariant.price);
-							totalAmount = PartialAmount;
-							// Log the selected size and its corresponding price
-							console.log("Selected Size:", selectedSize);
-							console.log("Selected Price:", selectedPrice);
-							totalAmount += selectedPrice;
-							// priceElement.textContent = totalAmount.toFixed(2);
-							$(this).closest("tr").find(".priceRow").text(totalAmount.toFixed(2));
-
-							// Now you can use the selectedPrice as needed
-						} else {
-							// Handle the case where no matching variant was found
-							Swal.fire({
-								icon: 'error',
-								title: 'No variant found',
-								text: 'Please Select a Variant Size',
-							});
-						}
-						calculateTotalPrice();
-					});
-
-					$(".qtySelect").on('change', function() {
-						const qtyValue = parseFloat($(this).val());
-						const qtyTotalAmt = qtyValue * totalAmount;
-						$(this).closest("tr").find(".priceRow").text(qtyTotalAmt.toFixed(2));
-						calculateTotalPrice();
-					});
-
-					// Add click event listener to remove items
-					$(".removeItem").click(function() {
-						$(this).closest("tr").remove();
-						calculateTotalPrice();
-					});
-
-					// Hide/show modals
-					$('#addonsmodal').modal('hide');
-					$('#categoryModal').modal('show');
+				// 		// Append newRow to the cart table
+				// 		cartTableBody.insertAdjacentHTML("beforeend", newRow);
 
 
-					function calculateTotalPrice() {
-						let totalnetsale = 0;
-						$(".cartRow").each(function() {
-							const priceCell = $(this).find(".priceRow");
-							const priceText = priceCell.text().trim();
-							const priceValue = parseFloat(priceText.replace(/[^\d.]/g, '')); // Extract numeric value
-							if (!isNaN(priceValue)) {
-								totalnetsale += priceValue;
-							}
-						});
+				// 		// Create a new row HTML string
 
-						// Update the total netsale in the <span> element
-						const totalValue = document.getElementById('totalValue');
-						if (totalValue) {
-							totalValue.textContent = totalnetsale.toFixed(2);
-						}
-						// You can also log the total netsale to the console for debugging
-						console.log("Total Netsale:", totalnetsale.toFixed(2));
-					}
-					calculateTotalPrice();
-				});
 
-				$("")
+				// 		const dataList = document.getElementById('sizeOptions');
+				// 		const sizeInput = document.getElementById('size');
+				// 		const qtyInput = document.getElementById('qty');
+				// 		const priceElement = document.getElementById('price');
+				// 		// Remove any existing options and set the 'readonly' attribute
+				// 		while (dataList.firstChild) {
+				// 			dataList.removeChild(dataList.firstChild);
+				// 		}
+				// 		// Add an option for each variant
+				// 		variantsJSON.forEach(variant => {
+				// 			var option = document.createElement('option');
+				// 			option.value = variant.variantName;
+				// 			dataList.appendChild(option);
+				// 		});
+				// 		$(".sizeSelect").on('change', function() {
+				// 			// Get the selected value from the input
+				// 			const selectedSize = $(this).val();
+
+				// 			// Find the variant that matches the selected size
+				// 			const selectedVariant = variantsJSON.find(variant => variant.variantName === selectedSize);
+
+				// 			// Check if a matching variant was found
+				// 			if (selectedVariant) {
+				// 				const selectedPrice = parseFloat(selectedVariant.price);
+				// 				totalAmount = PartialAmount;
+				// 				// Log the selected size and its corresponding price
+				// 				console.log("Selected Size:", selectedSize);
+				// 				console.log("Selected Price:", selectedPrice);
+				// 				totalAmount += selectedPrice;
+				// 				// priceElement.textContent = totalAmount.toFixed(2);
+				// 				$(this).closest("tr").find(".priceRow").text(totalAmount.toFixed(2));
+
+				// 				// Now you can use the selectedPrice as needed
+				// 			} else {
+				// 				// Handle the case where no matching variant was found
+				// 				Swal.fire({
+				// 					icon: 'error',
+				// 					title: 'No variant found',
+				// 					text: 'Please Select a Variant Size',
+				// 				});
+				// 			}
+				// 			calculateTotalPrice();
+				// 		});
+
+				// 		$(".qtySelect").on('change', function() {
+				// 			const qtyValue = parseFloat($(this).val());
+				// 			const qtyTotalAmt = qtyValue * totalAmount;
+				// 			$(this).closest("tr").find(".priceRow").text(qtyTotalAmt.toFixed(2));
+				// 			calculateTotalPrice();
+				// 		});
+
+				// 		// Add click event listener to remove items
+				// 		$(".removeItem").click(function() {
+				// 			$(this).closest("tr").remove();
+				// 			calculateTotalPrice();
+				// 		});
+
+				// 		// Hide/show modals
+				// 		$('#addonsmodal').modal('hide');
+				// 		$('#categoryModal').modal('show');
+				// 		calculateTotalPrice();
+				// 		rowAdded = false;
+				// 	}
+				// });
+
 			});
 		</script>
-
-
 	</section>
 
 
 	<!-- REVIEW -->
 	<section class="review" id="review">
-		<h1 class="heading">reviews <span>what people says</span></h1>
+		<h1 class="heading">reviews <span>what people say</span></h1>
 
 		<div class="swiper review-slider">
 			<div class="swiper-wrapper">
-				<div class="swiper-slide box">
-					<i class="fas fa-quote-left"></i>
-					<i class="fas fa-quote-right"></i>
-					<img src="./landingpage/image/pic-2.png" alt="">
-					<div class="stars">
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-					</div>
-					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum optio quasi ut, illo ipsam
-						assumenda.</p>
-					<h3>john deo</h3>
-					<span>satisfied client</span>
-				</div>
+				<?php
+				$sql = "SELECT * FROM feedback_tb";
+				$result = $conn->query($sql);
 
-				<div class="swiper-slide box">
-					<i class="fas fa-quote-left"></i>
-					<i class="fas fa-quote-right"></i>
-					<img src="./landingpage/image/pic-3.png" alt="">
-					<div class="stars">
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-						<i class="fas fa-star"></i>
-					</div>
-					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius asperiores aliquam hic quis!
-						Eligendi, aliquam.</p>
-					<h3>john deo</h3>
-					<span>satisfied client</span>
-				</div>
+				if ($result->num_rows > 0) {
+					while ($row = $result->fetch_assoc()) {
+				?>
+						<div class="swiper-slide box">
+							<i class="fas fa-quote-left"></i>
+							<i class="fas fa-quote-right"></i>
+
+							<img src="img/user.jpg">
+							<!-- <img src="<?php echo $row['image_path']; ?>" alt=""> -->
+							<div class="stars">
+								<?php
+								// Assuming the star rating is stored in the 'rating' column
+								$rating = $row['ratingStars'];
+								for ($i = 0; $i < $rating; $i++) {
+									echo '<i class="fas fa-star"></i>';
+								}
+								?>
+							</div>
+
+							<p><?php echo $row['SalesID']; ?></p>
+
+							<span><?php echo $row['feedback']; ?></span>
+						</div>
+				<?php
+					}
+				} else {
+					echo "No reviews found.";
+				}
+				?>
 			</div>
 			<div class="swiper-pagination"></div>
 		</div>
 	</section>
-
 	<!-- FOOTER -->
 	<section class="footer">
 		<div class="box-container">
