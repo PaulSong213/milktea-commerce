@@ -7,6 +7,7 @@ if (!isset($_GET['paymentID'])) {
 }
 
 $paymentID = $_GET['paymentID'];
+$orderID = $_GET['orderID'];
 
 // check if the payment link ID is paid 
 require_once('../vendor/autoload.php');
@@ -25,16 +26,17 @@ if ($paymentStatus != "paid") {
     exit();
 }
 
-// modify sales table status to preparing-food
+// modify sales table status to on-queue
 require_once '../php/connect.php';
 session_start();
 $conn = connect();
 
 $sql = "UPDATE orders_tb
     SET
-        status = 'preparing-food'
+        paymentID = '$paymentID',
+        status = 'on-queue'
     WHERE
-        paymentID = '$paymentID';
+        orderID = '$orderID';
     ";
 
 $result = mysqli_query($conn, $sql);
@@ -44,17 +46,4 @@ if (!$result) {
     exit();
 }
 
-// return the orders ID
-$sql = "SELECT orderID 
-    FROM orders_tb 
-    WHERE paymentID = '$paymentID'";
-
-$result = mysqli_query($conn, $sql);
-if (!$result) {
-    echo "Failed to Fetch the ORDERS ID. ORDERS has been updated to preparing-food";
-    http_response_code(500);
-    exit();
-}
-$orderID = mysqli_fetch_assoc($result)['orderID'];
-echo $orderID;
 $_SESSION["OPENED_ORDER_NO"] = $orderID;

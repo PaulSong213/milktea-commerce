@@ -144,8 +144,6 @@
                         snapshot.forEach(async (childSnapshot) => {
                             const costumerID = childSnapshot.key;
                             const orderData = childSnapshot.val();
-
-
                             for (const orderNo in orderData) {
                                 const currentOrder = orderData[orderNo];
 
@@ -275,9 +273,10 @@
             }
 
             async function getOrderDetails(orderNo) {
+                console.log(orderNo);
                 try {
                     const response = await $.ajax({
-                        url: `/milktea-commerce/API/sales/min-search.php?SalesID=${orderNo}`,
+                        url: `/milktea-commerce/API/orders/search.php?orderID=${orderNo}`,
                     });
 
                     const orderData = JSON.parse(response);
@@ -285,7 +284,7 @@
                     let orderItemsStr = '';
                     console.log(orderItems);
                     for (const item of orderItems) {
-                        orderItemsStr += `${item.product_id} x ${item.qty} ${item.unit}<br>`;
+                        orderItemsStr += `${item.productName} x ${item.qty} pcs | Size: ${item.size}<br>`;
                     }
                     orderData.formattedOrderItemsStr = orderItemsStr;
                     return orderData;

@@ -48,23 +48,12 @@
 <body>
     <div class="table w-100 p-4">
         <h2 class="mt-4 mb-5">TRANSACTION HISTORY</h2>
-        <div class="mb-3">
-            <?php
-            $historyType = "all";
-            if (isset($_GET["historyType"])) $historyType = $_GET["historyType"];
-            ?>
-            <a class="btn <?= $historyType == "all" ? 'btn-coffee-active' : 'btn-secondary' ?>" href="/milktea-commerce/ChargeTable/index.php">All Transactions</a>
-            <a class="btn <?= $historyType == "online" ? 'btn-coffee-active' : 'btn-secondary' ?>" href="/milktea-commerce/ChargeTable/index.php?historyType=online">Online Transactions</a>
-            <a class="btn <?= $historyType == "walkin" ? 'btn-coffee-active' : 'btn-secondary' ?>" href="/milktea-commerce/ChargeTable/index.php?historyType=walkin">Walk In Transactions</a>
-        </div>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
                     <th>Order #</th>
-                    <th>Transaction Type</th>
                     <th>Status</th>
                     <th>Costumer</th>
-                    <th>Entered By</th>
                     <th>Transaction Date</th>
                     <th class="action-column">Actions</th>
                 </tr>
@@ -106,7 +95,7 @@
                 .appendTo('#example thead');
             <?php
             $APIparameter = "";
-            if (isset($_GET["historyType"])) $APIparameter = "?modeOfPaymentType=" . $_GET["historyType"];
+            if (isset($_GET["historyType"])) $APIparameter = "?modeOfPaymentType=online";
             ?>
             const table = $('#example').DataTable({
                 processing: true,
@@ -125,14 +114,6 @@
                     {
                         data: null,
                         render: (data, type, row) => {
-                            const bgColor = data.modeOfPayment == "walk-in" ? "#f5b7b1" : "#d7bde2";
-                            const title = data.modeOfPayment.replace(/-/g, " ").toUpperCase();
-                            return `<span class="badge text-dark" style="background-color:${bgColor}">${title}</span>`;
-                        }
-                    },
-                    {
-                        data: null,
-                        render: (data, type, row) => {
                             const bgColor = STATUS_COLOR[data.status];
                             const title = data.status.replace(/-/g, " ").toUpperCase();
                             return `<span class="badge text-white" style="background-color:${bgColor}">${title}</span>`;
@@ -146,12 +127,6 @@
                                 return data.CostumerName;
                             }
                             return data.CostumerName;
-                        }
-                    },
-                    {
-                        data: null,
-                        render: (data, type, row) => {
-                            return `${data.EnteredEmployeeFirstName} ${data.EnteredEmployeeLastName}`;
                         }
                     },
                     {
