@@ -206,12 +206,8 @@ $levelFour = [
     [
         "name" => "Ordering", //name of the link
         "icon" => "point_of_sale", //material icon name
-        "link" => "/billing_slip/index.php", //link of the page
+        "link" => "/online_orders/index.php", //link of the page
         "navigations" => [
-            [
-                "name" => "Walk In Orders", //name of the link
-                "link" => "/billing_slip/index.php", //link of the page
-            ],
             [
                 "name" => "Online Orders", //name of the link
                 "link" => "/online_orders/index.php", //link of the page

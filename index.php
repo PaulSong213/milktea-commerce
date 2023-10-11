@@ -300,148 +300,145 @@ session_start();
 				let rowAdded = false;
 				const cartTableBody = document.querySelector("#cartTable tbody");
 				// Add a click event listener to the "Done" button
-				// doneButton.addEventListener("click", function() {
-				// 	var select = document.getElementById("sugarLevel");
-				// 	var selectedValue = select.value;
-				// 	if (selectedValue == "") {
-				// 		Swal.fire({
-				// 			title: "Please select sugar level!",
-				// 			icon: "warning", // Adding an error icon
-				// 		});
-				// 		console.log(selectedValue);
-				// 	} else if (!rowAdded) {
-				// 		// Set the flag to true to prevent adding more rows
-				// 		rowAdded = true;
+				doneButton.addEventListener("click", function() {
+					var select = document.getElementById("sugarLevel");
+					var selectedValue = select.value;
+					if (selectedValue == "") {
+						Swal.fire({
+							title: "Please select sugar level!",
+							icon: "warning", // Adding an error icon
+						});
+						console.log(selectedValue);
+					} else if (!rowAdded) {
+						// Set the flag to true to prevent adding more rows
+						rowAdded = true;
 
-				// 		// Get all the checkboxes with the name "addon[]"
-				// 		const checkboxes = document.querySelectorAll('input[name="addon[]"]:checked');
+						// Get all the checkboxes with the name "addon[]"
+						const checkboxes = document.querySelectorAll('input[name="addon[]"]:checked');
 
-				// 		// Create an array to store the selected addon data
-				// 		const selectedAddonsData = [];
+						// Create an array to store the selected addon data
+						const selectedAddonsData = [];
 
-				// 		// Loop through the selected checkboxes and extract their values, description, and price
-				// 		checkboxes.forEach(function(checkbox) {
-				// 			const addonId = checkbox.value;
-				// 			const addonDescription = document.querySelector(`#addon${addonId} .description-text`).textContent;
-				// 			const addonPrice = document.querySelector(`#addon${addonId} .price-text`).textContent;
+						// Loop through the selected checkboxes and extract their values, description, and price
+						checkboxes.forEach(function(checkbox) {
+							const addonId = checkbox.value;
+							const addonDescription = document.querySelector(`#addon${addonId} .description-text`).textContent;
+							const addonPrice = document.querySelector(`#addon${addonId} .price-text`).textContent;
 
-				// 			selectedAddonsData.push({
-				// 				id: addonId,
-				// 				description: addonDescription,
-				// 				price: addonPrice
-				// 			});
-				// 		});
+							selectedAddonsData.push({
+								id: addonId,
+								description: addonDescription,
+								price: addonPrice
+							});
+						});
 
-				// 		// Calculate totalAmount and descriptions
-				// 		let totalAmount = 0;
-				// 		let PartialAmount = 0;
-				// 		let descriptions = "";
+						// Calculate totalAmount and descriptions
+						let totalAmount = 0;
+						let PartialAmount = 0;
+						let descriptions = "";
 
-				// 		selectedAddonsData.forEach(function(addon) {
-				// 			// Extract addonPrice and parse it as a floating-point number
-				// 			const addonPrice = parseFloat(addon.price.replace(/[^\d.]/g, ''));
+						selectedAddonsData.forEach(function(addon) {
+							// Extract addonPrice and parse it as a floating-point number
+							const addonPrice = parseFloat(addon.price.replace(/[^\d.]/g, ''));
 
-				// 			// Check if addonPrice is a valid number before adding it to totalAmount
-				// 			if (!isNaN(addonPrice)) {
-				// 				totalAmount += addonPrice;
-				// 			}
-				// 			PartialAmount = totalAmount;
-				// 			descriptions += addon.description + ", ";
-				// 		});
+							// Check if addonPrice is a valid number before adding it to totalAmount
+							if (!isNaN(addonPrice)) {
+								totalAmount += addonPrice;
+							}
+							PartialAmount = totalAmount;
+							descriptions += addon.description + ", ";
+						});
 
-				// 		// Remove the trailing comma and space
-				// 		descriptions = descriptions.slice(0, -2);
-				// 		console.log(selectedValue);
+						// Remove the trailing comma and space
+						descriptions = descriptions.slice(0, -2);
+						console.log(selectedValue);
 
-				// 		const newRow = `
-				// 					<tr>
-				// 						<td style="display:none;">${inventoryID}</td>
-				// 						<td><img src="${image}" alt="Product Image" width="50"></td>
-				// 						<td>${itemCode}</td>
-				// 						<td>
-				// 							<input class="sizeSelect" type="text" name="size" id="size" list="sizeOptions" placeholder="Select Size">
-				// 							<datalist id="sizeOptions">
-				// 							</datalist>
-				// 						</td>
-				// 						<td><input type="number" class="qtySelect" name="qty" id="qty" value="1"></td>
-				// 						<td id="sugarLeveel">${selectedValue}</td>
-				// 						<td id="addonsDescription">${descriptions}</td>
-				// 						<td class="priceRow" id="price">${totalAmount.toFixed(2)}</td>
-				// 						<td><button class=" btn-danger btn-sm removeItem">Remove</button></td>
-				// 					</tr>
-				// 				`;
+						const newRow = `
+							<tr class="cartRow">
+								<td style="display:none;">${inventoryID}</td>
+								<td><img src="${image}" alt="Product Image" width="50"></td>
+								<td>${itemCode}</td>
+								<td>
+									<input class="sizeSelect" type="text" name="size" id="size" list="sizeOptions" placeholder="Select Size">
+									<datalist id="sizeOptions">
+									</datalist>
+								</td>
+								<td><input type="number" class="qtySelect" name="qty" id="qty" value="1"></td>
+								<td id="sugarLeveel">${selectedValue}</td>
+								<td id="addonsDescription">${descriptions}</td>
+								<td class="priceRow" id="price">${totalAmount.toFixed(2)}</td>
+								<td><button class=" btn-danger btn-sm removeItem">Remove</button></td>
+							</tr>
+						`;
 
-				// 		// Append newRow to the cart table
-				// 		cartTableBody.insertAdjacentHTML("beforeend", newRow);
+						// Append newRow to the cart table
+						cartTableBody.insertAdjacentHTML("beforeend", newRow);
 
+						// Create a new row HTML string
+						const dataList = document.getElementById('sizeOptions');
+						const sizeInput = document.getElementById('size');
+						const qtyInput = document.getElementById('qty');
+						const priceElement = document.getElementById('price');
+						// Remove any existing options and set the 'readonly' attribute
+						while (dataList.firstChild) {
+							dataList.removeChild(dataList.firstChild);
+						}
+						// Add an option for each variant
+						variantsJSON.forEach(variant => {
+							var option = document.createElement('option');
+							option.value = variant.variantName;
+							dataList.appendChild(option);
+						});
+						$(".sizeSelect").on('change', function() {
+							// Get the selected value from the input
+							const selectedSize = $(this).val();
 
-				// 		// Create a new row HTML string
+							// Find the variant that matches the selected size
+							const selectedVariant = variantsJSON.find(variant => variant.variantName === selectedSize);
 
+							// Check if a matching variant was found
+							if (selectedVariant) {
+								const selectedPrice = parseFloat(selectedVariant.price);
+								totalAmount = PartialAmount;
+								// Log the selected size and its corresponding price
+								console.log("Selected Size:", selectedSize);
+								console.log("Selected Price:", selectedPrice);
+								totalAmount += selectedPrice;
+								// priceElement.textContent = totalAmount.toFixed(2);
+								$(this).closest("tr").find(".priceRow").text(totalAmount.toFixed(2));
 
-				// 		const dataList = document.getElementById('sizeOptions');
-				// 		const sizeInput = document.getElementById('size');
-				// 		const qtyInput = document.getElementById('qty');
-				// 		const priceElement = document.getElementById('price');
-				// 		// Remove any existing options and set the 'readonly' attribute
-				// 		while (dataList.firstChild) {
-				// 			dataList.removeChild(dataList.firstChild);
-				// 		}
-				// 		// Add an option for each variant
-				// 		variantsJSON.forEach(variant => {
-				// 			var option = document.createElement('option');
-				// 			option.value = variant.variantName;
-				// 			dataList.appendChild(option);
-				// 		});
-				// 		$(".sizeSelect").on('change', function() {
-				// 			// Get the selected value from the input
-				// 			const selectedSize = $(this).val();
+								// Now you can use the selectedPrice as needed
+							} else {
+								// Handle the case where no matching variant was found
+								Swal.fire({
+									icon: 'error',
+									title: 'No variant found',
+									text: 'Please Select a Variant Size',
+								});
+							}
+							calculateTotalPrice();
+						});
 
-				// 			// Find the variant that matches the selected size
-				// 			const selectedVariant = variantsJSON.find(variant => variant.variantName === selectedSize);
+						$(".qtySelect").on('change', function() {
+							const qtyValue = parseFloat($(this).val());
+							const qtyTotalAmt = qtyValue * totalAmount;
+							$(this).closest("tr").find(".priceRow").text(qtyTotalAmt.toFixed(2));
+							calculateTotalPrice();
+						});
 
-				// 			// Check if a matching variant was found
-				// 			if (selectedVariant) {
-				// 				const selectedPrice = parseFloat(selectedVariant.price);
-				// 				totalAmount = PartialAmount;
-				// 				// Log the selected size and its corresponding price
-				// 				console.log("Selected Size:", selectedSize);
-				// 				console.log("Selected Price:", selectedPrice);
-				// 				totalAmount += selectedPrice;
-				// 				// priceElement.textContent = totalAmount.toFixed(2);
-				// 				$(this).closest("tr").find(".priceRow").text(totalAmount.toFixed(2));
+						// Add click event listener to remove items
+						$(".removeItem").click(function() {
+							$(this).closest("tr").remove();
+							calculateTotalPrice();
+						});
 
-				// 				// Now you can use the selectedPrice as needed
-				// 			} else {
-				// 				// Handle the case where no matching variant was found
-				// 				Swal.fire({
-				// 					icon: 'error',
-				// 					title: 'No variant found',
-				// 					text: 'Please Select a Variant Size',
-				// 				});
-				// 			}
-				// 			calculateTotalPrice();
-				// 		});
-
-				// 		$(".qtySelect").on('change', function() {
-				// 			const qtyValue = parseFloat($(this).val());
-				// 			const qtyTotalAmt = qtyValue * totalAmount;
-				// 			$(this).closest("tr").find(".priceRow").text(qtyTotalAmt.toFixed(2));
-				// 			calculateTotalPrice();
-				// 		});
-
-				// 		// Add click event listener to remove items
-				// 		$(".removeItem").click(function() {
-				// 			$(this).closest("tr").remove();
-				// 			calculateTotalPrice();
-				// 		});
-
-				// 		// Hide/show modals
-				// 		$('#addonsmodal').modal('hide');
-				// 		$('#categoryModal').modal('show');
-				// 		calculateTotalPrice();
-				// 		rowAdded = false;
-				// 	}
-				// });
+						// Hide/show modals
+						$('#addonsmodal').modal('hide');
+						$('#categoryModal').modal('show');
+						calculateTotalPrice();
+						rowAdded = false;
+					}
+				});
 
 			});
 		</script>
