@@ -19,72 +19,79 @@ $result = $conn->query($query);
     <div class="modal-dialog modal-dialog-centered modal-lg rounded">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Choose Add-ons</h5>
+                <h5 class="modal-title">Choose Add-Ons and Sugar Level</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <?php while ($row = $result->fetch_assoc()) : ?>
-                    <?php
-                    $image = '././addOns/' . $row["addImage"];
-                    $addid = $row["addID"];
-                    $description = $row["description"];
-                    $price = $row["price"];
-                    ?>
-                    <div class="container" id="Product Preview"> 
-                    </div>
+                <div class="container-fluid justify-content-center">
                     <div class="row">
-                        <div class="col-6">
-                            <label class="custom-checkbox d-flex align-items-center mb-3">
-                                <input type="checkbox" name="addon[]" value="<?php echo $addid; ?>" id="addon<?php echo $addid; ?>">
-                                <span class="checkmark me-2"></span>
-                                <div id="addon<?php echo $addid; ?>" class="addon-description">
-                                    <span class="price-text fw-bold"><?php echo '₱ ' . $price . " - "; ?></span>
-                                    <span class="description-text"><?php echo $description; ?></span>
-                                    <img src="<?php echo $image; ?>" alt="<?php echo $description; ?>" class="addon-image">
+                        <div class="col-md-6 product-container">
+                            <div class="product-image">
+                                <img src="#" alt="Product Image" id="AddonsProdimage" name="AddonsProdimage">
+                            </div>
+                            <div class="product-details">
+                                <h3 class="product-name">PRODUCT: <span name="AddonsProdName" id="AddonsProdName"></span></h3>
+                                <div class="sugar-level">
+                                    <label for="sugarLevel">Sugar Level:</label>
+                                    <select id="sugarLevel" name="sugarLevel">
+                                        <option value="">Select Sugar Level</option>
+                                    </select>
                                 </div>
-                            </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="row">
+                                <?php while ($row = $result->fetch_assoc()) : ?>
+                                    <?php
+                                    $image = '././addOns/' . $row["addImage"];
+                                    $addid = $row["addID"];
+                                    $description = $row["description"];
+                                    $price = $row["price"];
+                                    ?>
+
+                                    <div class="row">
+                                        <div class="col-12 mb-3">
+                                            <label class="custom-checkbox d-flex align-items-center mb-3 border border-5 rounded py-2">
+                                                <input type="checkbox" name="addon[]" value="<?php echo $addid; ?>" id="addon<?php echo $addid; ?>">
+                                                <span class="checkmark me-2"></span>
+                                                <div id="addon<?php echo $addid; ?>" class="addon-description d-flex align-items-center">
+                                                    <div class="addon-info">
+                                                        <span class="price-text fw-bold"><?php echo '₱ ' . $price; ?></span>
+                                                        <span class="description-text"><?php echo $description; ?></span>
+                                                    </div>
+                                                    <div class="addon-image-container">
+                                                        <img src="<?php echo $image; ?>" alt="<?php echo $description; ?>" class="addon-image">
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                <?php endwhile; ?>
+
+                            </div>
                         </div>
                     </div>
-                <?php endwhile; ?>
+                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="doneButton">Add To cart</button>
+                <button type="button" class="btn btn-secondary" id="doneButton">Add To Cart</button>
             </div>
-
         </div>
     </div>
 </div>
 
+
 <script>
-    // document.addEventListener("DOMContentLoaded", function() {
-    //     // Get a reference to the "Done" button
-    //     var doneButton = document.getElementById("doneButton");
+    var select = document.getElementById("sugarLevel");
 
-    //     // Add a click event listener to the "Done" button
-    //     doneButton.addEventListener("click", function() {
-    //         // Get all the checkboxes with the name "addon[]"
-    //         var checkboxes = document.querySelectorAll('input[name="addon[]"]:checked');
-
-    //         // Create an array to store the selected addon data
-    //         var selectedAddonsData = [];
-
-    //         // Loop through the selected checkboxes and extract their values, description, and price
-    //         checkboxes.forEach(function(checkbox) {
-    //             var addonId = checkbox.value;
-    //             var addonDescription = document.querySelector('#addon' + addonId + ' .description-text').textContent;
-    //             var addonPrice = document.querySelector('#addon' + addonId + ' .price-text').textContent;
-
-    //             selectedAddonsData.push({
-    //                 id: addonId,
-    //                 description: addonDescription,
-    //                 price: addonPrice
-    //             });
-    //         });
-
-    //         // Log the selected addon data to the console
-    //         console.log("Selected Addon Data:", selectedAddonsData);
-    //     });
-    // });
+    for (var i = 10; i <= 100; i += 10) {
+        var option = document.createElement("option");
+        option.value = i + "%";
+        option.text = i + "%";
+        select.appendChild(option);
+    }
 </script>
 
 <style>
@@ -160,5 +167,43 @@ $result = $conn->query($query);
     .addon-image {
         max-width: 50px;
         max-height: 50px;
+    }
+
+    .product-container {
+        background-color: #f8f8f8;
+        /* Change the background color to your preference */
+        border: 1px solid #ddd;
+        /* Add a border for separation */
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        /* Add a subtle box shadow */
+    }
+
+    .product-image img {
+        max-width: 100%;
+        /* Ensure the image fits within its container */
+        display: block;
+        /* Remove any potential extra space below the image */
+    }
+
+    .product-name {
+        font-size: 1.5rem;
+        /* Increase font size for the product name */
+    }
+
+    .sugar-level {
+        margin-top: 10px;
+        /* Add some spacing between the product name and sugar level */
+    }
+
+    /* Style the select element */
+    select {
+        width: 100%;
+        /* Make the select element span the entire width */
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        background-color: #fff;
     }
 </style>

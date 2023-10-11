@@ -56,73 +56,67 @@ function updateProductInfo(input) {
     var invInput = row.querySelector('[name="inv"]');
     var image = row.querySelector('[name="image[]"]');
     var product_desciption = row.querySelector('[name="product_desciption[]"]');
-    var unitInput = row.querySelector('[name="unit[]"]');
     var priceInput = row.querySelector('[name="price[]"]');
     var itemTypeInput = row.querySelector('[name="itemType[]"]');
     var idInput = row.querySelector('[name="id[]"]');
     var itemTypeIDInput = row.querySelector('[name="itemTypeID[]"]');
     var qtyInput = row.querySelector('[name="qty[]"]');
-    var datalist = document.getElementById('product_id_list');
 
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "getproductdetails.php?itemCode=" + selectedValue, true);
+    xhr.open("GET", "getproductdetails.php?InventoryID=" + selectedValue, true);
     xhr.onreadystatechange = function (input) {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
+                console.log(selectedValue);
                 var response = JSON.parse(xhr.responseText);
-                if (response.inv <= 0 && response.is_consumable == "1") {
-                    Swal.fire({
-                        icon: 'error',
-                        title: `${selectedValue} is OUT OF STOCK`,
-                        html: `
-                        Please update first the number of stock on <a href="/Zarate/inventory/index.php" target="_blank">Inventory</a>
-                        `,
-                    });
-                    row.querySelector('[name="product_id[]"]').value = "";
-                    return;
-                }
-
                 invInput.value = response.inv;
                 product_desciption.value = response.itemDescription;
-                unitInput.value = response.unit;
                 priceInput.value = response.price;
                 itemTypeInput.value = response.itemtype;
                 idInput.value = response.id;
                 itemTypeIDInput.value = response.itemTypeID;
                 image.value = response.image;
 
-                for (var i = 0; i < datalist.options.length; i++) {
-                    if (datalist.options[i].value === selectedValue) {
-                        datalist.options[i].disabled = true;
-                        CalculateValues(row);
-                        break;
-                    }
-                }
+                console.log("Response:", response);
 
-                qtyInput.addEventListener("change", function (e) {
-                    if (response.is_consumable != "1") return; // item is not consumable
-                    const value = e.target.value;
-                    const remainingInv = e.target.closest("tr").querySelector('[name="inv"]').value;
-                    console.log(remainingInv, value);
-                    if (parseInt(value) > parseInt(remainingInv)) {
-                        e.target.value = remainingInv;
-                        Swal.fire({
-                            icon: 'error',
-                            title: `MAXIMUM Stock is ${remainingInv}`,
-                            html: `
-                            You can update number of stocks on <a href="/Zarate/inventory/index.php" target="_blank">Inventory</a>
-                            `,
+                // handle sizes
+                var itemTypeID = response.itemTypeID;
+                const sizeSelect = row.querySelector('[name="size[]"]');
+                $.ajax({
+                    url: "getproductVariant.php",
+                    method: "GET",
+                    data: {
+                        itemTypeID: itemTypeID
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        sizeSelect.innerHTML = "";
+                        data.forEach(size => {
+                            if (priceInput.value <= 0) priceInput.value = Number(size.price).toFixed(2);
+                            const option = document.createElement('option');
+                            option.value = size.variantID;
+                            option.innerHTML = size.variantName;
+                            sizeSelect.appendChild(option);
+                            sizeSelect.addEventListener("change", function (e) {
+                                const value = e.target.value;
+                                const price = data.find(size => size.variantID == value).price;
+                                console.log(price);
+                                qtyInput.value = 1;
+                                priceInput.value = Number(price).toFixed(2);
+                                CalculateValues(row);
+                            });
                         });
+                        CalculateValues(row);
                     }
                 });
-
-                console.log("Response:", response);
             } else {
                 console.error("Failed to fetch product details");
             }
         }
     };
     xhr.send();
+
 }
 
 function removeRow(button) {
@@ -130,11 +124,6 @@ function removeRow(button) {
     const productIdInput = row.querySelector('[name="product_id[]"]');
     const productCode = productIdInput.value;
 
-    const datalist = document.getElementById('product_id_list');
-    const option = document.createElement('option');
-    option.value = productCode;
-    option.innerHTML = productIdInput.value; // Set the innerHTML
-    datalist.appendChild(option);
     row.parentNode.removeChild(row);
 
     CalculateValues(row);
