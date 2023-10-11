@@ -46,6 +46,7 @@ if (!$costumer) {
 
     $(document).ready(function() {
         const COSTUMER_ID = <?= $costumer["costumerID"] ?>;
+        const ORDER_ID = <?= $_GET["orderID"] ?>;
         <?php
         if (!isset($_GET["paymentID"])) {
             echo "createPayLink();";
@@ -56,11 +57,12 @@ if (!$costumer) {
         // create get request to create payment link
         function createPayLink() {
             const amount = Number(<?= $_GET["NetAmt"] ?>) * 100;
+
             $.ajax({
                 url: "/milktea-commerce/payment/create-pay-link.php",
                 type: "GET", //send it through get method
                 data: {
-                    orderNo: <?= $_GET["orderID"] ?>,
+                    orderNo: ORDER_ID,
                     amount: amount,
                     description: '<?= $_GET["description"] ?>',
                     remarks: ""
@@ -69,9 +71,20 @@ if (!$costumer) {
                     var response = JSON.parse(data);
                     var data = response.data;
                     console.log(data);
-                    const payURL = data.attributes.checkout_url;
-                    window.open(payURL, '_blank');
-                    watchPaymentSuccess(data.id);
+
+                    set(ref(getDatabase(), `/orders/${COSTUMER_ID}/${ORDER_ID}`), {
+                            status: "on-queue",
+                            sqlKey: ORDER_ID,
+                            paymentID: data.id,
+                        })
+                        .then(() => {
+                            const payURL = data.attributes.checkout_url;
+                            window.open(payURL, '_blank');
+                            watchPaymentSuccess(data.id);
+                        })
+                        .catch((error) => {
+                            alert(error);
+                        });
                 },
                 error: function(xhr) {
                     alert(xhr.responseText);
@@ -94,13 +107,15 @@ if (!$costumer) {
                         if (data.attributes.status == "paid") {
                             clearInterval(paymentWatch);
                             markAsPaid(paymentLinkID);
+                        } else {
+                            console.log("Payment is not yet successful");
                         }
                     },
                     error: function(xhr) {
                         alert(xhr.responseText);
                     }
                 });
-            }, 5000);
+            }, 1000);
         }
 
         function openPayLink(paymentLinkID) {
@@ -133,12 +148,12 @@ if (!$costumer) {
                 url: "/milktea-commerce/payment/mark-as-paid.php",
                 type: "GET", //send it through get method
                 data: {
-                    paymentID: paymentLinkID
+                    paymentID: paymentLinkID,
+                    orderID: ORDER_ID
                 },
-                success: function(SalesID) {
-                    console.log(SalesID);
+                success: function() {
                     const db = getDatabase();
-                    const ORDER_KEY = SalesID;
+                    const ORDER_KEY = ORDER_ID;
                     // mark the order as preparing-food in firebase realtime database
                     set(ref(db, `/orders/${COSTUMER_ID}/${ORDER_KEY}/status`), "preparing-food")
                         .then(() => {

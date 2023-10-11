@@ -91,7 +91,7 @@ if (isset($_POST['orders'])) {
             die();
         } else {
             // redirect to checkout page
-            header("Location: ../../checkout/payment.php?orderID=$orderID&NetAmt=$NetAmt&description=$description");
+            header("Location: ../../checkout/payment.php?orderID=$orderID&NetAmt=$NetAmt&description=$description&costumerID=$costumerID");
             die();
         }
     } else {
