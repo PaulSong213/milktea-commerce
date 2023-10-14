@@ -258,17 +258,17 @@
                     const product = productInfo[i];
                     paymentSummary.append(`
                         <div class="row row-main">
-                            <div class="col-3"> <img class="img-fluid shadow-sm" src="/milktea-commerce/inventory/${product.image}"> </div>
+                            <div class="col-3"> <img class="img-fluid shadow-sm" src="${product.image}"> </div>
                             <div class="col-6">
                                 <div class="row d-flex">
-                                    <p class="fs-5 fw-bold">${product.product_id}</p>
+                                    <p class="fs-5 fw-bold">${product.productName}</p>
                                 </div>
                                 <div class="row d-flex">
-                                    <p class="fs-6 fw-bold">${product.qty} ${product.unit}</p>
+                                    <p class="fs-6 fw-bold">${product.qty} ${product.size}</p>
                                 </div>
                             </div>
                             <div class="col-3 d-flex justify-content-end">
-                                <p class="fs-5 fw-bold">₱${product.subtotal}</p>
+                                <p class="fs-5 fw-bold">₱${product.subTotal}</p>
                             </div>
                         </div>
                     `);

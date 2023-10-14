@@ -38,32 +38,30 @@ if ($conn->connect_error) {
                 <div class="modal-body row">
                     <form method="POST" action="/milktea-commerce/landingpage/cart/databasefunction.php" id="addItemForm">
                         <div class="container-fluid p-3">
-                            <div class="col-12">
-                                <div class="table-responsive " style="overflow-x: scroll;" >
-                                    <table class="table mt-4 rounded text-wrap" id="cartTable">
-                                        <thead>
-                                            <tr>
-                                                <th style="display:none;">Product ID</th>
-                                                <th>Product Image</th>
-                                                <th>Product</th>
-                                                <th>Size</th>
-                                                <th style="max-width: 1%;" >Qty</th>
-                                                <th>Sugar Level</th>
-                                                <th>addOns</th>
-                                                <th>Price</th> <!-- Added price column -->
-                                                <th>Action</th> <!-- Added remove action column -->
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <div class="col-12" style="overflow-y: auto;" id="cartTable">
+                                <table class="table mt-4 rounded" id="cartTable">
+                                    <thead>
+                                        <tr>
+                                            <th style="display:none;">Product ID</th>
+                                            <th>Product Image</th>
+                                            <th>Product</th>
+                                            <th>Size</th>
+                                            <th>Qty</th>
+                                            <th>Sugar Level</th>
+                                            <th>addOns</th>
+                                            <th>Price</th> <!-- Added price column -->
+                                            <th>Action</th> <!-- Added remove action column -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-
                         <div class="container-fluid">
+
                             <div class="form-group">
                                 <label for="Promo" style="font-weight: bold; color: #333;">Promo Code:</label>
                                 <div style="position: relative;">
@@ -119,7 +117,7 @@ if ($conn->connect_error) {
                     <!-- hidden value -->
 
                     <button type="button" class="btn btn-secondary" onclick="Close()">Continue Shopping</button>
-                    <button type="submit" name="submit" id="submit" class="btn btn-primary " onclick="collectTableData()">Proceed to Checkout</button>
+                    <button type="submit" name="submit" id="submit" class="btn btn-primary " onclick="collectAndSendDataToServer()">Proceed to Checkout</button>
                 </div>
             </div>
             </form>
@@ -149,7 +147,6 @@ if ($conn->connect_error) {
         const data = [];
         $(".cartRow").each(function() {
             const cells = $(this).children("td");
-            const image = $(this).find("img").attr("src");
             if (cells.length > 0) {
                 const rowData = {};
                 rowData.productId = cells[0].innerHTML;
@@ -158,8 +155,7 @@ if ($conn->connect_error) {
                 rowData.qty = $(cells[4]).find("input").val();
                 console.log(cells[3], cells[4]);
                 rowData.addOns = cells[5].innerHTML;
-                rowData.subTotal = cells[7].innerHTML;
-                rowData.image = image;
+                rowData.subTotal = cells[6].innerHTML;
                 console.log(rowData);
                 data.push(rowData);
             }
@@ -201,7 +197,7 @@ if ($conn->connect_error) {
         totalValue.textContent = totalnetsale.toFixed(2);
         // You can also log the total netsale to the console for debugging
         console.log("Total Netsale:", totalnetsale.toFixed(2));
-        // collectTableData();
+        collectTableData();
         loadPromoNames();
     }
 

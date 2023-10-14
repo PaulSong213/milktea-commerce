@@ -296,8 +296,6 @@ session_start();
 		<script>
 			document.addEventListener("DOMContentLoaded", function() {
 				// Get a reference to the "Done" button
-
-
 				var doneButton = document.getElementById("doneButton");
 				let rowAdded = false;
 				const cartTableBody = document.querySelector("#cartTable tbody");
@@ -356,30 +354,27 @@ session_start();
 						console.log(selectedValue);
 
 						const newRow = `
-									<tr>
-										<td style="display:none;">${inventoryID}</td>
-										<td><img src="${image}" alt="Product Image" width="50"></td>
-										<td>${itemCode}</td>
-										<td>
-											<input class="sizeSelect" type="text" name="size" id="size" list="sizeOptions" placeholder="Select Size">
-											<datalist id="sizeOptions">
-											</datalist>
-										</td>
-										<td><input type="number" class="qtySelect" name="qty" id="qty" value="1"></td>
-										<td id="sugarLeveel">${selectedValue}</td>
-										<td id="addonsDescription">${descriptions}</td>
-										<td class="priceRow" id="price">${totalAmount.toFixed(2)}</td>
-										<td><button class=" btn-danger btn-sm removeItem">Remove</button></td>
-									</tr>
-								`;
+							<tr class="cartRow">
+								<td style="display:none;">${inventoryID}</td>
+								<td><img src="${image}" alt="Product Image" width="50"></td>
+								<td>${itemCode}</td>
+								<td>
+									<input class="sizeSelect" type="text" name="size" id="size" list="sizeOptions" placeholder="Select Size">
+									<datalist id="sizeOptions">
+									</datalist>
+								</td>
+								<td><input type="number" class="qtySelect" name="qty" id="qty" value="1"></td>
+								<td id="sugarLeveel">${selectedValue}</td>
+								<td id="addonsDescription">${descriptions}</td>
+								<td class="priceRow" id="price">${totalAmount.toFixed(2)}</td>
+								<td><button class=" btn-danger btn-sm removeItem">Remove</button></td>
+							</tr>
+						`;
 
 						// Append newRow to the cart table
 						cartTableBody.insertAdjacentHTML("beforeend", newRow);
 
-
 						// Create a new row HTML string
-
-
 						const dataList = document.getElementById('sizeOptions');
 						const sizeInput = document.getElementById('size');
 						const qtyInput = document.getElementById('qty');
