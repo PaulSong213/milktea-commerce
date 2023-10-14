@@ -35,6 +35,11 @@ $result = $conn->query($query);
                                     <label for="sugarLevel">Sugar Level:</label>
                                     <select id="sugarLevel" name="sugarLevel">
                                         <option value="">Select Sugar Level</option>
+                                        <option value="0%">0%</option>
+                                        <option value="25%">25%</option>
+                                        <option value="50%">50%</option>
+                                        <option value="75%">75%</option>
+                                        <option value="100%">100%</option>
                                     </select>
                                 </div>
                             </div>
@@ -82,17 +87,6 @@ $result = $conn->query($query);
     </div>
 </div>
 
-
-<script>
-    var select = document.getElementById("sugarLevel");
-
-    for (var i = 10; i <= 100; i += 10) {
-        var option = document.createElement("option");
-        option.value = i + "%";
-        option.text = i + "%";
-        select.appendChild(option);
-    }
-</script>
 
 <style>
     /* Custom checkbox styling */
