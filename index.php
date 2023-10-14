@@ -88,7 +88,7 @@ session_start();
 					</div>
 				</div>
 				<div class="col-md-5">
-					<div style="max-width: 500px; margin: auto; max-height: 500px;">
+					<div style="max-width: 700px; margin: auto; max-height: 500px;">
 						<div class="image">
 							<div class="swiper review-slider">
 								<div class="swiper-wrapper" id="imageSlider">
