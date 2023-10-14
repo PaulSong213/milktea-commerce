@@ -88,7 +88,7 @@ session_start();
 					</div>
 				</div>
 				<div class="col-md-5">
-					<div style="max-width: 500px; margin: auto; max-height: 500px;">
+					<div style="max-width: 700px; margin: auto; max-height: 500px;">
 						<div class="image">
 							<div class="swiper review-slider">
 								<div class="swiper-wrapper" id="imageSlider">
@@ -419,7 +419,7 @@ session_start();
 							calculateTotalPrice();
 						});
 
-						$(".qtySelect").on('change', function() {
+						$(".qtySelect").on('input', function() {
 							const qtyValue = parseFloat($(this).val());
 							const qtyTotalAmt = qtyValue * totalAmount;
 							$(this).closest("tr").find(".priceRow").text(qtyTotalAmt.toFixed(2));

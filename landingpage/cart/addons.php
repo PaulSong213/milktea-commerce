@@ -22,7 +22,7 @@ $result = $conn->query($query);
                 <h5 class="modal-title">Choose Add-Ons and Sugar Level</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="overflow-y: scroll;" >
                 <div class="container-fluid justify-content-center">
                     <div class="row">
                         <div class="col-md-6 product-container">
@@ -51,7 +51,7 @@ $result = $conn->query($query);
                                     ?>
 
                                     <div class="row">
-                                        <div class="col-12 mb-3">
+                                        <div class="col-12 my-3">
                                             <label class="custom-checkbox d-flex align-items-center mb-3 border border-5 rounded py-2">
                                                 <input type="checkbox" name="addon[]" value="<?php echo $addid; ?>" id="addon<?php echo $addid; ?>">
                                                 <span class="checkmark me-2"></span>
