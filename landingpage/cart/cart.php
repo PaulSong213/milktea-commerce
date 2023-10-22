@@ -137,6 +137,22 @@ if ($conn->connect_error) {
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="module">
+    import {
+        getDatabase,
+        ref,
+        set,
+        get,
+        onValue,
+        child
+    } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+
+    window.getDatabase = getDatabase;
+    window.ref = ref;
+    window.set = set;
+    window.get = get;
+    window.onValue = onValue;
+</script>
 <script>
     $(document).ready(function() {
         $("#deliveryMethod").change(function() {
@@ -192,11 +208,31 @@ if ($conn->connect_error) {
         if (Number(totalValue) < 100 && $("#paymentMethod").val() === "online") {
             Swal.fire({
                 icon: 'error',
+
                 title: 'Online Transaction has P100 minimum amount',
             })
         } else {
             // Submit the form
-            document.getElementById("addItemForm").submit();
+            const db = window.getDatabase();
+            const shopRef = window.ref(db, 'shop');
+            window.get(shopRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const shop = snapshot.val();
+                    if (shop.isOpen) {
+                        // Submit the form
+                        document.getElementById("addItemForm").submit();
+                    } else {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Shop is currently closed',
+                        })
+                    }
+                } else {
+                    console.log("No data available");
+                }
+            }).catch((error) => {
+                console.error(error);
+            });
         }
 
     }

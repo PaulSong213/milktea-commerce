@@ -227,6 +227,12 @@ require_once(__DIR__ . "/accessLevels.php");
                 </div>
             </a>
             <ul class="list-unstyled components">
+                <div class="p-1">
+                    <button id="toggleShop" class="btn btn-success w-100 d-flex align-items-center justify-content-center">
+                        <i class="material-icons mx-1">toggle_off</i>
+                        <span>Shop is OPEN</span>
+                    </button>
+                </div>
                 <?php
                 $root = "/milktea-commerce";
                 for ($i = 0; $i < sizeof($LevelNav); $i++) {
@@ -276,6 +282,45 @@ require_once(__DIR__ . "/accessLevels.php");
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="module">
+        import {
+            getDatabase,
+            ref,
+            set,
+            onValue
+        } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+        $(document).ready(function() {
+            const db = getDatabase();
+            const shopRef = ref(db, 'shop');
+            onValue(shopRef, (snapshot) => {
+                const shop = snapshot.val();
+                if (shop.isOpen) {
+                    $("#toggleShop").removeClass("btn-warning");
+                    $("#toggleShop").addClass("btn-success");
+                    $("#toggleShop").html(`
+                        <i class="material-icons mx-1">toggle_off</i>
+                        <span>Shop is OPEN</span>
+                    `);
+                    $("#toggleShop").attr("nextStats", false);
+                } else {
+                    $("#toggleShop").removeClass("btn-success");
+                    $("#toggleShop").addClass("btn-warning");
+                    $("#toggleShop").html(`
+                        <i class="material-icons mx-1">toggle_on</i>
+                        <span>Shop is CLOSED</span>
+                    `);
+                    $("#toggleShop").attr("nextStats", true);
+                }
+            });
+            $("#toggleShop").on("click", function() {
+                const nextStatus = $(this).attr("nextStats") === "true" ? true : false;
+                const shop = {
+                    isOpen: nextStatus
+                };
+                set(shopRef, shop);
+            });
+        });
+    </script>
     <script>
         $(document).ready(function() {
             $("#toggleSidebar").on("click", function() {
@@ -284,6 +329,7 @@ require_once(__DIR__ . "/accessLevels.php");
             $(".nav-link").on("click", function() {
                 toggleSidebar();
             });
+
 
         });
         // Initialize sidebar state on page load
