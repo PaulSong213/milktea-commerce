@@ -90,7 +90,7 @@ if ($conn->connect_error) {
                                 <label for="paymentMethod">Payment Method</label>
                                 <select class="form-select" id="paymentMethod" name="paymentMethod">
                                     <option value="online">Online Payment</option>
-                                    <!-- <option value="cash-on-delivery">Cash on Delivery</option> -->
+                                    <!-- <option value="cash-on-delivery">Pay Over the counter</option> -->
                                 </select>
                             </div>
 
@@ -157,7 +157,7 @@ if ($conn->connect_error) {
     $(document).ready(function() {
         $("#deliveryMethod").change(function() {
             if ($(this).val() == "pick-up") {
-                $("#paymentMethod").append('<option value="cash-on-delivery">Cash on Delivery</option>');
+                $("#paymentMethod").append('<option value="cash-on-delivery">Pay Over the counter</option>');
             } else {
                 $("#paymentMethod").find("option[value='cash-on-delivery']").remove();
             }
