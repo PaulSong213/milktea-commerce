@@ -22,7 +22,7 @@ if (!$costumer) {
         <div id="paymentLoader" class="d-flex flex-column align-items-center justify-content-center">
             <h2 style="color: #734006" class="mb-3 fw-bold text-center">PLEASE COMPLETE THE PAYMENT PROCEDURE <br /> ON THE OPENED TAB</h2>
             <img style="max-width: 400px;" src="../img/pay-wait.gif" alt="Waiting for Payment" />
-            <a id="open-pay-link-btn" target="_blank" class="btn btn-primary text-decoration-none" href="#">OPEN PAYMENT PAGE</a>
+            <a id="open-pay-link-btn" target="_blank" class="btn btn-primary text-decoration-none invisible" href="#">OPEN PAYMENT PAGE</a>
         </div>
         <div id="paymentSucceed" class="d-flex flex-column align-items-center justify-content-center d-none">
             <h2 class="mb-3 fw-bold text-center text-success">PAYMENT SUCCEED</h2>
@@ -73,7 +73,7 @@ if (!$costumer) {
                     console.log(data);
 
                     set(ref(getDatabase(), `/orders/${COSTUMER_ID}/${ORDER_ID}`), {
-                            status: "on-queue",
+                            status: "pending-payment",
                             sqlKey: ORDER_ID,
                             paymentID: data.id,
                         })
@@ -154,8 +154,8 @@ if (!$costumer) {
                 success: function() {
                     const db = getDatabase();
                     const ORDER_KEY = ORDER_ID;
-                    // mark the order as preparing-food in firebase realtime database
-                    set(ref(db, `/orders/${COSTUMER_ID}/${ORDER_KEY}/status`), "preparing-food")
+                    // mark the order as on-queue in firebase realtime database
+                    set(ref(db, `/orders/${COSTUMER_ID}/${ORDER_KEY}/status`), "on-queue")
                         .then(() => {
                             $("#paymentLoader").addClass("d-none");
                             $("#paymentSucceed").removeClass("d-none");

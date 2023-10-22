@@ -146,6 +146,7 @@
 <script>
     const STATUS_IMG = {
         "pending-payment": "#991b1b",
+        "on-queue": "#2b660e",
         "preparing-food": "#1b4009",
         "on-delivery-rider": "#c9820d",
         "waiting-for-feedback": "#075985",
@@ -207,7 +208,7 @@
             case window.ORDER_STATUS["pending-payment"]:
                 return `
                     <div class="my-3 ">
-                        <a href="/milktea-commerce/checkout/payment.php?paymentID=${orderData.paymentID}" class="bg-primary text-white rounded text-center py-3 px-5 fs-5 btn-primary mx-auto d-block text-uppercase fw-bold btn" style="width: max-content">Pay Now</a>
+                        <a href="/milktea-commerce/checkout/payment_redirect.php?orderId=${orderData.sqlKey}" class="bg-primary text-white rounded text-center py-3 px-5 fs-5 btn-primary mx-auto d-block text-uppercase fw-bold btn" style="width: max-content">Pay Now</a>
                     </div>
                 `;
                 break;

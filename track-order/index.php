@@ -59,7 +59,6 @@
                 const orderNo = childSnapshot.key;
                 const orderData = childSnapshot.val();
                 // show to the user that their order is being prepared immediately
-                if (orderData.status === "on-queue") orderData.status = "preparing-food";
                 // console.log(orderNo, orderData);
                 addNotificationModal(orderNo, orderData);
                 addNotificationBtn(orderNo, orderData.status);
