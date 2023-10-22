@@ -243,7 +243,7 @@
 
     function fetchOrderDetails(orderNo) {
         $.ajax({
-            url: "/milktea-commerce/api/orders/search.php",
+            url: "/milktea-commerce/API/orders/search.php",
             data: {
                 orderID: orderNo
             },

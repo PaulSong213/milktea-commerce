@@ -34,7 +34,8 @@ $conn = connect();
 $sql = "UPDATE orders_tb
     SET
         paymentID = '$paymentID',
-        status = 'on-queue'
+        status = 'on-queue',
+        isPaid = 1
     WHERE
         orderID = '$orderID';
     ";
