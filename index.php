@@ -452,17 +452,37 @@ session_start();
 		<div class="swiper review-slider">
 			<div class="swiper-wrapper">
 				<?php
-				$sql = "SELECT * FROM feedback_tb";
+				$sql = "SELECT * FROM feedback_tb 
+              LEFT JOIN orders_tb ON feedback_tb.SalesID = orders_tb.orderID
+              LEFT JOIN costumer_tb ON costumer_tb.costumerID = orders_tb.CostumerID
+              ";
+
+
 				$result = $conn->query($sql);
 
 				if ($result->num_rows > 0) {
 					while ($row = $result->fetch_assoc()) {
+
+
 				?>
 						<div class="swiper-slide box">
 							<i class="fas fa-quote-left"></i>
 							<i class="fas fa-quote-right"></i>
+							<?php
+							$Product = $row['ProductInfo'];
+							$data = json_decode($Product, true);
 
-							<img src="img/user.jpg">
+							foreach ($data as $item) {
+								$product_id = $item["productId"];
+								$product_name = $item["productName"];
+								$size = $item["size"];
+								$quantity = $item["qty"];
+								$addons = $item["addOns"];
+								$subtotal = $item["subTotal"];
+								$image = $item["image"];
+							}
+							?>
+							<img src="<?php echo $image; ?>">
 							<!-- <img src="<?php echo $row['image_path']; ?>" alt=""> -->
 							<div class="stars">
 								<?php
@@ -473,9 +493,7 @@ session_start();
 								}
 								?>
 							</div>
-
-							<p><?php echo $row['SalesID']; ?></p>
-
+							<p><?php echo $row['firstName'] . " " . $row['lastName']; ?></p>
 							<span><?php echo $row['feedback']; ?></span>
 						</div>
 				<?php
