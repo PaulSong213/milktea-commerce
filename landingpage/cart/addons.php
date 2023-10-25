@@ -22,16 +22,22 @@ $result = $conn->query($query);
                 <h5 class="modal-title">Choose Add-Ons and Sugar Level</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" style="overflow-y: scroll;" >
+            <div class="modal-body" style="overflow-y: scroll;">
                 <div class="container-fluid justify-content-center">
                     <div class="row">
                         <div class="col-md-6 product-container">
                             <div class="product-image">
                                 <img src="#" alt="Product Image" id="AddonsProdimage" name="AddonsProdimage">
                             </div>
-                            <div class="product-details">
-                                <h3 class="product-name">PRODUCT: <span name="AddonsProdName" id="AddonsProdName"></span></h3>
-                                <div class="sugar-level">
+                            <div class="product-details text-center">
+                                <h3 class="product-name"> <span name="AddonsProdName" id="AddonsProdName"></span></h3>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="sugar-level fw-bold" style="font-size:1.5rem ">
                                     <label for="sugarLevel">Sugar Level:</label>
                                     <select id="sugarLevel" name="sugarLevel">
                                         <option value="">Select Sugar Level</option>
@@ -42,51 +48,51 @@ $result = $conn->query($query);
                                         <option value="100%">100%</option>
                                     </select>
                                 </div>
-                            </div>
-                        </div>
+                                
+                                
 
-                        <div class="col-md-6">
-                            <div class="row">
-                                <?php while ($row = $result->fetch_assoc()) : ?>
-                                    <?php
-                                    $image = '././addOns/' . $row["addImage"];
-                                    $addid = $row["addID"];
-                                    $description = $row["description"];
-                                    $price = $row["price"];
-                                    ?>
+                                <div class="mt-4" style="border:black 3px;">
+                                    <label class="fw-bold" style="font-size:1.5rem ">Add-Ons</label>
+                                    <?php while ($row = $result->fetch_assoc()) : ?>
+                                        <?php
+                                        $image = '././addOns/' . $row["addImage"];
+                                        $addid = $row["addID"];
+                                        $description = $row["description"];
+                                        $price = $row["price"];
+                                        ?>
+                                        <div class="row">
+                                            <div class="col-12 my-3">
+                                                <label class="custom-checkbox d-flex align-items-center mb-1  rounded ">
+                                                    <input type="checkbox" name="addon[]" value="<?php echo $addid; ?>" id="addon<?php echo $addid; ?>">
+                                                    <span class="checkmark me-2"></span>
+                                                    <div id="addon<?php echo $addid; ?>" class="addon-description d-flex align-items-center">
+                                                        <div class="addon-info">
+                                                            <span class="price-text fw-bold"><?php echo '₱ ' . $price; ?></span>
+                                                            <span class="description-text"><?php echo $description; ?></span>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </div>
 
-                                    <div class="row">
-                                        <div class="col-12 my-3">
-                                            <label class="custom-checkbox d-flex align-items-center mb-3 border border-5 rounded py-2">
-                                                <input type="checkbox" name="addon[]" value="<?php echo $addid; ?>" id="addon<?php echo $addid; ?>">
-                                                <span class="checkmark me-2"></span>
-                                                <div id="addon<?php echo $addid; ?>" class="addon-description d-flex align-items-center">
-                                                    <div class="addon-info">
-                                                        <span class="price-text fw-bold"><?php echo '₱ ' . $price; ?></span>
-                                                        <span class="description-text"><?php echo $description; ?></span>
-                                                    </div>
-                                                    <div class="addon-image-container">
-                                                        <img src="<?php echo $image; ?>" alt="<?php echo $description; ?>" class="addon-image">
-                                                    </div>
-                                                </div>
-                                            </label>
                                         </div>
-
-                                    </div>
-                                <?php endwhile; ?>
-
+                                    <?php endwhile; ?>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="doneButton">Add To Cart</button>
+                <button type="button" class="btn btn-secondary" id="doneButton">
+                    <i class="fas fa-cart-plus"></i>
+                    Add To Cart</button>
             </div>
         </div>
     </div>
 </div>
-
+<script>
+    // $("#addonsmodal").modal("show")
+</script>
 
 <style>
     /* Custom checkbox styling */

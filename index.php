@@ -86,7 +86,8 @@ session_start();
 			<div class="row">
 				<div class="col-md-6 ">
 					<div class="content">
-						<h3>Brewing happiness one cup at a time.</h3>
+						<h3>ROMEO`S CAFE</h3>
+						<h1>Brewing happiness one cup at a time.</h1>
 						<a href="#menu" class="btn" id="Place-Order">Buy One Now</a>
 					</div>
 				</div>
@@ -167,31 +168,31 @@ session_start();
 
 	<!-- ABOUT -->
 	<section class="about" id="about">
-		<h1 class="heading">about us <span>why choose us</span></h1>
+		<h1 class="heading">about us <span>About us</span></h1>
 		<div class="row">
 			<div class="image">
 				<img src="./landingpage/image/about-img.png" alt="">
 			</div>
 			<div class="content">
-				<h3 class="title">what's make our coffee special!</h3>
-				<p>Romeo's Café: Where Love Meets Brew! Savor the Town's Best Milk Tea and Coffee.
+				<h1 class="fw-bold" style="font-size: 5.5rem;">why Choose Us</h1>
+				<h3 class="border border-8 px-4 rounded">Romeo's Café: Where Love Meets Brew! Savor the Town's Best Milk Tea and Coffee.
 					At Romeo's Café, we're not just brewing beverages; we're crafting moments of pure bliss and
 					enchantment for every guest who walks through our doors. Nestled in the heart of our charming town,
 					our café has become synonymous with exceptional quality, unparalleled taste, and an atmosphere that r
 					adiates warmth and affection.
-				</p>
+				</h3>
 				<div class="icons-container">
 					<div class="icons">
 						<img src="./landingpage/image/about-icon-1.png" alt="">
-						<h3>quality coffee and Tea</h3>
+						<h3>quality Drinks</h3>
 					</div>
 					<div class="icons">
 						<img src="./landingpage/image/about-icon-2.png" alt="">
-						<h3>our branches</h3>
+						<h3>relaxing place</h3>
 					</div>
 					<div class="icons">
 						<img src="./landingpage/image/about-icon-3.png" alt="">
-						<h3>free delivery</h3>
+						<h3>pet friendly</h3>
 					</div>
 				</div>
 			</div>
@@ -200,8 +201,8 @@ session_start();
 
 	<!-- MENU -->
 	<section class="menu" id="menu">
-		<h1 class="heading">Our Menu <span>Popular Menu</span></h1>
-		<div class="fluid row w-100">
+		<h1 class="heading">Our Menu <span>Best sellers</span></h1>
+		<div class="fluid row w-100 p-5" style="border: 4px solid black; border-radius: 10px;">
 			<div class="container-fluid d-flex justify-content-center">
 				<!-- Categories filter here where itemTypeID values -->
 				<?php
@@ -209,13 +210,13 @@ session_start();
 				$result = $conn->query($query);
 				if ($result->num_rows > 0) {
 					while ($row = $result->fetch_assoc()) {
-						echo '<button class="btn costum-btn-primary m-2 sort-button" data-category="' . $row["itemTypeID"] . '">' . $row["description"] . '</button>';
+						echo '<button class=" m-5 sort-button fs-16" style="font-size:2rem; background:none" data-category="' . $row["itemTypeID"] . '">' . $row["description"] . '</button>';
 					}
 				}
 				?>
 			</div>
 
-			<div id="box-container" class="container-fluid my-5">
+			<div id="box-container" class="container-fluid my-5 ">
 				<!-- Add this line where you want the loader to appear -->
 				<div id="loader" class="spinner-grow text-primary" role="status" style="display: none;">
 					<span class="sr-only">Loading...</span>

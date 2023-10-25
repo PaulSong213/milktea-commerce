@@ -61,17 +61,17 @@ if ($result->num_rows > 0) {
 
         $variantsJSON = json_encode($variantsArray);
 
-
-        echo '<div style="display:flex; justify-content: space-between;">';
-        echo '<button class="btn costum-btn-primary m-2 addToCartBtn" 
+        echo '</div>';
+        echo '<button class="costum-btn-primary m-4 addToCartBtn" 
+        style="font-size: 4.5rem; background: none; justify-self: flex-end;"
         data-image="' . $image . '" 
         data-inventory-id="' . $inventoryID . '" 
         data-item-code="' . $itemCode . '"
         data-item-id="' . $itemTypeID . '"
         data-variants="' . htmlspecialchars($variantsJSON) . '" 
-        >Add to Cart</button>';
-        echo '</div>';
-        echo '</div>';
+        >
+        <i class="fas fa-cart-plus"></i>
+    </button>';
         echo '</div>';
     }
 } else {
