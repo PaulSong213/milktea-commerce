@@ -45,7 +45,10 @@ session_start();
 	<header class="header">
 		<div id="menu-btn" class="fas fa-bars"></div>
 
-		<a href="#" class="logo">Romeo`s cafe <i class="fas fa-mug-hot"></i></a>
+		<a href="#" class="logo">
+			Romeo`s cafe
+			<i class="fas fa-mug-hot"></i>
+		</a>
 
 		<nav class="navbar">
 			<a href="#home">home</a>
@@ -56,13 +59,13 @@ session_start();
 
 		<div class="d-flex">
 			<a href="#" class="btn d-block " data-toggle="modal" data-target="#categoryModal">
-				<i class="fas fa-shopping-cart"></i> View Cart
+				<i class="fas fa-shopping-cart"></i> Cart
 			</a>
 			<?php if (isset($_SESSION['costumer'])) :
 				$costumer = json_decode($_SESSION['costumer']);
 			?>
-				<div class="dropdown my-auto ms-2 rounded">
-					<button class="fs-2 dropdown-toggle rounded" style="background-color: #D5C0AC;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+				<div class="dropdown my-auto ms-2 rounded rounded-4">
+					<button class="fs-2 dropdown-toggle rounded" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
 						<?= $costumer->firstName . " " . $costumer->lastName ?>
 					</button>
 					<ul class="dropdown-menu rounded" aria-labelledby="dropdownMenuButton1">
