@@ -59,12 +59,14 @@ session_start();
 		
 
 		<div class="d-flex ">
+			<?php if (isset($_SESSION['costumer'])) : ?>
 			<span class="btn d-block " id="notification-btn">
 				<i class="fas fa-bell"></i> Notification
 			</span>
 			<a href="#" class="btn d-block " data-toggle="modal" data-target="#categoryModal">
 				<i class="fas fa-shopping-cart"></i> Cart
 			</a>
+			<?php endif; ?>
 			<?php if (isset($_SESSION['costumer'])) :
 				$costumer = json_decode($_SESSION['costumer']);
 			?>
