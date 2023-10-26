@@ -6,7 +6,8 @@
             margin: auto;
             width: 600px;
             max-width: 90%;
-            border-radius: 20px
+            border-radius: 20px;
+            z-index: 99999;
         }
 
         @media(max-width:767px) {
@@ -86,7 +87,7 @@
 </head>
 <main>
     <!-- Modal -->
-    <div class="modal fade" id="notificationModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+    <div class="modal fade" id="notificationModal" data-bs-keyboard="false" tabindex="4" aria-labelledby="notificationModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">

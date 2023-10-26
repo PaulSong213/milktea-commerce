@@ -53,7 +53,7 @@
         const COSTUMER_ID = '<?= $costumerID ?? "" ?>';
         const orderRef = ref(db, `/orders/${COSTUMER_ID}/`);
         onValue(orderRef, (snapshot) => {
-            $("#track-order").find("#notification-btn-container").html("");
+            $("#track-order").find("#notification-btn-container").html("<span id='no-notif' class='w-100 d-block mx-auto fs-3 text-center'>No Notification</span>");
             $("#track-order").find("#order-modal-container").html("");
             snapshot.forEach((childSnapshot) => {
                 const orderNo = childSnapshot.key;

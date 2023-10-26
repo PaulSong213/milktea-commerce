@@ -33,14 +33,14 @@ session_start();
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 	<!-- Custom CSS File Link  -->
 	<link rel="stylesheet" href="./landingpage/css/style.css">
-
+	
 </head>
 
 <body>
 	<?php
 	include('./php/session-dialog.php');
-	include __DIR__ . '/track-order/index.php';
 	?>
+	<?php include __DIR__ . '/track-order/index.php'; ?>
 	<!-- HEADER -->
 	<header class="header">
 		<div id="menu-btn" class="fas fa-bars"></div>
@@ -56,8 +56,12 @@ session_start();
 			<a href="#menu">menu</a>
 			<a href="#review">reviews</a>
 		</nav>
+		
 
-		<div class="d-flex">
+		<div class="d-flex ">
+			<span class="btn d-block " id="notification-btn">
+				<i class="fas fa-bell"></i> Notification
+			</span>
 			<a href="#" class="btn d-block " data-toggle="modal" data-target="#categoryModal">
 				<i class="fas fa-shopping-cart"></i> Cart
 			</a>
@@ -582,6 +586,25 @@ session_start();
 
 			},
 		});
+
+		$("#notification-btn").click(function (event) {
+			// Prevent the click event from propagating to the document
+			event.stopPropagation();
+			$("#notification-btn-container").toggleClass("d-none");
+			$("#notification-btn-container").toggleClass("notification-visible");
+		});
+
+		$(document).on("click", function (event) {
+			var $container = $("#notification-btn-container");
+			var $button = $("#notification-btn");
+
+			// Check if the click was outside of the container and the button
+			if (!$container.is(event.target) && !$button.is(event.target) && $container.has(event.target).length === 0) {
+				$container.removeClass("notification-visible");
+				$container.addClass("d-none");
+			}
+		});
+
 	</script>
 
 </body>

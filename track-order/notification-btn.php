@@ -18,17 +18,19 @@
         }
 
         #notification-btn-container {
-            position: fixed;
-            bottom: 0;
-            right: 0;
+            right: 10vw;
             z-index: 1000;
+            position: fixed;
+            max-width: 100vw;
+            width: 400px;
+            top: 100px;
         }
     </style>
 </head>
 
 <body>
     <!-- Floating Order Notification Bar -->
-    <div id="notification-btn-container">
+    <div class="bg-white rounded shadow p-3 d-none" id="notification-btn-container" >
         <!-- <div id="order-notification-btn" class="floating-notification-bar bg-primary rounded m-4 d-flex">
             <div class="d-flex px-3 h-full" style="background-color: rgba(255,255,255,0.1); ">
                 <img class="d-block my-auto" style="width: 2rem;" src="/milktea-commerce/img/icons/notifications.svg" alt="Notification">
@@ -39,6 +41,7 @@
                 </div>
             </div>
         </div> -->
+        
     </div>
 
 </body>
@@ -58,6 +61,7 @@
 
     function addNotificationBtn(orderNo, orderStatus) {
         if (orderStatus === "delivered") return removeNotificationBtn(orderNo);
+        $("#track-order").find("#notification-btn-container").find("#no-notif").remove();
         const newNotificationBtn = $(`
             <div id="#notif-btn-${orderNo}" class="floating-notification-bar rounded m-4 d-flex notif-btn" style="background-color: ${STATUS_COLOR[orderStatus] || '#1b2433'}">
                 <div class="d-flex px-4 h-full" style="background-color: rgba(255,255,255,0.1); ">
