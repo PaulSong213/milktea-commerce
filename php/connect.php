@@ -2,7 +2,7 @@
 
 function connect()
 {
-    $environment = "local";
+    $environment = "localhost";
     if ($environment == "demo") {
         // demo setup
         $servername = "sql207.infinityfree.com";
@@ -14,7 +14,7 @@ function connect()
         //https://docs.bitnami.com/aws/faq/get-started/access-phpmyadmin/
         $servername = "localhost";
         $username = "root";
-        $Password = ",QMn80t4Hoss";
+        $Password = "I7!,ts.BRxbF";
         $database = "milkteacommerce";
     } else {
         $servername = "localhost";
