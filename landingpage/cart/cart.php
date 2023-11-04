@@ -251,7 +251,7 @@ if ($conn->connect_error) {
         // Get the selected promo name
         const selectedPromo = $(this).val();
         const selectedPromoPercentage = parseFloat(promoPercentage);
-
+        
         // Calculate the discount amount
         const discountAmount = totalnetsale - ((selectedPromoPercentage / 100) * totalnetsale);
 

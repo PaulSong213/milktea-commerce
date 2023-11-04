@@ -202,7 +202,7 @@ session_start();
 	<!-- MENU -->
 	<section class="menu" id="menu">
 		<h1 class="heading">Our Menu <span>Best sellers</span></h1>
-		<div class="fluid row w-100 p-5" style="border: 4px solid black; border-radius: 10px;">
+		<div class="fluid row w-100 p-5 " style="border: 4px solid black; border-radius: 10px; background:white;">
 			<div class="container-fluid d-flex justify-content-center">
 				<!-- Categories filter here where itemTypeID values -->
 				<?php
