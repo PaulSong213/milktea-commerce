@@ -16,7 +16,6 @@ if ($conn->connect_error) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart</title>
-
     <!-- Custom CSS -->
 
     <style>
@@ -39,7 +38,7 @@ if ($conn->connect_error) {
                     <form method="POST" action="/milktea-commerce/landingpage/cart/databasefunction.php" id="addItemForm">
                         <div class="container-fluid p-3">
                             <div class="col-12">
-                                <div class="table-responsive " style="overflow-x: scroll;" >
+                                <div class="table-responsive " style="overflow-x: scroll;">
                                     <table class="table mt-4 rounded text-wrap" id="cartTable">
                                         <thead>
                                             <tr>
@@ -47,7 +46,7 @@ if ($conn->connect_error) {
                                                 <th>Product Image</th>
                                                 <th>Product</th>
                                                 <th>Size</th>
-                                                <th style="max-width: 1%;" >Qty</th>
+                                                <th style="max-width: 1%;">Qty</th>
                                                 <th>Sugar Level</th>
                                                 <th>addOns</th>
                                                 <th>Price</th> <!-- Added price column -->
@@ -77,14 +76,21 @@ if ($conn->connect_error) {
                                 </div>
                             </div>
 
-
+                            <!-- Delivery Method -->
+                            <div class="form-group">
+                                <label for="deliveryMethod">Delivery Method</label>
+                                <select class="form-select" id="deliveryMethod" name="deliveryMethod">
+                                    <option value="online-delivery">Online Delivery</option>
+                                    <option value="pick-up">Pick Up</option>
+                                </select>
+                            </div>
 
                             <!-- Payment Method -->
                             <div class="form-group">
                                 <label for="paymentMethod">Payment Method</label>
                                 <select class="form-select" id="paymentMethod" name="paymentMethod">
                                     <option value="online">Online Payment</option>
-                                    <option value="cash-on-delivery">Cash on Delivery</option>
+                                    <!-- <option value="cash-on-delivery">Pay Over the counter</option> -->
                                 </select>
                             </div>
 
@@ -130,8 +136,34 @@ if ($conn->connect_error) {
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="module">
+    import {
+        getDatabase,
+        ref,
+        set,
+        get,
+        onValue,
+        child
+    } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
 
+    window.getDatabase = getDatabase;
+    window.ref = ref;
+    window.set = set;
+    window.get = get;
+    window.onValue = onValue;
+</script>
 <script>
+    $(document).ready(function() {
+        $("#deliveryMethod").change(function() {
+            if ($(this).val() == "pick-up") {
+                $("#paymentMethod").append('<option value="cash-on-delivery">Pay Over the counter</option>');
+            } else {
+                $("#paymentMethod").find("option[value='cash-on-delivery']").remove();
+            }
+        });
+    });
+
     function Close() {
         $('#categoryModal').modal('hide');
     }
@@ -172,9 +204,37 @@ if ($conn->connect_error) {
         // You can send the jsonData to the server here using an AJAX request or other methods.
         console.log(JSON.parse(jsonData));
         orders.value = jsonData;
+        const totalValue = $("#totalValue").text();
+        if (Number(totalValue) < 100 && $("#paymentMethod").val() === "online") {
+            Swal.fire({
+                icon: 'error',
 
-        // Submit the form
-        document.getElementById("addItemForm").submit();
+                title: 'Online Transaction has P100 minimum amount',
+            })
+        } else {
+            // Submit the form
+            const db = window.getDatabase();
+            const shopRef = window.ref(db, 'shop');
+            window.get(shopRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const shop = snapshot.val();
+                    if (shop.isOpen) {
+                        // Submit the form
+                        document.getElementById("addItemForm").submit();
+                    } else {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Shop is currently closed',
+                        })
+                    }
+                } else {
+                    console.log("No data available");
+                }
+            }).catch((error) => {
+                console.error(error);
+            });
+        }
+
     }
 
     let totalnetsale;

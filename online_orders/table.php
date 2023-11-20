@@ -51,7 +51,9 @@
                 <tr>
                     <th class="action-column">Actions</th>
                     <th>Order #</th>
-                    <th>Status</th>
+                    <th>Order Status</th>
+                    <th>Payment Status</th>
+                    <th>Delivery Method</th>
                     <th>Orders</th>
                     <th>Buyer</th>
                     <th>Total Price</th>
@@ -100,6 +102,14 @@
             "delivered"
         ];
 
+        // step by step for pick up
+        const PICKUP_STATUS_SEQUENCE = [
+            "on-queue",
+            "preparing-food",
+            "ready-for-pick-up",
+            "delivered"
+        ]
+
         $(document).ready(function() {
             const table = $('#example').DataTable({
                 orderCellsTop: true,
@@ -147,8 +157,13 @@
                             for (const orderNo in orderData) {
                                 const currentOrder = orderData[orderNo];
 
-                                // the current order does not need any action skip it
-                                const isNoActionNeeded = !(STATUS_SEQUENCE[STATUS_SEQUENCE.indexOf(currentOrder.status) + 1]);
+                                const orderDetails = await getOrderDetails(orderNo);
+                                console.log(orderDetails);
+                                let current_status_sequece = STATUS_SEQUENCE;
+                                if (orderDetails.deliveryMethod === "pick-up") current_status_sequece = PICKUP_STATUS_SEQUENCE;
+
+                                const isNoActionNeeded = currentOrder.status == "delivered" || currentOrder.status == "waiting-for-feedback";
+                                console.log(isNoActionNeeded, currentOrder.status);
                                 <?php
                                 if (!isset($_GET['isNoActionNeeded'])) {
                                 ?>
@@ -157,19 +172,22 @@
                                 }
                                 ?>
 
-                                const orderDetails = await getOrderDetails(orderNo);
                                 const formattedOrderItemsStr = orderDetails.formattedOrderItemsStr || 'Failed to get order items. Reload the page to try again.';
                                 // add data to 
                                 currentOrder.costumerID = costumerID;
                                 const totalAmt = `₱${orderDetails.NetAmt}`;
-                                if (STATUS_SEQUENCE.indexOf(currentOrder.status) === -1) continue;
+                                currentOrder["isPaid"] = orderDetails.isPaid === "1" ? true : false;
+                                currentOrder["deliveryMethod"] = orderDetails.deliveryMethod;
                                 const currentOrderStr = JSON.stringify(currentOrder);
+                                console.log(currentOrder);
                                 table.row.add([
                                     currentOrderStr,
                                     orderNo,
                                     currentOrder.status,
+                                    orderDetails.isPaid,
+                                    orderDetails.deliveryMethod,
                                     formattedOrderItemsStr,
-                                    costumerID,
+                                    `${orderDetails.costumerFirstName} ${orderDetails.costumerLastName}`,
                                     totalAmt,
                                 ]).draw(false);
                             }
@@ -181,7 +199,10 @@
                         render: (d) => {
                             const data = JSON.parse(d);
                             const orderNo = data.sqlKey;
-                            const nextStatus = STATUS_SEQUENCE[STATUS_SEQUENCE.indexOf(data.status) + 1];
+                            let current_status_sequence = STATUS_SEQUENCE;
+                            // if delivery method is pick up use pick up status sequence
+                            if (data.deliveryMethod === "pick-up") current_status_sequence = PICKUP_STATUS_SEQUENCE;
+                            const nextStatus = current_status_sequence[current_status_sequence.indexOf(data.status) + 1];
                             const nextColor = STATUS_COLOR[nextStatus];
                             if (!nextStatus) return '<small>No Action Required</small';
                             return `
@@ -199,19 +220,43 @@
                             return `<span class="badge w-100" style="background-color: ${color}">${d.replace(/-/g, " ").toUpperCase()}</span>`;
                         },
                     },
+                    {
+                        targets: 3,
+                        render: (d) => {
+                            let color = "#1b4009";
+                            let text = "PAID";
+                            if (d === '0') {
+                                color = "#c9820d";
+                                text = "NOT YET paid";
+                            }
+                            return `<span class="badge w-100" style="background-color: ${color}">${text}</span>`;
+                        },
+                    },
+                    {
+                        targets: 4,
+                        render: (d) => {
+                            let color = "#1b4009";
+                            if (d === 'online-delivery') color = "#c9820d";
+                            return `<span class="badge w-100" style="background-color: ${color}">${d.replace(/-/g, " ").toUpperCase()}</span>`;
+                        },
+                    },
                 ],
                 order: [
                     [1, 'asc']
                 ],
                 createdRow: function(row, data, dataIndex) {
-                    $('td:eq(3)', row).css('min-width', '400px');
+                    $('td:eq(5)', row).css('min-width', '400px');
                 }
             });
 
             // add click listener to mark to next step button
             table.on('click', '.next-step-btn', function(e) {
                 const orderData = JSON.parse($(this).attr('order-data'));
-                const nextStatus = STATUS_SEQUENCE[STATUS_SEQUENCE.indexOf(orderData.status) + 1];
+
+                let current_status_sequece = STATUS_SEQUENCE;
+                if (orderData.deliveryMethod === "pick-up") current_status_sequece = PICKUP_STATUS_SEQUENCE;
+
+                const nextStatus = current_status_sequece[current_status_sequece.indexOf(orderData.status) + 1];
                 markToNextStep(orderData, `${nextStatus}`, e.target);
             });
 
@@ -251,8 +296,9 @@
                 // if next status is delivered mark it as waiting-for-feedback
                 if (nextStatus === 'delivered') nextStatus = 'waiting-for-feedback';
 
-                set(orderRef, nextStatus).then(() => {
+                set(orderRef, nextStatus).then(async () => {
                     // show success message
+                    await markPickupOrderAsPaid(orderData.sqlKey);
                     Swal.fire({
                         icon: 'success',
                         title: 'Success',
@@ -269,6 +315,12 @@
                     button.disabled = false;
                     // restore old button content
                     button.innerHTML = oldButtonContent;
+                });
+            }
+
+            async function markPickupOrderAsPaid(orderNo) {
+                await fetch(`/milktea-commerce/API/orders/markPickUpPaid.php?orderID=${orderNo}`, {
+                    method: 'GET',
                 });
             }
 

@@ -47,11 +47,11 @@ if (!$resultInsertFeedback) {
 
 
 // mark sales status as delivered in mysql database
-$sqlUpdateSales = "UPDATE sales_tb
+$sqlUpdateSales = "UPDATE orders_tb
     SET
         status = 'delivered'
     WHERE
-        SalesID = '$orderNo';
+        orderID = '$orderNo';
     ";
 
 $resultUpdateSales = mysqli_query($conn, $sqlUpdateSales);

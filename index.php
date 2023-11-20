@@ -33,14 +33,14 @@ session_start();
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 	<!-- Custom CSS File Link  -->
 	<link rel="stylesheet" href="./landingpage/css/style.css">
-
+	
 </head>
 
 <body>
 	<?php
 	include('./php/session-dialog.php');
-	include __DIR__ . '/track-order/index.php';
 	?>
+	<?php include __DIR__ . '/track-order/index.php'; ?>
 	<!-- HEADER -->
 	<header class="header">
 		<div id="menu-btn" class="fas fa-bars"></div>
@@ -67,6 +67,7 @@ session_start();
 			font-size: 1.7rem;" data-toggle="modal" data-target="#categoryModal">
 				<i class="fas fa-shopping-cart"></i>
 			</a>
+			<?php endif; ?>
 			<?php if (isset($_SESSION['costumer'])) :
 				$costumer = json_decode($_SESSION['costumer']);
 			?>
@@ -474,17 +475,37 @@ session_start();
 		<div class="swiper review-slider">
 			<div class="swiper-wrapper">
 				<?php
-				$sql = "SELECT * FROM feedback_tb";
+				$sql = "SELECT * FROM feedback_tb 
+              LEFT JOIN orders_tb ON feedback_tb.SalesID = orders_tb.orderID
+              LEFT JOIN costumer_tb ON costumer_tb.costumerID = orders_tb.CostumerID
+              ";
+
+
 				$result = $conn->query($sql);
 
 				if ($result->num_rows > 0) {
 					while ($row = $result->fetch_assoc()) {
+
+
 				?>
 						<div class="swiper-slide box">
 							<i class="fas fa-quote-left"></i>
 							<i class="fas fa-quote-right"></i>
+							<?php
+							$Product = $row['ProductInfo'];
+							$data = json_decode($Product, true);
 
-							<img src="img/user.jpg">
+							foreach ($data as $item) {
+								$product_id = $item["productId"];
+								$product_name = $item["productName"];
+								$size = $item["size"];
+								$quantity = $item["qty"];
+								$addons = $item["addOns"];
+								$subtotal = $item["subTotal"];
+								$image = $item["image"];
+							}
+							?>
+							<img src="<?php echo $image; ?>">
 							<!-- <img src="<?php echo $row['image_path']; ?>" alt=""> -->
 							<div class="stars">
 								<?php
@@ -495,9 +516,7 @@ session_start();
 								}
 								?>
 							</div>
-
-							<p><?php echo $row['SalesID']; ?></p>
-
+							<p><?php echo $row['firstName'] . " " . $row['lastName']; ?></p>
 							<span><?php echo $row['feedback']; ?></span>
 						</div>
 				<?php
@@ -582,6 +601,25 @@ session_start();
 
 			},
 		});
+
+		$("#notification-btn").click(function (event) {
+			// Prevent the click event from propagating to the document
+			event.stopPropagation();
+			$("#notification-btn-container").toggleClass("d-none");
+			$("#notification-btn-container").toggleClass("notification-visible");
+		});
+
+		$(document).on("click", function (event) {
+			var $container = $("#notification-btn-container");
+			var $button = $("#notification-btn");
+
+			// Check if the click was outside of the container and the button
+			if (!$container.is(event.target) && !$button.is(event.target) && $container.has(event.target).length === 0) {
+				$container.removeClass("notification-visible");
+				$container.addClass("d-none");
+			}
+		});
+
 	</script>
 
 </body>

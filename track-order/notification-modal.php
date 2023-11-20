@@ -6,7 +6,8 @@
             margin: auto;
             width: 600px;
             max-width: 90%;
-            border-radius: 20px
+            border-radius: 20px;
+            z-index: 99999;
         }
 
         @media(max-width:767px) {
@@ -86,7 +87,7 @@
 </head>
 <main>
     <!-- Modal -->
-    <div class="modal fade" id="notificationModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+    <div class="modal fade" id="notificationModal" data-bs-keyboard="false" tabindex="4" aria-labelledby="notificationModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -146,6 +147,7 @@
 <script>
     const STATUS_IMG = {
         "pending-payment": "#991b1b",
+        "on-queue": "#2b660e",
         "preparing-food": "#1b4009",
         "on-delivery-rider": "#c9820d",
         "waiting-for-feedback": "#075985",
@@ -207,7 +209,7 @@
             case window.ORDER_STATUS["pending-payment"]:
                 return `
                     <div class="my-3 ">
-                        <a href="/milktea-commerce/checkout/payment.php?paymentID=${orderData.paymentID}" class="bg-primary text-white rounded text-center py-3 px-5 fs-5 btn-primary mx-auto d-block text-uppercase fw-bold btn" style="width: max-content">Pay Now</a>
+                        <a href="/milktea-commerce/checkout/payment_redirect.php?orderId=${orderData.sqlKey}" class="bg-primary text-white rounded text-center py-3 px-5 fs-5 btn-primary mx-auto d-block text-uppercase fw-bold btn" style="width: max-content">Pay Now</a>
                     </div>
                 `;
                 break;
@@ -242,7 +244,7 @@
 
     function fetchOrderDetails(orderNo) {
         $.ajax({
-            url: "/milktea-commerce/api/orders/search.php",
+            url: "/milktea-commerce/API/orders/search.php",
             data: {
                 orderID: orderNo
             },

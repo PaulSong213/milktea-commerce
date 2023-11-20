@@ -19,16 +19,15 @@ SELECT
     ord.status,
     ord.modeOfPayment,
     ord.PaymentID,
-    ee.DatabaseID AS EnteredEmployeeID,
-    ee.lname AS EnteredEmployeeLastName,
-    ee.fname AS EnteredEmployeeFirstName,
-    ee.mname AS EnteredEmployeeMiddleName,
-    ee.title AS EnteredEmployeeTitle,
-    ee.position AS EnteredEmployeePosition
+    ord.isPaid,
+    ord.deliveryMethod,
+    cc.costumerID AS costumerID,
+    cc.lastName AS costumerLastName,
+    cc.firstName AS costumerFirstName
 FROM
     orders_tb ord
 LEFT JOIN
-    employee_tb ee ON ord.EnteredName = ee.DatabaseID
+    costumer_tb cc ON ord.CostumerID = cc.costumerID
 WHERE ord.orderID = '$orderID';
 ";
 

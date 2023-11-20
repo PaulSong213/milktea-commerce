@@ -26,6 +26,7 @@ if (isset($_POST['orders'])) {
     $ChangeAmt = 0;
     $EnteredName = 0;
     $costumerID = $_POST['costumerID'];
+    $deliveryMethod = $_POST['deliveryMethod'];
 
     if ($paymentMethod == "cash-on-delivery") {
         $status = "on-queue";
@@ -44,8 +45,8 @@ if (isset($_POST['orders'])) {
     }
 
     // Prepare the SQL statement
-    $sql = "INSERT INTO `orders_tb` (`ProductInfo`, `CostumerID`, `PaymentID`, `modeOfPayment`, `status`, `NetSale`, `AddDisc`, `AddDiscAmt`, `NetAmt`, `AmtTendered`, `ChangeAmt`, `EnteredName`, `CostumerName`,`shippingAddress`) 
-    VALUES ( '$orderStr', $costumerID, '', '$paymentMethod', ' $status', $NetSale, $AddDisc, $AddDisc, $NetAmt, $AmtTendered, $ChangeAmt, '0', '',' $shippingAddress');";
+    $sql = "INSERT INTO `orders_tb` (`ProductInfo`, `CostumerID`, `PaymentID`, `modeOfPayment`, `status`, `NetSale`, `AddDisc`, `AddDiscAmt`, `NetAmt`, `AmtTendered`, `ChangeAmt`, `EnteredName`, `CostumerName`,`shippingAddress`,`deliveryMethod`) 
+    VALUES ( '$orderStr', $costumerID, '', '$paymentMethod', '$status', $NetSale, $AddDisc, $AddDisc, $NetAmt, $AmtTendered, $ChangeAmt, '0', '',' $shippingAddress','$deliveryMethod');";
 
     // Execute the SQL statement
     if ($conn->query($sql) === TRUE) {
