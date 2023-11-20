@@ -191,26 +191,8 @@ if (isset($_SESSION['user'])) {
                             </div>
                             <hr>
 
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">Title</h6>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-
-                                    <?php echo $title ?>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">Position</h6>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-
-                                    <?php echo $position ?>
-                                </div>
-                            </div>
-                            <hr>
+                           
+                            
                             <div class="row">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Marital Status</h6>
@@ -246,17 +228,7 @@ if (isset($_SESSION['user'])) {
                                 </div>
                             </div>
                             <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">Department</h6>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-                                    <?php
-                                    echo $departmentName
-                                    ?>
-                                </div>
-                            </div>
-                            <hr>
+                          
                             <div class="row">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Date Started</h6>

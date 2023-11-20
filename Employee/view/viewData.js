@@ -32,22 +32,12 @@ export function handleViewClick(table) {
             label: "Created Date"
         },
 
-        {
-            dataKey: "title",
-            label: "Title"
-        },
-        {
-            dataKey: "position",
-            label: "Position"
-        },
+       
         {
             dataKey: "sex",
             label: "Sex"
         },
-        {
-            dataKey: "departmentName",
-            label: "Department"
-        },
+       
         {
             dataKey: "dateStart",
             label: "Date Start"

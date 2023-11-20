@@ -15,11 +15,21 @@ if (isset($_SESSION['user'])) {
 }
 
 if (isset($_POST['SaveItem'])) {
-    $itemCode = $_POST['item_code'];
-    $itemTypeID = $_POST['itemTypeID'];
-    $description = $_POST['description'];
-    $sugPrice = $_POST['variant'];
-    $statusData = 1;
+    $firstName = $_POST["firstName"];
+    $lastName = $_POST["lastName"];
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    $phoneNumber = $_POST["phoneNumber"];
+    $dateOfBirth = $_POST["dateOfBirth"];
+    $region = $_POST["region"];
+    $province = $_POST["province"];
+    $municipality = $_POST["municipality"];
+    $barangay = $_POST["barangay"];
+    $otherAddress = $_POST["otherAddress"];
+
+    $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+    $Address = $region . ", " . $province . ", " . $municipality . ", " . $barangay . ", " . $otherAddress;
+
 
 
     // Define the target directory for image uploads
@@ -38,10 +48,10 @@ if (isset($_POST['SaveItem'])) {
             if (move_uploaded_file($_FILES['photo']['tmp_name'], $photo)) {
                 // Image uploaded successfully
                 // Use prepared statements to avoid SQL injection
-                $stmt = $conn->prepare("INSERT INTO inventory_tb (image, itemCode, UnitType, itemTypeID, Description, variantID, Status, createDate, modifiedDate) 
-                                                          VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
+                $stmt = $conn->prepare("INSERT INTO user_tb (lname, fname, email, password, phone, bDate, address, userImage) 
+                                                          VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
                 $photo = 'add/' . $photo;
-                $stmt->bind_param("sssssdi", $photo, $itemCode, $UnitType, $itemTypeID,  $description, $sugPrice, $statusData);
+                $stmt->bind_param("ssssssdi", $lastName, $firstName, $email, $hashedPassword,  $phoneNumber, $dateOfBirth, $Address, $photo);
 
                 if ($stmt->execute()) {
                     $act = "Add New Inventory Item";

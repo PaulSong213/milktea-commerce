@@ -50,14 +50,8 @@ $levelTwo = [
                 "name" => "Employee", //name of the link
                 "link" => "/Employee/index.php", //link of the page
             ],
-            [
-                "name" => "Department", //name of the link
-                "link" => "/departmentTable/index.php", //link of the page
-            ],
-            [
-                "name" => "Room", //name of the link
-                "link" => "/Room/index.php", //link of the page
-            ],
+          
+           
 
         ] //list of links on dropdown
     ],
@@ -236,26 +230,14 @@ $levelFour = [
             // ],
         ]
     ],
+   
     [
         "name" => "Employee", //name of the link
         "icon" => "badge", //material icon name
         "link" => "/Employee/index.php", //link of the page
-        "navigations" => [
-            [
-                "name" => "Employee", //name of the link
-                "link" => "/Employee/index.php", //link of the page
-            ],
-            [
-                "name" => "Department", //name of the link
-                "link" => "/departmentTable/index.php", //link of the page
-            ],
-            [
-                "name" => "Room", //name of the link
-                "link" => "/Room/index.php", //link of the page
-            ],
-
-        ] //list of links on dropdown
+        "navigations" => [] //list of links on dropdown
     ],
+
     [
         "name" => "Customer List", //name of the link
         "icon" => "person_4", //material icon name

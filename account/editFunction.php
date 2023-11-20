@@ -32,8 +32,6 @@ if (isset($_POST['SaveItem'])) {
         lname = '$lname',
         fname = '$fname',
         mname = '$mname',
-        title = '$title',
-        position = '$position',
         sex = '$sex',
         bDate = '$bdate',
         nickName = '$nickname',

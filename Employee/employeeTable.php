@@ -67,9 +67,6 @@
             <thead>
                 <tr>
                     <th>Employee Name</th>
-                    <th>Department</th>
-                    <th>Position</th>
-                    <th>Title</th>
                     <th>Created Date</th>
                     <th>Modified Date</th>
                     <th>Status</th>
@@ -130,15 +127,7 @@
                             return data.fname + " " + data.mname + ", " + data.lname;
                         }
                     },
-                    {
-                        data: 'departmentName',
-                    },
-                    {
-                        data: 'position'
-                    },
-                    {
-                        data: 'title'
-                    },
+                   
                     {
                         data: null,
                         render: (data, type, row) => {
@@ -237,7 +226,7 @@
                     searchColumn(this.api());
                 },
                 order: [
-                    [5, 'asc']
+                    [3, 'asc']
                 ]
             });
             handleArchiveClick(table, "userName", "./edit/archive.php", "Status");
