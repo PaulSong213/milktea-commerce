@@ -106,7 +106,7 @@ session_start();
 			<div class="row fluid">
 				<div class="col-md-6">
 					<div class="content text-ce">
-						<h1 style="font-size:90px; font-weight:900;">OUR TODAYS PROMO!!</h1>
+						<h1 style="font-size:90px; font-weight:bold;">OUR TODAYS PROMO!!</h1>
 					</div>
 				</div>
 				<div class="col-md-5">

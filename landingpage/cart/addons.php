@@ -11,9 +11,7 @@ if ($conn->connect_error) {
 
 // Construct the SQL query to get data from addons_tb
 $query = "SELECT * FROM addons_tb";
-
 $result = $conn->query($query);
-
 ?>
 <div class="modal fade" data-bs-keyboard="false" tabindex="-1" aria-hidden="true" id="addonsmodal">
     <div class="modal-dialog modal-dialog-centered modal-lg rounded">
