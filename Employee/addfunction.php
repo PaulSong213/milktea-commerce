@@ -24,17 +24,15 @@ if (isset($_POST['SaveItem'])) {
     $bdate = $_POST['employee_bdate'];
     $marital = $_POST['marital'];
     $sex = $_POST['sex'];
-    $dept = $_POST['dept'];
-    $title = $_POST['title'];
-    $position = $_POST['position'];
+    $dept = 1;
     $startDate = $_POST['employee_sdate'];
     $username = $_POST['email'];
     $password = $_POST['Password'];
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
 
-    $sql = "INSERT INTO employee_tb (lname, fname, mname, nickName, bDate, maritalStatus, sex, departmentID, title, position, dateStart, userName, password, createDate, modifiedDate)
-        VALUES ('$lname', '$fname', '$mname', '$nickname', '$bdate', '$marital', '$sex', '$dept', '$title', '$position', '$startDate', '$username', '$hashedPassword', NOW(), NOW())";
+    $sql = "INSERT INTO employee_tb (lname, fname, mname, nickName, bDate, maritalStatus, sex, departmentID, dateStart, userName, password, createDate, modifiedDate)
+        VALUES ('$lname', '$fname', '$mname', '$nickname', '$bdate', '$marital', '$sex', '$dept', '$startDate', '$username', '$hashedPassword', NOW(), NOW())";
 
     $result = mysqli_query($conn, $sql);
     if ($result) {

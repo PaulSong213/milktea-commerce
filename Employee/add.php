@@ -63,7 +63,7 @@
                         </select>
                     </div>
 
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <label class="form-label" for="dept">Department<span class="text-danger mx-1">*</span></label>
                         <select class="form-select" id="dept" name="dept" required>
                             <?php
@@ -77,17 +77,17 @@
                             }
                             ?>
                         </select>
-                    </div>
+                    </div> -->
 
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <label class="form-label" for="title">Title<span class="text-danger mx-1">*</span></label>
                         <input type="text" id="title" name="title" class="form-control" placeholder="Enter Title" required autocomplete="on" />
-                    </div>
+                    </div> -->
 
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <label class="form-label" for="position">Position<span class="text-danger mx-1">*</span></label>
                         <input type="text" id="position" name="position" class="form-control" placeholder="Enter Position" required autocomplete="on">
-                    </div>
+                    </div> -->
 
                     <div class="mb-3">
                         <label class="form-label" for="employee_sdate">Date Started<span class="text-danger mx-1">*</span></label>

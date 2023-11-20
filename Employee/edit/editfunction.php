@@ -20,10 +20,7 @@ if (isset($_POST['SaveItem'])) {
     $bdate = $_POST['employee_bdate'];
     $marital = $_POST['marital'];
     $sex = $_POST['sex'];
-    $title = $_POST['title'];
-    $position = $_POST['position'];
     $employeesdate = $_POST['employee_sdate'];
-    $depart = $_POST['dept'];
     $email = $_POST['email'];
 
     $item_id = $_POST['item_id'];
@@ -37,12 +34,9 @@ if (isset($_POST['SaveItem'])) {
         lname = '$lname',
         fname = '$fname',
         mname = '$mname',
-        title = '$title',
-        position = '$position',
         sex = '$sex',
         bDate = '$bdate',
         nickName = '$nickname',
-        departmentID =  '$depart',
         dateStart = '$employeesdate',
         password = '$hashedPassword', 
         userName = '$email',
