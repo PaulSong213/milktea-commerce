@@ -33,7 +33,7 @@ session_start();
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 	<!-- Custom CSS File Link  -->
 	<link rel="stylesheet" href="./landingpage/css/style.css">
-	
+
 </head>
 
 <body>
@@ -58,20 +58,31 @@ session_start();
 			<a href="#review">reviews</a>
 		</nav>
 
-		<div class="d-flex">
-			<a href="#" class=" d-block " style=" display: inline-block;
-			padding: .9rem 1.5rem;
-			color: var(--main-color);
-			background: none;
-			cursor: pointer;
-			font-size: 1.7rem;" data-toggle="modal" data-target="#categoryModal">
-				<i class="fas fa-shopping-cart"></i>
-			</a>
+
+		<div class="d-flex ">
+			<?php if (isset($_SESSION['costumer'])) : ?>
+				<span class=" d-block " id="notification-btn" style=" display: inline-block;
+					padding: .9rem 1.5rem;
+					color: var(--main-color);
+					background: none;
+					cursor: pointer;
+					font-size: 1.7rem;">
+					<i class="fas fa-bell"></i>
+				</span>
+				<a href="#" class=" d-block " data-toggle="modal" data-target="#categoryModal" style=" display: inline-block;
+					padding: .9rem 1.5rem;
+					color: var(--main-color);
+					background: none;
+					cursor: pointer;
+					margin-right: 1rem;
+					font-size: 1.7rem;">
+					<i class="fas fa-shopping-cart"></i>
+				</a>
 			<?php endif; ?>
 			<?php if (isset($_SESSION['costumer'])) :
 				$costumer = json_decode($_SESSION['costumer']);
 			?>
-				<div class="dropdown my-auto ms-2 rounded rounded-4" style="background:none;" >
+				<div class="dropdown my-auto ms-2 rounded rounded-4" style="background:none;">
 					<button class="fs-2 dropdown-toggle rounded" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
 						<!-- Add an icon for the user -->
 						<i class="fas fa-user-circle"></i>
@@ -602,14 +613,14 @@ session_start();
 			},
 		});
 
-		$("#notification-btn").click(function (event) {
+		$("#notification-btn").click(function(event) {
 			// Prevent the click event from propagating to the document
 			event.stopPropagation();
 			$("#notification-btn-container").toggleClass("d-none");
 			$("#notification-btn-container").toggleClass("notification-visible");
 		});
 
-		$(document).on("click", function (event) {
+		$(document).on("click", function(event) {
 			var $container = $("#notification-btn-container");
 			var $button = $("#notification-btn");
 
@@ -619,7 +630,6 @@ session_start();
 				$container.addClass("d-none");
 			}
 		});
-
 	</script>
 
 </body>
