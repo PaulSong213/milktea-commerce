@@ -52,26 +52,38 @@ session_start();
 
 		<nav class="navbar">
 			<a href="#home">home</a>
+			<a href="#promos">promos</a>
 			<a href="#about">about</a>
 			<a href="#menu">menu</a>
 			<a href="#review">reviews</a>
 		</nav>
 
 		<div class="d-flex">
-			<a href="#" class="btn d-block " data-toggle="modal" data-target="#categoryModal">
-				<i class="fas fa-shopping-cart"></i> Cart
+			<a href="#" class=" d-block " style=" display: inline-block;
+			padding: .9rem 1.5rem;
+			color: var(--main-color);
+			background: none;
+			cursor: pointer;
+			font-size: 1.7rem;" data-toggle="modal" data-target="#categoryModal">
+				<i class="fas fa-shopping-cart"></i>
 			</a>
 			<?php if (isset($_SESSION['costumer'])) :
 				$costumer = json_decode($_SESSION['costumer']);
 			?>
-				<div class="dropdown my-auto ms-2 rounded rounded-4">
+				<div class="dropdown my-auto ms-2 rounded rounded-4" style="background:none;" >
 					<button class="fs-2 dropdown-toggle rounded" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-						<?= $costumer->firstName . " " . $costumer->lastName ?>
+						<!-- Add an icon for the user -->
+						<i class="fas fa-user-circle"></i>
 					</button>
 					<ul class="dropdown-menu rounded" aria-labelledby="dropdownMenuButton1">
+						<!-- Display customer's first name and last name in the USERNAME li -->
+						<li>
+							<h3 class="dropdown-item fs-2"><?= $costumer->firstName . " " . $costumer->lastName ?></h3>
+						</li>
 						<li><a class="dropdown-item fs-2" href="/milktea-commerce/costumer/logout.php">Log out</a></li>
 					</ul>
 				</div>
+
 			<?php else : ?>
 				<a href="./costumer/login.php" class="btn mx-2">Log in</a>
 				<a href="./costumer/register.php" class="btn">Register</a>
@@ -82,17 +94,23 @@ session_start();
 
 	<!-- HOME -->
 	<section class="home" id="home">
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-6 ">
-					<div class="content">
-						<h3>ROMEO`S CAFE</h3>
-						<h1>Brewing happiness one cup at a time.</h1>
-						<a href="#menu" class="btn" id="Place-Order">Buy One Now</a>
+		<div style="margin:150px 0px; ">
+			<h3 style="font-size: 100px; letter-spacing: 2px; text-transform: uppercase;">ROMEO`S CAFE</h3>
+			<h1 style="font-size: 36px; margin-top: 0px; line-height: 1.5;">Brewing happiness <span style="color: #ff5733;">one cup</span> at a time.</h1>
+			<a href="#menu" class="btn" id="Place-Order">Buy One Now</a>
+		</div>
+	</section>
+	<!-- HOME -->
+	<section class="home" id="promos">
+		<div class="container-fuid">
+			<div class="row fluid">
+				<div class="col-md-6">
+					<div class="content text-ce">
+						<h1 style="font-size:90px; font-weight:900;">OUR TODAYS PROMO!!</h1>
 					</div>
 				</div>
 				<div class="col-md-5">
-					<div style="max-width: 700px; margin: auto; max-height: 500px;">
+					<div style="max-width: fit-content; margin: auto; max-height: fit-content;">
 						<div class="image">
 							<div class="swiper review-slider">
 								<div class="swiper-wrapper" id="imageSlider">

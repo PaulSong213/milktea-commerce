@@ -251,7 +251,7 @@ if ($conn->connect_error) {
         // Get the selected promo name
         const selectedPromo = $(this).val();
         const selectedPromoPercentage = parseFloat(promoPercentage);
-        
+
         // Calculate the discount amount
         const discountAmount = totalnetsale - ((selectedPromoPercentage / 100) * totalnetsale);
 
@@ -260,7 +260,7 @@ if ($conn->connect_error) {
         console.log("selectedPromoPercentage Amount:", selectedPromoPercentage);
         console.log('Selected promo:', selectedPromo);
         console.log("Discount Amount:", discountAmount);
-        totalValue.textContent = discountAmount.toFixed(2);
+        totalValue.textContent = parseFloat(discountAmount).toFixed(2);
         // You can add more code here to handle the selected promo
     });
 </script>
