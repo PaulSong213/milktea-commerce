@@ -34,6 +34,7 @@ session_start();
 	<!-- Custom CSS File Link  -->
 	<link rel="stylesheet" href="./landingpage/css/style.css">
 
+
 </head>
 
 <body>
@@ -73,8 +74,37 @@ session_start();
 					</ul>
 				</div>
 			<?php else : ?>
-				<a href="./costumer/login.php" class="btn mx-2">Log in</a>
-				<a href="./costumer/register.php" class="btn">Register</a>
+				<div class="dropdown">
+					<button onclick="toggleDropdown()" class="btn mx-2">Log In As</button>
+					<div id="dropdownMenu" class="dropdown-menu">
+						<a class="dropdown-item" href="./costumer/login.php">
+							<h4>Customer</h4>
+						</a>
+						<a class="dropdown-item" href="./login.php">
+							<h4>Staff/Admin</h4>
+						</a>
+					</div>
+					<a class="btn mx-2" href="./costumer/register.php">Register</a>
+				</div>
+
+				<script>
+					function toggleDropdown() {
+						var dropdownMenu = document.getElementById("dropdownMenu");
+						dropdownMenu.classList.toggle("show");
+					}
+
+					window.onclick = function(event) {
+						if (!event.target.matches('.btn')) {
+							var dropdowns = document.getElementsByClassName("dropdown-menu");
+							for (var i = 0; i < dropdowns.length; i++) {
+								var openDropdown = dropdowns[i];
+								if (openDropdown.classList.contains('show')) {
+									openDropdown.classList.remove('show');
+								}
+							}
+						}
+					}
+				</script>
 			<?php endif; ?>
 		</div>
 

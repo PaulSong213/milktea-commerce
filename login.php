@@ -11,7 +11,7 @@ if (isset($_SESSION['user'])) {
 <html>
 
 <head>
-    <title></title>
+    <title>Admin | Log In</title>
     <link rel="icon" href="images/newlogo.jpg" type="jpg">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
