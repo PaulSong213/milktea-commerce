@@ -154,7 +154,7 @@ $LastBillingID = getLastBillingID($conn);
                                     <td class="d-none"><input type="hidden" class="form-control text-light custom-readonly-input" readonly name="inv"></td>
                                     <td class="sizeSelect">
                                         <select class="form-select" name="size[]">
-                                            <option value="0">Select Size</option>
+                                            <option value="0" autocomplete="off">Select Size</option>
                                         </select>
                                     </td>
                                     <td><input type="number" class="form-control text-light custom-readonly-input" name="price[]" readonly step="0.01"></td>

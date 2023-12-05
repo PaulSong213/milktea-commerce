@@ -15,7 +15,7 @@ $client = new \GuzzleHttp\Client();
 $response = $client->request('GET', 'https://api.paymongo.com/v1/links/' . $paymentID, [
     'headers' => [
         'accept' => 'application/json',
-        'authorization' => 'Basic c2tfdGVzdF8yS3VmZFhTTE1xWHJkYUhZZ2lTWlVxUjU6',
+        'authorization' => 'Basic c2tfdGVzdF85a3dEOFFyb1ZhTFp2dTZ5SzdlWGlmR046',
     ],
 ]);
 $paymentInfo = json_decode($response->getBody());

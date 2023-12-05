@@ -270,7 +270,7 @@ session_start();
 				$result = $conn->query($query);
 				echo '<div class="button-container" style="display: flex; flex-wrap: wrap;">';
 				if ($result->num_rows > 0) {
-					while ($row = $result->fetch_assoc()) {			
+					while ($row = $result->fetch_assoc()) {
 						echo '<button class="m-5 sort-button fs-16" style="font-size:2rem; background:none;" data-category="' . $row["itemTypeID"] . '">' . $row["description"] . '</button>';
 					}
 				}
@@ -318,6 +318,22 @@ session_start();
 									image = $(this).data('image');
 									itemCode = $(this).data('item-code');
 									inventoryID = $(this).data('inventory-id');
+
+									$.ajax({
+										url: '/milktea-commerce/API/get-size.php',
+										type: 'GET',
+										data: {
+											inventoryID: itemCode
+										},
+										success: (data) => {
+											console.log("Sizes Loaded", data);
+											$("#sizeOptionSelect").html(data);
+										},
+										error: function() {
+											console.log('Error loading menu.');
+										}
+									});
+
 									itemTypeID = $(this).data('item-id');
 									variantsJSON = $(this).data('variants');
 									// Set the values for the image and HTML elements
@@ -367,11 +383,14 @@ session_start();
 				const cartTableBody = document.querySelector("#cartTable tbody");
 				// Add a click event listener to the "Done" button
 				doneButton.addEventListener("click", function() {
+					const size = $("#sizeSelectStart").val();
+					const sizeHtml = $("#sizeOptionSelect").html();
+					console.log("size", size);
 					var select = document.getElementById("sugarLevel");
 					var selectedValue = select.value;
 					if (selectedValue == "") {
 						Swal.fire({
-							title: "Please select sugar level!",
+							title: "Please select sugar level and Size",
 							icon: "warning", // Adding an error icon
 						});
 						console.log(selectedValue);
@@ -394,7 +413,8 @@ session_start();
 							selectedAddonsData.push({
 								id: addonId,
 								description: addonDescription,
-								price: addonPrice
+								price: addonPrice,
+								size: size
 							});
 						});
 
@@ -425,8 +445,9 @@ session_start();
 								<td><img src="${image}" alt="Product Image" width="50"></td>
 								<td>${itemCode}</td>
 								<td>
-									<input class="sizeSelect" type="text" name="size" id="size" list="sizeOptions" placeholder="Select Size">
+									<input value="${size}" class="sizeSelect" type="text" name="size" id="size" list="sizeOptions" autocomplete="off" placeholder="Select Size">
 									<datalist id="sizeOptions">
+									${sizeHtml}
 									</datalist>
 								</td>
 								<td><input type="number" class="qtySelect" name="qty" id="qty" value="1"></td>
@@ -446,15 +467,15 @@ session_start();
 						const qtyInput = document.getElementById('qty');
 						const priceElement = document.getElementById('price');
 						// Remove any existing options and set the 'readonly' attribute
-						while (dataList.firstChild) {
-							dataList.removeChild(dataList.firstChild);
-						}
+						// while (dataList.firstChild) {
+						// 	dataList.removeChild(dataList.firstChild);
+						// }
 						// Add an option for each variant
-						variantsJSON.forEach(variant => {
-							var option = document.createElement('option');
-							option.value = variant.variantName;
-							dataList.appendChild(option);
-						});
+						// variantsJSON.forEach(variant => {
+						// 	var option = document.createElement('option');
+						// 	option.value = variant.variantName;
+						// 	dataList.appendChild(option);
+						// });
 						$(".sizeSelect").on('change', function() {
 							// Get the selected value from the input
 							const selectedSize = $(this).val();

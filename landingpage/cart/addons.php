@@ -37,9 +37,9 @@ $result = $conn->query($query);
                             <div class="row">
                                 <div class="sizeSelectAdons fw-bold" style="font-size:1.5rem ">
                                     <label for="Size">Size</label>
-                                    <input class="sizeSelect" type="text" name="size" id="size" list="sizeOptions" placeholder="Select Size">
-									<datalist id="sizeOptions">
-									</datalist>
+                                    <input class="sizeSelect" type="text" name="size" id="sizeSelectStart" autocomplete="off" list="sizeOptionSelect" placeholder="Select Size">
+                                    <datalist id="sizeOptionSelect">
+                                    </datalist>
                                 </div>
                                 <div class="sugar-level fw-bold" style="font-size:1.5rem ">
                                     <label for="sugarLevel">Sugar Level:</label>

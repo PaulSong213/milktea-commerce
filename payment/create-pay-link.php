@@ -12,7 +12,7 @@ $response = $client->request('POST', 'https://api.paymongo.com/v1/links', [
   'body' => '{"data":{"attributes":{"amount":' . $amount . ',"description":"' . $description . '","remarks":"' . $remarks . '"}}}',
   'headers' => [
     'accept' => 'application/json',
-    'authorization' => 'Basic c2tfdGVzdF8yS3VmZFhTTE1xWHJkYUhZZ2lTWlVxUjU6',
+    'authorization' => 'Basic c2tfdGVzdF85a3dEOFFyb1ZhTFp2dTZ5SzdlWGlmR046',
     'content-type' => 'application/json',
   ],
 ]);
