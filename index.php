@@ -142,7 +142,7 @@ session_start();
 			<a href="#menu" class="btn" id="Place-Order">Buy One Now</a>
 		</div>
 	</section>
-	<!-- HOME -->
+	<!-- PROMO -->
 	<section class="home" id="promos">
 		<div class="container-fuid">
 			<div class="row fluid">

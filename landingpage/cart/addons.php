@@ -35,6 +35,12 @@ $result = $conn->query($query);
 
                         <div class="col-md-6">
                             <div class="row">
+                                <div class="sizeSelectAdons fw-bold" style="font-size:1.5rem ">
+                                    <label for="Size">Size</label>
+                                    <input class="sizeSelect" type="text" name="size" id="size" list="sizeOptions" placeholder="Select Size">
+									<datalist id="sizeOptions">
+									</datalist>
+                                </div>
                                 <div class="sugar-level fw-bold" style="font-size:1.5rem ">
                                     <label for="sugarLevel">Sugar Level:</label>
                                     <select id="sugarLevel" name="sugarLevel">
@@ -46,9 +52,6 @@ $result = $conn->query($query);
                                         <option value="100%">100%</option>
                                     </select>
                                 </div>
-                                
-                                
-
                                 <div class="mt-4" style="border:black 3px;">
                                     <label class="fw-bold" style="font-size:1.5rem ">Add-Ons</label>
                                     <?php while ($row = $result->fetch_assoc()) : ?>
