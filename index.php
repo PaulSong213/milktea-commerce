@@ -147,7 +147,7 @@ session_start();
 		<div class="container-fuid">
 			<div class="row fluid">
 				<div class="col-md-6">
-					<div class="content text-ce">
+					<div class="content" style="text-align: center;">
 						<h1 style="font-size:90px; font-weight:bold;">OUR TODAYS PROMO!!</h1>
 					</div>
 				</div>
