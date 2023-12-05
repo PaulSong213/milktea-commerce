@@ -44,7 +44,7 @@ if ($result->num_rows > 0) {
         echo '<div class="content">';
         echo '<h3>' . $itemCode . '</h3>';
         // Fetch variants for the current product
-        $variantQuery = "SELECT * FROM variant_tb WHERE variantID = '$itemTypeID'";
+        $variantQuery = "SELECT * FROM variant_tb WHERE productID = '$itemTypeID'";
         $variantResult = $conn->query($variantQuery);
 
         $variantsArray = array();
