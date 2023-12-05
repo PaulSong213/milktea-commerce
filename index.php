@@ -268,11 +268,13 @@ session_start();
 				<?php
 				$query = "SELECT DISTINCT itemTypeID,description FROM itemtype_tb";
 				$result = $conn->query($query);
+				echo '<div class="button-container" style="display: flex; flex-wrap: wrap;">';
 				if ($result->num_rows > 0) {
-					while ($row = $result->fetch_assoc()) {
-						echo '<button class=" m-5 sort-button fs-16" style="font-size:2rem; background:none" data-category="' . $row["itemTypeID"] . '">' . $row["description"] . '</button>';
+					while ($row = $result->fetch_assoc()) {			
+						echo '<button class="m-5 sort-button fs-16" style="font-size:2rem; background:none;" data-category="' . $row["itemTypeID"] . '">' . $row["description"] . '</button>';
 					}
 				}
+				echo '</div>';
 				?>
 			</div>
 
