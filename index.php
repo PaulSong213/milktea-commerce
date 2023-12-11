@@ -321,7 +321,8 @@ session_start();
 									inventoryID = $(this).data('inventory-id');
 									let dataVariants = $(this).attr('data-variants');
 									dataVariants = JSON.parse(dataVariants);
-
+									$("#sizeSelectStart").val("");
+									$("#sizeOptionSelect").html("");
 									for (let i = 0; i < dataVariants.length; i++) {
 										const variant = dataVariants[i];
 										$("#sizeOptionSelect").append(`<option value="${variant.variantName}">${variant.variantName}</option>`);
@@ -505,11 +506,11 @@ session_start();
 								// Now you can use the selectedPrice as needed
 							} else {
 								// Handle the case where no matching variant was found
-								Swal.fire({
-									icon: 'error',
-									title: 'No variant found',
-									text: 'Please Select a Variant Size',
-								});
+								// Swal.fire({
+								// 	icon: 'error',
+								// 	title: 'No variant found',
+								// 	text: 'Please Select a Variant Size',
+								// });
 							}
 							calculateTotalPrice();
 						});
