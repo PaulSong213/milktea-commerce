@@ -123,7 +123,7 @@ section {
 .home {
     max-height: fit-content;
     height: 100%;
-    background: url(../image/home-bg.jpg) no-repeat;
+    background: url(../image/background.png) no-repeat;
     background-position: center;
     background-size: cover;
     padding: 5%;

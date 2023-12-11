@@ -36,6 +36,119 @@ session_start();
 
 
 </head>
+<style type="text/css">
+	.home
+	{
+		 background: url("landingpage/image/background.png");
+		 background-repeat: no-repeat;
+		 background-size: cover;
+		 background-position: center;
+		 height: 100vh;
+
+
+	
+		
+	}
+	
+	.home .home2, .home .container-fluid
+	{
+		margin:100px 0px;
+		
+	}
+	.home h3
+	{
+	     font-size: 12rem;
+		 letter-spacing:2px;
+		 text-transform: uppercase;"
+
+	}
+	.home h1, .home .container-fluid
+	{
+		font-size: 4rem;
+		 margin-top: 0px;
+		  line-height: 1.5;
+	}
+	.homee
+	{
+		 background: url("landingpage/image/background.png");
+		 background-repeat: no-repeat;
+		 background-size: cover;
+		 background-position: center;
+		 height: 100vh;
+	}
+	 .homee .container-fluid .col-md-6 .promo
+	 {
+	 	  font-size: 10rem;
+		 letter-spacing:2px;
+		 text-transform: uppercase;
+
+		 
+	 }
+
+	@media screen and (min-width: 768px) and (max-width: 1023px) {
+
+	.home
+	{
+		
+		 max-height:700px;
+
+	
+		
+	}
+		.home h3
+	{
+	     font-size: 10rem;
+		 letter-spacing:2px;
+		 text-transform: uppercase;"
+	}
+	.home2 a
+	{
+	
+		margin-top: 30px;
+	}
+	.home h1
+	{
+		font-size: 3rem;
+		 margin-top: 0px;
+		  line-height: 1.5;
+	}
+
+	}
+	@media screen and  (min-width: 320px) and (max-width: 767px) {
+
+	.home
+	{
+		
+		 max-height:540px;
+
+	
+		
+	}
+	.home h3
+	{
+	     font-size:7rem;
+		 letter-spacing:2px;
+		 text-transform: uppercase;"
+	}
+	.home2
+	{
+		text-align: center;
+	}
+	.home2 a
+	{
+	
+		margin-top: 40px;
+
+	}
+	.home h1
+	{
+		font-size: 3rem;
+		 margin-top: 0px;
+		  line-height: 1.5;
+	}
+
+	}
+</style>
 
 <body>
 	<?php
@@ -133,26 +246,25 @@ session_start();
 		</div>
 
 	</header>
-
 	<!-- HOME -->
 	<section class="home" id="home">
-		<div style="margin:150px 0px; ">
-			<h3 style="font-size: 100px; letter-spacing: 2px; text-transform: uppercase;">ROMEO`S CAFE</h3>
-			<h1 style="font-size: 36px; margin-top: 0px; line-height: 1.5;">Brewing happiness <span style="color: #ff5733;">one cup</span> at a time.</h1>
+		<div class="home2">
+			<h3 >ROMEO`S CAFE</h3>
+			<h1 >Brewing happiness <span style="color: #ff5733;">one cup</span> at a time.</h1>
 			<a href="#menu" class="btn" id="Place-Order">Buy One Now</a>
 		</div>
 	</section>
 	<!-- PROMO -->
-	<section class="home" id="promos">
-		<div class="container-fuid">
+	<section class="homee" id="promos">
+		<div class="container-fluid">
 			<div class="row fluid">
 				<div class="col-md-6">
 					<div class="content" style="text-align: center;">
-						<h1 style="font-size:90px; font-weight:bold;">OUR TODAYS PROMO!!</h1>
+						<h1 class="promo">TODAYS PROMO!!</h1>
 					</div>
 				</div>
 				<div class="col-md-5">
-					<div style="max-width: fit-content; margin: auto; max-height: fit-content;">
+					<div style="width:100%;   ">
 						<div class="image">
 							<div class="swiper review-slider">
 								<div class="swiper-wrapper" id="imageSlider">
