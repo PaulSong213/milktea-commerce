@@ -7,7 +7,7 @@ SELECT
    *
 FROM
     variant_tb
-WHERE ProductID = '$inventoryID'
+WHERE productID = '$inventoryID'
 ;";
 $resultCharge = $conn->query($queryCharge);
 

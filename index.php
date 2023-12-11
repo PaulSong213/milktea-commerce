@@ -317,22 +317,31 @@ session_start();
 
 									image = $(this).data('image');
 									itemCode = $(this).data('item-code');
+									itemTypeId = $(this).data('itemTypeID');
 									inventoryID = $(this).data('inventory-id');
+									let dataVariants = $(this).attr('data-variants');
+									dataVariants = JSON.parse(dataVariants);
 
-									$.ajax({
-										url: '/milktea-commerce/API/get-size.php',
-										type: 'GET',
-										data: {
-											inventoryID: itemCode
-										},
-										success: (data) => {
-											console.log("Sizes Loaded", data);
-											$("#sizeOptionSelect").html(data);
-										},
-										error: function() {
-											console.log('Error loading menu.');
-										}
-									});
+									for (let i = 0; i < dataVariants.length; i++) {
+										const variant = dataVariants[i];
+										$("#sizeOptionSelect").append(`<option value="${variant.variantName}">${variant.variantName}</option>`);
+									}
+
+									console.log("dataVariants", dataVariants);
+									// $.ajax({
+									// 	url: '/milktea-commerce/API/get-size.php',
+									// 	type: 'GET',
+									// 	data: {
+									// 		inventoryID: 3
+									// 	},
+									// 	success: (data) => {
+									// 		console.log("Sizes Loaded", data);
+									// 		$("#sizeOptionSelect").html(data);
+									// 	},
+									// 	error: function() {
+									// 		console.log('Error loading menu.');
+									// 	}
+									// });
 
 									itemTypeID = $(this).data('item-id');
 									variantsJSON = $(this).data('variants');
@@ -341,7 +350,6 @@ session_start();
 									$('#AddonsProdName').text(itemCode);
 									// Log itemCode to check its value
 									$('#addonsmodal').modal('show');
-
 								});
 							}, 500);
 						},
@@ -388,7 +396,7 @@ session_start();
 					console.log("size", size);
 					var select = document.getElementById("sugarLevel");
 					var selectedValue = select.value;
-					if (selectedValue == "") {
+					if (selectedValue == "" || size == "") {
 						Swal.fire({
 							title: "Please select sugar level and Size",
 							icon: "warning", // Adding an error icon
@@ -505,6 +513,8 @@ session_start();
 							}
 							calculateTotalPrice();
 						});
+
+						$(".sizeSelect").change();
 
 						$(".qtySelect").on('input', function() {
 							const qtyValue = parseFloat($(this).val());

@@ -39,7 +39,7 @@ if ($result->num_rows > 0) {
         $itemCode = $row["itemCode"]; // product name
         $itemTypeID = $row["itemTypeID"];
 
-        echo '<div class="box" data-category="' . $itemTypeID . '">';
+        echo '<div class="box itemTypeID" data-category="' . $itemTypeID . '">';
         echo '<img src="' . $image . '" alt="Menu products">';
         echo '<div class="content">';
         echo '<h3>' . $itemCode . '</h3>';
