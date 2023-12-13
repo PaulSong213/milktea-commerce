@@ -10,14 +10,14 @@ $conn = connect();
 $baseQuery = "SELECT * FROM costumer_tb";
 
 // Retrieve DataTables' request parameters
-$start = $_POST['start']; // Start index for pagination
-$length = $_POST['length']; // Number of records to fetch
-$searchValue = $_POST['search']['value']; // Search value
+$start = isset($_POST['start']) ? $_POST['start'] : 0; // Start index for pagination
+$length = isset($_POST['length']) ? $_POST['length'] : 10; // Number of records to fetch (default: 10)
+$searchValue = isset($_POST['search']['value']) ? $_POST['search']['value'] : ''; // Search value
 
 // Build the SQL query based on search value
 $query = $baseQuery;
 if (!empty($searchValue)) {
-    $query .= " WHERE itemTypeCode LIKE '%$searchValue%' OR itemCode LIKE '%$searchValue%'"; // Add more columns as needed
+    $query .= " WHERE firstName LIKE '%$searchValue%' OR lastName LIKE '%$searchValue%'"; // Add more columns as needed
 }
 
 // Add the limit condition for all cases
@@ -34,14 +34,14 @@ while ($row = $result->fetch_assoc()) {
 
 // If not searching, get the total records for pagination
 if (empty($searchValue)) {
-    $totalRecords = $conn->query("SELECT COUNT(*) AS total FROM inventory_tb")->fetch_assoc()['total'];
+    $totalRecords = $conn->query("SELECT COUNT(*) AS total FROM costumer_tb")->fetch_assoc()['total'];
 } else {
     $totalRecords = count($data); // Set total records to the number of search results
 }
 
 // Construct the JSON response
 $response = array(
-    "draw" => intval($_POST['draw']),
+    "draw" => isset($_POST['draw']) ? intval($_POST['draw']) : 1, // Draw counter (default: 1)
     "recordsTotal" => $totalRecords,
     "recordsFiltered" => $totalRecords,
     "data" => $data

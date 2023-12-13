@@ -4,47 +4,79 @@ header("Content-Type: application/json");
 
 // Include the database connection code here
 require_once '../../php/connect.php';
-$conn = connect();
+
+// Function to handle database connection
+function connectToDatabase()
+{
+    $conn = connect();
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    return $conn;
+}
+
+$conn = connectToDatabase();
 
 $baseTable = "backlog_tb";
 
 // Define the base query
 $baseQuery = "SELECT * FROM $baseTable 
-LEFT JOIN employee_tb
-ON employee_tb.DatabaseID = $baseTable.employeeID
-LEFT JOIN department_tb ON department_tb.departmentID = employee_tb.departmentID
-";
+    LEFT JOIN employee_tb ON employee_tb.DatabaseID = $baseTable.employeeID
+    LEFT JOIN department_tb ON department_tb.departmentID = employee_tb.departmentID";
 
 // Retrieve DataTables' request parameters
-$start = $_POST['start']; // Start index for pagination
-$length = $_POST['length']; // Number of records to fetch
-$searchValue = $_POST['search']['value']; // Search value
+$start = isset($_POST['start']) ? $_POST['start'] : 0; // Start index for pagination
+$length = isset($_POST['length']) ? $_POST['length'] : 10; // Number of records to fetch
+$searchValue = isset($_POST['search']['value']) ? $_POST['search']['value'] : ''; // Search value
 
 // Build the SQL query based on search value
 $query = $baseQuery;
 if (!empty($searchValue)) {
-    $query .= " WHERE backlogID LIKE '%$searchValue%' 
-    OR description LIKE '%$searchValue%'
-    OR lname LIKE '%$searchValue%'
-    OR fname LIKE '%$searchValue%'
-    OR position LIKE '%$searchValue%'
-    OR timeStamp LIKE '%$searchValue%'     
-    OR departmentName LIKE '%$searchValue%'"; // Add more columns as needed
+    $query .= " WHERE 
+        backlogID LIKE ? OR
+        description LIKE ? OR
+        lname LIKE ? OR
+        fname LIKE ? OR
+        position LIKE ? OR
+        timeStamp LIKE ? OR
+        departmentName LIKE ?";
+
+    // Add more columns as needed
+
+    // Prepare the query with placeholders
+    $stmt = $conn->prepare($query);
+
+    // Bind parameters
+    $searchPattern = "%$searchValue%";
+    $stmt->bind_param("sssssss", $searchPattern, $searchPattern, $searchPattern, $searchPattern, $searchPattern, $searchPattern, $searchPattern);
+
+    // Execute the query
+    $stmt->execute();
+
+    // Get result set
+    $result = $stmt->get_result();
+} else {
+    // If not searching, use the original query
+    $query .= " ORDER BY backlogID DESC LIMIT ?, ?";
+
+    // Prepare the query with placeholders
+    $stmt = $conn->prepare($query);
+
+    // Bind parameters
+    $stmt->bind_param("ii", $start, $length);
+
+    // Execute the query
+    $stmt->execute();
+
+    // Get result set
+    $result = $stmt->get_result();
+
+    // Close the statement
+    $stmt->close();
 }
-
-// Add the limit condition for all cases
-$query .= " 
-ORDER BY backlogID DESC
-LIMIT $start, $length";
-
-// Execute the query
-$result = $conn->query($query);
 
 // Fetch data and convert to JSON
-$data = array();
-while ($row = $result->fetch_assoc()) {
-    $data[] = $row;
-}
+$data = $result->fetch_all(MYSQLI_ASSOC);
 
 // If not searching, get the total records for pagination
 if (empty($searchValue)) {
@@ -55,7 +87,7 @@ if (empty($searchValue)) {
 
 // Construct the JSON response
 $response = array(
-    "draw" => intval($_POST['draw']),
+    "draw" => isset($_POST['draw']) ? intval($_POST['draw']) : 1,
     "recordsTotal" => $totalRecords,
     "recordsFiltered" => $totalRecords,
     "data" => $data
