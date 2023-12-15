@@ -151,6 +151,7 @@
         "preparing-food": "#1b4009",
         "on-delivery-rider": "#c9820d",
         "waiting-for-feedback": "#075985",
+        "gcash-proof-on-review": "#452d1b",
     };
 
     function addNotificationModal(orderNo, orderData) {

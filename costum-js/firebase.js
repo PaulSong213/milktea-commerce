@@ -3,6 +3,8 @@ import {
     initializeApp,
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 
+import { getStorage } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
+
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
@@ -18,3 +20,4 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
+export const storage = getStorage(app);

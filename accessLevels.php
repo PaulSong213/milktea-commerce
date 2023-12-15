@@ -30,7 +30,7 @@ $levelOne = [
             // ],
         ] //list of links on dropdown
     ],
-   
+
 ];
 // Employee Access
 $levelTwo = [
@@ -50,12 +50,12 @@ $levelTwo = [
                 "name" => "Employee", //name of the link
                 "link" => "/Employee/index.php", //link of the page
             ],
-          
-           
+
+
 
         ] //list of links on dropdown
     ],
-    
+
     [
         "name" => "Patient", //name of the link
         "icon" => "hotel", //material icon name
@@ -120,7 +120,7 @@ $levelThree = [
         "link" => "/dashboard/index.php", //link of the page
         "navigations" => [] //list of links on dropdown
     ],
-   
+
     [
         "name" => "Patient", //name of the link
         "icon" => "hotel", //material icon name
@@ -212,7 +212,7 @@ $levelFour = [
         "link" => "/online_orders/index.php", //link of the page
         "navigations" => [
             [
-                "name" => "Online Orders", //name of the link
+                "name" => "Pending Orders", //name of the link
                 "link" => "/online_orders/index.php", //link of the page
             ],
             [
@@ -230,7 +230,7 @@ $levelFour = [
             // ],
         ]
     ],
-   
+
     [
         "name" => "Employee", //name of the link
         "icon" => "badge", //material icon name

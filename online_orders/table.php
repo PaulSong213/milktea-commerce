@@ -41,10 +41,10 @@
 
 <body>
     <div class="table w-100 p-4">
-        <h2 class="mt-4 mb-3">ONLINE ORDERS</h2>
-        <div class="mb-3">
+        <h2 class="mt-4 mb-3">PENDING ORDERS</h2>
+        <div class="mb-3 d-none">
             <a class="btn <?= isset($_GET["isNoActionNeeded"]) ? 'btn-secondary' : 'btn-coffee-active' ?>" href="/milktea-commerce/online_orders/index.php">Pending Orders</a>
-            <a class="btn <?= isset($_GET["isNoActionNeeded"]) ? 'btn-coffee-active' : 'btn-secondary' ?>" href="/milktea-commerce/online_orders/index.php?isNoActionNeeded=true">Show All Orders</a>
+            <a class="btn <?= isset($_GET["isNoActionNeeded"]) ? 'btn-coffee-active' : 'btn-secondary' ?>" href="/milktea-commerce/online_orders/index.php?isNoActionNeeded=true">Show Order History</a>
         </div>
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
@@ -158,6 +158,7 @@
                                 const currentOrder = orderData[orderNo];
 
                                 const orderDetails = await getOrderDetails(orderNo);
+                                if (!orderDetails) continue;
                                 console.log(orderDetails);
                                 let current_status_sequece = STATUS_SEQUENCE;
                                 if (orderDetails.deliveryMethod === "pick-up") current_status_sequece = PICKUP_STATUS_SEQUENCE;
@@ -332,6 +333,8 @@
                     });
 
                     const orderData = JSON.parse(response);
+                    console.log(orderData);
+                    if (!orderData) return null;
                     const orderItems = JSON.parse(orderData.ProductInfo);
                     let orderItemsStr = '';
                     console.log(orderItems);

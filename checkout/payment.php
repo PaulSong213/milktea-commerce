@@ -18,7 +18,7 @@ if (!$costumer) {
 </head>
 
 <body style="background-color: #f7f7f7;">
-    <div class=" bg-white shadow rounded mx-auto mt-5 p-5" style="max-width: 50vw;">
+    <div id="paymongoPay" class="d-none bg-white shadow rounded mx-auto mt-5 p-5" style="max-width: 50vw;">
         <div id="paymentLoader" class="d-flex flex-column align-items-center justify-content-center">
             <h2 style="color: #734006" class="mb-3 fw-bold text-center">PLEASE COMPLETE THE PAYMENT PROCEDURE <br /> ON THE OPENED TAB</h2>
             <img style="max-width: 400px;" src="../img/pay-wait.gif" alt="Waiting for Payment" />
@@ -30,18 +30,50 @@ if (!$costumer) {
             <a href="/milktea-commerce/" class="btn btn-success my-3 fs-5">TRACK ORDER NOW</a>
         </div>
     </div>
+    <div id="gcashPay" class="d-none bg-white shadow rounded mx-auto mt-5 p-5 d-flex flex-column" style="max-width: 50vw;">
+        <h2 style="color: #734006" class="mb-3 fw-bold text-center">GCash Payment</h2>
+        <img class="mx-auto" src="/milktea-commerce/gcash-qr.jpg" alt="GCash QR Code">
+        <p class="text-center fw-bold">Scan the QR code above to pay</p>
 
+        <div class="px-5">
+            <form id="formGcashQR" class="px-5" action="/milktea-commerce/php/upload-receipt.php" method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <input type="hidden" name="orderID" id="orderID" value="<?= $_GET["orderID"] ?>" class="form-control" readonly>
+                </div>
+
+                <div class="mb-3">
+                    <label for="receipt" class="form-label">Upload Screenshot of Payment Receipt</label>
+                    <input type="file" name="receipt" id="receipt" class="form-control" accept="image/*" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="referenceNumber" class="form-label">Reference Number</label>
+                    <input type="text" name="referenceNumber" id="referenceNumber" class="form-control" required placeholder="Enter Reference Number">
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Save Data</button>
+            </form>
+        </div>
+    </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="module">
     import {
-        app
+        app,
+        storage,
+
     } from "/milktea-commerce/costum-js/firebase.js";
+    import {
+        ref as sRef,
+        uploadBytes,
+        getDownloadURL
+    } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
 
     import {
         getDatabase,
         ref,
-        set
+        set,
+        get
     } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
 
     $(document).ready(function() {
@@ -49,15 +81,73 @@ if (!$costumer) {
         const ORDER_ID = <?= $_GET["orderID"] ?>;
         <?php
         if (!isset($_GET["paymentID"])) {
-            echo "createPayLink();";
+            echo "checkPaymentMethod()";
         } else {
             echo "openPayLink('" . $_GET["paymentID"] . "');";
         }
         ?>
+
+        function checkPaymentMethod() {
+            get(ref(getDatabase(), `/shop/paymentMode`)).then((snapshot) => {
+                const paymentMode = snapshot.val();
+                if (paymentMode === "paymongo") {
+                    createPayLink();
+                } else {
+                    gcashQRPayment();
+                }
+            }).catch((error) => {
+                console.error(error);
+            });
+        }
+
+        function gcashQRPayment() {
+            $("#gcashPay").removeClass("d-none");
+            $("#formGcashQR").submit(function(e) {
+                // Prevent the default form submission
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Uploading Payment Receipt',
+                    text: 'Please wait...',
+                });
+
+                // upload image to firebase storage
+                const file = $("#receipt").prop("files")[0];
+                const fileRef = sRef(storage, `${ORDER_ID}`);
+                uploadBytes(fileRef, file).then((snapshot) => {
+                    console.log("Uploaded a blob or file!");
+                    // get the download url of the uploaded image
+                    getDownloadURL(fileRef, `${ORDER_ID}`).then((url) => {
+                        // save the url to the realtime database
+                        const db = getDatabase();
+                        const ORDER_KEY = ORDER_ID;
+                        // save the reference number to the realtime database
+                        const referenceNumber = $("#referenceNumber").val();
+                        const newData = {
+                            status: "gcash-proof-on-review",
+                            sqlKey: ORDER_ID,
+                            paymentID: referenceNumber,
+                            proofOfPayment: url
+                        };
+                        set(ref(db, `/orders/${COSTUMER_ID}/${ORDER_KEY}`), newData)
+                            .then(() => {
+                                location.href = "/milktea-commerce/";
+                            })
+                            .catch((error) => {
+                                alert(error);
+                            });
+                    }).catch((error) => {
+                        alert(error);
+                    });
+                }).catch((error) => {
+                    alert(error);
+                });
+            });
+        }
+
         // create get request to create payment link
         function createPayLink() {
             const amount = Number(<?= $_GET["NetAmt"] ?>) * 100;
-
+            $("#paymongoPay").removeClass("d-none");
             $.ajax({
                 url: "/milktea-commerce/payment/create-pay-link.php",
                 type: "GET", //send it through get method
