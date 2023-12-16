@@ -86,6 +86,18 @@
             STATUS_COLOR
         } from "/milktea-commerce/track-order/order-config.js";
 
+        import {
+            app
+        } from "/milktea-commerce/costum-js/firebase.js";
+        // insert test data to firebase realtime database
+        import {
+            getDatabase,
+            ref,
+            set,
+            onValue
+        } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+        const db = getDatabase();
+
         $(document).ready(function() {
 
             // clone header to add search by columns
@@ -95,13 +107,12 @@
                 .appendTo('#example thead');
             <?php
             $APIparameter = "";
-            if (isset($_GET["historyType"])) $APIparameter = "?modeOfPaymentType=online";
             ?>
             const table = $('#example').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '/milktea-commerce/API/orders/view.php<?= $APIparameter ?>',
+                    url: '/milktea-commerce/API/orders/view.php?status=delivered',
                     dataType: 'JSON',
                     type: 'POST',
                     data: function(d) {
@@ -114,19 +125,18 @@
                     {
                         data: null,
                         render: (data, type, row) => {
+                            const orderNo = data.orderID;
                             const bgColor = STATUS_COLOR[data.status];
-                            const title = data.status.replace(/-/g, " ").toUpperCase();
-                            return `<span class="badge text-white" style="background-color:${bgColor}">${title}</span>`;
+                            const title = "Loading...";
+                            return `<span id="status_${orderNo}" class="badge text-white" style="background-color:${bgColor}">${title}</span>`;
                         }
                     },
                     {
                         data: null,
                         render: (data, type, row) => {
+                            console.log(data);
                             // TODO: Fix this when there is already costumer table
-                            if (data.CostumerName) {
-                                return data.CostumerName;
-                            }
-                            return data.CostumerName;
+                            return `${data.CostumerFirstName} ${data.CostumerLastName}`;
                         }
                     },
                     {
@@ -192,6 +202,33 @@
                 ],
                 initComplete: function() {
                     searchColumn(this.api());
+
+                    const orderRef = ref(db, `/orders/`);
+                    onValue(orderRef, (snapshot) => {
+                        snapshot.forEach((childSnapshot) => {
+                            const orderData = childSnapshot.val();
+
+                            for (const orderNo in orderData) {
+                                if (orderData.hasOwnProperty(orderNo)) { // Ensure orderNo is a direct property of orderData
+                                    const orderInfo = orderData[orderNo];
+                                    const sqlKey = orderInfo.sqlKey;
+                                    const status = orderInfo.status;
+
+                                    console.log(orderInfo);
+
+                                    const bgColor = STATUS_COLOR[status];
+                                    const title = status.replace(/-/g, " ").toUpperCase();
+
+                                    // Assuming you are using jQuery based on the `$` syntax
+                                    $(`#status_${orderNo}`)
+                                        .css("background-color", bgColor)
+                                        .text(title);
+                                }
+                            }
+                        });
+
+                    });
+
                 },
                 order: [
                     ['0', 'desc']

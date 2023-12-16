@@ -25,11 +25,11 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 $conn = connect();
 
-$sql = "UPDATE sales_tb
+$sql = "UPDATE orders_tb
     SET
         status = 'delivered'
     WHERE
-        SalesID = '$orderNo';
+        orderID = '$orderNo';
     ";
 
 $result = mysqli_query($conn, $sql);

@@ -22,7 +22,7 @@
                             <h5 class="fw-bold mb-1">Romeo's Cafe</h5>
                             <h6 class="fw-bold mb-1">Order # <span id="slipNumber"></span> </h6>
                             <h6 class="text-muted mb-0"><span id="date"></span></h6>
-                            <h6 class="text-muted">Entered by: <span id="chargeEnteredBy"></span></h6>
+                            <h6 class="text-muted d-none">Entered by: <span id="chargeEnteredBy"></span></h6>
                         </div>
 
                         <!-- ITEM LIST -->
@@ -42,7 +42,7 @@
                         <div class="d-flex justify-content-end">
                             <div class="border-top border-3 my-3 py-1 px-2 border-secondary w-max text-end" style="min-width: 25%;">
                                 <span class="fw-bold">Total Amount: ₱<span id="totalAmount">0</span></span>
-                                <div class="d-flex flex-column">
+                                <div class="d-flex flex-column d-none">
                                     <span id="AmtTendered">Amount Tendered: ₱</span>
                                     <span id="ChangeAmt">Change: ₱</span>
                                     <span id="NetAmt">Net Amount: ₱</span>
@@ -114,12 +114,13 @@
                     console.log("productInfo", productInfo);
                     for (let i = 0; i < productInfo.length; i++) {
                         const product = productInfo[i];
+                        console.log(product);
                         $("#productInfoList").append(`
-                    <div class="d-flex justify-content-between">
-                        <span>${product.product_id} x ${product.qty} ${product.unit}</span>
-                        <span>${product.subtotal}</span>
-                    </div>
-                `);
+                            <div class="d-flex justify-content-between">
+                                <span>${product.productName} x ${product.qty} ${product.size}</span>
+                                <span>${product.subTotal}</span>
+                            </div>
+                        `);
                     }
 
 

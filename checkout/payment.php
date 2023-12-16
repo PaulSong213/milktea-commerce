@@ -108,6 +108,8 @@ if (!$costumer) {
                 Swal.fire({
                     title: 'Uploading Payment Receipt',
                     text: 'Please wait...',
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
                 });
 
                 // upload image to firebase storage

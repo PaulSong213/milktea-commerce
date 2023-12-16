@@ -181,10 +181,19 @@
                                 currentOrder["deliveryMethod"] = orderDetails.deliveryMethod;
                                 const currentOrderStr = JSON.stringify(currentOrder);
                                 console.log(currentOrder);
+                                let currentStatus = {
+                                    status: currentOrder.status
+                                };
+                                if (currentOrder.status === "gcash-proof-on-review") {
+                                    currentStatus = {
+                                        status: currentOrder.status,
+                                        proofOfPayment: currentOrder.proofOfPayment,
+                                    };
+                                }
                                 table.row.add([
                                     currentOrderStr,
                                     orderNo,
-                                    currentOrder.status,
+                                    currentStatus,
                                     orderDetails.isPaid,
                                     orderDetails.deliveryMethod,
                                     formattedOrderItemsStr,
@@ -200,6 +209,17 @@
                         render: (d) => {
                             const data = JSON.parse(d);
                             const orderNo = data.sqlKey;
+
+                            if (data.status === "gcash-proof-on-review") {
+                                return `
+                                    <div>
+                                        <button order-data='${JSON.stringify(data)}' class="btn action-btn text-white next-step-btn w-100" style="background-color:  #157347" >
+                                            Review Payment
+                                        </button>
+                                    <div>
+                                `;
+                            }
+
                             let current_status_sequence = STATUS_SEQUENCE;
                             // if delivery method is pick up use pick up status sequence
                             if (data.deliveryMethod === "pick-up") current_status_sequence = PICKUP_STATUS_SEQUENCE;
@@ -216,7 +236,8 @@
                     },
                     {
                         targets: 2,
-                        render: (d) => {
+                        render: (data) => {
+                            let d = data.status;
                             const color = STATUS_COLOR[d];
                             return `<span class="badge w-100" style="background-color: ${color}">${d.replace(/-/g, " ").toUpperCase()}</span>`;
                         },
@@ -250,9 +271,66 @@
                 }
             });
 
+            // add click listener to view proof of payment
+            table.on('click', '.viewProofOfPayment', function(e) {
+                const proofOfPayment = $(this).attr('proofOfPayment');
+
+            });
+
             // add click listener to mark to next step button
             table.on('click', '.next-step-btn', function(e) {
+
+
                 const orderData = JSON.parse($(this).attr('order-data'));
+                const status = orderData.status;
+                const proofOfPayment = orderData.proofOfPayment;
+                if (status === "gcash-proof-on-review") {
+                    Swal.fire({
+                        title: 'Proof of Payment',
+                        html: `
+                        <img src="${proofOfPayment}" class="w-100">
+                    `,
+                        showCancelButton: true,
+                        confirmButtonText: 'Mark as Paid',
+                        cancelButtonText: 'Close',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                title: 'Confirmation',
+                                text: `Are you sure you want to mark this order as on queue?`,
+                                showCancelButton: true,
+                                confirmButtonText: 'Yes',
+                                cancelButtonText: 'No',
+                            }).then((result) => {
+                                // update status to firebase
+                                const orderRef = ref(db, `/orders/${orderData.costumerID}/${orderData.sqlKey}/status`);
+
+                                set(orderRef, "on-queue").then(async () => {
+                                    // show success message
+                                    await markPickupOrderAsPaid(orderData.sqlKey);
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Success',
+                                        text: `Order #${orderData.sqlKey} is now ON QUEUE`,
+                                    });
+                                }).catch((error) => {
+                                    // show error message
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        text: `Something went wrong. Please try again later.`,
+                                    });
+                                    // enable the button
+                                    button.disabled = false;
+                                    // restore old button content
+                                    button.innerHTML = oldButtonContent;
+                                });
+                            });
+                        }
+                    });
+                    return;
+                }
+
 
                 let current_status_sequece = STATUS_SEQUENCE;
                 if (orderData.deliveryMethod === "pick-up") current_status_sequece = PICKUP_STATUS_SEQUENCE;

@@ -29,15 +29,11 @@ $baseQuery = "SELECT
     ee.fname AS EnteredEmployeeFirstName,
     ee.mname AS EnteredEmployeeMiddleName,
     ee.title AS EnteredEmployeeTitle,
-    ee.position AS EnteredEmployeePosition,
-    ct.firstName AS CostumerLastName,
-    ct.lastName AS CostumerFirstName
+    ee.position AS EnteredEmployeePosition
 FROM 
-    orders_tb ord
+$baseTable ord
 LEFT JOIN
     employee_tb ee ON ord.EnteredName = ee.DatabaseID
-LEFT JOIN
-    costumer_tb ct ON ord.CostumerID = ct.costumerID
 ";
 
 // Retrieve DataTables' request parameters
@@ -64,10 +60,12 @@ if (!empty($searchValue)) {
             $query .= " AND modeOfPayment = 'walk-in'";
         }
     }
-} else if (isset($_GET['status'])) {
-    $status = $_GET['status'];
-    if ($status == "delivered") {
-        $query .= "WHERE ord.status = 'delivered'";
+} else if (isset($_GET['modeOfPaymentType'])) {
+    $modeOfPaymentType = $_GET['modeOfPaymentType'];
+    if ($modeOfPaymentType == "online") {
+        $query .= "WHERE NOT modeOfPayment = 'walk-in'";
+    } else {
+        $query .= "WHERE modeOfPayment = 'walk-in'";
     }
 }
 
@@ -75,6 +73,7 @@ if (!empty($searchValue)) {
 $query .= " 
 ORDER BY orderID DESC
 LIMIT $start, $length";
+
 // Execute the query
 $result = $conn->query($query);
 
