@@ -15,28 +15,17 @@ if (isset($_SESSION['user'])) {
 }
 
 if (isset($_POST['SaveItem'])) {
-    $firstName = $_POST["firstName"];
-    $lastName = $_POST["lastName"];
-    $email = $_POST["email"];
-    $password = $_POST["password"];
-    $phoneNumber = $_POST["phoneNumber"];
-    $dateOfBirth = $_POST["dateOfBirth"];
-    $region = $_POST["region"];
-    $province = $_POST["province"];
-    $municipality = $_POST["municipality"];
-    $barangay = $_POST["barangay"];
-    $otherAddress = $_POST["otherAddress"];
-
-    $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-    $Address = $region . ", " . $province . ", " . $municipality . ", " . $barangay . ", " . $otherAddress;
-
-
+    $itemTypeID = $_POST["itemTypeID"];
+    $itemCode = $_POST["item_code"];
+    $variantID = $_POST["variant"];
+    $description = $_POST["description"];
+    $status = 1; // Added missing semicolon
 
     // Define the target directory for image uploads
-    $targetDir = 'image/'; // Make sure the path is correct, relative to this PHP file
+    $targetDir = 'image/';
 
     // Generate a unique filename for the uploaded image
-    $photo =  $targetDir . uniqid() . '_' . basename($_FILES['photo']['name']);
+    $photo = $targetDir . uniqid() . '_' . basename($_FILES['photo']['name']);
 
     // Check if a file is selected
     if (!empty($_FILES['photo']['tmp_name'])) {
@@ -48,10 +37,10 @@ if (isset($_POST['SaveItem'])) {
             if (move_uploaded_file($_FILES['photo']['tmp_name'], $photo)) {
                 // Image uploaded successfully
                 // Use prepared statements to avoid SQL injection
-                $stmt = $conn->prepare("INSERT INTO user_tb (lname, fname, email, password, phone, bDate, address, userImage) 
-                                                          VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt = $conn->prepare("INSERT INTO inventory_tb (itemTypeID, itemCode, Description, variantID, createDate, modifiedDate, image, Status) 
+                                                          VALUES (?, ?, ?, ?, NOW(), NOW(), ?, ?)");
                 $photo = 'add/' . $photo;
-                $stmt->bind_param("ssssssdi", $lastName, $firstName, $email, $hashedPassword,  $phoneNumber, $dateOfBirth, $Address, $photo);
+                $stmt->bind_param("ssssss", $itemTypeID, $itemCode, $description, $variantID, $photo, $status);
 
                 if ($stmt->execute()) {
                     $act = "Add New Inventory Item";
@@ -73,7 +62,7 @@ if (isset($_POST['SaveItem'])) {
                 $stmt1->close();
             } else {
                 // Handle upload error
-                $_SESSION["alert_message"] = "Failed to upload the image.   $targetDir ";
+                $_SESSION["alert_message"] = "Failed to upload the image. $targetDir";
                 $_SESSION["alert_message_error"] = true;
             }
         } else {
