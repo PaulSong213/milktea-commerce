@@ -16,10 +16,6 @@ export function handleViewClick(table) {
             label: "Price"
         },
         {
-            dataKey: "itemTypeCode",
-            label: "Item Type"
-        },
-        {
             dataKey: "status",
             label: "Status"
         },

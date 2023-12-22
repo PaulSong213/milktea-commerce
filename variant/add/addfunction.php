@@ -17,8 +17,9 @@ if (isset($_POST['SaveItem'])) {
     $itemTypeCode = $_POST['sizeName'];
     $description = $_POST['description'];
     $price = $_POST['price'];
-    $sql = "INSERT INTO variant_tb (variantName, description, price)
-    VALUES ('$itemTypeCode', '$description', '$price')";
+    $itemType = $_POST['itemTypeID'];
+    $sql = "INSERT INTO variant_tb (variantName, description, price, productID)
+    VALUES ('$itemTypeCode', '$description', '$price', '$itemType')";
 
     $result = mysqli_query($conn, $sql);
     if ($result) {

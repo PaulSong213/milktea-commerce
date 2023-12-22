@@ -52,7 +52,6 @@
                     <th>Product Photo</th>
                     <th>Product Name</th>
                     <th>Price</th>
-                    <th>Item Type</th>
                     <th>Date Added</th>
                     <th>Modified Date</th>
                     <th>Status</th>
@@ -119,9 +118,7 @@
                     {
                         data: 'price'
                     },
-                    {
-                       data: 'itemTypeCode'    
-                    },
+                  
                     {
                         data: null,
                         render: (data, type, row) => {
@@ -137,7 +134,7 @@
                     {
                         data: null,
                         render: (data, type, row) => {
-                            const activeStatus = (data.status == "1") ? "Active" : "Inactive"; //condition for status
+                            const activeStatus = (data.status == "1") ? "Available" : "Unavailable"; //condition for status
                             const statusColor = (data.status == "1") ? "alert-success" : "alert-danger"; //condition for color bg.
                             return `
                             <td>

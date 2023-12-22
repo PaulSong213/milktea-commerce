@@ -171,11 +171,7 @@ $levelThree = [
                 "link" => "/variant/index.php", //link of the page
                 "navigations" => [] //list of links on dropdown
             ],
-            [
-                "name" => "Expenses", //name of the link
-                "link" => "/Expenses/index.php", //link of the page
-                "navigations" => [] //list of links on dropdown
-            ],
+          
         ] //list of links on dropdown
     ],
     [
@@ -197,11 +193,7 @@ $levelThree = [
                 "link" => "/variant/index.php", //link of the page
                 "navigations" => [] //list of links on dropdown
             ],
-            [
-                "name" => "Expenses", //name of the link
-                "link" => "/Expenses/index.php", //link of the page
-                "navigations" => [] //list of links on dropdown
-            ],
+           
         ] //list of links on dropdown
     ],
 ];
@@ -275,11 +267,7 @@ $levelFour = [
                 "link" => "/variant/index.php", //link of the page
                 "navigations" => [] //list of links on dropdown
             ],
-            [
-                "name" => "Expenses", //name of the link
-                "link" => "/Expenses/index.php", //link of the page
-                "navigations" => [] //list of links on dropdown
-            ],
+           
         ] //list of links on dropdown
     ],
     [
