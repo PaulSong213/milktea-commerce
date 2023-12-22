@@ -137,7 +137,7 @@
                     {
                         data: null,
                         render: (data, type, row) => {
-                            const activeStatus = (data.Status == "1") ? "Active" : "Inactive"; //condition for status
+                            const activeStatus = (data.Status == "1") ? "Available" : "Unavailable"; //condition for status
                             const statusColor = (data.Status == "1") ? "alert-success" : "alert-danger"; //condition for color bg.
                             return `
                             <td>
