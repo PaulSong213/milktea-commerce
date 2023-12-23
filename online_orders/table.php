@@ -312,6 +312,8 @@
                                         icon: 'success',
                                         title: 'Success',
                                         text: `Order #${orderData.sqlKey} is now ON QUEUE`,
+                                    }).then(function() {
+                                        location.reload();
                                     });
                                 }).catch((error) => {
                                     // show error message

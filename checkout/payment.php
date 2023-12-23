@@ -30,18 +30,18 @@ if (!$costumer) {
             <a href="/milktea-commerce/" class="btn btn-success my-3 fs-5">TRACK ORDER NOW</a>
         </div>
     </div>
-    <div id="gcashPay" class="d-none bg-white shadow rounded mx-auto mt-5 p-5 d-flex flex-column" style="max-width: 50vw;">
+    <div id="gcashPay" class="d-none bg-white shadow rounded mx-auto mt-5 p-2 p-md-5 d-flex flex-column" style="width: 80vw; max-width: 700px">
         <h2 style="color: #734006" class="mb-3 fw-bold text-center">GCash Payment</h2>
         <img class="mx-auto" src="/milktea-commerce/gcash-qr.jpg" alt="GCash QR Code">
         <p class="text-center fw-bold">Scan the QR code above to pay</p>
 
-        <div class="px-5">
-            <form id="formGcashQR" class="px-5" action="/milktea-commerce/php/upload-receipt.php" method="POST" enctype="multipart/form-data">
-                <div class="mb-3">
+        <div class="md:px-5">
+            <form id="formGcashQR" action="/milktea-commerce/php/upload-receipt.php" method="POST" enctype="multipart/form-data">
+                <div class="mb-3 ">
                     <input type="hidden" name="orderID" id="orderID" value="<?= $_GET["orderID"] ?>" class="form-control" readonly>
                 </div>
 
-                <div class="mb-3">
+                <div class="mb-3  w-100">
                     <label for="receipt" class="form-label">Upload Screenshot of Payment Receipt</label>
                     <input type="file" name="receipt" id="receipt" class="form-control" accept="image/*" required>
                 </div>

@@ -81,7 +81,7 @@ if ($conn->connect_error) {
                             <div class="form-group">
                                 <label for="paymentMethod">Payment Method</label>
                                 <select class="form-select" id="paymentMethod" name="paymentMethod">
-                                    <option value="online">Online Payment</option>
+                                    <option value="online">Online Payment1</option>
                                     <option value="cash-on-delivery">Cash on Delivery</option>
                                 </select>
                             </div>

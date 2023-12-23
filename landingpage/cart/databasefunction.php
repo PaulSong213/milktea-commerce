@@ -57,7 +57,7 @@ if (isset($_POST['orders'])) {
         // Redirect to the appropriate page if the form was submitted
         $_SESSION["alert_message"] = "Order submitted successfully";
         $_SESSION["alert_message_success"] = true;
-        if ($paymentMethod == "cash-on-delivery") {
+        if ($paymentMethod == "cash-on-delivery" || $paymentMethod == "pick-up") {
             echo '
             <body style="background-color: #d5c0ac">
                 <h3 class="text-align: center;margin-top: 30px; width: 100vw;">PROCESSING PLEASE WAIT</h3>
