@@ -230,29 +230,50 @@
                 const id = $(this).attr('id');
 
 
-                $.ajax({
-                    url: '/milktea-commerce/API/inventory/delete.php', // Change this path to the actual delete.php file path
-                    type: 'POST',
-                    data: {
-                        id: id
-                    },
-                    success: function(response) {
-                        console.log('Response:', response);
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '/milktea-commerce/API/inventory/delete.php', // Change this path to the actual delete.php file path
+                            type: 'POST',
+                            data: {
+                                id: id
+                            },
+                            success: function(response) {
+                                console.log('Response:', response);
+                                response = JSON.parse(response);
+                                if (response.success) {
+                                    console.log('Deleted successfully', response);
 
-                        if (response.success) {
-                            console.log('Deleted successfully', response);
-                            table.ajax.reload();
-                        } else {
-                            console.error('Failed to delete data.', response);
-                            console.log
-                        }
-                    },
-                    error: function(xhr, textStatus, errorThrown) {
-                        console.error('Error:', errorThrown);
-                        console.error('Status:', textStatus);
-                        console.error('XHR:', xhr);
+                                    Swal.fire(
+                                        'Deleted!',
+                                        'Product has been has been deleted.',
+                                        'success'
+                                    ).then(() => {
+                                        table.ajax.reload();
+                                    });
+                                } else {
+                                    Swal.fire(
+                                        'Error!',
+                                        'Something went wrong.',
+                                        'error'
+                                    );
+                                }
+                            },
+                            error: function(xhr, textStatus, errorThrown) {
+                                console.error('Error:', errorThrown);
+                                console.error('Status:', textStatus);
+                                console.error('XHR:', xhr);
+                            }
+                        });
                     }
-                });
+                })
             });
             handleArchiveClick(table, "itemTypeCode", "./edit/archive.php", "Status");
             handleEditClick(table);

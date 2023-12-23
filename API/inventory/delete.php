@@ -1,28 +1,28 @@
-<<?php
-    require_once '../../php/connect.php';
+<?php
+require_once '../../php/connect.php';
+// Establish a database connection
+$conn = connect();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['id'])) {
+        $id = $_POST['id'];
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete') {
-        if (isset($_POST['id'])) {
-            $id = $_POST['id'];
+        // Perform the deletion from the database using SQL
+        // Replace 'inventory_tb' with the actual name of your database table
+        $sql = "DELETE FROM inventory_tb WHERE InventoryID = $id";
 
-            // Perform the deletion from the database using SQL
-            // Replace 'your_table_name' with the actual name of your database table
-            $sql = "DELETE FROM inventory_tb WHERE InventoryID = $id";
+        // Execute the SQL query
+        $result = $conn->query($sql);
 
-            // Execute the SQL query
-            $success = $pdo->exec($sql);
-
-            // Check if the query was successful
-            if ($success !== false) {
-                echo json_encode(['success' => true]);
-            } else {
-                echo json_encode(['success' => false, 'error' => $pdo->errorInfo()]);
-            }
-
-            exit;
+        // Check if the query was successful
+        if ($result) {
+            echo json_encode(['success' => true]);
+        } else {
+            echo json_encode(['success' => false, 'error' => $conn->error]);
         }
-    }
 
-    // Handle the case when the request is not as expected
-    echo json_encode(['success' => false, 'error' => 'Invalid request.']);
-    ?>
+        exit;
+    }
+}
+
+// Handle the case when the request is not as expected
+echo json_encode(['success' => false, 'error' => 'Invalid request.']);

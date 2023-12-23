@@ -37,115 +37,113 @@ session_start();
 
 </head>
 <style type="text/css">
-	.home
-	{
-		 background: url("landingpage/image/background.png");
-		 background-repeat: no-repeat;
-		 background-size: cover;
-		 background-position: center;
-		 height: 100vh;
+	.home {
+		background: url("landingpage/image/background.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center;
+		height: 100vh;
 
 
-	
-		
-	}
-	
-	.home .home2, .home .container-fluid
-	{
-		margin:100px 0px;
-		
-	}
-	.home h3
-	{
-	     font-size: 12rem;
-		 letter-spacing:2px;
-		 text-transform: uppercase;"
+
 
 	}
-	.home h1, .home .container-fluid
-	{
+
+	.home .home2,
+	.home .container-fluid {
+		margin: 100px 0px;
+
+	}
+
+	.home h3 {
+		font-size: 12rem;
+		letter-spacing: 2px;
+		text-transform: "uppercase";
+	}
+
+	.home h1,
+	.home .container-fluid {
 		font-size: 4rem;
-		 margin-top: 0px;
-		  line-height: 1.5;
+		margin-top: 0px;
+		line-height: 1.5;
 	}
-	.homee
-	{
-		 background: url("landingpage/image/background.png");
-		 background-repeat: no-repeat;
-		 background-size: cover;
-		 background-position: center;
-		 height: 100vh;
-	}
-	 .homee .container-fluid .col-md-6 .promo
-	 {
-	 	  font-size: 10rem;
-		 letter-spacing:2px;
-		 text-transform: uppercase;
 
-		 
-	 }
+	.homee {
+		background: url("landingpage/image/background.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center;
+		height: 100vh;
+	}
+
+	.homee .container-fluid .col-md-6 .promo {
+		font-size: 10rem;
+		letter-spacing: 2px;
+		text-transform: "uppercase";
+
+
+	}
 
 	@media screen and (min-width: 768px) and (max-width: 1023px) {
 
-	.home
-	{
-		
-		 max-height:700px;
+		.home {
 
-	
-		
-	}
-		.home h3
-	{
-	     font-size: 10rem;
-		 letter-spacing:2px;
-		 text-transform: uppercase;"
-	}
-	.home2 a
-	{
-	
-		margin-top: 30px;
-	}
-	.home h1
-	{
-		font-size: 3rem;
-		 margin-top: 0px;
-		  line-height: 1.5;
-	}
+			max-height: 700px;
 
-	}
-	@media screen and  (min-width: 320px) and (max-width: 767px) {
 
-	.home
-	{
-		
-		 max-height:540px;
 
-	
-		
-	}
-	.home h3
-	{
-	     font-size:7rem;
-		 letter-spacing:2px;
-		 text-transform: uppercase;"
-	}
-	.home2
-	{
-		text-align: center;
-	}
-	.home2 a
-	{
-	
-		margin-top: 40px;
+		}
+
+		.home h3 {
+			font-size: 10rem;
+			letter-spacing: 2px;
+			text-transform: "uppercase";
+		}
+
+		.home2 a {
+
+			margin-top: 30px;
+		}
+
+		.home h1 {
+			font-size: 3rem;
+			margin-top: 0px;
+			line-height: 1.5;
+		}
 
 	}
-	.home h1
-	{
-		font-size: 3rem;
-		 margin-top: 0px;
-		  line-height: 1.5;
-	}
+
+	@media screen and (min-width: 320px) and (max-width: 767px) {
+
+		.home {
+
+			max-height: 540px;
+
+
+
+		}
+
+		.home h3 {
+			font-size: 7rem;
+			letter-spacing: 2px;
+			text-transform: "uppercase";
+		}
+
+		.home2 {
+			text-align: center;
+		}
+
+		.home2 a {
+
+			margin-top: 40px;
+
+		}
+
+		.home h1 {
+			font-size: 3rem;
+			margin-top: 0px;
+			line-height: 1.5;
+		}
 
 	}
 </style>
@@ -249,8 +247,8 @@ session_start();
 	<!-- HOME -->
 	<section class="home" id="home">
 		<div class="home2">
-			<h3 >ROMEO`S CAFE</h3>
-			<h1 >Brewing happiness <span style="color: #ff5733;">one cup</span> at a time.</h1>
+			<h3>ROMEO`S CAFE</h3>
+			<h1>Brewing happiness <span style="color: #ff5733;">one cup</span> at a time.</h1>
 			<a href="#menu" class="btn" id="Place-Order">Buy One Now</a>
 		</div>
 	</section>
