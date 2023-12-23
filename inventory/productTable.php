@@ -167,6 +167,9 @@
                                     <li class="mx-2">
                                         <button class="btn action-btn btn-secondary archive-btn w-100 mx-auto" id="${id}">Archive</button>
                                     </li>
+                                      <li class="mx-2">
+                                        <button class="btn action-btn btn-danger delete-btn w-100 mx-auto" id="${id}">Delete</button>
+                                    </li>
                                 </ul>
                             </div>
                             `
@@ -222,6 +225,34 @@
                 order: [
                     [5, 'asc']
                 ],
+            });
+            $('#example').on('click', '.delete-btn', function() {
+                const id = $(this).attr('id');
+
+
+                $.ajax({
+                    url: '/milktea-commerce/API/inventory/delete.php', // Change this path to the actual delete.php file path
+                    type: 'POST',
+                    data: {
+                        id: id
+                    },
+                    success: function(response) {
+                        console.log('Response:', response);
+
+                        if (response.success) {
+                            console.log('Deleted successfully', response);
+                            table.ajax.reload();
+                        } else {
+                            console.error('Failed to delete data.', response);
+                            console.log
+                        }
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        console.error('Error:', errorThrown);
+                        console.error('Status:', textStatus);
+                        console.error('XHR:', xhr);
+                    }
+                });
             });
             handleArchiveClick(table, "itemTypeCode", "./edit/archive.php", "Status");
             handleEditClick(table);
