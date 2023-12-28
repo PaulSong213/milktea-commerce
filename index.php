@@ -455,11 +455,14 @@ session_start();
 									// });
 
 									itemTypeID = $(this).data('item-id');
+
+									console.log(itemTypeID)
 									variantsJSON = $(this).data('variants');
 									// Set the values for the image and HTML elements
 									$('#AddonsProdimage').attr('src', image);
 									$('#AddonsProdName').text(itemCode);
 									// Log itemCode to check its value
+									$('#AddonsProdItem').text(itemTypeID);
 									$('#addonsmodal').modal('show');
 								});
 							}, 500);

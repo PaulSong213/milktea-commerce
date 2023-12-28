@@ -13,7 +13,7 @@ if ($conn->connect_error) {
 $category = isset($_GET['category']) ? $_GET['category'] : null;
 
 // Construct the SQL query based on the selected category (if any)
-$query = "SELECT * FROM promo_tb";
+$query = "SELECT * FROM promo_tb where status = 1";
 
 $result = $conn->query($query);
 

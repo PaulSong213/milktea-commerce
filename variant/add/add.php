@@ -20,6 +20,8 @@
                             <label class="form-label" for="sizeName">Product Size Name<span class="text-danger mx-1">*</span></label>
                             <input type="text" id="sizeName" name="sizeName" class="form-control" placeholder="Enter Product Size Name" autocomplete="on" required>
                         </div>
+                        
+
                         <div class="mb-3">
                             <label class="form-label" for="type">Product Type<span class="text-danger mx-1">*</span></label>
                             <select class="form-select" id="type" name="itemTypeID">

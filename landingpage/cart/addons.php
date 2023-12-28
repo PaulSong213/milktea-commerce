@@ -10,7 +10,7 @@ if ($conn->connect_error) {
 }
 
 // Construct the SQL query to get data from addons_tb
-$query = "SELECT * FROM addons_tb";
+$query = "SELECT * FROM addons_tb where status = 1";
 $result = $conn->query($query);
 ?>
 <div class="modal fade" data-bs-keyboard="false" tabindex="-1" aria-hidden="true" id="addonsmodal">
@@ -52,6 +52,7 @@ $result = $conn->query($query);
                                         <option value="100%">100%</option>
                                     </select>
                                 </div>
+                                Add
                                 <div class="mt-4" style="border:black 3px;">
                                     <label class="fw-bold" style="font-size:1.5rem ">Add-Ons</label>
                                     <?php while ($row = $result->fetch_assoc()) : ?>

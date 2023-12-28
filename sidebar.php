@@ -268,9 +268,7 @@ require_once(__DIR__ . "/accessLevels.php");
 
             </ul>
             <div>
-                <button class="btn-primary rounded-circle position-fixed p-3 bottom-0 start-0 m-4 d-flex justify-content-center align-items-center" id="toggleSidebar">
-                    <span class="material-icons" id="sidebar-icon">table_rows</span>
-                </button>
+              
             </div>
 
         </nav>

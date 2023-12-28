@@ -51,7 +51,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label" for="variant">Department<span class="text-danger mx-1">*</span></label>
+                            <label class="form-label" for="variant">Variant Size<span class="text-danger mx-1">*</span></label>
                             <select class="form-select" id="variant" name="variant" required>
                                 <?php
                                 require_once '../php/connect.php';

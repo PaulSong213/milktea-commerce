@@ -21,7 +21,7 @@ export function handleViewClick(table) {
         },
          {
             dataKey: "description",
-            label: "Description"
+            label: "Size"
         },
         {
             dataKey: "Status",
