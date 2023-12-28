@@ -427,9 +427,19 @@ session_start();
 
 									image = $(this).data('image');
 									itemCode = $(this).data('item-code');
-									itemTypeId = $(this).data('itemTypeID');
+									let itemTypeID = $(this).attr('data-item-id');
 									inventoryID = $(this).data('inventory-id');
 									let dataVariants = $(this).attr('data-variants');
+									console.log("*******", itemTypeID);
+									const hideSelections = Number(itemTypeID) > 7;
+									$("#doneButton").attr('hideSelections', hideSelections);
+									if (hideSelections) {
+										$(".addOnsSelectSugarContainer").hide();
+										$(".product-container").removeClass('col-md-6').addClass('col-12'); // Add a default class if needed
+									} else {
+										$(".addOnsSelectSugarContainer").show();
+										$(".product-container").removeClass('col-12').addClass('col-md-6'); // Add a default class if needed
+									}
 									dataVariants = JSON.parse(dataVariants);
 									$("#sizeSelectStart").val("");
 									$("#sizeOptionSelect").html("");
@@ -510,7 +520,11 @@ session_start();
 					console.log("size", size);
 					var select = document.getElementById("sugarLevel");
 					var selectedValue = select.value;
-					if (selectedValue == "" || size == "") {
+					const hideSelections = $("#doneButton").attr('hideSelections') == "true";
+					console.log(hideSelections);
+					let isSelectionEmpty = selectedValue == "" || size == "";
+					if (hideSelections) isSelectionEmpty = false;
+					if (isSelectionEmpty) {
 						Swal.fire({
 							title: "Please select sugar level and Size",
 							icon: "warning", // Adding an error icon

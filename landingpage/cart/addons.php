@@ -33,7 +33,7 @@ $result = $conn->query($query);
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-6 addOnsSelectSugarContainer">
                             <div class="row">
                                 <div class="sizeSelectAdons fw-bold" style="font-size:1.5rem ">
                                     <label for="Size">Size</label>
@@ -52,8 +52,7 @@ $result = $conn->query($query);
                                         <option value="100%">100%</option>
                                     </select>
                                 </div>
-                                Add
-                                <div class="mt-4" style="border:black 3px;">
+                                <div class="mt-4 addOnsContainer" style="border:black 3px;">
                                     <label class="fw-bold" style="font-size:1.5rem ">Add-Ons</label>
                                     <?php while ($row = $result->fetch_assoc()) : ?>
                                         <?php
