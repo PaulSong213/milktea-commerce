@@ -112,7 +112,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '/milktea-commerce/API/orders/view.php?status=delivered',
+                    url: '/milktea-commerce/API/orders/view-delivered.php',
                     dataType: 'JSON',
                     type: 'POST',
                     data: function(d) {
@@ -127,8 +127,8 @@
                         render: (data, type, row) => {
                             const orderNo = data.orderID;
                             const bgColor = STATUS_COLOR[data.status];
-                            const title = "Loading...";
-                            return `<span id="status_${orderNo}" class="badge text-white" style="background-color:${bgColor}">${title}</span>`;
+                            const title = data.status.replace(/-/g, " ").toUpperCase();;
+                            return `<span id="status_${orderNo}" class="badge w-100 text-white" style="background-color:${bgColor}">${title}</span>`;
                         }
                     },
                     {
@@ -214,8 +214,8 @@
                                     const sqlKey = orderInfo.sqlKey;
                                     const status = orderInfo.status;
 
-                                    console.log(orderInfo);
-
+                                    console.log("orderInfo", orderInfo);
+                                    console.log("orderNo", orderNo);
                                     const bgColor = STATUS_COLOR[status];
                                     const title = status.replace(/-/g, " ").toUpperCase();
 

@@ -341,6 +341,7 @@
                 markToNextStep(orderData, `${nextStatus}`, e.target);
             });
 
+
             async function markToNextStep(orderData, nextStatus, button) {
                 // disable the button
                 button.disabled = true;
@@ -375,7 +376,12 @@
                 const orderRef = ref(db, `/orders/${orderData.costumerID}/${orderData.sqlKey}/status`);
 
                 // if next status is delivered mark it as waiting-for-feedback
-                if (nextStatus === 'delivered') nextStatus = 'waiting-for-feedback';
+                if (nextStatus === 'delivered') {
+                    await fetch(`/milktea-commerce/API/orders/markAsDelivered.php?orderID=${orderData.sqlKey}`, {
+                        method: 'GET',
+                    });
+                    nextStatus = 'waiting-for-feedback';
+                }
 
                 set(orderRef, nextStatus).then(async () => {
                     // show success message

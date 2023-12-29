@@ -7,7 +7,7 @@ function allowCostumerOnly()
     }
     // validate if user is logged in
     if (!isset($_SESSION["costumer"])) {
-        return false;
+        return null;
     }
 
     $costumer = json_decode($_SESSION["costumer"], true);
