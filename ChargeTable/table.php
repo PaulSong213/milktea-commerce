@@ -128,7 +128,7 @@
                             const orderNo = data.orderID;
                             const bgColor = STATUS_COLOR[data.status];
                             const title = data.status.replace(/-/g, " ").toUpperCase();;
-                            return `<span id="status_${orderNo}" class="badge w-100 text-white" style="background-color:${bgColor}">${title}</span>`;
+                            return `<span id="status_${orderNo}" class="badge mx-auto d-block text-white" style="background-color:${bgColor}">${title}</span>`;
                         }
                     },
                     {

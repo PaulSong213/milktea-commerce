@@ -72,6 +72,7 @@
         trackAllOrder();
     });
 
+
     // track order from firebase realtime database
     function trackAllOrder() {
 
@@ -88,16 +89,28 @@
             $("#notification-btn-container")
                 .show(300);
             let totalPendingOrder = 0;
-            snapshot.forEach((childSnapshot) => {
+            const promises = [];
+            snapshot.forEach(async (childSnapshot) => {
                 const orderData = childSnapshot.val();
                 console.log(orderData);
                 for (const orderNo in orderData) {
-
                     const orderStatus = orderData[orderNo].status;
                     if (TO_SKIP_STATUS.includes(orderStatus)) continue;
-                    // add notification btn
-                    addNotificationBtn(orderNo, orderStatus);
-                    totalPendingOrder++;
+
+                    fetch(`/milktea-commerce/API/orders/isOrderExists.php?orderID=${orderNo}`, {
+                            method: 'GET',
+                        }).then(response => response.json())
+                        .then(data => {
+                            console.log(data);
+                            if (data.count && data.count > 0) {
+                                // add notification btn
+                                addNotificationBtn(orderNo, orderStatus);
+                                totalPendingOrder++;
+                            } else {
+                                console.log(`order no ${orderNo} does not exists`);
+                            }
+                        });
+
                 }
             });
             console.log(totalPendingOrder);
@@ -107,6 +120,8 @@
                     .hide(500);
             }
         });
+
+
 
         // Check if the notification should be initially minimized based on localStorage
         var isMinimized = localStorage.getItem("notif-float-minimized") === "true";
