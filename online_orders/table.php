@@ -163,7 +163,7 @@
                                 let current_status_sequece = STATUS_SEQUENCE;
                                 if (orderDetails.deliveryMethod === "pick-up") current_status_sequece = PICKUP_STATUS_SEQUENCE;
 
-                                const isNoActionNeeded = currentOrder.status == "delivered" || currentOrder.status == "waiting-for-feedback";
+                                const isNoActionNeeded = currentOrder.status == "delivered" || currentOrder.status == "waiting-for-feedback" || currentOrder.status == "pending-payment";
                                 console.log(isNoActionNeeded, currentOrder.status);
                                 <?php
                                 if (!isset($_GET['isNoActionNeeded'])) {

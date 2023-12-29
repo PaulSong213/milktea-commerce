@@ -55,7 +55,7 @@ if (isset($_POST['orders'])) {
         $orderID = $conn->insert_id;
 
         // Redirect to the appropriate page if the form was submitted
-        $_SESSION["alert_message"] = "Order submitted successfully";
+        $_SESSION["alert_message"] = "Order submitted successfully check notification above for updates";
         $_SESSION["alert_message_success"] = true;
         if ($paymentMethod == "cash-on-delivery" || $paymentMethod == "pick-up") {
             echo '

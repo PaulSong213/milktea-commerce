@@ -22,6 +22,7 @@ if (!$costumer) {
         <div id="paymentLoader" class="d-flex flex-column align-items-center justify-content-center">
             <h2 style="color: #734006" class="mb-3 fw-bold text-center">PLEASE COMPLETE THE PAYMENT PROCEDURE <br /> ON THE OPENED TAB</h2>
             <img style="max-width: 400px;" src="../img/pay-wait.gif" alt="Waiting for Payment" />
+            <p class="text-center fs-6 text-mute">Did not see the payment page?</p>
             <a id="open-pay-link-btn" target="_blank" class="btn btn-primary text-decoration-none" href="#">OPEN PAYMENT PAGE</a>
         </div>
         <div id="paymentSucceed" class="d-flex flex-column align-items-center justify-content-center d-none">
@@ -88,16 +89,17 @@ if (!$costumer) {
         ?>
 
         function checkPaymentMethod() {
-            get(ref(getDatabase(), `/shop/paymentMode`)).then((snapshot) => {
-                const paymentMode = snapshot.val();
-                if (paymentMode === "paymongo") {
-                    createPayLink();
-                } else {
-                    gcashQRPayment();
-                }
-            }).catch((error) => {
-                console.error(error);
-            });
+            createPayLink();
+            // get(ref(getDatabase(), `/shop/paymentMode`)).then((snapshot) => {
+            //     const paymentMode = snapshot.val();
+            //     if (paymentMode === "paymongo") {
+            //         createPayLink();
+            //     } else {
+            //         gcashQRPayment();
+            //     }
+            // }).catch((error) => {
+            //     console.error(error);
+            // });
         }
 
         function gcashQRPayment() {
