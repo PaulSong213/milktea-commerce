@@ -16,8 +16,10 @@ if ($conn->connect_error) {
 if (isset($_POST['SaveItem'])) {
     $itemTypeCode = $_POST['itemTypeCode'];
     $description = $_POST['description'];
-    $sql = "INSERT INTO itemtype_tb (itemTypeCode, description)
-    VALUES ('$itemTypeCode', '$description')";
+    $is_drinkable = $_POST['TypeID'];
+
+    $sql = "INSERT INTO itemtype_tb (itemTypeCode, is_drinkable, description)
+    VALUES ('$itemTypeCode', '$is_drinkable', '$description')";
 
     $result = mysqli_query($conn, $sql);
     if ($result) {

@@ -17,6 +17,13 @@
                     <div class="modal-body">
                         <!-- Your modal content goes here -->
                         <div class="mb-3">
+                            <label class="form-label" for="itemTypeCode">Product Type<span class="text-danger mx-1">*</span></label>
+                            <select class="form-select" id="type" name="TypeID">
+                                <option value="0">Non-Drink Product</option>
+                                <option value="1">Drink Product</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label" for="itemTypeCode">Category Type Code<span class="text-danger mx-1">*</span></label>
                             <input type="text" id="itemTypeCode" name="itemTypeCode" class="form-control" placeholder="Enter Item Type code" autocomplete="on" required>
                         </div>
