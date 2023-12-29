@@ -15,9 +15,13 @@ if (isset($_SESSION['user'])) {
 }
 
 if (isset($_POST['SaveItem'])) {
+    $basePrice = 0;
+    if (isset($_POST['basePrice']) && !empty($_POST['basePrice'])) {
+        $basePrice = $_POST['basePrice'];
+    }
     $itemTypeID = $_POST["itemTypeID"];
     $itemCode = $_POST["item_code"];
-    $variantID = $_POST["variant"];
+    $variantID = 100;
     $description = $_POST["description"];
     $status = 1; // Added missing semicolon
 
@@ -37,10 +41,10 @@ if (isset($_POST['SaveItem'])) {
             if (move_uploaded_file($_FILES['photo']['tmp_name'], $photo)) {
                 // Image uploaded successfully
                 // Use prepared statements to avoid SQL injection
-                $stmt = $conn->prepare("INSERT INTO inventory_tb (itemTypeID, itemCode, Description, variantID, createDate, modifiedDate, image, Status) 
-                                                          VALUES (?, ?, ?, ?, NOW(), NOW(), ?, ?)");
+                $stmt = $conn->prepare("INSERT INTO inventory_tb (basePrice,itemTypeID, itemCode, Description, variantID, createDate, modifiedDate, image, Status) 
+                                                          VALUES (?,?, ?, ?, ?, NOW(), NOW(), ?, ?)");
                 $photo = 'add/' . $photo;
-                $stmt->bind_param("ssssss", $itemTypeID, $itemCode, $description, $variantID, $photo, $status);
+                $stmt->bind_param("sssssss", $basePrice, $itemTypeID, $itemCode, $description, $variantID, $photo, $status);
 
                 if ($stmt->execute()) {
                     $act = "Add New Inventory Item";

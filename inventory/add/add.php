@@ -28,21 +28,25 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="item_code">Product Name<span class="text-danger mx-1">*</span></label>
-                            <input type="text" id="item_code" name="item_code" class="form-control" placeholder="Enter item code" autocomplete="on" required>
+                            <input type="text" id="item_code" name="item_code" class="form-control" placeholder="Enter product name" autocomplete="on" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="type">Product Type<span class="text-danger mx-1">*</span></label>
-                            <select class="form-select" id="type" name="itemTypeID">
+                            <label class="form-label" for="productType">Product Type<span class="text-danger mx-1">*</span></label>
+                            <select class="form-select" id="productType" name="itemTypeID">
                                 <?php
                                 $connectionType = connect();
                                 $sqlType = "select * from itemtype_tb";
                                 $resultType = $connectionType->query($sqlType);
                                 if (!$resultType) die($connectionType->error);
                                 while ($rowType = $resultType->fetch_assoc()) {
-                                    echo '<option value="' . $rowType["itemTypeID"] . '">' . $rowType["itemTypeCode"] . '</option>';
+                                    echo '<option class="typeOption" is-drinkable="' . $rowType["is_drinkable"] . '" value="' . $rowType["itemTypeID"] . '">' . $rowType["itemTypeCode"] . '</option>';
                                 }
                                 ?>
                             </select>
+                        </div>
+                        <div id="basePriceSelect" class="mb-3 d-none">
+                            <label class="form-label" for="basePrice">Price<span class="text-danger mx-1">*</span></label>
+                            <input type="number" id="basePrice" name="basePrice" class="form-control" placeholder="Enter Price since select foods does not have variants" autocomplete="on">
                         </div>
 
                         <div class="mb-3">
@@ -50,21 +54,21 @@
                             <textarea class="form-control" id="description" name="description" placeholder="Enter description" required autocomplete="on"></textarea>
                         </div>
 
-                        <div class="mb-3">
+                        <!-- <div class="mb-3 d-none">
                             <label class="form-label" for="variant">Variant Size<span class="text-danger mx-1">*</span></label>
                             <select class="form-select" id="variant" name="variant" required>
                                 <?php
-                                require_once '../php/connect.php';
-                                $connectionType = connect();
-                                $sqlDepartment = "select * from variant_tb";
-                                $resultDepartment = $connectionType->query($sqlDepartment);
-                                if (!$resultDepartment) die($connectionType->error);
-                                while ($rowType = $resultDepartment->fetch_assoc()) {
-                                    echo '<option value="' . $rowType["variantID"] . '">' . $rowType["variantName"] . ' | '. '₱'  .  $rowType["price"] . '</option>';
-                                }
+                                // require_once '../php/connect.php';
+                                // $connectionType = connect();
+                                // $sqlDepartment = "select * from variant_tb";
+                                // $resultDepartment = $connectionType->query($sqlDepartment);
+                                // if (!$resultDepartment) die($connectionType->error);
+                                // while ($rowType = $resultDepartment->fetch_assoc()) {
+                                //     echo '<option value="' . $rowType["variantID"] . '">' . $rowType["variantName"] . ' | ' . '₱'  .  $rowType["price"] . '</option>';
+                                // }
                                 ?>
                             </select>
-                        </div>
+                        </div> -->
                         <!-- Add more fields as needed -->
                     </div>
                     <div class="modal-footer">
@@ -80,6 +84,16 @@
 
 </html>
 <script>
+    $("#productType").change(function() {
+        var selectedOption = $(this).find('option:selected');
+        console.log(selectedOption.attr("is-drinkable"));
+        if (selectedOption.attr("is-drinkable") == 1) {
+            $("#basePriceSelect").addClass("d-none");
+        } else {
+            $("#basePriceSelect").removeClass("d-none");
+        }
+    });
+
     document.addEventListener('DOMContentLoaded', function() {
         const uploadInput = document.getElementById('upload-input');
         const uploadedImage = document.getElementById('uploaded-image');

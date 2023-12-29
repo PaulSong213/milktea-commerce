@@ -17,7 +17,7 @@ $result = $conn->query($query);
     <div class="modal-dialog modal-dialog-centered modal-lg rounded">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Choose Add-Ons and Sugar Level</h5>
+                <h5 id="addOnsTitleModal" class="modal-title">Choose Add-Ons and Sugar Level</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="overflow-y: scroll;">
@@ -37,6 +37,7 @@ $result = $conn->query($query);
                             <div class="row">
                                 <div class="sizeSelectAdons fw-bold" style="font-size:1.5rem ">
                                     <label for="Size">Size</label>
+                                    <input type="hidden" name="selectBasePrice" id="selectBasePrice">
                                     <input class="sizeSelect" type="text" name="size" id="sizeSelectStart" autocomplete="off" list="sizeOptionSelect" placeholder="Select Size">
                                     <datalist id="sizeOptionSelect">
                                     </datalist>
@@ -93,6 +94,14 @@ $result = $conn->query($query);
 </div>
 <script>
     // $("#addonsmodal").modal("show")
+
+    $(document).ready(function() {
+        $('#addonsmodal').on('hide.bs.modal', function(e) {
+            // Your code here, this will be executed when the modal is about to be closed
+            console.log('Modal is about to be closed');
+            $('input[name="addon[]"]').prop('checked', false);
+        });
+    });
 </script>
 
 <style>

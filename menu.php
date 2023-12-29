@@ -18,8 +18,14 @@ $query = "SELECT
     inv.image as image, 
     inv.itemCode as itemCode,
     inv.itemTypeID as itemTypeID,
-    inv.Status as Status
-FROM inventory_tb inv";
+    inv.Status as Status,
+    inv_type.is_drinkable as is_drinkable,
+    inv.basePrice as basePrice
+FROM inventory_tb inv
+LEFT JOIN itemtype_tb inv_type 
+ON inv.itemTypeID = inv_type.itemTypeID
+";
+
 
 if ($category) {
     // Sanitize input to prevent SQL injection (consider using prepared statements)
@@ -38,19 +44,21 @@ if ($result->num_rows > 0) {
         $inventoryID = $row["InventoryID"]; // product id
         $itemCode = $row["itemCode"]; // product name
         $itemTypeID = $row["itemTypeID"];
-
+        $is_drinkable = $row["is_drinkable"];
+        $basePrice = $row["basePrice"];
         echo '<div class="box itemTypeID" data-category="' . $itemTypeID . '">';
         echo '<img src="' . $image . '" alt="Menu products">';
         echo '<div class="content">';
         echo '<h3>' . $itemCode . '</h3>';
         // Fetch variants for the current product
-        $variantQuery = "SELECT * FROM variant_tb WHERE productID = '$itemTypeID'";
+        $variantQuery = "SELECT * FROM variant_tb WHERE ProductID = '$itemTypeID'";
         $variantResult = $conn->query($variantQuery);
 
         $variantsArray = array();
         while ($variantRow = $variantResult->fetch_assoc()) {
             $variantName = $variantRow["variantName"];
             $price = $variantRow["price"];
+
             $variantID = $variantRow["variantID"];
             $variantsArray[] = array(
                 'variantName' => $variantName,
@@ -69,6 +77,8 @@ if ($result->num_rows > 0) {
         data-item-code="' . $itemCode . '"
         data-item-id="' . $itemTypeID . '"
         data-variants="' . htmlspecialchars($variantsJSON) . '" 
+        data-is-drinkable="' . $is_drinkable . '"
+        data-item-basePrice="' . $basePrice . '"
         >
         <i class="fas fa-cart-plus"></i>
     </button>';

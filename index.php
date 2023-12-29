@@ -428,19 +428,28 @@ session_start();
 									image = $(this).data('image');
 									itemCode = $(this).data('item-code');
 									let itemTypeID = $(this).attr('data-item-id');
+									let basePrice = $(this).attr('data-item-basePrice');
 									inventoryID = $(this).data('inventory-id');
 									let dataVariants = $(this).attr('data-variants');
+									let hideSelections = $(this).attr('data-is-drinkable') == "0";
 									console.log("*******", itemTypeID);
-									const hideSelections = Number(itemTypeID) > 7;
 									$("#doneButton").attr('hideSelections', hideSelections);
 									if (hideSelections) {
+										$("#addOnsTitleModal").text("Add to Cart");
 										$(".addOnsSelectSugarContainer").hide();
+										$(".product-image")
+											.addClass('mx-auto')
+											.css("width", "300px");
+
 										$(".product-container").removeClass('col-md-6').addClass('col-12'); // Add a default class if needed
 									} else {
+										$("#addOnsTitleModal").text("Choose Add-Ons And Sugar Level");
 										$(".addOnsSelectSugarContainer").show();
 										$(".product-container").removeClass('col-12').addClass('col-md-6'); // Add a default class if needed
 									}
 									dataVariants = JSON.parse(dataVariants);
+									$("#selectBasePrice").val("");
+									$("#selectBasePrice").val(basePrice);
 									$("#sizeSelectStart").val("");
 									$("#sizeOptionSelect").html("");
 									for (let i = 0; i < dataVariants.length; i++) {
@@ -515,6 +524,7 @@ session_start();
 				const cartTableBody = document.querySelector("#cartTable tbody");
 				// Add a click event listener to the "Done" button
 				doneButton.addEventListener("click", function() {
+					const basePrice = $("#selectBasePrice").val();
 					const size = $("#sizeSelectStart").val();
 					const sizeHtml = $("#sizeOptionSelect").html();
 					console.log("size", size);
@@ -555,7 +565,7 @@ session_start();
 						});
 
 						// Calculate totalAmount and descriptions
-						let totalAmount = 0;
+						let totalAmount = basePrice ? parseFloat(basePrice) : 0;
 						let PartialAmount = 0;
 						let descriptions = "";
 
@@ -581,9 +591,9 @@ session_start();
 								<td><img src="${image}" alt="Product Image" width="50"></td>
 								<td>${itemCode}</td>
 								<td>
-									<input value="${size}" class="sizeSelect" type="text" name="size" id="size" list="sizeOptions" autocomplete="off" placeholder="Select Size">
+									<input  value="${size}" class="sizeSelect ${!sizeHtml ? 'invisible' : ''}" type="text" name="size" id="size" list="sizeOptions" autocomplete="off" placeholder="Select Size">
 									<datalist id="sizeOptions">
-									${sizeHtml}
+										${sizeHtml}
 									</datalist>
 								</td>
 								<td><input type="number" class="qtySelect" name="qty" id="qty" value="1"></td>

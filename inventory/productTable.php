@@ -52,7 +52,7 @@
                     <th>Product Photo</th>
                     <th>Product Type</th>
                     <th>Product Name</th>
-                    <th>Sug Price</th>
+                    <th>Price</th>
                     <th>Date Added</th>
                     <th>Modified Date</th>
                     <th>Status</th>
@@ -120,7 +120,13 @@
                         data: 'itemCode'
                     },
                     {
-                        data: 'price'
+                        data: null,
+                        render: (data, type, row) => {
+                            if (data.is_drinkable == 0) {
+                                return `₱ ${data.basePrice}`;
+                            }
+                            return ``;
+                        }
                     },
                     {
                         data: null,

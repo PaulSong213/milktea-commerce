@@ -18,9 +18,9 @@
                         <!-- Your modal content goes here -->
                         <div class="mb-3">
                             <label class="form-label" for="itemTypeCode">Product Type<span class="text-danger mx-1">*</span></label>
-                            <select class="form-select" id="type" name="TypeID">
-                                <option value="0">Non-Drink Product</option>
-                                <option value="1">Drink Product</option>
+                            <select class="form-select" id="TypeID" name="TypeID">
+                                <option value="1">Drinks</option>
+                                <option value="0">Food</option>
                             </select>
                         </div>
                         <div class="mb-3">
