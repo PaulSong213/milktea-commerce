@@ -1,13 +1,11 @@
 <?php
 // Set the response content type to JSON
-header("Content-Type: application/json");
-
 // Include the database connection code here
 require_once '../../php/connect.php';
 $conn = connect();
 
 // Define the base query
-$baseQuery = "SELECT * FROM addOns_tb  LEFT JOIN itemtype_tb ON addOns_tb.itemTypeID = itemtype_tb.itemTypeID";
+$baseQuery = "SELECT * FROM addons_tb  LEFT JOIN itemtype_tb ON addons_tb.itemTypeID = itemtype_tb.itemTypeID";
 
 // Retrieve DataTables' request parameters
 $start = $_POST['start']; // Start index for pagination
@@ -17,7 +15,7 @@ $searchValue = $_POST['search']['value']; // Search value
 // Build the SQL query based on search value
 $query = $baseQuery;
 if (!empty($searchValue)) {
-    $query .= " WHERE itemTypeCode LIKE '%$searchValue%' OR itemCode LIKE '%$searchValue%'"; // Add more columns as needed
+    $query .= " WHERE itemTypeCode LIKE '%$searchValue%'"; // Add more columns as needed
 }
 
 // Add the limit condition for all cases
@@ -34,7 +32,7 @@ while ($row = $result->fetch_assoc()) {
 
 // If not searching, get the total records for pagination
 if (empty($searchValue)) {
-    $totalRecords = $conn->query("SELECT COUNT(*) AS total FROM inventory_tb")->fetch_assoc()['total'];
+    $totalRecords = $conn->query("SELECT COUNT(*) AS total FROM addons_tb")->fetch_assoc()['total'];
 } else {
     $totalRecords = count($data); // Set total records to the number of search results
 }

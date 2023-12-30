@@ -19,7 +19,7 @@ if (isset($_POST['SaveItem'])) {
     $itemTypeID = $_POST['itemTypeID'];
     $price = $_POST['price'];
     $description = $_POST['description'];
-    
+
     $statusData = 1;
 
     // Define the target directory for image uploads
