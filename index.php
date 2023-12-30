@@ -341,7 +341,7 @@ session_start();
 		<h1 class="heading">about us <span>About us</span></h1>
 		<div class="row">
 			<div class="image">
-				<img src="./landingpage/image/about-img.png" alt="">
+				<img src="./landingpage/image/about-img.jpg" alt="">
 			</div>
 			<div class="content">
 				<h1 class="fw-bold" style="font-size: 5.5rem;">why Choose Us</h1>
