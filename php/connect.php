@@ -14,7 +14,7 @@ function connect()
         //https://docs.bitnami.com/aws/faq/get-started/access-phpmyadmin/
         $servername = "localhost";
         $username = "root";
-        $Password = "I7!,ts.BRxbF";
+        $Password = "QZbT0sFuSuM=";
         $database = "milkteacommerce";
     } else {
         $servername = "localhost";
