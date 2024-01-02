@@ -44,10 +44,6 @@ session_start();
 		background-size: cover;
 		background-position: center;
 		height: 100vh;
-
-
-
-
 	}
 
 	.home .home2,
@@ -81,8 +77,6 @@ session_start();
 		font-size: 10rem;
 		letter-spacing: 2px;
 		text-transform: "uppercase";
-
-
 	}
 
 	@media screen and (min-width: 768px) and (max-width: 1023px) {
@@ -573,7 +567,7 @@ session_start();
 						selectedAddonsData.forEach(function(addon) {
 							// Extract addonPrice and parse it as a floating-point number
 							const addonPrice = parseFloat(addon.price.replace(/[^\d.]/g, ''));
-
+							console.log("AddONSPRICE", addonPrice);
 							// Check if addonPrice is a valid number before adding it to totalAmount
 							if (!isNaN(addonPrice)) {
 								totalAmount += addonPrice;
@@ -635,12 +629,11 @@ session_start();
 								const selectedPrice = parseFloat(selectedVariant.price);
 								totalAmount = PartialAmount;
 								// Log the selected size and its corresponding price
-								console.log("Selected Size:", selectedSize);
 								console.log("Selected Price:", selectedPrice);
 								totalAmount += selectedPrice;
 								// priceElement.textContent = totalAmount.toFixed(2);
 								$(this).closest("tr").find(".priceRow").text(totalAmount.toFixed(2));
-
+								calculateTotalPrice();
 								// Now you can use the selectedPrice as needed
 							} else {
 								// Handle the case where no matching variant was found
@@ -650,10 +643,10 @@ session_start();
 								// 	text: 'Please Select a Variant Size',
 								// });
 							}
-							calculateTotalPrice();
+							// calculateTotalPrice();
 						});
 
-						$(".sizeSelect").change();
+						// $(".sizeSelect").change();
 
 						$(".qtySelect").on('input', function() {
 							const qtyValue = parseFloat($(this).val());
