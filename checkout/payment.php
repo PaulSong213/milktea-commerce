@@ -174,6 +174,7 @@ if (!$costumer) {
                         .then(() => {
                             const payURL = data.attributes.checkout_url;
                             window.open(payURL, '_blank');
+                            $("#open-pay-link-btn").attr("href", data.attributes.checkout_url);
                             watchPaymentSuccess(data.id);
                         })
                         .catch((error) => {
@@ -225,8 +226,10 @@ if (!$costumer) {
                     if (data.attributes.status == "paid") {
                         markAsPaid(paymentLinkID);
                     } else {
-                        paymentLinkID = data.id;
+                        console.log(data);
+                        paymentLinkID = data.attributes.checkout_url;
                         $("#open-pay-link-btn").attr("href", data.attributes.checkout_url);
+                        console.log("New href:", $("#open-pay-link-btn").attr("href"));
                         window.open(data.attributes.checkout_url, '_blank');
                         watchPaymentSuccess(paymentLinkID);
                     }

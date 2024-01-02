@@ -21,13 +21,11 @@ if (isset($_POST['SaveItem'])) {
     $description = $_POST['description'];
     $percentage = $_POST['percentage'];
     $statusData = 1;
-    
+
 
     // Define the target directory for image uploads
-    $targetDir = 'image/'; // Make sure the path is correct, relative to this PHP file
-
-
-    
+    $baseRoute = $_SERVER['DOCUMENT_ROOT'] . '/milktea-commerce/promo/';
+    $targetDir = $baseRoute . 'add/image/'; // Make sure the path is correct, relative to this PHP file
 
     // Generate a unique filename for the uploaded image
     $photo =  $targetDir . uniqid() . '_' . basename($_FILES['photo']['name']);
@@ -43,8 +41,8 @@ if (isset($_POST['SaveItem'])) {
                 // Image uploaded successfully
                 // Use prepared statements to avoid SQL injection
                 $stmt = $conn->prepare("INSERT INTO promo_tb (promoImage, promoName, description, promoPercentage, minimumSpend, expiryDate, status, createDate, modifiedDate) 
-                      VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
-                $photo = 'add/' . $photo;
+                    VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
+                $photo = str_replace($baseRoute, '', $photo);
                 $stmt->bind_param("ssssssd", $photo, $itemCode, $description, $percentage, $minimumspend, $expiry, $statusData);
 
 

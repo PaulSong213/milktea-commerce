@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 session_start();
 require_once '../../php/connect.php';
 $conn = connect();
@@ -23,8 +26,8 @@ if (isset($_POST['SaveItem'])) {
     $statusData = 1;
 
     // Define the target directory for image uploads
-    $targetDir = '../add/image/'; // Make sure the path is correct, relative to this PHP file
-
+    $baseRoute = $_SERVER['DOCUMENT_ROOT'] . '/milktea-commerce/promo/';
+    $targetDir = $baseRoute . 'add/image/'; // Make sure the path is correct, relative to this PHP file
     // Check if a file is selected
     if (!empty($_FILES['photo']['tmp_name'])) {
         // Allow certain image file formats (you can customize this list)
@@ -37,7 +40,7 @@ if (isset($_POST['SaveItem'])) {
             if (move_uploaded_file($_FILES['photo']['tmp_name'], $photo)) {
                 // Image uploaded successfully
                 // Use prepared statements to avoid SQL injection
-                $photo = str_replace('../', '', $photo);
+                $photo = str_replace($baseRoute, '', $photo);
             } else {
                 // Handle upload error
                 $_SESSION["alert_message"] = "Failed to upload the image.";

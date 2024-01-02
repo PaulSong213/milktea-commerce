@@ -746,7 +746,7 @@ session_start();
 	<section class="footer">
 		<div class="box-container">
 
-			<div class="box">
+			<div class="box d-none">
 				<h3>quick links</h3>
 				<a href="#home"><i class="fas fa-arrow-right"></i> home</a>
 				<a href="#about"><i class="fas fa-arrow-right"></i> about</a>
@@ -755,13 +755,14 @@ session_start();
 				<a href="#book"><i class="fas fa-arrow-right"></i> book</a>
 			</div>
 
-			<div class="box">
-				<h3>contact info</h3>
-				<a href="#"><i class="fab fa-facebook-f"></i> facebook</a>
-				<a href="#"><i class="fab fa-twitter"></i> twitter</a>
-				<a href="#"><i class="fab fa-instagram"></i> instagram</a>
-				<a href="#"><i class="fab fa-linkedin"></i> linkedin</a>
-				<a href="#"><i class="fab fa-twitter"></i> twitter</a>
+			<div class="box mx-auto w-full d-flex flex-column">
+				<h3 class="mx-auto">contact info</h3>
+				<div class="d-flex mx-auto">
+					<a href="#" class="mx-3"><i class="fab fa-facebook-f"></i> facebook</a>
+					<a href="#" class="mx-3"><i class="fab fa-twitter"></i> twitter</a>
+					<a href="#" class="mx-3"><i class="fab fa-instagram"></i> instagram</a>
+					<a href="#" class="mx-3"><i class="fab fa-linkedin"></i> linkedin</a>
+				</div>
 			</div>
 		</div>
 	</section>

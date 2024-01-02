@@ -22,7 +22,8 @@ if (isset($_POST['SaveItem'])) {
 
 
     // Define the target directory for image uploads
-    $targetDir = 'image/'; // Make sure the path is correct, relative to this PHP file
+    $baseRoute = $_SERVER['DOCUMENT_ROOT'] . '/milktea-commerce/addons/';
+    $targetDir = $baseRoute . 'add/image/'; // Make sure the path is correct, relative to this PHP file
 
     // Generate a unique filename for the uploaded image
     $photo =  $targetDir . uniqid() . '_' . basename($_FILES['photo']['name']);
@@ -39,18 +40,18 @@ if (isset($_POST['SaveItem'])) {
                 // Use prepared statements to avoid SQL injection
                 $stmt = $conn->prepare("INSERT INTO addons_tb (addImage, addName, description, price, status, createdDate, modifiedDate) 
                       VALUES (?, ?, ?, ?, ?, NOW(), NOW())");
-                $photo = 'add/' . $photo;
+                $photo = str_replace($baseRoute, '', $photo);
                 $stmt->bind_param("sssss", $photo, $itemCode, $description, $sugPrice, $statusData);
 
 
                 if ($stmt->execute()) {
-                    $act = "Add New Inventory Item";
-                    $description = "Add Inventory Data: [$itemCode]";
-                    $conn1 = connect();
-                    $sql1 = "INSERT INTO backlog_tb (employeeID, action, description, timeStamp) VALUES (?, ?, ?, NOW())";
-                    $stmt1 = $conn1->prepare($sql1);
-                    $stmt1->bind_param("iss", $userID, $act, $description);
-                    $stmt1->execute();
+                    // $act = "Add New Inventory Item";
+                    // $description = "Add Inventory Data: [$itemCode]";
+                    // $conn1 = connect();
+                    // $sql1 = "INSERT INTO backlog_tb (employeeID, action, description, timeStamp) VALUES (?, ?, ?, NOW())";
+                    // $stmt1 = $conn1->prepare($sql1);
+                    // $stmt1->bind_param("iss", $userID, $act, $description);
+                    // $stmt1->execute();
 
                     $_SESSION["alert_message"] = "Successfully Added an Item";
                     $_SESSION["alert_message_success"] = true;
