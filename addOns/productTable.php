@@ -237,7 +237,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: '/milktea-commerce/API/addOns/delete.php', // Change this path to the actual delete.php file path
+                            url: '/milktea-commerce/API/addons/delete.php', // Change this path to the actual delete.php file path
                             type: 'POST',
                             data: {
                                 id: id
