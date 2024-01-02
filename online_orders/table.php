@@ -149,14 +149,16 @@
                 ],
                 initComplete: () => {
                     const orderRef = ref(db, `/orders/`);
-                    onValue(orderRef, (snapshot) => {
+                    onValue(orderRef, async (snapshot) => {
                         $('#example').DataTable().clear().draw();
-                        snapshot.forEach(async (childSnapshot) => {
-                            const costumerID = childSnapshot.key;
-                            const orderData = childSnapshot.val();
+
+                        const ordersData = snapshot.val();
+                        console.log(ordersData);
+
+                        for (const costumerID in ordersData) {
+                            const orderData = ordersData[costumerID];
                             for (const orderNo in orderData) {
                                 const currentOrder = orderData[orderNo];
-
                                 const orderDetails = await getOrderDetails(orderNo);
                                 if (!orderDetails) continue;
                                 console.log(orderDetails);
@@ -201,7 +203,61 @@
                                     totalAmt,
                                 ]).draw(false);
                             }
-                        });
+                        }
+
+                        // snapshot.forEach(async (childSnapshot) => {
+                        //     const costumerID = childSnapshot.key;
+                        //     const orderData = childSnapshot.val();
+                        //     for (const orderNo in orderData) {
+                        //         const currentOrder = orderData[orderNo];
+
+                        //         const orderDetails = await getOrderDetails(orderNo);
+                        //         if (!orderDetails) continue;
+                        //         console.log(orderDetails);
+                        //         let current_status_sequece = STATUS_SEQUENCE;
+                        //         if (orderDetails.deliveryMethod === "pick-up") current_status_sequece = PICKUP_STATUS_SEQUENCE;
+
+                        //         const isNoActionNeeded = currentOrder.status == "delivered" || currentOrder.status == "waiting-for-feedback" || currentOrder.status == "pending-payment";
+                        //         console.log(isNoActionNeeded, currentOrder.status);
+                        //         <?php
+                                    //         if (!isset($_GET['isNoActionNeeded'])) {
+                                    //         
+                                    ?>
+                        //             if (isNoActionNeeded) continue;
+                        //         <?php
+                                    //         }
+                                    //         
+                                    ?>
+
+                        //         const formattedOrderItemsStr = orderDetails.formattedOrderItemsStr || 'Failed to get order items. Reload the page to try again.';
+                        //         // add data to 
+                        //         currentOrder.costumerID = costumerID;
+                        //         const totalAmt = `₱${orderDetails.NetAmt}`;
+                        //         currentOrder["isPaid"] = orderDetails.isPaid === "1" ? true : false;
+                        //         currentOrder["deliveryMethod"] = orderDetails.deliveryMethod;
+                        //         const currentOrderStr = JSON.stringify(currentOrder);
+                        //         console.log(currentOrder);
+                        //         let currentStatus = {
+                        //             status: currentOrder.status
+                        //         };
+                        //         if (currentOrder.status === "gcash-proof-on-review") {
+                        //             currentStatus = {
+                        //                 status: currentOrder.status,
+                        //                 proofOfPayment: currentOrder.proofOfPayment,
+                        //             };
+                        //         }
+                        //         table.row.add([
+                        //             currentOrderStr,
+                        //             orderNo,
+                        //             currentStatus,
+                        //             orderDetails.isPaid,
+                        //             orderDetails.deliveryMethod,
+                        //             formattedOrderItemsStr,
+                        //             `${orderDetails.costumerFirstName} ${orderDetails.costumerLastName}`,
+                        //             totalAmt,
+                        //         ]).draw(false);
+                        //     }
+                        // });
                     });
                 },
                 columnDefs: [{
@@ -412,7 +468,7 @@
             }
 
             async function getOrderDetails(orderNo) {
-                console.log(orderNo);
+                console.log("getting getOrderDetails", orderNo);
                 try {
                     const response = await $.ajax({
                         url: `/milktea-commerce/API/orders/search.php?orderID=${orderNo}`,
