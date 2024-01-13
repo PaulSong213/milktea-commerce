@@ -58,10 +58,12 @@
             snapshot.forEach((childSnapshot) => {
                 const orderNo = childSnapshot.key;
                 const orderData = childSnapshot.val();
+                //if (orderData.status !== "delivered" || orderData.status !== "waiting-for-feedback") {
                 // show to the user that their order is being prepared immediately
                 // console.log(orderNo, orderData);
                 addNotificationModal(orderNo, orderData);
                 addNotificationBtn(orderNo, orderData.status);
+                //}
             });
 
             // show notification modal if there is an opened order

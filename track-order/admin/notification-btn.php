@@ -188,9 +188,11 @@
     }
 
     function addNotificationBtn(orderNo, orderStatus) {
-        if (orderStatus === "delivered") return removeNotificationBtn(orderNo);
+        let btnType = "order-ongoing-btn";
+        if (orderStatus === "delivered" || orderStatus === "waiting-for-feedback") btnType = "order-history-btn d-none";
+        //if (orderStatus === "delivered") return removeNotificationBtn(orderNo);
         const newNotificationBtn = $(`
-            <a href="/milktea-commerce/online_orders/index.php" id="#notif-btn-${orderNo}" class="floating-notification-bar my-2 py-2 rounded d-flex text-decoration-none" style="background-color: ${STATUS_COLOR[orderStatus] || '#1b2433'}">
+            <a href="/milktea-commerce/online_orders/index.php" id="#notif-btn-${orderNo}" class="floating-notification-bar my-2 py-2 rounded d-flex text-decoration-none ${btnType}" style="background-color: ${STATUS_COLOR[orderStatus] || '#1b2433'}">
                 <div class="d-flex px-3 h-full border-end border-white">
                     <img class="d-block my-auto" style="width: 1rem;" src="/milktea-commerce/img/icons/notifications.svg" alt="Notification">
                 </div>

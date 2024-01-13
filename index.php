@@ -148,6 +148,8 @@ session_start();
 	include('./php/session-dialog.php');
 	?>
 	<?php include __DIR__ . '/track-order/index.php'; ?>
+	<?php //include __DIR__ . '/track-order-history/index.php'; 
+	?>
 	<!-- HEADER -->
 	<header class="header">
 		<div id="menu-btn" class="fas fa-bars"></div>
@@ -168,6 +170,14 @@ session_start();
 
 		<div class="d-flex ">
 			<?php if (isset($_SESSION['costumer'])) : ?>
+				<span class=" d-block " id="history-btn" style=" display: inline-block;
+					padding: .9rem 1.5rem;
+					color: var(--main-color);
+					background: none;
+					cursor: pointer;
+					font-size: 1.7rem;">
+					<i class="fas fa-file-invoice"></i>
+				</span>
 				<span class=" d-block " id="notification-btn" style=" display: inline-block;
 					padding: .9rem 1.5rem;
 					color: var(--main-color);
@@ -176,6 +186,7 @@ session_start();
 					font-size: 1.7rem;">
 					<i class="fas fa-bell"></i>
 				</span>
+
 				<a href="#" class=" d-block " data-toggle="modal" data-target="#categoryModal" style=" display: inline-block;
 					padding: .9rem 1.5rem;
 					color: var(--main-color);
@@ -811,8 +822,27 @@ session_start();
 		$("#notification-btn").click(function(event) {
 			// Prevent the click event from propagating to the document
 			event.stopPropagation();
-			$("#notification-btn-container").toggleClass("d-none");
-			$("#notification-btn-container").toggleClass("notification-visible");
+			$(".order-ongoing-btn")
+				.addClass("d-flex")
+				.removeClass("d-none");
+			$(".order-history-btn")
+				.addClass("d-none")
+				.removeClass("d-flex");
+			$("#track-order").find("#notification-btn-container").toggleClass("d-none");
+			$("#track-order").find("#notification-btn-container").toggleClass("notification-visible");
+		});
+
+		$("#history-btn").click(function(event) {
+			// Prevent the click event from propagating to the document
+			event.stopPropagation();
+			$(".order-history-btn")
+				.addClass("d-flex")
+				.removeClass("d-none");
+			$(".order-ongoing-btn")
+				.addClass("d-none")
+				.removeClass("d-flex");
+			$("#track-order").find("#notification-btn-container").toggleClass("d-none");
+			$("#track-order").find("#notification-btn-container").toggleClass("notification-visible");
 		});
 
 		$(document).on("click", function(event) {
