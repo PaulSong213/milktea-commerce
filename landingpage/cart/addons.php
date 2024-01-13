@@ -38,7 +38,8 @@ $result = $conn->query($query);
                                 <div class="sizeSelectAdons fw-bold" style="font-size:1.5rem ">
                                     <label for="Size">Size</label>
                                     <input type="hidden" name="selectBasePrice" id="selectBasePrice">
-                                    <input class="sizeSelect" type="text" name="size" id="sizeSelectStart" autocomplete="off" list="sizeOptionSelect" placeholder="Select Size">
+                                    <select class="sizeSelect" name="size" id="sizeSelectStart" autocomplete="off" list="sizeOptionSelect" placeholder="Select Size">
+                                    </select>
                                     <datalist id="sizeOptionSelect">
                                     </datalist>
                                 </div>

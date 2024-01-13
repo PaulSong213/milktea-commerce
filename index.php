@@ -446,10 +446,10 @@ session_start();
 									$("#selectBasePrice").val("");
 									$("#selectBasePrice").val(basePrice);
 									$("#sizeSelectStart").val("");
-									$("#sizeOptionSelect").html("");
+									$("#sizeSelectStart").html("");
 									for (let i = 0; i < dataVariants.length; i++) {
 										const variant = dataVariants[i];
-										$("#sizeOptionSelect").append(`<option value="${variant.variantName}">${variant.variantName}</option>`);
+										$("#sizeSelectStart").append(`<option value="${variant.variantName}">${variant.variantName}</option>`);
 									}
 
 									console.log("dataVariants", dataVariants);
@@ -461,7 +461,7 @@ session_start();
 									// 	},
 									// 	success: (data) => {
 									// 		console.log("Sizes Loaded", data);
-									// 		$("#sizeOptionSelect").html(data);
+									// 		$("#sizeSelectStart").html(data);
 									// 	},
 									// 	error: function() {
 									// 		console.log('Error loading menu.');
@@ -521,7 +521,7 @@ session_start();
 				doneButton.addEventListener("click", function() {
 					const basePrice = $("#selectBasePrice").val();
 					const size = $("#sizeSelectStart").val();
-					const sizeHtml = $("#sizeOptionSelect").html();
+					const sizeHtml = $("#sizeSelectStart").html();
 					console.log("size", size);
 					var select = document.getElementById("sugarLevel");
 					var selectedValue = select.value;
@@ -586,10 +586,9 @@ session_start();
 								<td><img src="${image}" alt="Product Image" width="50"></td>
 								<td>${itemCode}</td>
 								<td>
-									<input  value="${size}" class="sizeSelect ${!sizeHtml ? 'invisible' : ''}" type="text" name="size" id="size" list="sizeOptions" autocomplete="off" placeholder="Select Size">
-									<datalist id="sizeOptions">
-										${sizeHtml}
-									</datalist>
+									<select style="font-size:8px"  value="${size}" class="form-select sizeSelect ${!sizeHtml ? 'invisible' : ''}"  name="size" id="size" list="sizeOptions" autocomplete="off" placeholder="Select Size">
+									${sizeHtml}
+									</select>
 								</td>
 								<td><input type="number" class="qtySelect" name="qty" id="qty" value="1"></td>
 								<td id="sugarLeveel">${selectedValue}</td>
