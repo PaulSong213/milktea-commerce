@@ -205,7 +205,7 @@ session_start();
 
 			<?php else : ?>
 				<div class="dropdown">
-					<button onclick="toggleDropdown()" class="btn mx-2">Log In As</button>
+					<a href="./costumer/login.php" class="btn mx-2">Log In As</a>
 					<div id="dropdownMenu" class="dropdown-menu">
 						<a class="dropdown-item" href="./costumer/login.php">
 							<h4>Customer</h4>

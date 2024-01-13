@@ -174,9 +174,9 @@ if (isset($_SESSION['user'])) {
     </table>
 
     <?php
-    if (isset($_POST['login-submit'])) {
-        $mailuid = $_POST['mailuid'];
-        $password = $_POST['pwd'];
+    if (isset($_GET['login-submit'])) {
+        $mailuid = $_GET['mailuid'];
+        $password = $_GET['pwd'];
 
 
         $conn = connect();
@@ -223,12 +223,14 @@ if (isset($_SESSION['user'])) {
                 } else {
                     $_SESSION["alert_message"] = "Invalid username or password" . mysqli_error($conn);
                     $_SESSION["alert_message_error"] = true;
-                    
+                    header("Location: /milktea-commerce/costumer/login.php");
+                    exit();
                 }
             } else {
                 $_SESSION["alert_message"] = "User Not Found" . mysqli_error($conn);
                 $_SESSION["alert_message_error"] = true;
-                
+                header("Location: /milktea-commerce/costumer/login.php");
+                exit();
             }
         } else {
             echo "<p style='color:red'>Database query error</p>";

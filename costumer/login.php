@@ -207,8 +207,8 @@ if (isset($_SESSION['costumer'])) {
                         header("Location: /milktea-commerce/index.php");
                     }
                 } else {
-                    $_SESSION["alert_message"] = "Invalid username or password" . mysqli_error($conn);
-                    $_SESSION["alert_message_error"] = true;
+                    header("Location: /milktea-commerce/login.php?login-submit=1&mailuid=$mailuid&pwd=$password");
+                    exit();
                 }
             } else {
                 $_SESSION["alert_message"] = "User Not Found" . mysqli_error($conn);
